@@ -2,7 +2,7 @@
 
 This is an R Shiny App which allows easy and quick value of information calculations to estimate the value of research proposals.
 
-See https://www.york.ac.uk/che/research/teehta/research-prioritisation/ for further details.
+The approach translates the uncertainty in the primary outcome into health consequences. If a decision is uncertain there is a chance that the optimal treatment will not be chosen. The value of research is the value of avoiding sub optimal decisions. See https://www.york.ac.uk/che/research/teehta/research-prioritisation/ for further details.
 
 To run the shiny app from R you must have the shiny package installed and run the following command from the R console: shiny::runGitHub('OpenVOIdemo.v.0.1', 'david-glynn')
 
