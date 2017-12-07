@@ -1,0 +1,212 @@
+---
+title: "Notes on openVOIdemo"
+output: html_notebook
+---
+
+
+
+### Reactivity for updating results
+
+**Server function**
+
+Create a "managed state variable" which stores the values required for reporting the results to the user: VOIResults. (for an intro to managed state variables see 1:22:46 in R studio Shiny toutorial https://shiny.rstudio.com/tutorial/ )
+
+This is a list which holds all the reults of the analysis under the appropriate headings: e.g. VOIYear which holds the result of the estimated VOI per year. As this is a list the value of VOIYear can be accessed by VOIResults$VOIYear.
+
+A managed state variable can be repeatedly overwritten by the user. This allows us to change the results dispalyed in response to the user pressing the reults update button. The managed state variable is created by assiging reactiveValues(), in this case there is nothign within the bracketes meaning that VOIResults does not contain any results yet.
+
+```{r}
+VOIResults <- reactiveValues()
+```
+
+When the user wants to calculate the results or update the results, they press the "action button". in the ui there is an action button at the top of each type of analysis (regular RCT, feasibility study, reconsideration of evidence). When the user presses the relevant action button, this will be registerd by the relevant reactive value:
+
+```{r} 
+input$runRCT 
+input$runFeas
+input$runRec
+```
+
+The observeEvent() function recognises when the action button has been pressed i.e. when the reactive values have been changed. observeEvent() then executes the relevant code block. 
+
+```{r}
+  VOIResults <- reactiveValues()
+  
+  observeEvent(input$runRCT, {
+    # <Execute this code>
+      })
+```
+
+Each type of analysis (regular RCT, feasibility study, reconsideration of evidence) has its own observeEvent() function. 
+
+```{r}
+  VOIResults <- reactiveValues()
+  
+  observeEvent(input$runRCT, {
+    #  code for: regular RCT
+      })
+  observeEvent(input$runFeas, {
+    #  code for: feasibility study
+      })
+  observeEvent(input$runRec, {
+    #  code for: reconsideration of evidence
+      })
+  
+```
+
+The inputs required and the type of anlaysis will depend on whether the analysis is calculated in terms of the primary endpoint (i.e. natureal outcome) or in comprehensive health outcome i.e. costs and QALYs. Therefore an "if else" statement is required which runs the cost and QALY analysis if the user has selected the type of outcome input to be netHealth 
+
+
+```{r}
+  VOIResults <- reactiveValues()
+  
+  observeEvent(input$runRCT, {
+    if(input$typeOfOutcome == "netHealth"){
+      # run cost and QALY analysis
+      
+    }else{
+      # run natural outcome analysis
+    }
+    })
+  
+
+```
+
+
+We do not want the VOI analysis to be calculated individually for each result (this would take a long time and would mean the results would not come from the same analysis!). Therefore a resultsHolder variable is created which holds the results of the appropriate VOI analysis. This will be a list as the output of the VOI analysis is a list. The headings of this list will correspond to the results of the VOI analysis e.g. VOIYear. The assignment to the resultsHolder variable must be done using a reactive function as the code it takes will include reactive values which are set by the user.
+
+
+```{r}
+  VOIResults <- reactiveValues()
+  
+  observeEvent(input$runRCT, {
+    if(input$typeOfOutcome == "netHealth"){
+      resultsHolder <- reactive({
+           # VOI function taking user inputs and returning results
+           # for RCT cost and QALY analysis
+        })
+
+    }else{
+      resultsHolder <- reactive({
+           # VOI function taking user inputs and returning results
+           # for RCT natural outcome analysis
+      })
+      
+    }
+    })
+  
+
+```
+
+The values of each element of the list of results must be individually assigned to the VOIResults list. Note that resultsHolder is a reactive function and so requires parenthesis () when calling it.
+
+```{r}
+  VOIResults <- reactiveValues()
+  
+  observeEvent(input$runRCT, {
+    if(input$typeOfOutcome == "netHealth"){
+      resultsHolder <- reactive({
+           # VOI function taking user inputs and returning results
+           # for RCT cost and QALY analysis
+        })
+      VOIResults$VOIYear <-  resultsHolder()$VOIYear
+      VOIResults$ICERResearch <-  resultsHolder()$ICERResearch
+
+    }else{
+      resultsHolder <- reactive({
+           # VOI function taking user inputs and returning results
+           # for RCT natural outcome analysis
+      })
+      VOIResults$VOIYear <-  resultsHolder()$VOIYear
+      VOIResults$ICERResearch <-  resultsHolder()$ICERResearch
+    }
+    })
+  
+
+```
+
+Depending on which action button is pressed, and the type of analysis chosen the approprate results will be written to VOIResults.
+
+The results for each element of VOIResults must be saved to a variable in the server output list using the appropriate render function. This allows it to be transported to the user interface.
+
+```{r}
+  VOIResults <- reactiveValues()
+  
+  observeEvent(input$runRCT, {
+    if(input$typeOfOutcome == "netHealth"){
+      resultsHolder <- reactive({
+           # VOI function taking user inputs and returning results
+           # for RCT cost and QALY analysis
+        })
+      VOIResults$VOIYear <-  resultsHolder()$VOIYear
+      VOIResults$ICERResearch <-  resultsHolder()$ICERResearch
+
+    }else{
+      resultsHolder <- reactive({
+           # VOI function taking user inputs and returning results
+           # for RCT natural outcome analysis
+      })
+      VOIResults$VOIYear <-  resultsHolder()$VOIYear
+      VOIResults$ICERResearch <-  resultsHolder()$ICERResearch
+    }
+    })
+  
+  observeEvent(input$runFeas, {
+    #  similar code for: feasibility study
+      })
+  observeEvent(input$runRec, {
+    #  similar code for: reconsideration of evidence
+      })
+  
+  
+  output$VOIYear <- renderText({VOIResults$VOIYear})
+  output$ICERResearch <- renderText({VOIResults$ICERResearch})
+
+  
+```
+
+
+**ui function**
+
+The results saved to the server output list can now be placed in the approprate part of the results section using the approprate output function (both outputs here are considered "text").
+
+```{r}
+      textOutput("VOIYear")
+      textOutput("ICERResearch")
+```
+
+The user inputs required here are:
+
+```{r}
+
+selectInput(inputId = "typeOfOutcome", label = "Type of outcome", 
+            choices = c("Benefit" = "benefit", 
+                        "Harm" = "harm", 
+                        "Net health effect (QALYs)" = "netHealth"),
+            selected = "Net health effect (QALYs)") # benefit , harm, net health effect
+
+
+actionButton("runRCT", label = "Run calculation for RCT")
+actionButton("runFeas", label = "Run calculation for feasibility trial")
+actionButton("runRec", label = "Run calculation for reconsideration of evidence")
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+      
+      
