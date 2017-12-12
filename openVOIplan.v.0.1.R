@@ -104,8 +104,8 @@ var_t2
 mu_t3
 var_t3
 # if half normal
-direction_t1 # takes value "alwaysPositive" or "alwaysNegative" 
-var_t1 # will be converted to theta parameter
+direction_t1 # takes value "alwaysPositive" or "alwaysNegative" has value of NA if nothing selected
+var_t1 # will be converted to theta parameter has value of NA if nothing selected
 direction_t2  
 var_t2 
 direction_t3  

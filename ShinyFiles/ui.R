@@ -32,7 +32,7 @@ shinyUI(fluidPage(
        
        # probabiilty of event with baseline treatment, right name??
        numericInput("P_t0", "Baseline probability of outcome event",
-                    value = 0.555, min = 0, max = 1, step = 0.05),
+                    value = NA, min = 0, max = 1, step = 0.05),
        
        # name of first two treatments 
        textInput("nameOf_t0", "Name of baseline treatment (optional)", 
