@@ -101,7 +101,7 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
                                mu_t3, variance_t3, dist_t3, direction_t3,
                                mu_t4, variance_t4, dist_t4, direction_t4)
   
-  # create economic model from probability of event
+  # create Binary economic model from probability of event
   #########################
   
   INB_Event <- ifelse(typeOfOutcome== "benefit", 1, -1)
@@ -113,173 +113,36 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
   
   # each column now represents simulations of the NB of each treatment
 
+  # Calculate outputs from NB matrix
+  ######################################
   
-  # trial inputs
-  ########################
+  VOIoutputs <- NBtoEVPIResults(NB_t,
+                  nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                  typeOfOutcome, incidence,timeInformation,
+                  discountRate ,durationOfResearch,costResearchFunder,
+                  MCD_t2, MCD_t3, MCD_t4,
+                  utilisation_t1, utilisation_t2,
+                  utilisation_t3, utilisation_t4,
+                  costHealthSystem = NA, k = NA)
   
-  # expected outcome with each treatment (uninformed prior)
-  ENB_t  <- apply(NB_t , 2, mean)
+  # return the list of results
+  ###############################
   
-  # Best outcome with current information
-  NB_EVTCI  = max(ENB_t )
-  
-  # optimalTreatment: tells you which treatment is best given current information
-  optimalTreatment <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)[which(ENB_t  == max(ENB_t , na.rm = TRUE))]
-  
-  
-  
-  # EVTPI with uninformed prior and natural outcome
-  #EVTPI   <- mean(apply(INB_t  , 1, max))
-  NB_VTPI  <- apply(NB_t , 1, max) #so I can check convergence
-  
-  
-  NB_EVTPI  <- mean(NB_VTPI )
-  NB_EVPI  <-  NB_EVTPI  - NB_EVTCI 
-  
-  # probability each treatment has highest NB - provides vector of probabilities
-  # for the column of simulated NBs for each treatment (x)
-  # take the sum of the number of times that that treatment is the maximum NB
-  # divide by the number of sumulations to get the probability
-  Probability_t_is_max <- apply(NB_t , 2, function(x) sum(x==NB_VTPI ))/MCsims
-  
-  #############################################
-  # population 
-  
-  Popoutputs <- verybasicPop(Incidence, D_rate, Time_research, Time_info)
-  
-  Pop_during_research <- Popoutputs$Pop_during_research 
-  Pop_after_research <- Popoutputs$Pop_after_research 
-  Pop_total <- Popoutputs$Pop_total
-  
-  
-  ########### BASIC TRIAL ANALYSIS ################################################
-  # 
-  
-  # YEARLY OUTCOMES #
-  Value_of_trial_per_year <- NB_EVTPI *Incidence - NB_EVTCI *Incidence
-  Value_of_implementation_per_year <- Incidence*NB_EVTCI  - sum(ENB_t *Utilisation_t*Incidence)
-  
-  # histogram of effects per year
-  #               # NB per simulation with max(ENB_t ) - max NB per simulation
-  #                 # best treament with current evidence - max NB per simulation
-  NB_loss_maxt <- NB_t [,which(ENB_t  == max(ENB_t ))] - NB_VTPI 
-  Hist_value_of_trial_per_year <- hist(-NB_loss_maxt*Incidence)
-  # convert to probability plot, not density
-  Hist_value_of_trial_per_year$density = Hist_value_of_trial_per_year$counts/sum(Hist_value_of_trial_per_year$counts)*100
-  plot(Hist_value_of_trial_per_year,freq=FALSE,
-       main = "Consequences of uncertainty (per year)",
-       xlab = "Primary outcomes",
-       ylab = "Probability (%)")
-  
-  
-  # FULL TIME OUTCOMES #
-  
-  ## Cell_A : net benefit of current situation with current utilisation
-  # take the weighted average of the expected NB for each treatment scaled up to full population
-  Cell_A <- sum(ENB_t *Utilisation_t*Pop_total)
-  
-  
-  ## Cell_C : maximum Net benfit of implemetation (Early access - approval)  
-  Cell_C <- Pop_total*NB_EVTCI 
-  NB_maxt  <- Cell_C  # AKA nb_maxt 
-  
-  ## Cell_D : maximum Net benfit of information (delay access for information)
-  # "instant trial with perfect information"
-  # Pure definition of Cell D
-  Cell_D <- NB_EVTPI *Pop_total
-  
-  # assume perfect and instant implementation/information
-  Max_value_of_implementation <- Cell_C - Cell_A # max value of early access
-  Max_value_of_research <- Cell_D - Cell_C 
-  
-  
-
-  
-  # calculating the benefits of research (under differnt assumptions)
-  ########################################
-  # perfect info and perfect implementation (includes that it is instant)
-  NB_instant_research_perfect_info_imp <- Cell_D
-
-  # cu = current utilisation. NOT instant trial - while trial is running just keep whatever treatment 
-  # utilisation is theere at the start of the trial
-  # Below is the same as OIR if the use of the new treatment is restricted
-  NB_cu_perfect_info_imp <- sum(ENB_t *Utilisation_t*Pop_during_research) + Pop_after_research*NB_EVTPI  
-
-  # maxt = use the best treatmet according to current NB. NOT instant trial - 
-  # instantly and perfectly implement best treatment while trial is running 
-  # below is the same as AWR if the new treatment is the best with current information
-  NB_maxt_perfect_info_imp <- Pop_during_research*NB_EVTCI  + Pop_after_research*NB_EVTPI 
-
-  # this is the pure information value under different types of research and implementation assumptions
-  Value_of_instant_research_perfect_info_imp <- NB_instant_research_perfect_info_imp - Cell_C
-  Value_of_instant_research_perfect_info_stat_sig <- NB_instant_research_perfect_info_stat_sig - Cell_C
-  Value_of_cu_perfect_info_imp <- NB_cu_perfect_info_imp - Cell_C
-  Value_of_cu_perfect_info_stat_sig <- NB_cu_perfect_info_stat_sig - Cell_C
-  Value_of_maxt_perfect_info_imp <- NB_maxt_perfect_info_imp - Cell_C
-  Value_of_maxt_perfect_info_stat_sig <- NB_maxt_perfect_info_stat_sig - Cell_C
-  
-  
-  # ICER of research relative to early access (assumed to be costless to the agency)
-  # all other costs assumed to be captured by the MCD
-  ICER_instant_research_perfect_info_imp <- Cost_research_funder/Value_of_instant_research_perfect_info_imp
-  ICER_instant_research_perfect_info_stat_sig <- Cost_research_funder/Value_of_instant_research_perfect_info_stat_sig
-  ICER_cu_perfect_info_imp <- Cost_research_funder/Value_of_cu_perfect_info_imp
-  ICER_cu_perfect_info_stat_sig <- Cost_research_funder/Value_of_cu_perfect_info_stat_sig
-  ICER_maxt_perfect_info_imp <- Cost_research_funder/Value_of_maxt_perfect_info_imp
-  ICER_maxt_perfect_info_stat_sig <- Cost_research_funder/Value_of_maxt_perfect_info_stat_sig
-  
-  
-  
-  
-  
-  #Total_NB_research <- Cell_D -  Cell_A
-  
-  # % of total value which is implementation value
-  #Perc_implementation_NB <- ( Cell_C -  Cell_A)/( Cell_D -  Cell_A)*100
-  # % of total value which is pure information value
-  #Perc_information_NB <- ( Cell_D -  Cell_C)/( Cell_D -  Cell_A)*100
-  # max value of implementation (early access) : Cell_C - Cell_A
-  # max value of research : Cell_D - Cell_A
-  
-  
-  
-  VOIoutputs <- list(
-    Optimal_t = Optimal_t,
-    Value_of_trial_per_year = Value_of_trial_per_year,
-    Value_of_implementation_per_year = Value_of_implementation_per_year,
-    Probability_t_is_max = Probability_t_is_max,
-    Cell_A = Cell_A,
-    Cell_C = Cell_C,
-    Cell_D = Cell_D,
-    Max_value_of_implementation = Max_value_of_implementation,
-    Max_value_of_research = Max_value_of_research,
-    NB_instant_research_perfect_info_imp =NB_instant_research_perfect_info_imp,
-    
-    NB_instant_research_perfect_info_stat_sig =NB_instant_research_perfect_info_stat_sig,
-    
-    NB_cu_perfect_info_imp =NB_cu_perfect_info_imp,
-    NB_cu_perfect_info_stat_sig =NB_cu_perfect_info_stat_sig,
-    
-    NB_maxt_perfect_info_imp =NB_maxt_perfect_info_imp,
-    NB_maxt_perfect_info_stat_sig =NB_maxt_perfect_info_stat_sig,
-    
-    Value_of_instant_research_perfect_info_imp =Value_of_instant_research_perfect_info_imp,
-    Value_of_instant_research_perfect_info_stat_sig =Value_of_instant_research_perfect_info_stat_sig,
-    Value_of_cu_perfect_info_imp =Value_of_cu_perfect_info_imp,
-    Value_of_cu_perfect_info_stat_sig =Value_of_cu_perfect_info_stat_sig,
-    Value_of_maxt_perfect_info_imp =Value_of_maxt_perfect_info_imp,
-    Value_of_maxt_perfect_info_stat_sig =Value_of_maxt_perfect_info_stat_sig,
-    
-    ICER_instant_research_perfect_info_imp =ICER_instant_research_perfect_info_imp,
-    ICER_instant_research_perfect_info_stat_sig =ICER_instant_research_perfect_info_stat_sig,
-    ICER_cu_perfect_info_imp =ICER_cu_perfect_info_imp,
-    ICER_cu_perfect_info_stat_sig =ICER_cu_perfect_info_stat_sig,
-    ICER_maxt_perfect_info_imp =ICER_maxt_perfect_info_imp,
-    ICER_maxt_perfect_info_stat_sig =ICER_maxt_perfect_info_stat_sig
-    
-    
-  )
   return(VOIoutputs)
   
 }
+
+
+
+# test function
+resultsholder <- BinaryOutcomeFunction.v.0.1(numberOfTreatments =2 , MCsims = 1000, P_t1 =0.5,
+                                        mu_t2=0, variance_t2=1, dist_t2="normal", direction_t2= NA,
+                                        mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
+                                        mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
+                                        nameOf_t1="1",nameOf_t2="2", nameOf_t3=NA, nameOf_t4=NA,
+                                        typeOfOutcome="benefit", incidence=1000,timeInformation=15,
+                                        discountRate=3.5 ,durationOfResearch= 4,costResearchFunder=1000000,
+                                        MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
+                                        utilisation_t1=100, utilisation_t2=0,
+                                        utilisation_t3=NA, utilisation_t4=NA)
 
