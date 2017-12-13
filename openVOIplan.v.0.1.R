@@ -39,19 +39,19 @@ numericInput("numberOfTreatments", "How many treatments are being investigated?"
              value = 2, min = 2, max = 4)
 
 # probabiilty of event with baseline treatment, right name??
-numericInput("P_t0", "Baseline probability of outcome event",
+numericInput("P_t1", "Probability of outcome with treatment 1",
              value = 0.5, min = 0, max = 1, step = 0.05)
 
 # name of first two treatments 
-textInput("nameOf_t0", "Name of baseline treatment (optional)", 
+textInput("nameOf_t1", "Name of treatment 1 (optional)", 
           value = "late PTP")
-textInput("nameOf_t1", "Name of baseline treatment (optional)", 
+textInput("nameOf_t2", "Name of treatment 2 (optional)", 
           value = "early PTP")
 
 # distribution of new treatments (will be either normal or half normal)
 # note it is possible to name the variables for use in the app vs what the user sees
 # could possibly get this label to update conditional on nameOf_t1
-selectInput("dist_t1", label = "Distribution of new treatment 1", 
+selectInput("dist_t2", label = "Distribution of treatment 2", 
             choices = c("Normal" = "norm", 
                         "Half Normal" = "halfNorm"),
             selected = "Normal")
@@ -59,7 +59,6 @@ selectInput("dist_t1", label = "Distribution of new treatment 1",
 # maybe think about initial value - set it to blank to force the user to change it
 numericInput("incidence", "Incidence per annum",
              value = 8800, min = 0, max = NA, step = 20)
-
 
 numericInput("timeInformation", "Time over which evidence would be valuable (years)",
              value = 15, min = 0, max = NA, step = 0.1)
@@ -69,7 +68,7 @@ numericInput("discountRate", "Discount rate (%)",
              value = 3.5, min = 0, max = 100, step = 0.1)
 
 # width works well - note: text above box is squeezed along with the box
-numericInput("MCD_t1", "Minimum clinical difference (MCD)",
+numericInput("MCD_t2", "MCD for treatment 2",
              value = 0, min = NA, max = NA, step = 0.05,
              width = '50%')
 
@@ -89,43 +88,73 @@ textInput("nameOfOutcome", "Name of outcome")
 
 # would be nice if these boxes for treatment 2 and 3 were conditional on the number of treatments selected
 # would be nice to update the names of the treatments in the labels for the distribution inputs
-nameOf_t2
-nameOf_t3
+# name of first two treatments 
+textInput("nameOf_t3", "Name of treatment 3 (optional)", 
+          value = "treatment 3")
+
+textInput("nameOf_t4", "Name of treatment 4 (optional)", 
+          value = "treatment 4")
+
 
 # distribution of new treatments (will be either normal or half normal)
-dist_t2 
-dist_t3 
+selectInput("dist_t3", label = "Distribution of treatment 3", 
+            choices = c("Normal" = "norm", 
+                        "Half Normal" = "halfNorm"),
+            selected = "Normal")
+
+selectInput("dist_t4", label = "Distribution of treatment 4", 
+            choices = c("Normal" = "norm", 
+                        "Half Normal" = "halfNorm"),
+            selected = "Normal")
+
 
 # if normal - NEED conditional boxes with conditional lables
-mu_t1 # mean LOR for t1
-var_t1 # variance (to avoid questions about sd or se)
-mu_t2
-var_t2
+mu_t2 # mean LOR for t1
+var_t2# variance (to avoid questions about sd or se)
 mu_t3
 var_t3
+mu_t4 
+var_t4 
 # if half normal
-direction_t1 # takes value "alwaysPositive" or "alwaysNegative" has value of NA if nothing selected
-var_t1 # will be converted to theta parameter has value of NA if nothing selected
-direction_t2  
-var_t2 
+
+direction_t2  # takes value "alwaysPositive" or "alwaysNegative" has value of NA if nothing selected
+var_t2 # will be converted to theta parameter has value of NA if nothing selected
 direction_t3  
 var_t3
-
+direction_t4 
+var_t4 
 
 k # conditional on type of outcome == net health effect
 
 # conditional on type of outcome == net health effect
-cost_t1
 cost_t2
 cost_t3
+cost_t4
 
-utilisation_t0 # check these are logical! depend on eachother
-utilisation_t1
-utilisation_t2
-utilisation_t3
+# NOTE!! this is in percent***need to divide by 100
 
-MCD_t2
-MCD_t3
+
+numericInput("utilisation_t1", "Utilisation of treatment 1 (%)",
+             value = 100, min = 0, max = 100, step = 0.1)
+
+numericInput("utilisation_t2", "Utilisation of treatment 2 (%)",
+             value = 0, min = 0, max = 100, step = 0.1)
+
+numericInput("utilisation_t3", "Utilisation of treatment 3 (%)",
+             value = 0, min = 0, max = 100, step = 0.1)
+
+numericInput("utilisation_t4", "Utilisation of treatment 4 (%)",
+             value = 0, min = 0, max = 100, step = 0.1)
+
+
+
+numericInput("MCD_t3", "MCD for treatment 3",
+             value = 0, min = NA, max = NA, step = 0.05,
+             width = '50%')
+
+numericInput("MCD_t4", "MCD for treatment 4",
+             value = 0, min = NA, max = NA, step = 0.05,
+             width = '50%')
 
 
 
@@ -149,12 +178,14 @@ numericInput("durationOfResearch", "Expected duration of research (years)",
 # suggested 50K
 numericInput("MCsims", "Number of simulations",
              value = 50000, min = 0, max = 10000000, step = 500)
-
+# need to repeat this?
 
 
 ####### CONDITIONAL INPUTS (RCT)
 
-costHealthSystem # conditional on type of outcome == net health effect
+numericInput("costHealthSystem", "Costs of research imposed on health system",
+             value = NA, min = 0, max = NA, step = 100)
+ # conditional on type of outcome == net health effect
 
 
 
@@ -172,7 +203,8 @@ costResearchFunderDefinitive
 durationOfResearchPilot
 durationOfResearchDefinitive
 
-MCsims # suggested 50K
+# need to repeat this?
+MCsims # suggested 50K - should be at initial inputs?
 
 ######### CONDITIONAL INPUTS (Feasibility) 
 
@@ -207,9 +239,9 @@ MCsimsOuter # suggest something sensible
 
 ######### CONDITIONAL INPUTS (Reconsider)
 
-# variance of estimate for t1 from expert elicitation 
-varExercise_t2  
-varExercise_t3 
+# variance of estimate for t2 from expert elicitation 
+varExercise_t3  
+varExercise_t4 
 
 costHealthSystemProposal # conditional on type of outcome == net health effect
 costHealthSystemReconsideration # required? # conditional on type of outcome == net health effect
@@ -242,9 +274,9 @@ costHealthSystemReconsideration # required? # conditional on type of outcome == 
 # quite complex - depends on many inputs
 
 
-# create: MCD_t 
+# create: MCD_t - not required? taken as input into each of the VOI functions
 # a vector of MCDs for each treatment with zero for t0
-MCD_t <- reactive({ c(0, input$MCD_t1, input$MCD_t2, input$MCD_t3) })
+# MCD_t <- reactive({ c(0, input$MCD_t1, input$MCD_t2, input$MCD_t3) })
 # input to VOI functions using MCD_t()
 # should have lenght = the number of treatments (nt)
 # trim to the correct size using numberOfTreatments
@@ -257,15 +289,17 @@ MCD_t <- reactive({ c(0, input$MCD_t1, input$MCD_t2, input$MCD_t3) })
 
 ################ Easy reactive outputs that are not relevant to the model
 # 
-output$nameOf_t0 <- renderText({input$nameOf_t0})
+
 output$nameOf_t1 <- renderText({input$nameOf_t1})
+output$nameOf_t2 <- renderText({input$nameOf_t2})
 
 # conditional - is this a problem?
 # if the relevant inputs do not exist then the "output" (in this case the 
 # treatment name just does not show up - the renderText function probably keeps
 # a space in the app for it though.)
-output$nameOf_t2 <- renderText({input$nameOf_t2})
+
 output$nameOf_t3 <- renderText({input$nameOf_t3})
+output$nameOf_t4 <- renderText({input$nameOf_t4})
 
 # conditional - is this a problem?
 output$nameOfOutcome <- renderText({input$nameOfOutcome})
@@ -326,10 +360,9 @@ observeEvent(input$runRec, {
 ############# assign results of each analysis (resultsHolder) to VOIResults list
 # resultsHolder is reactive and so requires () when calling it
 # must do this for each type of analysis
+# ***need to extend/ammend this***
 
-VOIResults$histVOIYear <- resultsHolder()$histVOIYear
-
-# Text
+VOIResults$histVOIYear <- resultsHolder()$histVOIYear # plot
 VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
 VOIResults$probOptimalTreatment <- resultsHolder()$probOptimalTreatment
 VOIResults$VOImpYear <- resultsHolder()$VOImpYear
@@ -353,10 +386,10 @@ VOIResults$OutcomePerNETSCCSpend <- resultsHolder()$OutcomePerNETSCCSpend
 # note: it is possible that some types of analysis will not create every type of 
 # output
 
-# Diagrams
+# renderPlot
 output$histVOIYear <- renderPlot({VOIResults$histVOIYear})
 
-# Text
+# renderText
 output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
 output$probOptimalTreatment <- renderText({VOIResults$probOptimalTreatment})
 output$VOImpYear <- renderText({VOIResults$VOImpYear})
@@ -384,10 +417,10 @@ output$OutcomePerNETSCCSpend <- renderText({VOIResults$OutcomePerNETSCCSpend})
 # simple non reactive objects which do not depend on updating the model
 
 # name of treatments
-textOutput("nameOf_t0")
 textOutput("nameOf_t1")
-textOutput("nameOf_t2") # conditional - is this a problem?
+textOutput("nameOf_t2") 
 textOutput("nameOf_t3") # conditional - is this a problem?
+textOutput("nameOf_t4")# conditional - is this a problem?
 # name of outcome
 textOutput("nameOfOutcome") # conditional - is this a problem?
 
