@@ -77,6 +77,43 @@ utilisation_t2 = 0.5
 utilisation_t3 = 0
 utilisation_t4 = NA
 
+####################################
+
+
+numberOfTreatments =2 
+MCsims = 100
+P_t1 =0.5
+mu_t2=0
+variance_t2=1
+dist_t2="norm"
+direction_t2= NA
+mu_t3=NA
+variance_t3=NA
+dist_t3=NA
+direction_t3=NA
+mu_t4=NA 
+variance_t4=NA
+dist_t4=NA
+direction_t4=NA
+nameOf_t1="1"
+nameOf_t2="2"
+nameOf_t3=NA
+nameOf_t4=NA
+typeOfOutcome="benefit"
+incidence=1000
+timeInformation=15
+discountRate=3.5 
+durationOfResearch= 4
+costResearchFunder=1000000
+MCD_t2=0
+MCD_t3=NA
+MCD_t4=NA
+utilisation_t1=100
+utilisation_t2=0
+utilisation_t3=NA
+utilisation_t4=NA
+
+
 
 BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
                                         mu_t2, variance_t2, dist_t2, direction_t2,
@@ -136,7 +173,7 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
 
 # test function
 resultsholder <- BinaryOutcomeFunction.v.0.1(numberOfTreatments =2 , MCsims = 1000, P_t1 =0.5,
-                                        mu_t2=0, variance_t2=1, dist_t2="normal", direction_t2= NA,
+                                        mu_t2=0, variance_t2=1, dist_t2="norm", direction_t2= NA,
                                         mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
                                         mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
                                         nameOf_t1="1",nameOf_t2="2", nameOf_t3=NA, nameOf_t4=NA,

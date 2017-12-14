@@ -323,6 +323,7 @@ observeEvent(input$runRCT, {
     resultsHolder <- reactive({
       # VOI function taking user inputs and returning results
       # for RCT cost and QALY analysis
+      
     })
     # save results of RCT cost and QALY analysis
     VOIResults$VOIYear <-  resultsHolder()$VOIYear
@@ -331,12 +332,45 @@ observeEvent(input$runRCT, {
   }else{
     # if natural outcome analysis then fun this function
     resultsHolder <- reactive({
-      # VOI function taking user inputs and returning results
-      # for RCT natural outcome analysis
+      BinaryOutcomeFunction.v.0.1(numberOfTreatments = input$numberOfTreatments , MCsims = input$MCsims, P_t1 =input$P_t1,
+                                  mu_t2=input$mu_t2, variance_t2=input$variance_t2 , dist_t2=input$dist_t2 , direction_t2= input$direction_t2,
+                                  mu_t3=input$mu_t3 , variance_t3=input$variance_t3 , dist_t3=input$dist_t3 , direction_t3=input$direction_t3 ,
+                                  mu_t4=input$mu_t4 , variance_t4=input$variance_t4 , dist_t4=input$dist_t4 , direction_t4=input$direction_t4 ,
+                                  nameOf_t1=input$nameOf_t1 ,nameOf_t2=input$nameOf_t2 , nameOf_t3=input$nameOf_t3 , nameOf_t4=input$nameOf_t4 ,
+                                  typeOfOutcome=input$typeOfOutcome , incidence=input$incidence ,timeInformation=input$timeInformation ,
+                                  discountRate=input$discountRate  ,durationOfResearch= input$durationOfResearch ,costResearchFunder=input$costResearchFunder ,
+                                  MCD_t2=input$MCD_t2 , MCD_t3=input$MCD_t3 , MCD_t4=input$MCD_t4 ,
+                                  utilisation_t1=input$utilisation_t1 , utilisation_t2=input$utilisation_t2 ,
+                                  utilisation_t3=input$utilisation_t3 , utilisation_t4=input$utilisation_t4 )
     })
     # save results of natural outcome analysis
-    VOIResults$VOIYear <-  resultsHolder()$VOIYear
-    VOIResults$ICERResearch <-  resultsHolder()$ICERResearch
+    # previous usage
+    #VOIResults$VOIYear <-  resultsHolder()$VOIYear
+    #VOIResults$ICERResearch <-  resultsHolder()$ICERResearch
+    
+    VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
+    VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax 
+    VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax 
+    VOIResults$probTreatment3isMax <- resultsHolder()$probTreatment3isMax 
+    VOIResults$probTreatment4isMax <- resultsHolder()$probTreatment4isMax
+    VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
+    VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
+    VOIResults$PopTotal <- resultsHolder()$PopTotal 
+    VOIResults$histVOIYear <- resultsHolder()$histVOIYear 
+    VOIResults$valueOfResearchPerYear <- resultsHolder()$valueOfResearchPerYear
+    VOIResults$valueOfImplementationPerYear <- resultsHolder()$valueOfImplementationPerYear
+    VOIResults$Cell_A <- resultsHolder()$Cell_A
+    VOIResults$Cell_C <- resultsHolder()$Cell_C
+    VOIResults$Cell_D <- resultsHolder()$Cell_D
+    VOIResults$maxvalueOfImplementation <- resultsHolder()$maxvalueOfImplementation
+    VOIResults$maxvalueOfResearch <- resultsHolder()$maxvalueOfResearch
+    VOIResults$healthOpportunityCostsOfResearch <- resultsHolder()$healthOpportunityCostsOfResearch
+    VOIResults$valueOfResearchWithCurrentImplementation <- resultsHolder()$valueOfResearchWithCurrentImplementation
+    VOIResults$valueOfResearchWithPerfectImplementation <- resultsHolder()$valueOfResearchWithPerfectImplementation
+    VOIResults$ICER_ResearchWithCurrentImplementation <- resultsHolder()$ICER_ResearchWithCurrentImplementation
+    VOIResults$ICER_ResearchWithPerfectImplementation <- resultsHolder()$ICER_ResearchWithPerfectImplementation
+    VOIResults$valuePer15KResearchSpend <- resultsHolder()$valuePer15KResearchSpend
+    
   }
 })
 
@@ -357,26 +391,6 @@ observeEvent(input$runRec, {
 
 
 
-############# assign results of each analysis (resultsHolder) to VOIResults list
-# resultsHolder is reactive and so requires () when calling it
-# must do this for each type of analysis
-# ***need to extend/ammend this***
-
-VOIResults$histVOIYear <- resultsHolder()$histVOIYear # plot
-VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
-VOIResults$probOptimalTreatment <- resultsHolder()$probOptimalTreatment
-VOIResults$VOImpYear <- resultsHolder()$VOImpYear
-VOIResults$VOImpTotal <- resultsHolder()$VOImpTotal
-VOIResults$VOIYear <- resultsHolder()$VOIYear
-VOIResults$VOITotal <- resultsHolder()$VOITotal
-VOIResults$VOIResearch <- resultsHolder()$VOIResearch
-VOIResults$ICERResearch <- resultsHolder()$ICERResearch
-VOIResults$OutcomePerNETSCCSpend <- resultsHolder()$OutcomePerNETSCCSpend
-
-
-
-
-
 
 ###########
 # render each type of output from VOIResults to the output list
@@ -390,17 +404,31 @@ VOIResults$OutcomePerNETSCCSpend <- resultsHolder()$OutcomePerNETSCCSpend
 output$histVOIYear <- renderPlot({VOIResults$histVOIYear})
 
 # renderText
+# previous example
+#output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
+#output$probOptimalTreatment <- renderText({VOIResults$probOptimalTreatment})
+
 output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
-output$probOptimalTreatment <- renderText({VOIResults$probOptimalTreatment})
-output$VOImpYear <- renderText({VOIResults$VOImpYear})
-output$VOImpTotal <- renderText({VOIResults$VOImpTotal})
-output$VOIYear <- renderText({VOIResults$VOIYear})
-output$VOITotal <- renderText({VOIResults$VOITotal})
-output$VOIResearch <- renderText({VOIResults$VOIResearch})
-output$ICERResearch <- renderText({VOIResults$ICERResearch})
-output$OutcomePerNETSCCSpend <- renderText({VOIResults$OutcomePerNETSCCSpend})
-
-
+output$probTreatment1isMax <- renderText({VOIResults$probTreatment1isMax })
+output$probTreatment2isMax <- renderText({VOIResults$probTreatment2isMax })
+output$probTreatment3isMax <- renderText({VOIResults$probTreatment3isMax })
+output$probTreatment4isMax <- renderText({VOIResults$probTreatment4isMax})
+output$popDuringResearch <- renderText({VOIResults$popDuringResearch})
+output$popAfterResearch <- renderText({VOIResults$popAfterResearch})
+output$PopTotal <- renderText({VOIResults$PopTotal })
+output$valueOfResearchPerYear <- renderText({VOIResults$valueOfResearchPerYear})
+output$valueOfImplementationPerYear <- renderText({VOIResults$valueOfImplementationPerYear})
+output$Cell_A <- renderText({VOIResults$Cell_A})
+output$Cell_C <- renderText({VOIResults$Cell_C})
+output$Cell_D <- renderText({VOIResults$Cell_D})
+output$maxvalueOfImplementation <- renderText({VOIResults$maxvalueOfImplementation})
+output$maxvalueOfResearch <- renderText({VOIResults$maxvalueOfResearch})
+output$healthOpportunityCostsOfResearch <- renderText({VOIResults$healthOpportunityCostsOfResearch})
+output$valueOfResearchWithCurrentImplementation <- renderText({VOIResults$valueOfResearchWithCurrentImplementation})
+output$valueOfResearchWithPerfectImplementation <- renderText({VOIResults$valueOfResearchWithPerfectImplementation})
+output$ICER_ResearchWithCurrentImplementation <- renderText({VOIResults$ICER_ResearchWithCurrentImplementation})
+output$ICER_ResearchWithPerfectImplementation <- renderText({VOIResults$ICER_ResearchWithPerfectImplementation})
+output$valuePer15KResearchSpend <- renderText({VOIResults$valuePer15KResearchSpend})
 
 
 
@@ -428,17 +456,36 @@ textOutput("nameOfOutcome") # conditional - is this a problem?
 #######
 # COMPLEX reactive objects which DO depend on updating the model
 
+
+
 plotOutput("histVOIYear")
 
-textOutput("optimalTreatment")
-textOutput("probOptimalTreatment")
-textOutput("VOImpYear")
-textOutput("VOImpTotal")
-textOutput("VOIYear")
-textOutput("VOITotal")
-textOutput("VOIResearch")
-textOutput("ICERResearch")
-textOutput("OutcomePerNETSCCSpend")
+# renderText
+# previous example
+#output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
+#output$probOptimalTreatment <- renderText({VOIResults$probOptimalTreatment})
+
+textOutput("optimalTreatment" ) 
+textOutput("probTreatment1isMax" ) 
+textOutput("probTreatment2isMax" ) 
+textOutput("probTreatment3isMax" ) 
+textOutput("probTreatment4isMax" ) 
+textOutput("popDuringResearch" ) 
+textOutput("popAfterResearch" ) 
+textOutput("PopTotal" ) 
+textOutput("valueOfResearchPerYear" )
+textOutput("valueOfImplementationPerYear" ) 
+textOutput("Cell_A" ) 
+textOutput("Cell_C" ) 
+textOutput("Cell_D" ) 
+textOutput("maxvalueOfImplementation" ) 
+textOutput("maxvalueOfResearch" ) 
+textOutput("healthOpportunityCostsOfResearch" ) 
+textOutput("valueOfResearchWithCurrentImplementation" ) 
+textOutput("valueOfResearchWithPerfectImplementation" ) 
+textOutput("ICER_ResearchWithCurrentImplementation" ) 
+textOutput("ICER_ResearchWithPerfectImplementation" ) 
+textOutput("valuePer15KResearchSpend" ) 
 
 
 
