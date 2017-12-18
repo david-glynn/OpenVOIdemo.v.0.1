@@ -724,7 +724,39 @@ p("Full details of the approach used and applied examples using these methods ar
               actionButton("runRec", label = "Run calculation for reconsideration of evidence")
               
               ))),
-   tabPanel("Results", "<code for REsults ui>"),
+   tabPanel("Results", 
+            textOutput("nameOf_t1"),
+      textOutput("nameOf_t2"), 
+      textOutput("nameOf_t3"), # conditional - is this a problem?
+      textOutput("nameOf_t4"),# conditional - is this a problem?
+      # name of outcome
+      textOutput("nameOfOutcome"), # conditional - is this a problem?
+      
+      plotOutput("histVOIYear"),
+      
+      textOutput("optimalTreatment" ) ,
+      textOutput("probTreatment1isMax" ) ,
+      textOutput("probTreatment2isMax" ) ,
+      textOutput("probTreatment3isMax" ) ,
+      textOutput("probTreatment4isMax" ) ,
+      textOutput("popDuringResearch" ) ,
+      textOutput("popAfterResearch" ) ,
+      textOutput("PopTotal" ) ,
+      textOutput("valueOfResearchPerYear" ),
+      textOutput("valueOfImplementationPerYear" ) ,
+      textOutput("Cell_A" ) ,
+      textOutput("Cell_C" ) ,
+      textOutput("Cell_D" ) ,
+      textOutput("maxvalueOfImplementation" ) ,
+      textOutput("maxvalueOfResearch" ) ,
+      textOutput("healthOpportunityCostsOfResearch" ) ,
+      textOutput("valueOfResearchWithCurrentImplementation" ) ,
+      textOutput("valueOfResearchWithPerfectImplementation" ) ,
+      textOutput("ICER_ResearchWithCurrentImplementation" ) ,
+      textOutput("ICER_ResearchWithPerfectImplementation" ) ,
+      textOutput("valuePer15KResearchSpend")
+            
+            ),
    tabPanel("Report", "<code for report ui>"),
    tabPanel("About", "<code for about ui>")
  )
