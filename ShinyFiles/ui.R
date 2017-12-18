@@ -153,7 +153,6 @@ shinyUI(fluidPage(
     
     # Show a plot of the generated distribution
     mainPanel(
-      
       textOutput("nameOf_t1"),
       textOutput("nameOf_t2"), 
       textOutput("nameOf_t3"), # conditional - is this a problem?

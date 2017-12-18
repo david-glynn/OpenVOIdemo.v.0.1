@@ -490,7 +490,9 @@ shinyServer(function(input, output) {
   })
 
   
-  output$nameOf_t1 <- renderText({input$nameOf_t1})
+  output$nameOf_t1 <- renderText({
+    paste("The name of treatment 1 is", input$nameOf_t1)
+          })
   output$nameOf_t2 <- renderText({input$nameOf_t2})
   output$nameOf_t3 <- renderText({input$nameOf_t3})
   output$nameOf_t4 <- renderText({input$nameOf_t4})

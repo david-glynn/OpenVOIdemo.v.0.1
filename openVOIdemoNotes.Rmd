@@ -526,7 +526,59 @@ shinyUI(fluidPage(
 ```
 
 
+**Overall ui layout**
 
+A tabset format is used in this app as there is a lot of input informaion and output informaiton and the inputs requred depend on the type of analysis required.
+
+The main tabs are: Home, Inputs, Results, Report and About. Within the Inputs tab there is: General inputs (which are common across all model types), RCT, Feasibility and Reconsider evidence.
+
+This nested tab structure is created using the code below:
+
+```{r}
+
+shinyUI(fluidPage(
+ titlePanel("Open VOI - Demo"),
+ 
+ tabsetPanel(
+   tabPanel("About", "<code for About ui>"),
+   tabsetPanel("Inputs", tabsetPanel(
+     tabPanel("General Inputs", "<code for General Inputs ui>"),
+     tabPanel("Standard RCT", "<code for RCT ui>"),
+     tabPanel("Feasibility", "<code for Feasibility ui>"),
+     tabPanel("Reconsider Evidence", "<code for reconsider evidence ui>"))),
+   tabPanel("Results", "<code for REsults ui>"),
+   tabPanel("Report", "<code for report ui>"),
+   tabPanel("About", "<code for about ui>")
+ )
+   
+)
+)
+
+```
+
+
+
+
+**Writing text for results**
+
+Text using the reulsts of the analysis must be defined within the server.R function and displayed as blocks in the user interface. For example, in order to dispaly the text "The name of treatment 1 is late PTP" this must be pased together in the renderText function on the server side and then this entire sentence is called using a output variable name. This approach means that the eventual text output must be designted in chunks on the server side, then then chunks must be arranged on the page on the ui side.
+
+```{r}
+server <- function(input, output){
+ 
+  output$nameOf_t1 <- renderText({
+    paste("The name of treatment 1 is", input$nameOf_t1)
+          })
+  
+}
+
+ui <- fluidPage(
+ 
+  textOutput("nameOf_t1")
+   
+)
+
+```
 
 
 
