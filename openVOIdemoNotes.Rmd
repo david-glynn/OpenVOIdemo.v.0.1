@@ -541,7 +541,7 @@ shinyUI(fluidPage(
  
  tabsetPanel(
    tabPanel("About", "<code for About ui>"),
-   tabsetPanel("Inputs", tabsetPanel(
+   tabPanel("Inputs", tabsetPanel(
      tabPanel("General Inputs", "<code for General Inputs ui>"),
      tabPanel("Standard RCT", "<code for RCT ui>"),
      tabPanel("Feasibility", "<code for Feasibility ui>"),
@@ -551,10 +551,12 @@ shinyUI(fluidPage(
    tabPanel("About", "<code for about ui>")
  )
    
-)
-)
+))
 
 ```
+
+
+
 
 
 
