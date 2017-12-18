@@ -555,7 +555,7 @@ shinyUI(fluidPage(
 
 ```
 
-Below I enter the elements into the approriate tabs for a complete ui.R file which works in conjunction with the server.R function above. Note: each tabPanel is treated as its own ui.R page, which can be structured using fluidRow and column. Or you can just type text and this will appear in an unstructured page.
+Below I enter the elements into the approriate tabs for a complete ui.R file which works in conjunction with the server.R function above. Note: each tabPanel is treated as its own ui.R page, which can be structured using fluidRow and column. Or you can just type text and this will appear as part of an unstructured page.
 
 
 ```{r}
