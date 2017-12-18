@@ -619,9 +619,7 @@ p("Full details of the approach used and applied examples using these methods ar
                            value = 0, min = NA, max = NA, step = 0.05,
                            width = '50%'),
               
-              actionButton("runRCT", label = "Run calculation for RCT"),
-              actionButton("runFeas", label = "Run calculation for feasibility trial"),
-              actionButton("runRec", label = "Run calculation for reconsideration of evidence"),
+
               
               textInput("nameOfOutcome", "Name of outcome"),
               
@@ -701,8 +699,13 @@ p("Full details of the approach used and applied examples using these methods ar
                            width = '50%'),
               
               numericInput("costResearchFunder", "Cost of research to funder",
-                           value = 2854000, min = 0, max = NA, step = 100),
+                           value = 2854000, min = 0, max = NA, step = 100)
               
+              
+              
+              ),
+     tabPanel("Standard RCT", 
+              actionButton("runRCT", label = "Run calculation for RCT"),
               numericInput("durationOfResearch", "Expected duration of research (years)",
                            value = 5, min = 0, max = NA, step = 0.1),
               
@@ -711,11 +714,16 @@ p("Full details of the approach used and applied examples using these methods ar
               
               numericInput("costHealthSystem", "Costs of research imposed on health system",
                            value = NA, min = 0, max = NA, step = 100)
+             
+              ),
+     tabPanel("Feasibility", 
+               actionButton("runFeas", label = "Run calculation for feasibility trial")
               
               ),
-     tabPanel("Standard RCT", "<code for RCT ui>"),
-     tabPanel("Feasibility", "<code for Feasibility ui>"),
-     tabPanel("Reconsider Evidence", "<code for reconsider evidence ui>"))),
+     tabPanel("Reconsider Evidence", 
+              actionButton("runRec", label = "Run calculation for reconsideration of evidence")
+              
+              ))),
    tabPanel("Results", "<code for REsults ui>"),
    tabPanel("Report", "<code for report ui>"),
    tabPanel("About", "<code for about ui>")
