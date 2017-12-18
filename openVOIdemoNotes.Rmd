@@ -555,8 +555,37 @@ shinyUI(fluidPage(
 
 ```
 
+Below I enter the elements into the approriate tabs for a complete ui.R file which works in conjunction with the server.R function above. Note: each tabPanel is treated as its own ui.R page, which can be structured using fluidRow and column. Or you can just type text and this will appear in an unstructured page.
 
 
+```{r}
+
+
+library(shiny)
+
+shinyUI(fluidPage(
+ titlePanel("Open VOI - Demo"),
+ 
+ tabsetPanel(
+   tabPanel("About", 
+            p("This is an R Shiny App which allows easy and quick value of information calculations to
+estimate the value of research proposals. The approach translates the uncertainty in the primary outcome into health consequences. If a decision is uncertain there is a chance that the optimal treatment will not be chosen. The value of research is the value of avoiding sub optimal decisions."), 
+p("Full details of the approach used and applied examples using these methods are forthcoming. In the meantime see https://www.york.ac.uk/che/research/teehta/research-prioritisation/ for further details.")
+      
+            ),
+   tabPanel("Inputs", tabsetPanel(
+     tabPanel("General Inputs", "<code for General Inputs ui>"),
+     tabPanel("Standard RCT", "<code for RCT ui>"),
+     tabPanel("Feasibility", "<code for Feasibility ui>"),
+     tabPanel("Reconsider Evidence", "<code for reconsider evidence ui>"))),
+   tabPanel("Results", "<code for REsults ui>"),
+   tabPanel("Report", "<code for report ui>"),
+   tabPanel("About", "<code for about ui>")
+ )
+   
+))
+
+```
 
 
 
