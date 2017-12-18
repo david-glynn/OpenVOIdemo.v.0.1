@@ -109,20 +109,49 @@ selectInput("dist_t4", label = "Distribution of treatment 4",
 
 
 # if normal - NEED conditional boxes with conditional lables
-mu_t2 # mean LOR for t1
-var_t2# variance (to avoid questions about sd or se)
-mu_t3
-var_t3
-mu_t4 
-var_t4 
+
+numericInput("mu_t2", "Mean log odds ratio for treatment 2",
+             value = 0, min = NA, max = NA, step = 0.05,
+             width = '50%')
+
+# variance (to avoid questions about sd or se)
+numericInput("var_t2", "Variance of log odds ratio for treatment 2",
+             value = 0.25, min = NA, max = NA, step = 0.05,
+             width = '50%')
+
+numericInput("mu_t3", "Mean log odds ratio for treatment 3",
+             value = NA, min = NA, max = NA, step = 0.05,
+             width = '50%')
+
+numericInput("var_t3", "Variance of log odds ratio for treatment 3",
+             value = NA, min = NA, max = NA, step = 0.05,
+             width = '50%')
+ 
+numericInput("mu_t4", "Mean log odds ratio for treatment 4",
+             value = NA, min = NA, max = NA, step = 0.05,
+             width = '50%')
+ 
+numericInput("var_t4", "Variance of log odds ratio for treatment 3",
+             value = NA, min = NA, max = NA, step = 0.05,
+             width = '50%')
 # if half normal
 
-direction_t2  # takes value "alwaysPositive" or "alwaysNegative" has value of NA if nothing selected
-var_t2 # will be converted to theta parameter has value of NA if nothing selected
-direction_t3  
-var_t3
-direction_t4 
-var_t4 
+  # takes value "alwaysPositive" or "alwaysNegative" has value of NA if nothing selected
+selectInput("direction_t2", label = "Direction of distribution for treatment 2", 
+            choices = c("Always positive" = "alwaysPositive", 
+                        "Always negative" = "alwaysNegative"),
+            selected = "alwaysPositive")
+
+selectInput("direction_t3", label = "Direction of distribution for treatment 3", 
+            choices = c("Always positive" = "alwaysPositive", 
+                        "Always negative" = "alwaysNegative"),
+            selected = "alwaysPositive")
+ 
+selectInput("direction_t4", label = "Direction of distribution for treatment 3", 
+            choices = c("Always positive" = "alwaysPositive", 
+                        "Always negative" = "alwaysNegative"),
+            selected = "alwaysPositive")
+
 
 k # conditional on type of outcome == net health effect
 
@@ -132,8 +161,7 @@ cost_t3
 cost_t4
 
 # NOTE!! this is in percent***need to divide by 100
-
-
+# need to check these values are correct!
 numericInput("utilisation_t1", "Utilisation of treatment 1 (%)",
              value = 100, min = 0, max = 100, step = 0.1)
 

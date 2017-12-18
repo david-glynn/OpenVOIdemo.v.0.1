@@ -13,6 +13,7 @@ library(fdrtool) # required for halfnormal simulations
 
 # function to simulate the probability of the event with a particular treatment
 # for a normal distribution on relative effect
+
 simProbOfOutcomeNormBinary <- function(P_t1, mu, variance){
 
   Odds_t1 <- P_t1 / (1 - P_t1)
