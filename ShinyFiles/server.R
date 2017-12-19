@@ -500,7 +500,9 @@ shinyServer(function(input, output) {
   
   output$histVOIYear <- renderPlot({VOIResults$histVOIYear})
   
-  output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
+  output$optimalTreatment <- renderText({
+    paste("The ", VOIResults$optimalTreatment)
+    })
   output$probTreatment1isMax <- renderText({VOIResults$probTreatment1isMax })
   output$probTreatment2isMax <- renderText({VOIResults$probTreatment2isMax })
   output$probTreatment3isMax <- renderText({VOIResults$probTreatment3isMax })
