@@ -71,7 +71,8 @@ shinyServer(function(input, output) {
       VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
       VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
       VOIResults$PopTotal <- resultsHolder()$PopTotal 
-      VOIResults$histVOIYear <- resultsHolder()$histVOIYear 
+      #VOIResults$histVOIYear <- resultsHolder()$histVOIYear 
+      VOIResults$ListForhistVOIYear <- resultsHolder()$ListForhistVOIYear 
       VOIResults$valueOfResearchPerYear <- resultsHolder()$valueOfResearchPerYear
       VOIResults$valueOfImplementationPerYear <- resultsHolder()$valueOfImplementationPerYear
       VOIResults$Cell_A <- resultsHolder()$Cell_A
@@ -104,7 +105,7 @@ shinyServer(function(input, output) {
   output$nameOf_t4 <- renderText({input$nameOf_t4})
   output$nameOfOutcome <- renderText({input$nameOfOutcome})
   
-  output$histVOIYear <- renderPlot({VOIResults$histVOIYear})
+  output$histVOIYear <- renderPlot({plot(VOIResults$ListForhistVOIYear, freq = FALSE)})
   
   output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
   output$probTreatment1isMax <- renderText({VOIResults$probTreatment1isMax })
