@@ -768,6 +768,14 @@ p("Full details of the approach used and applied examples using these methods ar
 
 
 
+
+
+
+
+
+
+
+
 **Writing text for results**
 
 Text using the reulsts of the analysis must be defined within the server.R function and displayed as blocks in the user interface. For example, in order to dispaly the text "The name of treatment 1 is late PTP" this must be pased together in the renderText function on the server side and then this entire sentence is called using a output variable name. This approach means that the eventual text output must be designted in chunks on the server side, then then chunks must be arranged on the page on the ui side.
@@ -788,4 +796,35 @@ ui <- fluidPage(
 )
 
 ```
+
+
+
+
+**Reactive input names**
+
+This app is required to allow for three different types of primary endpoint: binary, continuous and survival. The relative effect for the first two is required in terms of log odds ratio. The relative effect for the survival endpoint is a log hazard ratio.
+
+If the distribtion of these inputs is assumed to be normal then the mean and variance inputed by the user are saved in the app as "mu_tn" and "variance_tn" where n is the number of the treatment.
+
+The label for the input box for "mu_tn" will read either "Mean of log odds ratio" or "Mean of log hazard ratio" depending on the type of endpoint chosen by the user (either binary, continuous or survival).
+
+The demos below show two ways to code this:
+
+https://shiny.rstudio.com/reference/shiny/1.0.5/updateTextInput.html
+
+http://shiny.rstudio.com/gallery/update-input-demo.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

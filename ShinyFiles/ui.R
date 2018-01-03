@@ -64,7 +64,7 @@ shinyUI(fluidPage(
                                        "Half Normal" = "halfNorm"),
                            selected = "Normal"),
                
-               numericInput("incidence", "Incidence per annum",
+               numericInput("incidence", textOutput("nameOf_t2"),   #"Incidence per annum"
                             value = 8800, min = 0, max = NA, step = 20),
                
                numericInput("timeInformation", "Time over which evidence would be valuable (years)",

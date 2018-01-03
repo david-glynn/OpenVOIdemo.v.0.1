@@ -1,13 +1,6 @@
 ##############################
-# Binary Outcome function v.0.1 
+# Binary QALY function v.0.1 
 ###############################
-# calculates P_t (matrix) 
-# allow for 4 treatments
-# allow MCD
-# only EVPI
-# does not (and cannot) take account of NHS costs of research - need a different model for this
-
-
 
 # Note*** test for this bug!
 # good chance there is a bug in $Probability_t_is_max when the primary outcome is a harm
@@ -61,7 +54,7 @@ nameOf_t2 <- "early PTP"
 nameOf_t3 <- "treatment 3"
 nameOf_t4 <- "treatment 4"
 
-typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
+typeOfOutcome <- "netHealth" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
 incidence = 8000 # was Incidence
 timeInformation  = 15 # Time_info  = 15
 discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
@@ -113,7 +106,8 @@ utilisation_t2=0
 utilisation_t3=NA
 utilisation_t4=NA
 
-
+costHealthSystem = 1000000
+k = 13000
 
 BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
                                         mu_t2, variance_t2, dist_t2, direction_t2,
