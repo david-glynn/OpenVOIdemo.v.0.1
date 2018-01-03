@@ -488,11 +488,11 @@ shinyServer(function(input, output) {
   observeEvent(input$runRec, {
     #  similar code for: reconsideration of evidence
   })
-
+  
   
   output$nameOf_t1 <- renderText({
     paste("The name of treatment 1 is", input$nameOf_t1)
-          })
+  })
   output$nameOf_t2 <- renderText({input$nameOf_t2})
   output$nameOf_t3 <- renderText({input$nameOf_t3})
   output$nameOf_t4 <- renderText({input$nameOf_t4})
@@ -500,9 +500,7 @@ shinyServer(function(input, output) {
   
   output$histVOIYear <- renderPlot({VOIResults$histVOIYear})
   
-  output$optimalTreatment <- renderText({
-    paste("The ", VOIResults$optimalTreatment)
-    })
+  output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
   output$probTreatment1isMax <- renderText({VOIResults$probTreatment1isMax })
   output$probTreatment2isMax <- renderText({VOIResults$probTreatment2isMax })
   output$probTreatment3isMax <- renderText({VOIResults$probTreatment3isMax })

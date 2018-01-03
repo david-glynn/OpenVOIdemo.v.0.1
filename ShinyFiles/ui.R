@@ -1,12 +1,8 @@
+
 library(shiny)
 
 shinyUI(fluidPage(
   titlePanel("Open VOI - Demo"),
-  
-  
-    #############
-    # About tab #
-    #############
   
   tabsetPanel(
     tabPanel("About", 
@@ -17,23 +13,7 @@ shinyUI(fluidPage(
              p("Full details of the approach used and applied examples using these methods are forthcoming. In the meantime see https://www.york.ac.uk/che/research/teehta/research-prioritisation/ for further details.")
              
              ),
-    
-    
-    
-    
-    
-    
-    ##############
-    # Inputs tab #
-    ##############
-    
     tabPanel("Inputs", tabsetPanel(
-      
-      ##############################
-      # Inputs tab: General Inputs #
-      ##############################
-      
-      
       tabPanel("General Inputs", 
                selectInput(inputId = "typeOfOutcome", label = "Type of outcome", 
                            choices = c("Benefit" = "benefit", 
@@ -64,7 +44,7 @@ shinyUI(fluidPage(
                                        "Half Normal" = "halfNorm"),
                            selected = "Normal"),
                
-               numericInput("incidence", textOutput("nameOf_t2"),   #"Incidence per annum"
+               numericInput("incidence", "Incidence per annum",
                             value = 8800, min = 0, max = NA, step = 20),
                
                numericInput("timeInformation", "Time over which evidence would be valuable (years)",
@@ -76,6 +56,8 @@ shinyUI(fluidPage(
                numericInput("MCD_t2", "MCD for treatment 2",
                             value = 0, min = NA, max = NA, step = 0.05,
                             width = '50%'),
+               
+               
                
                textInput("nameOfOutcome", "Name of outcome"),
                
@@ -160,14 +142,6 @@ shinyUI(fluidPage(
                
                
       ),
-      
-      
-      
-      ##########################
-      # Inputs tab: RCT Inputs #
-      ##########################
-      
-      
       tabPanel("Standard RCT", 
                actionButton("runRCT", label = "Run calculation for RCT"),
                numericInput("durationOfResearch", "Expected duration of research (years)",
@@ -180,35 +154,14 @@ shinyUI(fluidPage(
                             value = NA, min = 0, max = NA, step = 100)
                
       ),
-      
-      
-      
-      ##################################
-      # Inputs tab: Feasibility Inputs #
-      ##################################
-      
       tabPanel("Feasibility", 
                actionButton("runFeas", label = "Run calculation for feasibility trial")
                
       ),
-      
-      
-      ##########################################
-      # Inputs tab: Reconsider evidence Inputs #
-      ##########################################
-      
       tabPanel("Reconsider Evidence", 
                actionButton("runRec", label = "Run calculation for reconsideration of evidence")
                
       ))),
-    
-    
-    
-    
-    ###############
-    # Results tab #
-    ###############
-    
     tabPanel("Results", 
              textOutput("nameOf_t1"),
              textOutput("nameOf_t2"), 
@@ -242,25 +195,8 @@ shinyUI(fluidPage(
              textOutput("valuePer15KResearchSpend")
              
     ),
-    
-    
-    
-    ##############
-    # Report tab #
-    ##############
-    
     tabPanel("Report", "<code for report ui>"),
-    
-    
-    
-    
-    #############
-    # About tab #
-    #############
-    
     tabPanel("About", "<code for about ui>")
-    
-    
   )
   
 ))
