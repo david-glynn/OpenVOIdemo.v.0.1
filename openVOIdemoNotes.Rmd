@@ -175,14 +175,21 @@ Depending on which action button is pressed, and the type of analysis chosen the
 
 The results for each element of VOIResults must be saved to a variable in the server output list using the appropriate render function. This allows it to be transported to the user interface. The Shiny wrapper for server.R is also added here. It is important to note that all the required functions should be defined outside of the shinyServer function as these are requried for the model to run. They are defined outside the server function as then they will only be run once per session (which is all that is required), this improves efficicency, especialy of there are multiple users.
 
+Note the absolute paths are used to locate the required files on my local computer. For publishing the app on shinyapps.io relative paths are required. As ShinyApps is the working directory for the published app, only the file names are required i.e. BinaryOutcomeFunction.R.
+
 ```{r}
 
 library(shiny)
+library(fdrtool) # required for halfnormal simulations
 
-########################################################################################
-# load required functions
-########################################################################################
-
+# absolute paths for use in desktop development
+source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/BinaryOutcomeFunction.R", local = TRUE)
+source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/BinaryQALYFunction.R", local = TRUE)
+source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
+# relative paths for publishing in shinyapps.io
+#source("BinaryOutcomeFunction.R", local = TRUE)
+#source("BinaryQALYFunction.R", local = TRUE)
+#source("SupplementaryFunctions.R", local = TRUE)
 
 
 shinyServer(function(input, output) {
