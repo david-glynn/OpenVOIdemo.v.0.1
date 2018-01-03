@@ -70,39 +70,39 @@ simProbOfOutcomeHalfNormBinary <- function(P_t1, direction, variance){
 #direction_t3 <- "alwaysNegative" 
  
 
-numberOfTreatments =2 
-MCsims = 100
-P_t1 =0.5
-mu_t2=0
-variance_t2=1
-dist_t2="norm"
-direction_t2= NA
-mu_t3=NA
-variance_t3=NA
-dist_t3=NA
-direction_t3=NA
-mu_t4=NA 
-variance_t4=NA
-dist_t4=NA
-direction_t4=NA
-nameOf_t1="1"
-nameOf_t2="2"
-nameOf_t3=NA
-nameOf_t4=NA
-typeOfOutcome="benefit"
-incidence=1000
-timeInformation=15
-discountRate=3.5 
-durationOfResearch= 4
-costResearchFunder=1000000
-MCD_t2=0
-MCD_t3=NA
-MCD_t4=NA
-utilisation_t1=100
-utilisation_t2=0
-utilisation_t3=NA
-utilisation_t4=NA
-P_t1 <- rep(P_t1, MCsims)
+#numberOfTreatments =2 
+#MCsims = 100
+#P_t1 =0.5
+#mu_t2=0
+#variance_t2=1
+#dist_t2="norm"
+#direction_t2= NA
+#mu_t3=NA
+#variance_t3=NA
+#dist_t3=NA
+#direction_t3=NA
+#mu_t4=NA 
+#variance_t4=NA
+#dist_t4=NA
+#direction_t4=NA
+#nameOf_t1="1"
+#nameOf_t2="2"
+#nameOf_t3=NA
+#nameOf_t4=NA
+#typeOfOutcome="benefit"
+#incidence=1000
+#timeInformation=15
+#discountRate=3.5 
+#durationOfResearch= 4
+#costResearchFunder=1000000
+#MCD_t2=0
+#MCD_t3=NA
+#MCD_t4=NA
+#utilisation_t1=100
+#utilisation_t2=0
+#utilisation_t3=NA
+#utilisation_t4=NA
+#P_t1 <- rep(P_t1, MCsims)
 
 
 # master function which uses the above functions to create the P_t1 matrix

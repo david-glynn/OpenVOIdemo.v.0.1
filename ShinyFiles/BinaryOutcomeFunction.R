@@ -39,13 +39,13 @@
 
 
 # mock data
-MCsims <- 10
-numberOfTreatments <- 2
-P_t1 <- 0.9
-mu_t2 <- 0
-variance_t2 <- 0.1
-dist_t2 <- "norm" 
-direction_t2 <- "alwaysPositive"
+#MCsims <- 10
+#numberOfTreatments <- 2
+#P_t1 <- 0.9
+#mu_t2 <- 0
+#variance_t2 <- 0.1
+#dist_t2 <- "norm" 
+#direction_t2 <- "alwaysPositive"
 
 #mu_t3 <- 100
 #variance_t3 <- 0.001
@@ -56,62 +56,62 @@ direction_t2 <- "alwaysPositive"
 #dist_t4 <- "halfNorm" 
 #direction_t4 <- "alwaysNegative" 
 
-nameOf_t1 <- "late PTP"
-nameOf_t2 <- "early PTP"
-nameOf_t3 <- "treatment 3"
-nameOf_t4 <- "treatment 4"
+#nameOf_t1 <- "late PTP"
+#nameOf_t2 <- "early PTP"
+#nameOf_t3 <- "treatment 3"
+#nameOf_t4 <- "treatment 4"
 
-typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
-incidence = 8000 # was Incidence
-timeInformation  = 15 # Time_info  = 15
-discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
-costResearchFunder = 882177 #Cost_research_funder =  882177
-durationOfResearch = 3  # Time_research = 3
+#typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
+#incidence = 8000 # was Incidence
+#timeInformation  = 15 # Time_info  = 15
+#discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
+#costResearchFunder = 882177 #Cost_research_funder =  882177
+#durationOfResearch = 3  # Time_research = 3
 
-MCD_t2 = 0   # MCD_t <- c(0) # remember MCD is a relative input - if two treatmetns => just one MCD
-MCD_t3 = 0
-MCD_t4 = NA
+#MCD_t2 = 0   # MCD_t <- c(0) # remember MCD is a relative input - if two treatmetns => just one MCD
+#MCD_t3 = 0
+#MCD_t4 = NA
 
-utilisation_t1 = 0.5 # check these sum to 1. 
-utilisation_t2 = 0.5
-utilisation_t3 = 0
-utilisation_t4 = NA
+#utilisation_t1 = 0.5 # check these sum to 1. 
+#utilisation_t2 = 0.5
+#utilisation_t3 = 0
+#utilisation_t4 = NA
 
 ####################################
 
 
-numberOfTreatments =2 
-MCsims = 100
-P_t1 =0.5
-mu_t2=0
-variance_t2=1
-dist_t2="norm"
-direction_t2= NA
-mu_t3=NA
-variance_t3=NA
-dist_t3=NA
-direction_t3=NA
-mu_t4=NA 
-variance_t4=NA
-dist_t4=NA
-direction_t4=NA
-nameOf_t1="1"
-nameOf_t2="2"
-nameOf_t3=NA
-nameOf_t4=NA
-typeOfOutcome="benefit"
-incidence=1000
-timeInformation=15
-discountRate=3.5 
-durationOfResearch= 4
-costResearchFunder=1000000
-MCD_t2=0
-MCD_t3=NA
-MCD_t4=NA
-utilisation_t1=100
-utilisation_t2=0
-utilisation_t3=NA
-utilisation_t4=NA
+#numberOfTreatments =2 
+#MCsims = 100
+#P_t1 =0.5
+#mu_t2=0
+#variance_t2=1
+#dist_t2="norm"
+#direction_t2= NA
+#mu_t3=NA
+#variance_t3=NA
+#dist_t3=NA
+#direction_t3=NA
+#mu_t4=NA 
+#variance_t4=NA
+#dist_t4=NA
+#direction_t4=NA
+#nameOf_t1="1"
+#nameOf_t2="2"
+#nameOf_t3=NA
+#nameOf_t4=NA
+#typeOfOutcome="benefit"
+#incidence=1000
+#timeInformation=15
+#discountRate=3.5 
+#durationOfResearch= 4
+#costResearchFunder=1000000
+#MCD_t2=0
+#MCD_t3=NA
+#MCD_t4=NA
+#utilisation_t1=100
+#utilisation_t2=0
+#utilisation_t3=NA
+#utilisation_t4=NA
 
 
 
@@ -172,14 +172,14 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
 
 
 # test function
-resultsholder <- BinaryOutcomeFunction.v.0.1(numberOfTreatments =2 , MCsims = 1000, P_t1 =0.5,
-                                        mu_t2=0, variance_t2=1, dist_t2="norm", direction_t2= NA,
-                                        mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
-                                        mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
-                                        nameOf_t1="1",nameOf_t2="2", nameOf_t3=NA, nameOf_t4=NA,
-                                        typeOfOutcome="benefit", incidence=1000,timeInformation=15,
-                                        discountRate=3.5 ,durationOfResearch= 4,costResearchFunder=1000000,
-                                        MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
-                                        utilisation_t1=100, utilisation_t2=0,
-                                        utilisation_t3=NA, utilisation_t4=NA)
+#resultsholder <- BinaryOutcomeFunction.v.0.1(numberOfTreatments =2 , MCsims = 1000, P_t1 =0.5,
+#                                        mu_t2=0, variance_t2=1, dist_t2="norm", direction_t2= NA,
+#                                        mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
+#                                        mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
+#                                        nameOf_t1="1",nameOf_t2="2", nameOf_t3=NA, nameOf_t4=NA,
+#                                        typeOfOutcome="benefit", incidence=1000,timeInformation=15,
+#                                        discountRate=3.5 ,durationOfResearch= 4,costResearchFunder=1000000,
+#                                        MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
+#                                        utilisation_t1=100, utilisation_t2=0,
+#                                        utilisation_t3=NA, utilisation_t4=NA)
 
