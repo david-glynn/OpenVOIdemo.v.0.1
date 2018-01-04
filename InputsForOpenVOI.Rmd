@@ -148,11 +148,6 @@ shinyUI(fluidPage(
                         value = 0, min = NA, max = NA, step = 0.05,
                         width = '50%'),
            
-           # Display if: typeOfOutcome == "netHealth"
-           numericInput("k", "Opportunity cost of health expenditure (£)",
-                        value = 0, min = NA, max = NA, step = 0.05,
-                        width = '50%'),
-           
            
            ## treatment 3
            

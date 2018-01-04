@@ -34,8 +34,8 @@ shinyServer(function(input, output) {
     if(input$typeOfOutcome == "netHealth"){
       resultsHolder <- reactive({
         # VOI function taking user inputs and returning results
-        # for RCT cost and QALY analysis
-        BinaryOutcomeFunction.v.0.1(numberOfTreatments = input$numberOfTreatments , 
+        # Function for Binary RCT cost and QALY analysis
+        BinaryQALYFunction.v.0.1(numberOfTreatments = input$numberOfTreatments , 
                                     MCsims = input$MCsims, P_t1 =input$P_t1, INBBinaryEvent = input$INBBinaryEvent,
                                     mu_t2=input$mu_t2, variance_t2=input$variance_t2 ,
                                     dist_t2=input$dist_t2 , direction_t2= input$direction_t2,
@@ -61,7 +61,7 @@ shinyServer(function(input, output) {
                                     costHealthSystem = input$costHealthSystem,
                                     k = input$k)
       })
-      # assign results to VOIResults list
+      # assign results to VOIResults list  for cost and QALY analysis
       
       VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
       VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax
@@ -88,6 +88,7 @@ shinyServer(function(input, output) {
       
     }else{
       resultsHolder <- reactive({
+        # Function for Binary RCT natural outcome
         BinaryOutcomeFunction.v.0.1(numberOfTreatments = input$numberOfTreatments , 
                                     MCsims = input$MCsims, P_t1 =input$P_t1,
                                     mu_t2=input$mu_t2, variance_t2=input$variance_t2 ,
@@ -112,7 +113,7 @@ shinyServer(function(input, output) {
                                     utilisation_t4=input$utilisation_t4 )
       })
       
-      
+      # assign results for natural outcome 
       VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
       VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax
       VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax
