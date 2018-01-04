@@ -105,7 +105,10 @@ shinyServer(function(input, output) {
   output$nameOf_t4 <- renderText({input$nameOf_t4})
   output$nameOfOutcome <- renderText({input$nameOfOutcome})
   
-  output$histVOIYear <- renderPlot({plot(VOIResults$ListForhistVOIYear, freq = FALSE)})
+  output$histVOIYear <- renderPlot({plot(VOIResults$ListForhistVOIYear, freq = FALSE,
+                                         main = "Consequences of uncertainty (per year)",
+                                         xlab = "Primary outcomes",
+                                         ylab = "Probability (%)")})
   
   output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
   output$probTreatment1isMax <- renderText({VOIResults$probTreatment1isMax })
