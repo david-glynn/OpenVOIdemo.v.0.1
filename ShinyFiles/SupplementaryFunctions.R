@@ -6,6 +6,11 @@
 library(fdrtool) # required for halfnormal simulations
 
 
+
+##############################
+# Epidemiology for Binary outcomes
+#############################
+
 # test data
 #P_t0 <- rep(0.3, 10)
 #mu <- 0
@@ -38,11 +43,11 @@ simProbOfOutcomeHalfNormBinary <- function(P_t1, direction, variance){
   Odds_t1 <- P_t1 / (1 - P_t1)
   LO_t1 <- log(Odds_t1)
   if (direction == "alwaysPositive"){
-    LOR_tn <- -rhalfnorm(length(P_t1), theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
-    # draws from a negative halfnormal
-  } else {
     LOR_tn <- rhalfnorm(length(P_t1), theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
     # draws from a positive halfnormal
+  } else {
+    LOR_tn <- -rhalfnorm(length(P_t1), theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
+    # draws from a negative halfnormal
   }
   LO_tn <- LO_t1 + LOR_tn # combine baseline and relative effect and convert back to probability
   Odds_tn <- exp(LO_tn)
@@ -161,6 +166,168 @@ simProbOfOutcomeMatrixBinary <- function(numberOfTreatments, P_t1,
 #                        mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
 #                        mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
 #                        )
+
+
+
+##############################
+# Epidemiology for Continuous outcomes
+#############################
+
+# test data
+MCsims <- 10
+mu <- 0
+variance <- 0.2
+
+# function to simulate the difference in contin outcome for each treatment relative to t1
+# for a normal distribution on relative effect
+
+simDeltaOfOutcomeNormContinuous <- function(MCsims, mu, variance){
+  rnorm(MCsims, mu, sqrt(variance)) 
+}
+
+# test function
+simDeltaOfOutcomeNormContinuous(10, 0, 0.2)
+
+
+# test data
+direction <- "alwaysPositive" # takes value "alwaysPositive" or "alwaysNegative" 
+MCsims <- 10
+variance <- 0.2
+
+# function to simulate the difference in contin outcome for each treatment relative to t1
+# for a HALF normal distribution on relative effect
+simDeltaOfOutcomeHalfNormContinuous <- function(MCsims, direction, variance){
+  
+    if (direction == "alwaysPositive"){
+      rhalfnorm(MCsims, theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
+      # draws from a negative halfnormal
+    } else {
+      -rhalfnorm(MCsims, theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
+      # draws from a positive halfnormal
+    }
+  
+}
+
+# test function
+simDeltaOfOutcomeHalfNormContinuous(10, "alwaysNegative", 0.2)
+
+
+
+
+
+# required????
+#numberOfTreatments =2 
+#MCsims = 100
+#P_t1 =0.5
+#mu_t2=0
+#variance_t2=1
+#dist_t2="norm"
+#direction_t2= NA
+#mu_t3=NA
+#variance_t3=NA
+#dist_t3=NA
+#direction_t3=NA
+#mu_t4=NA 
+#variance_t4=NA
+#dist_t4=NA
+#direction_t4=NA
+#nameOf_t1="1"
+#nameOf_t2="2"
+#nameOf_t3=NA
+#nameOf_t4=NA
+#typeOfOutcome="benefit"
+#incidence=1000
+#timeInformation=15
+#discountRate=3.5 
+#durationOfResearch= 4
+#costResearchFunder=1000000
+#MCD_t2=0
+#MCD_t3=NA
+#MCD_t4=NA
+#utilisation_t1=100
+#utilisation_t2=0
+#utilisation_t3=NA
+#utilisation_t4=NA
+#P_t1 <- rep(P_t1, MCsims)
+
+
+# test data
+numberOfTreatments <- 4
+MCsims <- 20
+mu_t2 <- 1
+variance_t2 <- 100
+dist_t2 <- "halfNorm"
+direction_t2 <- "alwaysNegative"
+mu_t3 <- 100
+variance_t3 <- 0.001
+dist_t3 <- "norm"
+direction_t3 <- "alwaysNegative"
+mu_t4 <- 0
+variance_t4 <- 0.1
+dist_t4 <- "norm"
+direction_t4 <- "alwaysPositive"
+
+# master function which uses the above functions to create the Delta_t matrix
+
+simDeltaOfOutcomeMatrixContinuous <- function(numberOfTreatments, MCsims,
+                                         mu_t2, variance_t2, dist_t2, direction_t2,
+                                         mu_t3, variance_t3, dist_t3, direction_t3,
+                                         mu_t4, variance_t4, dist_t4, direction_t4
+){
+  
+  # simulate the Deltas for t2
+  Delta_t2 <- if (dist_t2 == "norm") {
+    simDeltaOfOutcomeNormContinuous(MCsims, mu_t2, variance_t2)
+  } else {
+    simDeltaOfOutcomeHalfNormContinuous(MCsims, direction_t2, variance_t2)
+  }
+  
+  # simulate the Deltas for t3
+  Delta_t3 <- if(numberOfTreatments <= 2 ) { # if there is only 2 treatments then this is given a vector of NAs
+    rep(NA, MCsims)
+  } else {
+    
+    if (dist_t3 == "norm") {
+      simDeltaOfOutcomeNormContinuous(MCsims, mu_t3, variance_t3)
+    } else {
+      simDeltaOfOutcomeHalfNormContinuous(MCsims, direction_t3, variance_t3)
+    }
+    
+  }
+  
+  # simulate the deltas for t4
+  Delta_t4 <- if(numberOfTreatments <= 3 ) { # if there is only 2 treatments then this is given a vector of NAs
+    rep(NA, MCsims)
+  } else {
+    
+    if (dist_t4 == "norm") {
+      simDeltaOfOutcomeNormContinuous(MCsims, mu_t4, variance_t4)
+    } else {
+      simDeltaOfOutcomeHalfNormContinuous(MCsims, direction_t4, variance_t4)
+    }
+    
+  }
+  
+  # add all vectors (Delta_t1 , Delta_t2..) to the matrix Delta_t
+  # and return this
+  Delta_t <- matrix(c(rep(0, MCsims), Delta_t2, Delta_t3, Delta_t4), ncol = 4)
+  
+  Delta_t
+  
+}
+
+# test function
+simDeltaOfOutcomeMatrixContinuous (numberOfTreatments = 3, MCsims = 1000,
+                       mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+                       mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
+                       mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
+                       )
+
+
+
+
+
+
 
 
 
