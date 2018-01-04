@@ -35,8 +35,56 @@ shinyServer(function(input, output) {
       resultsHolder <- reactive({
         # VOI function taking user inputs and returning results
         # for RCT cost and QALY analysis
+        BinaryOutcomeFunction.v.0.1(numberOfTreatments = input$numberOfTreatments , 
+                                    MCsims = input$MCsims, P_t1 =input$P_t1, INBBinaryEvent = input$INBBinaryEvent,
+                                    mu_t2=input$mu_t2, variance_t2=input$variance_t2 ,
+                                    dist_t2=input$dist_t2 , direction_t2= input$direction_t2,
+                                    mu_t3=input$mu_t3 , variance_t3=input$variance_t3 ,
+                                    dist_t3=input$dist_t3 , direction_t3=input$direction_t3 ,
+                                    mu_t4=input$mu_t4 , variance_t4=input$variance_t4 ,
+                                    dist_t4=input$dist_t4 , direction_t4=input$direction_t4 ,
+                                    nameOf_t1=input$nameOf_t1 ,nameOf_t2=input$nameOf_t2 ,
+                                    nameOf_t3=input$nameOf_t3 , nameOf_t4=input$nameOf_t4 ,
+                                    cost_t2 = input$cost_t2, cost_t3= input$cost_t3, cost_t4= input$cost_t4,
+                                    typeOfOutcome=input$typeOfOutcome ,
+                                    incidence=input$incidence,
+                                    timeInformation=input$timeInformation ,
+                                    discountRate=input$discountRate  ,
+                                    durationOfResearch= input$durationOfResearch,
+                                    costResearchFunder=input$costResearchFunder ,
+                                    MCD_t2=input$MCD_t2 , MCD_t3=input$MCD_t3 ,
+                                    MCD_t4=input$MCD_t4 ,
+                                    utilisation_t1=input$utilisation_t1 ,
+                                    utilisation_t2=input$utilisation_t2 ,
+                                    utilisation_t3=input$utilisation_t3 ,
+                                    utilisation_t4=input$utilisation_t4 ,
+                                    costHealthSystem = input$costHealthSystem,
+                                    k = input$k)
       })
       # assign results to VOIResults list
+      
+      VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
+      VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax
+      VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax
+      VOIResults$probTreatment3isMax <- resultsHolder()$probTreatment3isMax
+      VOIResults$probTreatment4isMax <- resultsHolder()$probTreatment4isMax
+      VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
+      VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
+      VOIResults$PopTotal <- resultsHolder()$PopTotal
+      VOIResults$ListForhistVOIYear <- resultsHolder()$ListForhistVOIYear
+      VOIResults$valueOfResearchPerYear <- resultsHolder()$valueOfResearchPerYear
+      VOIResults$valueOfImplementationPerYear <- resultsHolder()$valueOfImplementationPerYear
+      VOIResults$Cell_A <- resultsHolder()$Cell_A
+      VOIResults$Cell_C <- resultsHolder()$Cell_C
+      VOIResults$Cell_D <- resultsHolder()$Cell_D
+      VOIResults$maxvalueOfImplementation <- resultsHolder()$maxvalueOfImplementation
+      VOIResults$maxvalueOfResearch <- resultsHolder()$maxvalueOfResearch
+      VOIResults$healthOpportunityCostsOfResearch <- resultsHolder()$healthOpportunityCostsOfResearch
+      VOIResults$valueOfResearchWithCurrentImplementation <- resultsHolder()$valueOfResearchWithCurrentImplementation
+      VOIResults$valueOfResearchWithPerfectImplementation <- resultsHolder()$valueOfResearchWithPerfectImplementation
+      VOIResults$ICER_ResearchWithCurrentImplementation <- resultsHolder()$ICER_ResearchWithCurrentImplementation
+      VOIResults$ICER_ResearchWithPerfectImplementation <- resultsHolder()$ICER_ResearchWithPerfectImplementation
+      VOIResults$valuePer15KResearchSpend <- resultsHolder()$valuePer15KResearchSpend
       
     }else{
       resultsHolder <- reactive({
