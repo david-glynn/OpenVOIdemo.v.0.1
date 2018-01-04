@@ -63,16 +63,17 @@ shinyServer(function(input, output) {
                                     utilisation_t3=input$utilisation_t3 ,
                                     utilisation_t4=input$utilisation_t4 )
       })
+      
+      
       VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
-      VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax 
-      VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax 
-      VOIResults$probTreatment3isMax <- resultsHolder()$probTreatment3isMax 
+      VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax
+      VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax
+      VOIResults$probTreatment3isMax <- resultsHolder()$probTreatment3isMax
       VOIResults$probTreatment4isMax <- resultsHolder()$probTreatment4isMax
       VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
       VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
-      VOIResults$PopTotal <- resultsHolder()$PopTotal 
-      #VOIResults$histVOIYear <- resultsHolder()$histVOIYear 
-      VOIResults$ListForhistVOIYear <- resultsHolder()$ListForhistVOIYear 
+      VOIResults$PopTotal <- resultsHolder()$PopTotal
+      VOIResults$ListForhistVOIYear <- resultsHolder()$ListForhistVOIYear
       VOIResults$valueOfResearchPerYear <- resultsHolder()$valueOfResearchPerYear
       VOIResults$valueOfImplementationPerYear <- resultsHolder()$valueOfImplementationPerYear
       VOIResults$Cell_A <- resultsHolder()$Cell_A
@@ -85,7 +86,7 @@ shinyServer(function(input, output) {
       VOIResults$valueOfResearchWithPerfectImplementation <- resultsHolder()$valueOfResearchWithPerfectImplementation
       VOIResults$ICER_ResearchWithCurrentImplementation <- resultsHolder()$ICER_ResearchWithCurrentImplementation
       VOIResults$ICER_ResearchWithPerfectImplementation <- resultsHolder()$ICER_ResearchWithPerfectImplementation
-      VOIResults$valuePer15KResearchSpend <- resultsHolder()$valuePer15KResearchSpend 
+      VOIResults$valuePer15KResearchSpend <- resultsHolder()$valuePer15KResearchSpend
     }
   })
   
