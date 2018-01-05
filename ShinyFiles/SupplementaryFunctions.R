@@ -174,9 +174,9 @@ simProbOfOutcomeMatrixBinary <- function(numberOfTreatments, P_t1,
 #############################
 
 # test data
-MCsims <- 10
-mu <- 0
-variance <- 0.2
+# MCsims <- 10
+# mu <- 0
+# variance <- 0.2
 
 # function to simulate the difference in contin outcome for each treatment relative to t1
 # for a normal distribution on relative effect
@@ -186,13 +186,13 @@ simDeltaOfOutcomeNormContinuous <- function(MCsims, mu, variance){
 }
 
 # test function
-simDeltaOfOutcomeNormContinuous(10, 0, 0.2)
+# simDeltaOfOutcomeNormContinuous(10, 0, 0.2)
 
 
 # test data
-direction <- "alwaysPositive" # takes value "alwaysPositive" or "alwaysNegative" 
-MCsims <- 10
-variance <- 0.2
+# direction <- "alwaysPositive" # takes value "alwaysPositive" or "alwaysNegative" 
+# MCsims <- 10
+# variance <- 0.2
 
 # function to simulate the difference in contin outcome for each treatment relative to t1
 # for a HALF normal distribution on relative effect
@@ -209,7 +209,7 @@ simDeltaOfOutcomeHalfNormContinuous <- function(MCsims, direction, variance){
 }
 
 # test function
-simDeltaOfOutcomeHalfNormContinuous(10, "alwaysNegative", 0.2)
+# simDeltaOfOutcomeHalfNormContinuous(10, "alwaysNegative", 0.2)
 
 
 
@@ -252,20 +252,20 @@ simDeltaOfOutcomeHalfNormContinuous(10, "alwaysNegative", 0.2)
 
 
 # test data
-numberOfTreatments <- 4
-MCsims <- 20
-mu_t2 <- 1
-variance_t2 <- 100
-dist_t2 <- "halfNorm"
-direction_t2 <- "alwaysNegative"
-mu_t3 <- 100
-variance_t3 <- 0.001
-dist_t3 <- "norm"
-direction_t3 <- "alwaysNegative"
-mu_t4 <- 0
-variance_t4 <- 0.1
-dist_t4 <- "norm"
-direction_t4 <- "alwaysPositive"
+# numberOfTreatments <- 4
+# MCsims <- 20
+# mu_t2 <- 1
+# variance_t2 <- 100
+# dist_t2 <- "halfNorm"
+# direction_t2 <- "alwaysNegative"
+# mu_t3 <- 100
+# variance_t3 <- 0.001
+# dist_t3 <- "norm"
+# direction_t3 <- "alwaysNegative"
+# mu_t4 <- 0
+# variance_t4 <- 0.1
+# dist_t4 <- "norm"
+# direction_t4 <- "alwaysPositive"
 
 # master function which uses the above functions to create the Delta_t matrix
 
@@ -317,11 +317,11 @@ simDeltaOfOutcomeMatrixContinuous <- function(numberOfTreatments, MCsims,
 }
 
 # test function
-simDeltaOfOutcomeMatrixContinuous (numberOfTreatments = 3, MCsims = 1000,
-                       mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-                       mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
-                       mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
-                       )
+# simDeltaOfOutcomeMatrixContinuous (numberOfTreatments = 3, MCsims = 1000,
+#                        mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+#                        mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
+#                        mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
+#                        )
 
 
 
