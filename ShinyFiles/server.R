@@ -14,10 +14,13 @@ library(fdrtool) # required for halfnormal simulations
 source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/BinaryOutcomeFunction.R", local = TRUE)
 source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/BinaryQALYFunction.R", local = TRUE)
 source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
+source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/ContinuousOutcomeFunction.R", local = TRUE)
+
 # relative paths for publishing in shinyapps.io
 #source("BinaryOutcomeFunction.R", local = TRUE)
 #source("BinaryQALYFunction.R", local = TRUE)
 #source("SupplementaryFunctions.R", local = TRUE)
+#source("ContinuousOutcomeFunction.R", local = TRUE)
 
 
 
@@ -31,7 +34,8 @@ shinyServer(function(input, output) {
   VOIResults <- reactiveValues()
   
   observeEvent(input$runRCT, {
-    if(input$typeOfOutcome == "netHealth"){
+    if(input$typeOfOutcome == "netHealth"){ # for QALY outcomes
+      
       resultsHolder <- reactive({
         # VOI function taking user inputs and returning results
         # Function for Binary RCT cost and QALY analysis
@@ -61,32 +65,9 @@ shinyServer(function(input, output) {
                                     costHealthSystem = input$costHealthSystem,
                                     k = input$k)
       })
-      # assign results to VOIResults list  for cost and QALY analysis
+
+    }else{ # for natural outcomes
       
-      VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
-      VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax
-      VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax
-      VOIResults$probTreatment3isMax <- resultsHolder()$probTreatment3isMax
-      VOIResults$probTreatment4isMax <- resultsHolder()$probTreatment4isMax
-      VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
-      VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
-      VOIResults$PopTotal <- resultsHolder()$PopTotal
-      VOIResults$ListForhistVOIYear <- resultsHolder()$ListForhistVOIYear
-      VOIResults$valueOfResearchPerYear <- resultsHolder()$valueOfResearchPerYear
-      VOIResults$valueOfImplementationPerYear <- resultsHolder()$valueOfImplementationPerYear
-      VOIResults$Cell_A <- resultsHolder()$Cell_A
-      VOIResults$Cell_C <- resultsHolder()$Cell_C
-      VOIResults$Cell_D <- resultsHolder()$Cell_D
-      VOIResults$maxvalueOfImplementation <- resultsHolder()$maxvalueOfImplementation
-      VOIResults$maxvalueOfResearch <- resultsHolder()$maxvalueOfResearch
-      VOIResults$healthOpportunityCostsOfResearch <- resultsHolder()$healthOpportunityCostsOfResearch
-      VOIResults$valueOfResearchWithCurrentImplementation <- resultsHolder()$valueOfResearchWithCurrentImplementation
-      VOIResults$valueOfResearchWithPerfectImplementation <- resultsHolder()$valueOfResearchWithPerfectImplementation
-      VOIResults$ICER_ResearchWithCurrentImplementation <- resultsHolder()$ICER_ResearchWithCurrentImplementation
-      VOIResults$ICER_ResearchWithPerfectImplementation <- resultsHolder()$ICER_ResearchWithPerfectImplementation
-      VOIResults$valuePer15KResearchSpend <- resultsHolder()$valuePer15KResearchSpend
-      
-    }else{
       resultsHolder <- reactive({
         # Function for Binary RCT natural outcome
         BinaryOutcomeFunction.v.0.1(numberOfTreatments = input$numberOfTreatments , 
@@ -113,30 +94,32 @@ shinyServer(function(input, output) {
                                     utilisation_t4=input$utilisation_t4 )
       })
       
-      # assign results for natural outcome 
-      VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
-      VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax
-      VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax
-      VOIResults$probTreatment3isMax <- resultsHolder()$probTreatment3isMax
-      VOIResults$probTreatment4isMax <- resultsHolder()$probTreatment4isMax
-      VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
-      VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
-      VOIResults$PopTotal <- resultsHolder()$PopTotal
-      VOIResults$ListForhistVOIYear <- resultsHolder()$ListForhistVOIYear
-      VOIResults$valueOfResearchPerYear <- resultsHolder()$valueOfResearchPerYear
-      VOIResults$valueOfImplementationPerYear <- resultsHolder()$valueOfImplementationPerYear
-      VOIResults$Cell_A <- resultsHolder()$Cell_A
-      VOIResults$Cell_C <- resultsHolder()$Cell_C
-      VOIResults$Cell_D <- resultsHolder()$Cell_D
-      VOIResults$maxvalueOfImplementation <- resultsHolder()$maxvalueOfImplementation
-      VOIResults$maxvalueOfResearch <- resultsHolder()$maxvalueOfResearch
-      VOIResults$healthOpportunityCostsOfResearch <- resultsHolder()$healthOpportunityCostsOfResearch
-      VOIResults$valueOfResearchWithCurrentImplementation <- resultsHolder()$valueOfResearchWithCurrentImplementation
-      VOIResults$valueOfResearchWithPerfectImplementation <- resultsHolder()$valueOfResearchWithPerfectImplementation
-      VOIResults$ICER_ResearchWithCurrentImplementation <- resultsHolder()$ICER_ResearchWithCurrentImplementation
-      VOIResults$ICER_ResearchWithPerfectImplementation <- resultsHolder()$ICER_ResearchWithPerfectImplementation
-      VOIResults$valuePer15KResearchSpend <- resultsHolder()$valuePer15KResearchSpend
     }
+    
+    # assign results for all RCT models
+    VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
+    VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax
+    VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax
+    VOIResults$probTreatment3isMax <- resultsHolder()$probTreatment3isMax
+    VOIResults$probTreatment4isMax <- resultsHolder()$probTreatment4isMax
+    VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
+    VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
+    VOIResults$PopTotal <- resultsHolder()$PopTotal
+    VOIResults$ListForhistVOIYear <- resultsHolder()$ListForhistVOIYear
+    VOIResults$valueOfResearchPerYear <- resultsHolder()$valueOfResearchPerYear
+    VOIResults$valueOfImplementationPerYear <- resultsHolder()$valueOfImplementationPerYear
+    VOIResults$Cell_A <- resultsHolder()$Cell_A
+    VOIResults$Cell_C <- resultsHolder()$Cell_C
+    VOIResults$Cell_D <- resultsHolder()$Cell_D
+    VOIResults$maxvalueOfImplementation <- resultsHolder()$maxvalueOfImplementation
+    VOIResults$maxvalueOfResearch <- resultsHolder()$maxvalueOfResearch
+    VOIResults$healthOpportunityCostsOfResearch <- resultsHolder()$healthOpportunityCostsOfResearch
+    VOIResults$valueOfResearchWithCurrentImplementation <- resultsHolder()$valueOfResearchWithCurrentImplementation
+    VOIResults$valueOfResearchWithPerfectImplementation <- resultsHolder()$valueOfResearchWithPerfectImplementation
+    VOIResults$ICER_ResearchWithCurrentImplementation <- resultsHolder()$ICER_ResearchWithCurrentImplementation
+    VOIResults$ICER_ResearchWithPerfectImplementation <- resultsHolder()$ICER_ResearchWithPerfectImplementation
+    VOIResults$valuePer15KResearchSpend <- resultsHolder()$valuePer15KResearchSpend
+    
   })
   
   observeEvent(input$runFeas, {
