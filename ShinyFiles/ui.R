@@ -221,7 +221,7 @@ shinyUI(fluidPage(
                # display if: typeOfEndpoint == continuous & typeOfOutcome == "netHealth"
                numericInput("INBContinEvent", 
                             "Net health effect of unit increase in continuous outcome (in QALYs)",
-                            value = NA, min = NA, max = NA, step = 0.05),
+                            value = 0.05, min = NA, max = NA, step = 0.05),
                
                
                ### Survival endpoint inputs
