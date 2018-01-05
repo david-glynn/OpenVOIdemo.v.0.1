@@ -33,8 +33,14 @@ shinyServer(function(input, output) {
   
   VOIResults <- reactiveValues()
   
+  ##########################
+  # RCT ACTION BUTTON
+  ##########################
   observeEvent(input$runRCT, {
-    if(input$typeOfOutcome == "netHealth"){ # for QALY outcomes
+    
+    # QALY binary RCT
+    if(input$typeOfOutcome == "netHealth" & input$typeOfEndpoint == "binary")
+       { # start code
       
       resultsHolder <- reactive({
         # VOI function taking user inputs and returning results
@@ -64,9 +70,12 @@ shinyServer(function(input, output) {
                                     utilisation_t4=input$utilisation_t4 ,
                                     costHealthSystem = input$costHealthSystem,
                                     k = input$k)
-      })
+        
+      })}
 
-    }else{ # for natural outcomes
+    # natural RCT binary
+    if(input$typeOfOutcome != "netHealth" & input$typeOfEndpoint == "binary")
+      { # start code 
       
       resultsHolder <- reactive({
         # Function for Binary RCT natural outcome
@@ -92,9 +101,37 @@ shinyServer(function(input, output) {
                                     utilisation_t2=input$utilisation_t2 ,
                                     utilisation_t3=input$utilisation_t3 ,
                                     utilisation_t4=input$utilisation_t4 )
-      })
+      })}
+    
+    # contunuous natural RCT
+    if(input$typeOfOutcome != "netHealth" & input$typeOfEndpoint == "continuous")
+    { # start code 
       
-    }
+      resultsHolder <- reactive({
+        # Function for Binary RCT natural outcome
+        ContinuousOutcomeFunction.v.0.1(numberOfTreatments = input$numberOfTreatments , 
+                                    MCsims = input$MCsims, 
+                                    mu_t2=input$mu_t2, variance_t2=input$variance_t2 ,
+                                    dist_t2=input$dist_t2 , direction_t2= input$direction_t2,
+                                    mu_t3=input$mu_t3 , variance_t3=input$variance_t3 ,
+                                    dist_t3=input$dist_t3 , direction_t3=input$direction_t3 ,
+                                    mu_t4=input$mu_t4 , variance_t4=input$variance_t4 ,
+                                    dist_t4=input$dist_t4 , direction_t4=input$direction_t4 ,
+                                    nameOf_t1=input$nameOf_t1 ,nameOf_t2=input$nameOf_t2 ,
+                                    nameOf_t3=input$nameOf_t3 , nameOf_t4=input$nameOf_t4 ,
+                                    typeOfOutcome=input$typeOfOutcome ,
+                                    incidence=input$incidence,
+                                    timeInformation=input$timeInformation ,
+                                    discountRate=input$discountRate  ,
+                                    durationOfResearch= input$durationOfResearch,
+                                    costResearchFunder=input$costResearchFunder ,
+                                    MCD_t2=input$MCD_t2 , MCD_t3=input$MCD_t3 ,
+                                    MCD_t4=input$MCD_t4 ,
+                                    utilisation_t1=input$utilisation_t1 ,
+                                    utilisation_t2=input$utilisation_t2 ,
+                                    utilisation_t3=input$utilisation_t3 ,
+                                    utilisation_t4=input$utilisation_t4 )
+      })}
     
     # assign results for all RCT models
     VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
@@ -120,11 +157,32 @@ shinyServer(function(input, output) {
     VOIResults$ICER_ResearchWithPerfectImplementation <- resultsHolder()$ICER_ResearchWithPerfectImplementation
     VOIResults$valuePer15KResearchSpend <- resultsHolder()$valuePer15KResearchSpend
     
+  }) # end RCT observe event expression
+  
+  
+  ##########################
+  # FEASIBILITY ACTION BUTTON
+  ##########################
+  observeEvent(input$runFeas, {
+    
+    #input$typeOfOutcome == "netHealth"
+  
+  # for QALY Feasibility models
+      
+      #QALY feasibiliyt models
+      
+      #input$typeOfEndpoint 
+        
+        # QALY feasibility Binary model
+        
+      # natural outcome feasibility models
+      
+    
   })
   
-  observeEvent(input$runFeas, {
-    #  similar code for: feasibility study
-  })
+  ##########################
+  # RECONSIDERATION ACTION BUTTON
+  ##########################
   observeEvent(input$runRec, {
     #  similar code for: reconsideration of evidence
   })
@@ -166,3 +224,6 @@ shinyServer(function(input, output) {
   output$valuePer15KResearchSpend <- renderText({VOIResults$valuePer15KResearchSpend})
   
 })
+
+
+

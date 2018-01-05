@@ -120,7 +120,7 @@ shinyUI(fluidPage(
                
                # Display if: typeOfOutcome == "netHealth"
                numericInput("cost_t2", "Additional costs of treatment 2",
-                            value = NA, min = NA, max = NA, step = 10,
+                            value = 100, min = NA, max = NA, step = 10,
                             width = '50%'),
                
                # Display if: typeOfOutcome == "netHealth"
@@ -212,7 +212,7 @@ shinyUI(fluidPage(
                
                # display if: typeOfEndpoint == binary & typeOfOutcome == "netHealth"
                numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
-                            value = NA, min = NA, max = NA, step = 0.05),
+                            value = 2, min = NA, max = NA, step = 0.05),
                
                
                
@@ -266,7 +266,7 @@ shinyUI(fluidPage(
                             value = 50000, min = 0, max = 10000000, step = 500),
                
                numericInput("costHealthSystem", "Costs of research imposed on health system",
-                            value = NA, min = 0, max = NA, step = 100)
+                            value = 1000000, min = 0, max = NA, step = 100)
                
       ),
       tabPanel("Feasibility", 
