@@ -536,7 +536,7 @@ shinyUI(fluidPage(
 ```
 
 
-**Overall ui layout**
+###Overall ui layout
 
 A tabset format is used in this app as there is a lot of input informaion and output informaiton and the inputs requred depend on the type of analysis required.
 
@@ -786,7 +786,7 @@ p("Full details of the approach used and applied examples using these methods ar
 
 
 
-**Writing text for results**
+### Writing text for results
 
 Text using the reulsts of the analysis must be defined within the server.R function and displayed as blocks in the user interface. For example, in order to dispaly the text "The name of treatment 1 is late PTP" this must be pased together in the renderText function on the server side and then this entire sentence is called using a output variable name. This approach means that the eventual text output must be designted in chunks on the server side, then then chunks must be arranged on the page on the ui side.
 
@@ -810,7 +810,7 @@ ui <- fluidPage(
 
 
 
-**Reactive input names**
+## Reactive input names
 
 This app is required to allow for three different types of primary endpoint: binary, continuous and survival. The relative effect for the first two is required in terms of log odds ratio. The relative effect for the survival endpoint is a log hazard ratio.
 
