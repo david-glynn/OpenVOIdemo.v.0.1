@@ -329,8 +329,8 @@ simDeltaOfOutcomeMatrixContinuous <- function(numberOfTreatments, MCsims,
 ##############################
 # Epidemiology for SURVIVAL outcomes
 #############################
-# only calculates expenential distribution for now!
-#####################################################
+# expenential distribution 
+########
 # results from the link below
 # http://data.princeton.edu/wws509/notes/c7s1.html
 # simulate expected survival duration for t1
@@ -341,18 +341,38 @@ simDeltaOfOutcomeMatrixContinuous <- function(numberOfTreatments, MCsims,
 # beta = scaleParameter = 1/lambda = expected survival duration for t1
 
 
-# test data
-survivalDist <- "exponential" # other option = "weibull"
-scaleParameter <- 20 # aka beta, this is the mean survival time and is equal to 1/lambda
-shapeParameter <- NA # not required for the exponential distribution
-ExpectedSurvival_t1 <- rep(scaleParameter, MCsims)
-mu <- 0
-variance <- 0.2
+# weibull distribution
+####
+# from Collett : modelling survival data in medical research
+# T ~ W(lambda, gamma) 
+# lambda = scaleParameter, gamma = shapeParameter
+# E(T) = scaleParameter^(1/shapeParameter)*gamma(1/shapeParameter + 1)
+# (note the gamma function!)
+# from York modelling course (green book)
+# lambda = scaleParmater = natural hazard = exp(logHazard + logHazardRatio)
+
+
+# test data for exponential 
+# survivalDist <- "exponential" # other option = "weibull", "exponential"
+# scaleParameter_t1 <- 10 # [beta for exponential dist, this is the mean survival time and is equal to 1/lambda]
+# shapeParameter_t1 <- NA # not required for the exponential distribution. sh
+# ExpectedSurvival_t1 <- rep(scaleParameter, MCsims) 
+# mu <- 0
+# variance <- 0.2
+
+# test data for weibull 
+# survivalDist <- "weibull" # other option = "weibull", "exponential"
+# MCsims = 10
+# scaleParameter_t1 <- 10 # aka lambda 
+# shapeParameter_t1 <- 2 # aka gamma
+# mu <- 0
+# variance <- 0.2
 
 # function to simulate the expected survival with a particular treatment
 # for a normal distribution on relative effect, with option of adding other distributions
 
-simDurationNormSurvival <- function(ExpectedSurvival_t1,survivalDist, mu, variance){
+simDurationNormSurvival <- function(ExpectedSurvival_t1,survivalDist, mu, variance,
+                                    scaleParameter_t1, shapeParameter_t1, MCsims){
   
   if(survivalDist == "exponential"){
   # for an exponential survial function
@@ -366,97 +386,127 @@ simDurationNormSurvival <- function(ExpectedSurvival_t1,survivalDist, mu, varian
   }
   
   if(survivalDist == "weibull"){
-  # for weibull
-  print("Distribution not defined yet")
-  }
-  
-  
-}
-
-# test function
-simDurationNormSurvival(ExpectedSurvival_t1 = rep(10, 1000),survivalDist= "weibull", mu = 0, variance = 0.1)
-
-
-# function to simulate the probability of the event with a particular treatment
-# for a HALF normal distribution on relative effect
-simProbOfOutcomeHalfNormBinary <- function(P_t1, direction, variance){
-  
-  if(is.na(direction)){P_tn <- NA} else {  # check that there is a value for direction
+    # for an weibull survial function
+    Hazard_t1 <- scaleParameter_t1 # the hazard function = natural scale
+    LogHazard_t1 <- log(Hazard_t1)
     
-    Odds_t1 <- P_t1 / (1 - P_t1)
-    LO_t1 <- log(Odds_t1)
-    if (direction == "alwaysPositive"){
-      LOR_tn <- rhalfnorm(length(P_t1), theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
-      # draws from a positive halfnormal
-    } else {
-      LOR_tn <- -rhalfnorm(length(P_t1), theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
-      # draws from a negative halfnormal
-    }
-    LO_tn <- LO_t1 + LOR_tn # combine baseline and relative effect and convert back to probability
-    Odds_tn <- exp(LO_tn)
-    Odds_tn / (Odds_tn + 1) # output P_tn a vector of probabilities
+    LogHazardRatio_tn <- rnorm(MCsims, mu, sqrt(variance))
+    scaleParameter_tn <- exp(LogHazard_t1 + LogHazardRatio_tn)
     
+    ExpectedSurvival_tn <- scaleParameter_tn^(1/shapeParameter_t1)*gamma(1/shapeParameter_t1 + 1) # from Collett
+    return(ExpectedSurvival_tn)
   }
   
 }
+
+# test function exponential
+# simDurationNormSurvival(ExpectedSurvival_t1 = rep(10, 1000),survivalDist= "exponential", 
+#                         mu = 0, variance = 0.1, 
+#                         scaleParameter_t1 = NA, shapeParameter_t1 = NA, MCsims = NA)
+
+# test function weibull
+# simDurationNormSurvival(ExpectedSurvival_t1 = rep(10, 1000),survivalDist= "weibull", 
+#                         mu = 0, variance = 0.1, 
+#                         scaleParameter_t1 = 20, shapeParameter_t1 = 2, MCsims = 1000)
 
 
 # test data
-#numberOfTreatments <- 4
-#P_t1 <- rep(0.9, 10)
-#mu_t1 <- 0
-#variance_t1 <- 0.1
-#mu_t2 <- 1
-#variance_t2 <- 100
-#mu_t3 <- 100
-#variance_t3 <- 0.001
-#dist_t1 <- "norm" 
-#direction_t1 <- "alwaysPositive"
-#dist_t2 <- "halfNorm" 
-#direction_t2 <- "alwaysNegative" 
-#dist_t3 <- "norm" 
-#direction_t3 <- "alwaysNegative" 
+# MCsims <- 10
+# survivalDist <- "exponential" # other option = "weibull"
+# scaleParameter_t1 <- 20 # aka beta, this is the mean survival time and is equal to 1/lambda
+# shapeParameter_t1 <- NA # not required for the exponential distribution
+# ExpectedSurvival_t1 <- rep(scaleParameter, MCsims)
+# variance <- 0.2
+# direction <- "alwaysPositive" # takes value "alwaysPositive" or "alwaysNegative"
+
+# function to simulate the probability of the event with a particular treatment
+# for a HALF normal distribution on relative effect
+simDurationHalfNormSurvival <- function(ExpectedSurvival_t1, survivalDist, direction, variance,
+                                        scaleParameter_t1, shapeParameter_t1, MCsims){
+  
+  if(survivalDist == "exponential"){
+    # for an exponential survial function
+    Hazard_t1 <- 1/ExpectedSurvival_t1    # the hazard function = lambda = 1/scaleParameter = 1/expected survival
+    LogHazard_t1 <- log(Hazard_t1)
+    
+    if (direction == "alwaysPositive"){
+      LogHazardRatio_tn <- rhalfnorm(length(ExpectedSurvival_t1), theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
+      # draws from a positive halfnormal
+    } else {
+      LogHazardRatio_tn <- -rhalfnorm(length(ExpectedSurvival_t1), theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
+      # draws from a negative halfnormal
+    }
+    
+    LogHazard_tn <- LogHazard_t1 + LogHazardRatio_tn
+    ExpectedSurvival_tn <- 1/exp(LogHazard_tn) # note: when loghazard is higher => survival is lower!
+    return(ExpectedSurvival_tn)
+  }
+  
+  if(survivalDist == "weibull"){
+    # for weibull
+    Hazard_t1 <- scaleParameter_t1 # the hazard function = natural scale
+    LogHazard_t1 <- log(Hazard_t1)
+    
+    if (direction == "alwaysPositive"){
+      LogHazardRatio_tn <- rhalfnorm(length(ExpectedSurvival_t1), theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
+      # draws from a positive halfnormal
+    } else {
+      LogHazardRatio_tn <- -rhalfnorm(length(ExpectedSurvival_t1), theta =  sd2theta(sqrt(variance)) ) # simulate normal log odds ratio
+      # draws from a negative halfnormal
+    }
+    
+    scaleParameter_tn <- exp(LogHazard_t1 + LogHazardRatio_tn)
+    ExpectedSurvival_tn <- scaleParameter_tn^(1/shapeParameter_t1)*gamma(1/shapeParameter_t1 + 1) # from Collett
+    return(ExpectedSurvival_tn)
+    
+  }
+    
+}
 
 
-#numberOfTreatments =2 
-#MCsims = 100
-#P_t1 =0.5
-#mu_t2=0
-#variance_t2=1
-#dist_t2="norm"
-#direction_t2= NA
-#mu_t3=NA
-#variance_t3=NA
-#dist_t3=NA
-#direction_t3=NA
-#mu_t4=NA 
-#variance_t4=NA
-#dist_t4=NA
-#direction_t4=NA
-#nameOf_t1="1"
-#nameOf_t2="2"
-#nameOf_t3=NA
-#nameOf_t4=NA
-#typeOfOutcome="benefit"
-#incidence=1000
-#timeInformation=15
-#discountRate=3.5 
-#durationOfResearch= 4
-#costResearchFunder=1000000
-#MCD_t2=0
-#MCD_t3=NA
-#MCD_t4=NA
-#utilisation_t1=100
-#utilisation_t2=0
-#utilisation_t3=NA
-#utilisation_t4=NA
-#P_t1 <- rep(P_t1, MCsims)
+# test function exponential
+# simDurationHalfNormSurvival(ExpectedSurvival_t1 = rep(20, 1000), survivalDist= "exponential",
+#                             direction = "alwaysPositive", variance = 0.1,
+#                             scaleParameter_t1 = NA, shapeParameter_t1 = NA, MCsims = NA)
 
+# test function weibull
+# simDurationHalfNormSurvival(ExpectedSurvival_t1 = rep(20, 1000), survivalDist= "weibull",
+#                             direction = "alwaysPositive", variance = 0.1,
+#                             scaleParameter_t1 = 4, shapeParameter_t1 = 0.5, MCsims = 1000)
+
+
+
+
+
+# test data
+# numberOfTreatments <- 4
+# scaleParameter <- 20 # aka beta, this is the mean survival time and is equal to 1/lambda
+# shapeParameter_t1 <- NA # not required for the exponential distribution
+# ExpectedSurvival_t1 <- rep(scaleParameter, MCsims)
+# survivalDist <- "exponential" # other option = "weibull"
+# mu_t1 <- 0
+# variance_t1 <- 0.1
+# dist_t1 <- "norm"
+# direction_t1 <- "alwaysPositive"
+# mu_t2 <- 1
+# variance_t2 <- 0.2
+# dist_t2 <- "halfNorm"
+# direction_t2 <- "alwaysNegative"
+# mu_t3 <- 100
+# variance_t3 <- 0.01
+# dist_t3 <- "norm"
+# direction_t3 <- "alwaysNegative"
+# mu_t4 <- 100
+# variance_t4 <- 0.001
+# dist_t4 <- "norm"
+# direction_t4 <- "alwaysNegative"
 
 # master function which uses the above functions to create the ExpectedSurvival_t matrix
 # requires 
+# survival distribution constrained to be the same for all treatments
 
-simDurationMatrixSurvival <- function(numberOfTreatments, ExpectedSurvival_t1,
+simDurationMatrixSurvival <- function(numberOfTreatments, ExpectedSurvival_t1, survivalDist,
+                                      scaleParameter_t1, shapeParameter_t1, MCsims,
                                          mu_t2, variance_t2, dist_t2, direction_t2,
                                          mu_t3, variance_t3, dist_t3, direction_t3,
                                          mu_t4, variance_t4, dist_t4, direction_t4
@@ -464,56 +514,61 @@ simDurationMatrixSurvival <- function(numberOfTreatments, ExpectedSurvival_t1,
   
   # simulate the probabilities for t2
   ExpectedSurvival_t2 <- if (dist_t2 == "norm") {
-    simDurationNormSurvival(ExpectedSurvival_t1, mu_t2, variance_t2)
+    simDurationNormSurvival(ExpectedSurvival_t1, survivalDist, mu_t2, variance_t2,
+                            scaleParameter_t1, shapeParameter_t1, MCsims)
   } else {
-    simDurationHalfNormSurvival(ExpectedSurvival_t1, direction_t2, variance_t2)
+    simDurationHalfNormSurvival(ExpectedSurvival_t1, survivalDist, direction_t2, variance_t2,
+                                scaleParameter_t1, shapeParameter_t1, MCsims)
   }
   
-  # simulate the probabilities for t3
-  P_t3 <- if(numberOfTreatments <= 2 ) { # if there is only 2 treatments then this is given a vector of NAs
-    rep(NA, length(P_t1))
+  # simulate the duration for t3
+  ExpectedSurvival_t3 <- if(numberOfTreatments <= 2 ) { # if there is only 2 treatments then this is given a vector of NAs
+    rep(NA, length(ExpectedSurvival_t1))
   } else {
     
     if (dist_t3 == "norm") {
-      simProbOfOutcomeNormBinary(P_t1, mu_t3, variance_t3)
+      simDurationNormSurvival(ExpectedSurvival_t1, survivalDist, mu_t3, variance_t3,
+                              scaleParameter_t1, shapeParameter_t1, MCsims)
     } else {
-      simProbOfOutcomeHalfNormBinary(P_t1, direction_t3, variance_t3)
+      simDurationHalfNormSurvival(ExpectedSurvival_t1, survivalDist, direction_t3, variance_t3,
+                                  scaleParameter_t1, shapeParameter_t1, MCsims)
     }
     
   }
   
-  # simulate the probabilities for t4
-  P_t4 <- if(numberOfTreatments <= 3 ) { # if there is only 2 treatments then this is given a vector of NAs
-    rep(NA, length(P_t1))
+  # simulate the duration for t4
+  ExpectedSurvival_t4 <- if(numberOfTreatments <= 3 ) { # if there is only 2 treatments then this is given a vector of NAs
+    rep(NA, length(ExpectedSurvival_t1))
   } else {
     
     if (dist_t4 == "norm") {
-      simProbOfOutcomeNormBinary(P_t1, mu_t4, variance_t4)
+      simDurationNormSurvival(ExpectedSurvival_t1, survivalDist, mu_t4, variance_t4,
+                              scaleParameter_t1, shapeParameter_t1, MCsims)
     } else {
-      simProbOfOutcomeHalfNormBinary(P_t1, direction_t4, variance_t4)
+      simDurationHalfNormSurvival(ExpectedSurvival_t1, survivalDist, direction_t4, variance_t4,
+                                  scaleParameter_t1, shapeParameter_t1, MCsims)
     }
     
   }
   
   # add all vectors (P_t1 , P_t2..) to the matrix P_t
   # and return this
-  P_t <- matrix(c(P_t1, P_t2, P_t3, P_t4), ncol = 4)
+  ExpectedSurvival_t <- matrix(c(ExpectedSurvival_t1, ExpectedSurvival_t2, ExpectedSurvival_t3, ExpectedSurvival_t4), ncol = 4)
   
-  P_t
+  ExpectedSurvival_t
   
 }
 
 # test simulation
-#simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
+# simDurationMatrixSurvival(numberOfTreatments = 3, ExpectedSurvival_t1 = rep(30, 10),survivalDist = "exponential",
+#                           scaleParameter_t1 = 30, shapeParameter_t1 = 1, MCsims = 10,
 #                        mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-#                        mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
+#                        mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysNegative",
 #                        mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
 #                        )
 
-
-
-
-
+# problem! shapeParameter_t1 = 1 with weibull does not equal exponential!
+# remember: higher log hazard => lower duration of survial
 
 
 
@@ -534,6 +589,7 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
   
   return(output)
 }
+
 
 
 # # test data for NBtoEVPIResults
