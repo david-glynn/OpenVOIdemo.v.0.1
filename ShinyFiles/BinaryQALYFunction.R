@@ -72,7 +72,7 @@
 
 ####################################
 
-
+# test data
 # numberOfTreatments =2
 # MCsims = 100
 # P_t1 =0.5
@@ -111,19 +111,82 @@
 # cost_t2 = 2000
 # cost_t3 = NA
 # cost_t4 = NA
+# costEvent_t1 = 300
+# costEvent_t2 = 200
+# costEvent_t3 = NA
+# costEvent_t4 = NA
+# costNotEvent_t1 = 0
+# costNotEvent_t2 = 400
+# costNotEvent_t3 = NA
+# costNotEvent_t4 =NA
+# tCostsDependOnEvent = FALSE
+
+
+# test data (the same as) P6
+# numberOfTreatments =2 
+# MCsims = 10000
+# P_t1 =0.95
+# INBBinaryEvent = 9.5
+# mu_t2=0
+# variance_t2=0.25
+# dist_t2="norm"
+# direction_t2= NA
+# mu_t3=NA
+# variance_t3=NA
+# dist_t3=NA
+# direction_t3=NA
+# mu_t4=NA
+# variance_t4=NA
+# dist_t4=NA
+# direction_t4=NA
+# nameOf_t1="continual treatment"
+# nameOf_t2="withdrawal"
+# nameOf_t3=NA
+# nameOf_t4=NA
+# tCostsDependOnEvent = FALSE
+# cost_t1 = 1000
+# cost_t2 = 91000
+# cost_t3 = NA
+# cost_t4 = NA
+# costEvent_t1 = 3100000
+# costEvent_t2 = 3100000
+# costEvent_t3 = NA
+# costEvent_t4 = NA
+# costNotEvent_t1 = 7300000
+# costNotEvent_t2= 4000000
+# costNotEvent_t3=NA
+# costNotEvent_t4 = NA
+# typeOfOutcome="benefit"
+# incidence=26.26
+# timeInformation=10
+# discountRate=3.5 
+# durationOfResearch= 4
+# costResearchFunder=855403
+# MCD_t2=0
+# MCD_t3=NA
+# MCD_t4=NA
+# utilisation_t1=100
+# utilisation_t2=0
+# utilisation_t3=NA
+# utilisation_t4=NA
+# costHealthSystem = 9899380
+# k = 13000
 
 BinaryQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1, INBBinaryEvent,
-                                        mu_t2, variance_t2, dist_t2, direction_t2,
-                                        mu_t3, variance_t3, dist_t3, direction_t3,
-                                        mu_t4, variance_t4, dist_t4, direction_t4,
-                                        nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
-                                        cost_t2, cost_t3, cost_t4,
-                                        typeOfOutcome, incidence,timeInformation,
-                                        discountRate ,durationOfResearch,costResearchFunder,
-                                        MCD_t2, MCD_t3, MCD_t4,
-                                        utilisation_t1, utilisation_t2,
-                                        utilisation_t3, utilisation_t4, 
-                                        costHealthSystem, k){
+                                    mu_t2, variance_t2, dist_t2, direction_t2,
+                                    mu_t3, variance_t3, dist_t3, direction_t3,
+                                    mu_t4, variance_t4, dist_t4, direction_t4,
+                                    nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                    tCostsDependOnEvent, 
+                                    cost_t1, cost_t2, cost_t3, cost_t4,
+                                    costEvent_t1,costEvent_t2,costEvent_t3,costEvent_t4,
+                                    costNotEvent_t1,costNotEvent_t2,costNotEvent_t3,costNotEvent_t4,
+                                    typeOfOutcome, incidence,timeInformation,
+                                    discountRate ,durationOfResearch,costResearchFunder,
+                                    MCD_t2, MCD_t3, MCD_t4,
+                                    utilisation_t1, utilisation_t2,
+                                    utilisation_t3, utilisation_t4, 
+                                    costHealthSystem, k){
   
   # simulate probabilities of event
   #########################
@@ -140,17 +203,25 @@ BinaryQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1, INBBinary
   # create Binary QALY economic model from probability of event
   #########################
 
-  NB_t  <- P_t*INBBinaryEvent # multiply every element by INBBinaryEvent (1st step in converting to NB)
+  if(tCostsDependOnEvent == "No"){ # if treatment costs do not depend on whether the event occurs or not
   
-  addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-  NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    NB_t  <- P_t*INBBinaryEvent # multiply every element by INBBinaryEvent (1st step in converting to NB)
+    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    # subtract the costs from each column in the vector.
+    addCost_t <- c(-cost_t1/k ,-cost_t2/k, -cost_t3/k, -cost_t4/k) 
+    NB_t  <- NB_t  + rep(addCost_t, each = MCsims) # each column now represents simulations of the NB of each treatment
   
-  # subtract the costs from each column in the vector.
-  
-  addCost_t <- c(0 ,-cost_t2/k, -cost_t3/k, -cost_t4/k) 
-  NB_t  <- NB_t  + rep(addCost_t, each = MCsims)
-  
-  # each column now represents simulations of the NB of each treatment
+  } else { # if treatment costs DO depend on whether the event occurs or not
+    
+    costEvent_t <- c(costEvent_t1,costEvent_t2,costEvent_t3,costEvent_t4)
+    costNotEvent_t <- c(costNotEvent_t1,costNotEvent_t2,costNotEvent_t3,costNotEvent_t4)
+    # for each row of P_t calculate the QALY benefit of the event occuring minus the costs associated with the event/not event
+    outputNB <- apply(P_t, 1, function(x)
+      x*INBBinaryEvent + (x*-costEvent_t/k) + ((1-x)*-costNotEvent_t/k))
+    NB_t <- t(outputNB) # need to transpose output to get in correct NB_t matrix form
+    
+  }
   
   # Calculate outputs from NB matrix
   ######################################
@@ -172,18 +243,21 @@ BinaryQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1, INBBinary
 }
 
 
-
-# test function
-# resultsholder <- BinaryQALYFunction.v.0.1(numberOfTreatments =2 , MCsims = 1000, P_t1 =0.5, INBBinaryEvent = 2,
-#                                             mu_t2=0, variance_t2=1, dist_t2="norm", direction_t2= NA,
-#                                             mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
-#                                             mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
-#                                             nameOf_t1="1",nameOf_t2="2", nameOf_t3=NA, nameOf_t4=NA,
-#                                             cost_t2 = 91000, cost_t3 = NA, cost_t4 = NA,
-#                                             typeOfOutcome="benefit", incidence=1000,timeInformation=15,
-#                                             discountRate=3.5 ,durationOfResearch= 4,costResearchFunder=1000000,
-#                                             MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
-#                                             utilisation_t1=100, utilisation_t2=0,
-#                                             utilisation_t3=NA, utilisation_t4=NA,
-#                                             costHealthSystem = 100000, k = 13000)
+BinaryQALYFunction <- BinaryQALYFunction.v.0.1
+#test function
+# resultsholder <- BinaryQALYFunction(numberOfTreatments =2 , MCsims = 10000, P_t1 =0.95, INBBinaryEvent = 9.5,
+#                                     mu_t2=0, variance_t2=0.25, dist_t2="norm", direction_t2= NA,
+#                                     mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
+#                                     mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
+#                                     nameOf_t1="continual treatment",nameOf_t2="withdrawal", nameOf_t3=NA, nameOf_t4=NA,
+#                                     tCostsDependOnEvent = FALSE,
+#                                     cost_t1 = 100, cost_t2 = 1000, cost_t3 = NA, cost_t4 = NA,
+#                                     costEvent_t1 = 3100000,costEvent_t2 = 3100000,costEvent_t3 = NA,costEvent_t4 = NA,
+#                                     costNotEvent_t1 = 7300000,costNotEvent_t2= 4000000,costNotEvent_t3=NA,costNotEvent_t4 = NA,
+#                                     typeOfOutcome="benefit", incidence=26.26,timeInformation=10,
+#                                     discountRate=3.5 ,durationOfResearch= 4,costResearchFunder=855403,
+#                                     MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
+#                                     utilisation_t1=100, utilisation_t2=0,
+#                                     utilisation_t3=NA, utilisation_t4=NA,
+#                                     costHealthSystem = 9899380, k = 13000)
 

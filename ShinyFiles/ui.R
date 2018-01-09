@@ -16,7 +16,7 @@ shinyUI(fluidPage(
     tabPanel("Inputs", tabsetPanel(
       tabPanel("General Inputs", 
                
-               ### High level inputs
+               ### High level inputs which control what is dipalyed to user
                
                selectInput(inputId = "typeOfEndpoint", label = "Type of primary endpoint", 
                            choices = c("Binary" = "binary", 
@@ -30,8 +30,14 @@ shinyUI(fluidPage(
                                        "Net health effect (QALYs)" = "netHealth"),
                            selected = "Net health effect (QALYs)"), # benefit , harm, net health effect
                
-               # automatically display QALYs if typeOfOutcome == netHealth
-               textInput("nameOfOutcome", "Name of outcome"), 
+               # display if: typeOfEndpoint == binary & typeOfOutcome == "netHealth"
+               radioButtons(inputId = "tCostsDependOnEvent", label = "Do the treatment costs depend on the primary outcome?", 
+                            choices = c("Yes" = "Yes", 
+                                        "No" = "No"),
+                            selected = "No"), 
+               
+               numericInput("numberOfTreatments", "How many treatments are being investigated?",
+                            value = 2, min = 2, max = 4),
                
                selectInput(inputId = "typeOfResearch", label = "Type of research", 
                            choices = c("RCT" = "RCT", 
@@ -39,9 +45,12 @@ shinyUI(fluidPage(
                                        "Reconsideration of evidence" = "reconsider"),
                            selected = "RCT"),
                
-               numericInput("numberOfTreatments", "How many treatments are being investigated?",
-                            value = 2, min = 2, max = 4),
+               ### High level inputs
                
+               # display if: typeOfOutcome != netHealth
+               # automatically display QALYs if typeOfOutcome == netHealth
+               textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks"), 
+              
                textInput("nameOf_t1", "Name of treatment 1 (optional)", 
                          value = "late PTP"),
                
@@ -93,6 +102,14 @@ shinyUI(fluidPage(
                ### Low level treatment inputs (in the order t2, t3, t4)
                # if typeOfEndpoint == survival rename inputs as log hazard ratios , not log odds ratios
                
+               ## treatment 1
+               
+               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == FALSE
+               numericInput("cost_t1", "Lifetime treatment costs associated with treatment 1",
+                            value = 100, min = NA, max = NA, step = 10,
+                            width = '50%'),
+               
+               
                ## treatment 2
                
                # display if: typeOfEndpoint != successFail
@@ -117,8 +134,8 @@ shinyUI(fluidPage(
                                        "Always negative" = "alwaysNegative"),
                            selected = "alwaysPositive"),
                
-               # Display if: typeOfOutcome == "netHealth"
-               numericInput("cost_t2", "Additional costs of treatment 2",
+               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == FALSE
+               numericInput("cost_t2", "Lifetime treatment costs associated with treatment 2",
                             value = 100, min = NA, max = NA, step = 10,
                             width = '50%'),
                
@@ -156,8 +173,8 @@ shinyUI(fluidPage(
                                        "Always negative" = "alwaysNegative"),
                            selected = "alwaysPositive"),
                
-               # Display if: numberOfTreatments >= 3 & typeOfOutcome == "netHealth"
-               numericInput("cost_t3", "Additional costs of treatment 3",
+               # Display if: numberOfTreatments >= 3 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == FALSE
+               numericInput("cost_t3", "Lifetime treatment costs associated with treatment 3",
                             value = NA, min = NA, max = NA, step = 10,
                             width = '50%'),
                
@@ -175,24 +192,26 @@ shinyUI(fluidPage(
                                        "Half Normal" = "halfNorm"),
                            selected = "Normal"),
                
-               # display if: numberOfTreatments >= 4 & dist_t2 == "norm" & typeOfEndpoint != successFail
+               # display if: numberOfTreatments >= 4 & dist_t2 == "norm" 
+               # change text to mean of log hazard ratio if typeOfEndpoint == survival
                numericInput("mu_t4", "Mean log odds ratio for treatment 4",
                             value = 0, min = NA, max = NA, step = 0.05,
                             width = '50%'),
                
-               # display if: numberOfTreatments >= 4 & dist_t2 == "norm" & typeOfEndpoint != successFail
+               # display if: numberOfTreatments >= 4 & dist_t2 == "norm" 
+               # change text to variance of log hazard ratio if typeOfEndpoint == survival
                numericInput("variance_t4", "Variance of log odds ratio for treatment 4",
                             value = 0.25, min = NA, max = NA, step = 0.05,
                             width = '50%'),
                
-               # display if: numberOfTreatments >= 4 & dist_t2 == "halfNorm" & typeOfEndpoint != successFail
+               # display if: numberOfTreatments >= 4 & dist_t2 == "halfNorm" 
                selectInput("direction_t4", label = "Direction of distribution for treatment 4", 
                            choices = c("Always positive" = "alwaysPositive", 
                                        "Always negative" = "alwaysNegative"),
                            selected = "alwaysPositive"),
                
-               # Display if: numberOfTreatments >= 4 & typeOfOutcome == "netHealth"
-               numericInput("cost_t4", "Additional costs of treatment 4",
+               # Display if: numberOfTreatments >= 4 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == FALSE
+               numericInput("cost_t4", "Lifetime treatment costs associated with treatment 4",
                             value = NA, min = NA, max = NA, step = 10,
                             width = '50%'),
                
@@ -203,10 +222,10 @@ shinyUI(fluidPage(
                
                
                
-               ### Binary endpoint inputs
+               ### Extra Binary endpoint inputs
                
                # display if: typeOfEndpoint == binary
-               numericInput("P_t1", "Probability of outcome with treatment 1",
+               numericInput("P_t1", "Probability of outcome with treatment 1 (Baseline risk)",
                             value = 0.5, min = 0, max = 1, step = 0.05),
                
                # display if: typeOfEndpoint == binary & typeOfOutcome == "netHealth"
@@ -214,8 +233,7 @@ shinyUI(fluidPage(
                             value = 2, min = NA, max = NA, step = 0.05),
                
                
-               
-               ### Continuous endpoint inputs
+               ### Extra Continuous endpoint inputs
                
                # display if: typeOfEndpoint == continuous & typeOfOutcome == "netHealth"
                numericInput("INBContinEvent", 
@@ -223,7 +241,7 @@ shinyUI(fluidPage(
                             value = 0.05, min = NA, max = NA, step = 0.05),
                
                
-               ### Survival endpoint inputs
+               ### Extra Survival endpoint inputs
                
                # use relative effect inputs above - interpret as describing distribiont of log hazard ratios
                
@@ -240,9 +258,10 @@ shinyUI(fluidPage(
                numericInput("shapeParameter_t1", "Shape parameter for treatment 1 (natural scale)",
                             value = 1.1, min = 0, max = NA, step = 0.1),
              
+               # BUG!! If this has NA value then the app crashes
                # display if: typeOfEndpoint == survival & typeOfOutcome == "netHealth"
                numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
-                            value = NA, min = NA, max = NA, step = 0.05)
+                            value = 0.5, min = NA, max = NA, step = 0.05)
                
                
                ### success or failure endpoint inputs

@@ -50,6 +50,7 @@
 # utilisation_t4=NA
 # costHealthSystem = 1000000
 # k = 13000
+# cost_t1 = 200
 # cost_t2 = 2000
 # cost_t3 = NA
 # cost_t4 = NA
@@ -61,7 +62,7 @@ SurvivalQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims,
                                           mu_t3, variance_t3, dist_t3, direction_t3,
                                           mu_t4, variance_t4, dist_t4, direction_t4,
                                           nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
-                                          cost_t2, cost_t3, cost_t4,
+                                          cost_t1, cost_t2, cost_t3, cost_t4,
                                           typeOfOutcome, incidence,timeInformation,
                                           discountRate ,durationOfResearch,costResearchFunder,
                                           MCD_t2, MCD_t3, MCD_t4,
@@ -97,7 +98,7 @@ SurvivalQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims,
   
   # subtract the costs from each column in the vector.
   
-  addCost_t <- c(0 ,-cost_t2/k, -cost_t3/k, -cost_t4/k) 
+  addCost_t <- c(-cost_t1/k ,-cost_t2/k, -cost_t3/k, -cost_t4/k) 
   NB_t  <- NB_t  + rep(addCost_t, each = MCsims)
   
   # each column now represents simulations of the NB of each treatment
@@ -133,7 +134,7 @@ SurvivalQALYFunction <- SurvivalQALYFunction.v.0.1
 #                                                  mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
 #                                                  mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
 #                                                  nameOf_t1="1",nameOf_t2="2", nameOf_t3=NA, nameOf_t4=NA,
-#                                                  cost_t2 = 1000, cost_t3 = NA, cost_t4 = NA,
+#                                                  cost_t1 = 1000, cost_t2 = 1000, cost_t3 = NA, cost_t4 = NA,
 #                                                  typeOfOutcome="benefit", incidence=1000,timeInformation=15,
 #                                                  discountRate=3.5 ,durationOfResearch= 4,costResearchFunder=1000000,
 #                                                  MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
