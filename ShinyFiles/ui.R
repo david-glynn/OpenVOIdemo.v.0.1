@@ -21,8 +21,7 @@ shinyUI(fluidPage(
                selectInput(inputId = "typeOfEndpoint", label = "Type of primary endpoint", 
                            choices = c("Binary" = "binary", 
                                        "Continuous" = "continuous", 
-                                       "Survival" = "survival",
-                                       "Treatment success" = "successFail"),
+                                       "Survival" = "survival"),
                            selected = "Binary"), 
                
                selectInput(inputId = "typeOfOutcome", label = "Type of outcome", 
@@ -226,34 +225,42 @@ shinyUI(fluidPage(
                
                ### Survival endpoint inputs
                
-               # display if: typeOfEndpoint == survival
-               # see notes in notebook
-               numericInput("LogHazard_t1", "Log hazard of event with treatment 1",
-                            value = NA, min = 0, max = 1, step = 0.05),
-               
                # use relative effect inputs above - interpret as describing distribiont of log hazard ratios
                
+               selectInput(inputId = "survivalDist", label = "Type of survival distribution", 
+                           choices = c("Exponential" = "exponential", 
+                                       "Weibull" = "weibull"),
+                           selected = "exponential"), 
+               
+               # display if: typeOfEndpoint == survival
+               numericInput("scaleParameter_t1", "Scale parameter for treatment 1 (natural scale)",
+                            value = 5, min = 0, max = NA, step = 1),
+               
+               # display if: typeOfEndpoint == survival & survivalDist == "weibull"
+               numericInput("shapeParameter_t1", "Shape parameter for treatment 1 (natural scale)",
+                            value = 1.1, min = 0, max = NA, step = 0.1),
+             
                # display if: typeOfEndpoint == survival & typeOfOutcome == "netHealth"
                numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
-                            value = NA, min = NA, max = NA, step = 0.05),
+                            value = NA, min = NA, max = NA, step = 0.05)
                
                
                ### success or failure endpoint inputs
                
                # display if: typeOfEndpoint == successFail
-               numericInput("PSuccess_t1", "Probability of treatment 1 working",
-                            value = NA, min = 0, max = 1, step = 0.05),
+               #numericInput("PSuccess_t1", "Probability of treatment 1 working",
+              #              value = NA, min = 0, max = 1, step = 0.05),
                
                # display if: typeOfEndpoint == successFail
-               numericInput("PSuccess_t2", "Probability of treatment 2 working",
-                            value = NA, min = 0, max = 1, step = 0.05),
+               #numericInput("PSuccess_t2", "Probability of treatment 2 working",
+                #            value = NA, min = 0, max = 1, step = 0.05),
                
                # dispaly if typeOfEndpoint == successFail & 3 / 4 treatments
                # PSuccess_t3, PSuccess_t4
                
                # display if: typeOfEndpoint == successFail & typeOfOutcome == "netHealth"
-               numericInput("INBTreatmentSuccess", "Net health effect of treatment success (in QALYs)",
-                            value = NA, min = NA, max = NA, step = 0.05)
+               #numericInput("INBTreatmentSuccess", "Net health effect of treatment success (in QALYs)",
+              #              value = NA, min = NA, max = NA, step = 0.05)
                
                
       ),

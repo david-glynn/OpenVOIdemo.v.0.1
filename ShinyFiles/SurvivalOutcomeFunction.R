@@ -117,12 +117,13 @@ SurvivalOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims,
   
 }
 
-
+# assign this model to the generic name of the function
+SurvivalOutcomeFunction <- SurvivalOutcomeFunction.v.0.1
 
 # test function
-# resultsholder <- SurvivalOutcomeFunction.v.0.1(numberOfTreatments =2 , MCsims = 1000,
+# resultsholder <- SurvivalOutcomeFunction(numberOfTreatments =2 , MCsims = 1000,
 #                                                  survivalDist = "exponential",
-#                                                  scaleParameter_t1 = 10,shapeParameter_t1 = 1, 
+#                                                  scaleParameter_t1 = 10,shapeParameter_t1 = 1,
 #                                                  mu_t2=0, variance_t2=1, dist_t2="norm", direction_t2= NA,
 #                                                  mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
 #                                                  mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
@@ -132,4 +133,6 @@ SurvivalOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims,
 #                                                  MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
 #                                                  utilisation_t1=100, utilisation_t2=0,
 #                                                  utilisation_t3=NA, utilisation_t4=NA)
+
+
 

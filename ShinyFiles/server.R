@@ -16,6 +16,7 @@ source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/Shin
 source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
 source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/ContinuousOutcomeFunction.R", local = TRUE)
 source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/ContinuousQALYFunction.R", local = TRUE)
+source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SurvivalOutcomeFunction.R", local = TRUE)
 
 
 # relative paths for publishing in shinyapps.io
@@ -24,6 +25,7 @@ source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/Shin
 #source("SupplementaryFunctions.R", local = TRUE)
 #source("ContinuousOutcomeFunction.R", local = TRUE)
 #source("ContinuousQALYFunction.R", local = TRUE)
+#source("SurvivalOutcomeFunction.R", local = TRUE)
 
 
 
@@ -172,6 +174,41 @@ shinyServer(function(input, output) {
                                     utilisation_t3=input$utilisation_t3 ,
                                     utilisation_t4=input$utilisation_t4 )
       })}
+    
+    # survival natural RCT
+    ########################
+    if(input$typeOfOutcome != "netHealth" & input$typeOfEndpoint == "survival")
+    { # start code 
+      
+      resultsHolder <- reactive({
+        # Function for Binary RCT natural outcome
+        SurvivalOutcomeFunction(numberOfTreatments = input$numberOfTreatments , 
+                                        MCsims = input$MCsims, 
+                                        survivalDist = input$survivalDist,
+                                        scaleParameter_t1 = input$scaleParameter_t1, 
+                                        shapeParameter_t1 = input$shapeParameter_t1,
+                                        mu_t2=input$mu_t2, variance_t2=input$variance_t2 ,
+                                        dist_t2=input$dist_t2 , direction_t2= input$direction_t2,
+                                        mu_t3=input$mu_t3 , variance_t3=input$variance_t3 ,
+                                        dist_t3=input$dist_t3 , direction_t3=input$direction_t3 ,
+                                        mu_t4=input$mu_t4 , variance_t4=input$variance_t4 ,
+                                        dist_t4=input$dist_t4 , direction_t4=input$direction_t4 ,
+                                        nameOf_t1=input$nameOf_t1 ,nameOf_t2=input$nameOf_t2 ,
+                                        nameOf_t3=input$nameOf_t3 , nameOf_t4=input$nameOf_t4 ,
+                                        typeOfOutcome=input$typeOfOutcome ,
+                                        incidence=input$incidence,
+                                        timeInformation=input$timeInformation ,
+                                        discountRate=input$discountRate  ,
+                                        durationOfResearch= input$durationOfResearch,
+                                        costResearchFunder=input$costResearchFunder ,
+                                        MCD_t2=input$MCD_t2 , MCD_t3=input$MCD_t3 ,
+                                        MCD_t4=input$MCD_t4 ,
+                                        utilisation_t1=input$utilisation_t1 ,
+                                        utilisation_t2=input$utilisation_t2 ,
+                                        utilisation_t3=input$utilisation_t3 ,
+                                        utilisation_t4=input$utilisation_t4 )
+      })}
+    
     
     # assign results for all RCT models
     VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
