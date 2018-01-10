@@ -5,6 +5,7 @@
 ###############################################################################
 library(fdrtool) # required for halfnormal simulations
 
+options(scipen = 999) # turn off scientific notation
 
 
 ##############################
@@ -578,6 +579,8 @@ simDurationMatrixSurvival <- function(numberOfTreatments, ExpectedSurvival_t1, s
 ############################
 verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInformation){
   
+  discountRate <- discountRate/100 # convert from 3.5 to 0.035
+  
   #                                        time end                time start  
   PopTotal <- (incidence/-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*0))
   popDuringResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*durationOfResearch) - exp(-discountRate*0))
@@ -652,8 +655,6 @@ NBtoEVPIResults <- function(NB_t,
   utilisation_t3 <- utilisation_t1/100
   utilisation_t4 <- utilisation_t1/100
   Utilisation_t <- c(utilisation_t1, utilisation_t2, utilisation_t3, utilisation_t4)
-  discountRate <- discountRate/100
-  
   
   # expected outcome with each treatment (uninformed prior)
   ENB_t  <- apply(NB_t , 2, mean)

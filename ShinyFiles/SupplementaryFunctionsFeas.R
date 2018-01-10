@@ -1,21 +1,33 @@
 #####################
 # Supplementary functions for Feasibility studies
 ######################
+options(scipen = 999) # turn off scientific notation
 
 
 ############################
 # feasibility population function - calculates the population numbers required for feasibility analysis
 ############################
-# NOTE: there might actually be bugs with this!!!
-# I made a more robust function somewhere else!
-feasibilityPop <- function(incidence, discountRate, durationOfResearchPilot, durationOfResearchDefinitive, timeInformation){
+# works well but tiny leftover when result should be zero : -4.656613e-10
+# note discount rate converted 
+
+feasibilityPop <- function(incidence, discountRate, durationOfResearchDefinitive, timeInformation, durationOfResearchFeas){
+  
+  discountRate <- discountRate/100 # convert from 3.5 to 0.035
   
   #                                        time end                time start  
   PopTotal <- (incidence/-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*0))
-  PopDuringFeasResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*durationOfResearchPilot) - exp(-discountRate*0))
-  PopDuringDefinitiveResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*(durationOfResearchPilot+durationOfResearchDefinitive)) - exp(-discountRate*durationOfResearchPilot))
-  PopAfterDefinitiveResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*(durationOfResearchPilot+durationOfResearchDefinitive)))
   
+  durationOfResearchFeas_adj <- ifelse(durationOfResearchFeas < timeInformation, durationOfResearchFeas, timeInformation )  # need to make sure the delay is not longer than timeInformation
+  PopDuringFeasResearch <- (incidence/-discountRate) * (exp(-discountRate*durationOfResearchFeas_adj) - exp(-discountRate*0))
+  
+  durationOfResearchDefinitive_end_adj <- ifelse(durationOfResearchFeas_adj + durationOfResearchDefinitive > timeInformation, 
+                                  timeInformation,
+                                  durationOfResearchFeas_adj + durationOfResearchDefinitive)
+  
+  PopDuringDefinitiveResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*durationOfResearchDefinitive_end_adj) - exp(-discountRate*durationOfResearchFeas_adj))
+  
+  
+  PopAfterDefinitiveResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*durationOfResearchDefinitive_end_adj))
   
   output <- list(PopTotal = PopTotal,
                  PopDuringFeasResearch = PopDuringFeasResearch,
@@ -25,74 +37,66 @@ feasibilityPop <- function(incidence, discountRate, durationOfResearchPilot, dur
   return(output)
 }
 
+# test feasibilityPop funtion
+# pops <- feasibilityPop(incidence =  355000*0.73 ,
+#             timeInformation =  5   ,
+#             discountRate =  0.035,
+#             durationOfResearchDefinitive =  3,
+#             durationOfResearchFeas = 6)
+# pops$PopTotal - pops$PopDuringFeasResearch - pops$PopDuringDefinitiveResearch - pops$PopAfterDefinitiveResearch
 
-# Population calculations
 
 
 
-# # test data for NBtoEVPIResults
-# nameOf_t1 <- "late PTP"
-# nameOf_t2 <- "early PTP"
-# nameOf_t3 <- "treatment 3"
-# nameOf_t4 <- "treatment 4"
-# typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
-# incidence = 8000 # was Incidence
-# timeInformation  = 15 # Time_info  = 15
-# discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
-# costResearchFunder = 882177 #Cost_research_funder =  882177
-# durationOfResearch = 3  # Time_research = 3
-# utilisation_t1 = 0.5 # check these sum to 1. 
-# utilisation_t2 = 0.5
-# utilisation_t3 = 0
-# utilisation_t4 = NA
-# 
-# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
-#                           mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-#                           mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
-#                           mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
-#                           )
-# 
-# costHealthSystem = 100000 # **note this!
-# k = 13000 # **note this
-# 
-# 
 
-# failed!
-#testData_NBtoEVPIResults <- list(nameOf_t1 <- "late PTP",nameOf_t2 <- "early PTP",nameOf_t3 <- "treatment 3"
-#                                 ,nameOf_t4 <- "treatment 4",typeOfOutcome <- "benefit" ,incidence = 8000 # was Incidence
-#                                 ,timeInformation  = 15 ,discountRate = 3.5  ,costResearchFunder = 882177 #Cost_research_funder =  882177
-#                                 ,durationOfResearch = 3  ,utilisation_t1 = 0.5 ,utilisation_t2 = 0.5
-#                                 ,utilisation_t3 = 0,utilisation_t4 = NA
-#                                 ,NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
-#                                                                       mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-#                                                                       mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
-#                                                                       mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA)
-#                                 ,costHealthSystem = NA ,k = NA )
-
+# # test data for NBtoEVPIResultsFeas
+nameOf_t1 <- "late PTP"
+nameOf_t2 <- "early PTP"
+nameOf_t3 <- "treatment 3"
+nameOf_t4 <- "treatment 4"
+typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
+incidence = 8000 # was Incidence
+timeInformation  = 15 # Time_info  = 15
+discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
+costResearchFunderFeas = 100000
+costResearchFunderDefinitive = 882177 #Cost_research_funder =  882177
+durationOfResearchDefinitive = 3 #durationOfResearch = 3  # Time_research = 3
+durationOfResearchFeas = 1
+utilisation_t1 = 50 # check these sum to 100***.
+utilisation_t2 = 50
+utilisation_t3 = 0
+utilisation_t4 = NA
+NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
+                          mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+                          mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
+                          mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
+                          )
+ProbabilityOfDefinitiveResearch = 0.5
+costHealthSystemFeas = 100000 # Cost_research_pilot_NHS
+costHealthSystemDefinitive = 2000000
+k = 13000 
 
 # takes in a matrix of net benefits and outputs all relevant EVPI metrics
-# Requires: verybasicPop
+# Requires: feasibilityPop
 # Consider: adding convergence check! make sure current implementation outputs calculating properly 
+# ---- should i have NA's in the default inputs???
 
-NBtoEVPIResults <- function(NB_t,
+NBtoEVPIResultsFeas <- function(NB_t,
                             nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
                             typeOfOutcome, incidence,timeInformation,
-                            discountRate ,durationOfResearch,costResearchFunder,
+                            discountRate ,durationOfResearchDefinitive,
+                            durationOfResearchFeas,costResearchFunderFeas,
+                            costResearchFunderDefinitive,
                             MCD_t2, MCD_t3, MCD_t4,
                             utilisation_t1, utilisation_t2,
                             utilisation_t3, utilisation_t4,
-                            costHealthSystem = NA, k = NA){
+                            ProbabilityOfDefinitiveResearch,
+                            costHealthSystemFeas = NA,costHealthSystemDefinitive =NA, k = NA){
   
   # define variables required
   MCsims <- nrow(NB_t) # impled number of simulations
-  utilisation_t1 <- utilisation_t1/100 # to convert to decimal value
-  utilisation_t2 <- utilisation_t1/100
-  utilisation_t3 <- utilisation_t1/100
-  utilisation_t4 <- utilisation_t1/100
-  Utilisation_t <- c(utilisation_t1, utilisation_t2, utilisation_t3, utilisation_t4)
-  discountRate <- discountRate/100
-  
-  
+  Utilisation_t <- c(utilisation_t1/100, utilisation_t2/100, utilisation_t3/100, utilisation_t4/100)
+
   # expected outcome with each treatment (uninformed prior)
   ENB_t  <- apply(NB_t , 2, mean)
   
@@ -120,11 +124,15 @@ NBtoEVPIResults <- function(NB_t,
   
   #############################################
   # population 
-  Popoutputs <- verybasicPop(incidence, discountRate, durationOfResearch, timeInformation)
   
-  popDuringResearch <- Popoutputs$popDuringResearch 
-  popAfterResearch <- Popoutputs$popAfterResearch 
-  PopTotal <- Popoutputs$PopTotal
+  Popoutputs <- feasibilityPop(incidence, discountRate, durationOfResearchDefinitive, 
+                               timeInformation, durationOfResearchFeas)
+    
+  
+  PopTotal <-  Popoutputs$PopTotal
+  PopDuringFeasResearch <- Popoutputs$PopDuringFeasResearch
+  PopDuringDefinitiveResearch <- Popoutputs$PopDuringDefinitiveResearch
+  PopAfterDefinitiveResearch <- Popoutputs$PopAfterDefinitiveResearch
   
   
   ########### BASIC TRIAL ANALYSIS ################################################
@@ -185,38 +193,76 @@ NBtoEVPIResults <- function(NB_t,
   # cu = current utilisation. NOT instant trial - while trial is running just keep whatever treatment 
   # utilisation is theere at the start of the trial
   # Below is the same as OIR if the use of the new treatment is restricted
-  NB_cu_perfect_info_imp <- sum(ENB_t*Utilisation_t*popDuringResearch, na.rm = TRUE) + popAfterResearch*NB_EVTPI  
+  # --- return to this -----
+  #NB_cu_perfect_info_imp <- sum(ENB_t*Utilisation_t*popDuringResearch, na.rm = TRUE) + popAfterResearch*NB_EVTPI  
   
   # maxt = use the best treatmet according to current NB. NOT instant trial - 
   # instantly and perfectly implement best treatment while trial is running 
   # below is the same as AWR if the new treatment is the best with current information
-  NB_maxt_perfect_info_imp <- popDuringResearch*NB_EVTCI  + popAfterResearch*NB_EVTPI 
+  # --- return to this -----
+  #NB_maxt_perfect_info_imp <- popDuringResearch*NB_EVTCI  + popAfterResearch*NB_EVTPI 
   
-  healthOpportunityCostsOfResearch <- - costHealthSystem/k
+  # gross net benefit with perfect implementation during the trial
+  NB_E_maxt_trial <- 
+    # if its a net benefit analysis the NHS cost of pilot is always subtracted
+    ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemFeas/k, 0) +
+    # If definitive trial HAPPENS
+    ProbabilityOfDefinitiveResearch*(
+      PopDuringFeasResearch*NB_EVTCI + PopDuringDefinitiveResearch*NB_EVTCI +
+        PopAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
+    ) +
+    # If definitive trial DOES NOT happen (everybody just gets best treatment)
+    (1 - ProbabilityOfDefinitiveResearch)*(
+      PopTotal*NB_EVTCI 
+    )
+  
+  # expected value of treating with current utilisation
+  # 
+  NB_EVTCU <-  sum(ENB_t*Utilisation_t, na.rm = TRUE)
+  
+  # gross net benefit with current implementation during the trial
+  NB_E_cu_trial <- 
+    # if its a net benefit analysis the NHS cost of pilot is always subtracted
+    ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemFeas/k, 0) +
+    # If definitive trial HAPPENS
+    ProbabilityOfDefinitiveResearch*(
+      PopDuringFeasResearch*NB_EVTCU + PopDuringDefinitiveResearch*NB_EVTCU +
+        PopAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
+    ) +
+    # If definitive trial DOES NOT happen (everybody just gets best treatment)
+    (1 - ProbabilityOfDefinitiveResearch)*(
+      PopTotal*NB_EVTCU 
+    )
   
   # this is the pure information value under different types of research and implementation assumptions
-  valueOfResearchWithCurrentImplementation <- if(typeOfOutcome == "netHealth") {
-    NB_cu_perfect_info_imp - Cell_C - costHealthSystem/k   # subtract costs to health system if it is in NB
-  } else {
-    NB_cu_perfect_info_imp - Cell_C
-  }
+  # Cell_C : maximum Net benfit of implemetation (Early access - approval)  
+  # the value here is the value of the feasibility (with imperfect implementation) 
+  # compared to implementing the optimal treatment with 
+  # current information
+  valueOfResearchWithCurrentImplementation <- NB_E_cu_trial - Cell_C 
   
-  # the value of research if the best treatment is implemented during the trial
-  # aka the pure informaiton value of the research
-  valueOfResearchWithPerfectImplementation <- if (typeOfOutcome == "netHealth"){
-    NB_maxt_perfect_info_imp - Cell_C - costHealthSystem/k   # subtract costs to health system if it is in NB
-  } else {
-    NB_maxt_perfect_info_imp - Cell_C
-  }
+  # same as above but for perfect implementation
+  valueOfResearchWithPerfectImplementation <- NB_E_maxt_trial - Cell_C 
   
-  
+  # expected research funder costs
+  # new output for pilot studies
+  ExpectedCostResearchFunder <- 
+    costResearchFunderFeas +  # always incur this cost
+    # If definitive trial HAPPENS
+    ProbabilityOfDefinitiveResearch*costResearchFunderDefinitive
+    
   # ICER of research relative to early access (assumed to be costless to the agency)
   # all other costs assumed to be captured by the MCD
-  ICER_ResearchWithCurrentImplementation <- costResearchFunder/valueOfResearchWithCurrentImplementation
-  ICER_ResearchWithPerfectImplementation <- costResearchFunder/valueOfResearchWithPerfectImplementation
+  ICER_ResearchWithCurrentImplementation <- ExpectedCostResearchFunder/valueOfResearchWithCurrentImplementation
+  ICER_ResearchWithPerfectImplementation <- ExpectedCostResearchFunder/valueOfResearchWithPerfectImplementation
   
-  valuePer15KResearchSpend <- (valueOfResearchWithPerfectImplementation/costResearchFunder)*15000
+  valuePer15KResearchSpend <- (valueOfResearchWithPerfectImplementation/ExpectedCostResearchFunder)*15000
   
+  # expected op costs of the research
+  healthOpportunityCostsOfResearch <- 
+  -costHealthSystemFeas/k +  # always incur this cost
+    # If definitive trial HAPPENS
+    ProbabilityOfDefinitiveResearch*-costHealthSystemDefinitive/k
   
   
   # complete list of outputs
@@ -227,10 +273,13 @@ NBtoEVPIResults <- function(NB_t,
     probTreatment2isMax = probTreatment2isMax, 
     probTreatment3isMax = probTreatment3isMax, 
     probTreatment4isMax = probTreatment4isMax,
-    popDuringResearch = popDuringResearch,
-    popAfterResearch = popAfterResearch,
+    #popDuringResearch = popDuringResearch, # removed
+    #popAfterResearch = popAfterResearch,   # removed
+    PopTotal = PopTotal,
+    PopDuringFeasResearch = PopDuringFeasResearch,                      # new output
+    PopDuringDefinitiveResearch = PopDuringDefinitiveResearch,          #new output
+    PopAfterDefinitiveResearch = PopAfterDefinitiveResearch,            # new output
     PopTotal = PopTotal, 
-    #histVOIYear = histVOIYear, 
     ListForhistVOIYear = ListForhistVOIYear,
     valueOfResearchPerYear = valueOfResearchPerYear,
     valueOfImplementationPerYear = valueOfImplementationPerYear,
@@ -244,7 +293,8 @@ NBtoEVPIResults <- function(NB_t,
     valueOfResearchWithPerfectImplementation = valueOfResearchWithPerfectImplementation,
     ICER_ResearchWithCurrentImplementation = ICER_ResearchWithCurrentImplementation,
     ICER_ResearchWithPerfectImplementation = ICER_ResearchWithPerfectImplementation,
-    valuePer15KResearchSpend = valuePer15KResearchSpend
+    valuePer15KResearchSpend = valuePer15KResearchSpend,
+    ExpectedCostResearchFunder = ExpectedCostResearchFunder # new output for pilot studies
     
     
   )
@@ -255,30 +305,21 @@ NBtoEVPIResults <- function(NB_t,
 }
 
 
-# TEST THE function
-#do.call(NBtoEVPIResults , as.list(testData_NBtoEVPIResults))
-
-
-
-
-
-# test the function:
+# test the function- inputs from P1 used
 # # costruct input matrix
-# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
-#                                       mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-#                                       mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
-#                                       mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
-# )
-
-# resultlist <- NBtoEVPIResults(NB_t = NB_t,
-#                 nameOf_t1 = "1",nameOf_t2 = "2", nameOf_t3 = "3", nameOf_t4 = "4",
-#                 typeOfOutcome = "benefit", incidence = 1000 ,timeInformation = 15,
-#                 discountRate = 3.5 ,durationOfResearch = 5,costResearchFunder = 1500000,
-#                 MCD_t2 = 0, MCD_t3 = 0, MCD_t4 = 0,
-#                 utilisation_t1 = 50, utilisation_t2 = 50,
-#                 utilisation_t3 = 0, utilisation_t4 =0,
-#                 costHealthSystem = NA, k = NA)
-
-#resultlist$histVOIYear
-
+NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.525, 10000),
+                                      mu_t2 = 0, variance_t2 = 0.25, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+                                      mu_t3 = 0, variance_t3 = 0.25, dist_t3 = "norm", direction_t3 = "alwaysPositive",
+                                      mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
+)
+resultlist <- NBtoEVPIResultsFeas(NB_t = NB_t,
+                nameOf_t1 = "PI",nameOf_t2 = "APs", nameOf_t3 = "PI + APs", nameOf_t4 = "4",
+                typeOfOutcome = "benefit", incidence = 1563 ,timeInformation = 15,
+                discountRate = 3.5 ,durationOfResearchDefinitive = 6,durationOfResearchFeas = 2,
+                costResearchFunderFeas = 601480,costResearchFunderDefinitive = 2522710,
+                MCD_t2 = 0, MCD_t3 = 0, MCD_t4 = 0,
+                utilisation_t1 = 100, utilisation_t2 = 0,
+                utilisation_t3 = 0, utilisation_t4 =0,
+                ProbabilityOfDefinitiveResearch = 0.5, 
+                costHealthSystemFeas = 150000, costHealthSystemDefinitive = 490000,k = 15000)
 
