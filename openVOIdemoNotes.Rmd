@@ -809,6 +809,14 @@ ui <- fluidPage(
 
 
 
+### Creating tables in output
+
+Follow this method
+https://stackoverflow.com/questions/27821072/r-shiny-edit-the-format-of-a-table-output
+
+create data frame and add formatting
+
+
 
 ## Reactive input names
 

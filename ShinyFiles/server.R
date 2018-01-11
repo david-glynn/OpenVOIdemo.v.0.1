@@ -2,11 +2,10 @@
 
 library(shiny)
 
-
-
 ########################################################################################
 # load up required functions
 
+library(scales) # required to format tables in renderTable
 library(fdrtool) # required for halfnormal simulations
 
 #C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles
@@ -18,6 +17,7 @@ source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/Shin
 source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/ContinuousQALYFunction.R", local = TRUE)
 source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SurvivalOutcomeFunction.R", local = TRUE)
 source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SurvivalQALYFunction.R", local = TRUE)
+source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
 
 
 # relative paths for publishing in shinyapps.io
@@ -28,6 +28,7 @@ source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/Shin
 #source("ContinuousQALYFunction.R", local = TRUE)
 #source("SurvivalOutcomeFunction.R", local = TRUE)
 #source("SurvivalQALYFunction.R", local = TRUE)
+#source("SupplementaryFunctionsFeas.R", local = TRUE)
 
 
 

@@ -1,6 +1,8 @@
 #####################
 # Supplementary functions for Feasibility studies
 ######################
+
+
 options(scipen = 999) # turn off scientific notation
 
 
@@ -50,31 +52,32 @@ feasibilityPop <- function(incidence, discountRate, durationOfResearchDefinitive
 
 
 # # test data for NBtoEVPIResultsFeas
-nameOf_t1 <- "late PTP"
-nameOf_t2 <- "early PTP"
-nameOf_t3 <- "treatment 3"
-nameOf_t4 <- "treatment 4"
-typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
-incidence = 8000 # was Incidence
-timeInformation  = 15 # Time_info  = 15
-discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
-costResearchFunderFeas = 100000
-costResearchFunderDefinitive = 882177 #Cost_research_funder =  882177
-durationOfResearchDefinitive = 3 #durationOfResearch = 3  # Time_research = 3
-durationOfResearchFeas = 1
-utilisation_t1 = 50 # check these sum to 100***.
-utilisation_t2 = 50
-utilisation_t3 = 0
-utilisation_t4 = NA
-NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
-                          mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-                          mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
-                          mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
-                          )
-ProbabilityOfDefinitiveResearch = 0.5
-costHealthSystemFeas = 100000 # Cost_research_pilot_NHS
-costHealthSystemDefinitive = 2000000
-k = 13000 
+# nameOf_t1 <- "late PTP"
+# nameOf_t2 <- "early PTP"
+# nameOf_t3 <- "treatment 3"
+# nameOf_t4 <- "treatment 4"
+# typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
+# incidence = 8000 # was Incidence
+# timeInformation  = 15 # Time_info  = 15
+# discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
+# costResearchFunderFeas = 100000
+# costResearchFunderDefinitive = 882177 #Cost_research_funder =  882177
+# durationOfResearchDefinitive = 3 #durationOfResearch = 3  # Time_research = 3
+# durationOfResearchFeas = 1
+# utilisation_t1 = 50 # check these sum to 100***.
+# utilisation_t2 = 50
+# utilisation_t3 = 0
+# utilisation_t4 = NA
+# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
+#                           mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+#                           mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
+#                           mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
+#                           )
+# ProbabilityOfDefinitiveResearch = 0.5
+# costHealthSystemFeas = 100000 # Cost_research_pilot_NHS
+# costHealthSystemDefinitive = 2000000
+# k = 13000 
+# currencySymbol = "£"
 
 # takes in a matrix of net benefits and outputs all relevant EVPI metrics
 # Requires: feasibilityPop
@@ -91,7 +94,8 @@ NBtoEVPIResultsFeas <- function(NB_t,
                             utilisation_t1, utilisation_t2,
                             utilisation_t3, utilisation_t4,
                             ProbabilityOfDefinitiveResearch,
-                            costHealthSystemFeas = NA,costHealthSystemDefinitive =NA, k = NA){
+                            costHealthSystemFeas = NA,costHealthSystemDefinitive =NA, k = NA,
+                            currencySymbol){
   
   # define variables required
   MCsims <- nrow(NB_t) # impled number of simulations
@@ -105,6 +109,16 @@ NBtoEVPIResultsFeas <- function(NB_t,
   
   # optimalTreatment: tells you which treatment is best given current information
   optimalTreatment <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)[which(ENB_t  == max(ENB_t , na.rm = TRUE))]
+  expectedOutcomesPerYearoptimalTreatment <- NB_EVTCI*incidence
+  
+  # logical, TRUE if implementation value exists i.e is there potential value in changing implementation?
+  # this is used to determine what text gets dispalyed in output
+  implementationValueExists <- ifelse(sum(ENB_t*Utilisation_t, na.rm = TRUE) == NB_EVTCI, FALSE, TRUE)
+  
+  # table of events per year - needs to be outputted as a data frame
+  Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
+  Expected_outcomes_per_year <- formatC(c(ENB_t[1], ENB_t[2], ENB_t[3], ENB_t[4])*incidence, big.mark = ',', format = 'd')
+  tableEventsPerYearDF <- as.data.frame(cbind(Treatment_name, Expected_outcomes_per_year))
   
   # Expected value of treating with perfect information
   NB_VTPI  <- apply(NB_t , 1, max, na.rm = TRUE) #so I can check convergence - COULD ADD THIS CHECK
@@ -121,6 +135,16 @@ NBtoEVPIResultsFeas <- function(NB_t,
   probTreatment2isMax <- Probability_t_is_max[2]
   probTreatment3isMax <- Probability_t_is_max[3]
   probTreatment4isMax <- Probability_t_is_max[4]
+  
+  # table of probability each treatmentis best - needs to be outputted as a data frame
+  Probability_of_being_best_treatment <- paste0(round(Probability_t_is_max*100) , '%')
+  tableProbabilityMaxDF <- as.data.frame(cbind(Treatment_name, Probability_of_being_best_treatment))
+  
+  # logical, is there any uncertaity in the current evidence?
+  # for use structuring the outputs of the results
+  # probability that the optimal treatment is 
+  # if the prob of any treatment being the best is 1 then there is no uncertainty in evidence
+  uncertaintyInCurrentEvidenceExists <- ifelse(sum(Probability_t_is_max == 1) == 1, FALSE, TRUE )
   
   #############################################
   # population 
@@ -239,62 +263,85 @@ NBtoEVPIResultsFeas <- function(NB_t,
   # the value here is the value of the feasibility (with imperfect implementation) 
   # compared to implementing the optimal treatment with 
   # current information
-  valueOfResearchWithCurrentImplementation <- NB_E_cu_trial - Cell_C 
+  valueOfResearchWithCurrentImplementation <- NB_E_cu_trial - Cell_C
   
   # same as above but for perfect implementation
   valueOfResearchWithPerfectImplementation <- NB_E_maxt_trial - Cell_C 
   
+  # calculate the value of feasibility research if the definitivei trial was certain to occur
+  valueOfCertainResearchWithPerfectImplementation <- 
+    # if its a net benefit analysis the NHS cost of pilot is always subtracted
+    ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemFeas/k, 0) +
+    # definitive trial always HAPPENS
+      PopDuringFeasResearch*NB_EVTCU + PopDuringDefinitiveResearch*NB_EVTCU +
+      PopAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
+    # minus the alternative (fully implement best treatment with curren evidence)
+      - Cell_C
+
+  
   # expected research funder costs
   # new output for pilot studies
-  ExpectedCostResearchFunder <- 
+  expectedCostResearchFunder <- 
     costResearchFunderFeas +  # always incur this cost
     # If definitive trial HAPPENS
     ProbabilityOfDefinitiveResearch*costResearchFunderDefinitive
     
   # ICER of research relative to early access (assumed to be costless to the agency)
   # all other costs assumed to be captured by the MCD
-  ICER_ResearchWithCurrentImplementation <- ExpectedCostResearchFunder/valueOfResearchWithCurrentImplementation
-  ICER_ResearchWithPerfectImplementation <- ExpectedCostResearchFunder/valueOfResearchWithPerfectImplementation
+  ICER_ResearchWithCurrentImplementation <- expectedCostResearchFunder/valueOfResearchWithCurrentImplementation
+  ICER_ResearchWithPerfectImplementation <- expectedCostResearchFunder/valueOfResearchWithPerfectImplementation
   
-  valuePer15KResearchSpend <- (valueOfResearchWithPerfectImplementation/ExpectedCostResearchFunder)*15000
+  valuePer15KResearchSpend <- (valueOfResearchWithPerfectImplementation/expectedCostResearchFunder)*15000
+  
+  # expected costs to helath system 
+  expectedCostHealthSystem <-   costHealthSystemFeas +  ProbabilityOfDefinitiveResearch*costHealthSystemDefinitive
   
   # expected op costs of the research
-  healthOpportunityCostsOfResearch <- 
-  -costHealthSystemFeas/k +  # always incur this cost
-    # If definitive trial HAPPENS
-    ProbabilityOfDefinitiveResearch*-costHealthSystemDefinitive/k
+  healthOpportunityCostsOfResearch <- -expectedCostHealthSystem/k
   
-  
+  # absolute value of proposed research project 
+  # the health outcomes you get from funding the research project
+  # this scales the ICER of the project as a whole to reflect the fact that the research funder only funds the feasibility trial
+  # => what is the expected aboslute benefit of funding the feasibility section of the project
+  absoluteExpectedHealthOutcomesFromResearchProject <- costResearchFunderFeas*(valueOfResearchWithPerfectImplementation/expectedCostResearchFunder)
+
   # complete list of outputs
   ###########################
   NBtoEVPIResults <- list(
     optimalTreatment = optimalTreatment,
+    expectedOutcomesPerYearoptimalTreatment = formatC(expectedOutcomesPerYearoptimalTreatment, big.mark = ',', format = 'd'),
+    implementationValueExists = implementationValueExists,            # new output
+    uncertaintyInCurrentEvidenceExists = uncertaintyInCurrentEvidenceExists, # new
     probTreatment1isMax = probTreatment1isMax, 
     probTreatment2isMax = probTreatment2isMax, 
     probTreatment3isMax = probTreatment3isMax, 
     probTreatment4isMax = probTreatment4isMax,
     #popDuringResearch = popDuringResearch, # removed
     #popAfterResearch = popAfterResearch,   # removed
-    PopTotal = PopTotal,
-    PopDuringFeasResearch = PopDuringFeasResearch,                      # new output
-    PopDuringDefinitiveResearch = PopDuringDefinitiveResearch,          #new output
-    PopAfterDefinitiveResearch = PopAfterDefinitiveResearch,            # new output
-    PopTotal = PopTotal, 
+    PopDuringFeasResearch = formatC(PopDuringFeasResearch, big.mark = ',', format = 'd'),                      # new output
+    PopDuringDefinitiveResearch = formatC(PopDuringDefinitiveResearch, big.mark = ',', format = 'd'),          #new output
+    PopAfterDefinitiveResearch = formatC(PopAfterDefinitiveResearch, big.mark = ',', format = 'd'),            # new output
+    PopTotal = formatC(PopTotal, big.mark = ',', format = 'd'), 
     ListForhistVOIYear = ListForhistVOIYear,
-    valueOfResearchPerYear = valueOfResearchPerYear,
-    valueOfImplementationPerYear = valueOfImplementationPerYear,
+    valueOfResearchPerYear = formatC(valueOfResearchPerYear, big.mark = ',', format = 'd'),
+    valueOfImplementationPerYear = formatC(valueOfImplementationPerYear, big.mark = ',', format = 'd'),
+    tableEventsPerYearDF = tableEventsPerYearDF,                         # new
+    tableProbabilityMaxDF = tableProbabilityMaxDF,                      # new
     Cell_A = Cell_A,
     Cell_C = Cell_C,
     Cell_D = Cell_D,
-    maxvalueOfImplementation = maxvalueOfImplementation,
-    maxvalueOfResearch = maxvalueOfResearch,
-    healthOpportunityCostsOfResearch = healthOpportunityCostsOfResearch,
-    valueOfResearchWithCurrentImplementation = valueOfResearchWithCurrentImplementation,
-    valueOfResearchWithPerfectImplementation = valueOfResearchWithPerfectImplementation,
-    ICER_ResearchWithCurrentImplementation = ICER_ResearchWithCurrentImplementation,
-    ICER_ResearchWithPerfectImplementation = ICER_ResearchWithPerfectImplementation,
-    valuePer15KResearchSpend = valuePer15KResearchSpend,
-    ExpectedCostResearchFunder = ExpectedCostResearchFunder # new output for pilot studies
+    maxvalueOfImplementation = formatC(maxvalueOfImplementation, big.mark = ',',format = 'd'),
+    maxvalueOfResearch = formatC(maxvalueOfResearch, big.mark = ',',format = 'd'),
+    expectedCostHealthSystem = paste0(currencySymbol, formatC(expectedCostHealthSystem, big.mark = ',',format = 'd')),                  # new output
+    healthOpportunityCostsOfResearch = formatC(round(healthOpportunityCostsOfResearch, 2), big.mark = ','),
+    valueOfResearchWithCurrentImplementation = formatC(valueOfResearchWithCurrentImplementation, big.mark = ',',format = 'd'),
+    valueOfResearchWithPerfectImplementation = formatC(valueOfResearchWithPerfectImplementation, big.mark = ',',format = 'd'),
+    valueOfCertainResearchWithPerfectImplementation = formatC(valueOfCertainResearchWithPerfectImplementation, big.mark = ',',format = 'd'),   # new output
+    ICER_ResearchWithCurrentImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithCurrentImplementation, big.mark = ',', format = 'd')),
+    ICER_ResearchWithPerfectImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithPerfectImplementation, big.mark = ',', format = 'd')),
+    valuePer15KResearchSpend = round(valuePer15KResearchSpend, 2),
+    expectedCostResearchFunder = paste0(currencySymbol ,formatC(expectedCostResearchFunder, big.mark = ',',format = 'd')), # new output for pilot studies
+    absoluteExpectedHealthOutcomesFromResearchProject = formatC(absoluteExpectedHealthOutcomesFromResearchProject, big.mark = ',', format = 'd')  # new output for pilot studies
     
     
   )
@@ -307,19 +354,20 @@ NBtoEVPIResultsFeas <- function(NB_t,
 
 # test the function- inputs from P1 used
 # # costruct input matrix
-NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.525, 10000),
-                                      mu_t2 = 0, variance_t2 = 0.25, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-                                      mu_t3 = 0, variance_t3 = 0.25, dist_t3 = "norm", direction_t3 = "alwaysPositive",
-                                      mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
-)
-resultlist <- NBtoEVPIResultsFeas(NB_t = NB_t,
-                nameOf_t1 = "PI",nameOf_t2 = "APs", nameOf_t3 = "PI + APs", nameOf_t4 = "4",
-                typeOfOutcome = "benefit", incidence = 1563 ,timeInformation = 15,
-                discountRate = 3.5 ,durationOfResearchDefinitive = 6,durationOfResearchFeas = 2,
-                costResearchFunderFeas = 601480,costResearchFunderDefinitive = 2522710,
-                MCD_t2 = 0, MCD_t3 = 0, MCD_t4 = 0,
-                utilisation_t1 = 100, utilisation_t2 = 0,
-                utilisation_t3 = 0, utilisation_t4 =0,
-                ProbabilityOfDefinitiveResearch = 0.5, 
-                costHealthSystemFeas = 150000, costHealthSystemDefinitive = 490000,k = 15000)
+# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.525, 10000),
+#                                       mu_t2 = 0, variance_t2 = 0.25, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+#                                       mu_t3 = 0, variance_t3 = 0.25, dist_t3 = "norm", direction_t3 = "alwaysPositive",
+#                                       mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
+# )
+# resultlist <- NBtoEVPIResultsFeas(NB_t = NB_t,
+#                 nameOf_t1 = "PI",nameOf_t2 = "APs", nameOf_t3 = "PI + APs", nameOf_t4 = "4",
+#                 typeOfOutcome = "benefit", incidence = 1563 ,timeInformation = 15,
+#                 discountRate = 3.5 ,durationOfResearchDefinitive = 6,durationOfResearchFeas = 2,
+#                 costResearchFunderFeas = 601480,costResearchFunderDefinitive = 2522710,
+#                 MCD_t2 = 0, MCD_t3 = 0, MCD_t4 = 0,
+#                 utilisation_t1 = 100, utilisation_t2 = 0,
+#                 utilisation_t3 = 0, utilisation_t4 =0,
+#                 ProbabilityOfDefinitiveResearch = 0.5, 
+#                 costHealthSystemFeas = 150000, costHealthSystemDefinitive = 490000,
+#                 k = 15000, currencySymbol = "£")
 
