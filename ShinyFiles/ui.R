@@ -50,6 +50,9 @@ shinyUI(fluidPage(
                # display if: typeOfOutcome != netHealth
                # automatically display QALYs if typeOfOutcome == netHealth
                textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks"), 
+               
+               textInput("currencySymbol", "Currency used in analysis", 
+                         value = "£"),
               
                textInput("nameOf_t1", "Name of treatment 1 (optional)", 
                          value = "late PTP"),
@@ -66,11 +69,7 @@ shinyUI(fluidPage(
                          value = "treatment 4"),
                
                
-               
                ### High level research inputs
-               
-               numericInput("costResearchFunder", "Cost of research to funder",
-                            value = 2854000, min = 0, max = NA, step = 100),
                
                numericInput("incidence", "Incidence per annum",
                             value = 8800, min = 0, max = NA, step = 20),
@@ -285,18 +284,51 @@ shinyUI(fluidPage(
       ),
       tabPanel("Standard RCT", 
                actionButton("runRCT", label = "Run calculation for RCT"),
-               numericInput("durationOfResearch", "Expected duration of research (years)",
-                            value = 5, min = 0, max = NA, step = 0.1),
                
                numericInput("MCsims", "Number of simulations",
                             value = 50000, min = 0, max = 10000000, step = 500),
                
+               numericInput("durationOfResearch", "Expected duration of research (years)",
+                            value = 5, min = 0, max = NA, step = 0.1),
+               
+               numericInput("costResearchFunder", "Cost of research to funder",
+                            value = 2854000, min = 0, max = NA, step = 100),
+               
+               # display if: typeOfOutcome == "netHealth"
                numericInput("costHealthSystem", "Costs of research imposed on health system",
                             value = 1000000, min = 0, max = NA, step = 100)
                
       ),
-      tabPanel("Feasibility", 
-               actionButton("runFeas", label = "Run calculation for feasibility trial")
+      tabPanel("Feasibility Trial", 
+               actionButton("runFeas", label = "Run calculation for feasibility trial"),
+               
+               numericInput("MCsims", "Number of simulations",
+                            value = 50000, min = 0, max = 10000000, step = 500),
+               
+               numericInput("durationOfResearchFeas", "Expected duration of feasibility research (years)",
+                            value = 2, min = 0, max = NA, step = 0.1),
+               
+               numericInput("durationOfResearchDefinitive", "Expected duration of follow-up research (years)",
+                            value = 5, min = 0, max = NA, step = 0.1),
+               
+               numericInput("ProbabilityOfDefinitiveResearch", "Liklihood of feasibility research leading to follow-up study",
+                            value = 0.5, min = 0, max = 1, step = 0.05),
+               
+               numericInput("costResearchFunderFeas", "Costs of feasibility research to funder",
+                            value = 1000000, min = 0, max = NA, step = 100),
+               
+               numericInput("costResearchFunderDefinitive", "Costs of follow-up research to funder",
+                            value = 1000000, min = 0, max = NA, step = 100),
+               
+               # display if: typeOfOutcome == "netHealth"
+               numericInput("costHealthSystemFeas", "Costs of feasibility research imposed on health system",
+                            value = 1000000, min = 0, max = NA, step = 100),
+               
+               # display if: typeOfOutcome == "netHealth"
+               numericInput("costHealthSystemDefinitive", "Costs of follow-up research imposed on health system",
+                            value = 1000000, min = 0, max = NA, step = 100)
+               
+               
                
       ),
       tabPanel("Reconsider Evidence", 
