@@ -322,6 +322,13 @@ shinyServer(function(input, output) {
   })
   
   
+  
+  
+  ####################################################
+  # render INPUT and OUTPUT objects and pass to output list
+  ####################################################
+  
+  # input objects
   output$nameOf_t1 <- renderText({
     paste("The name of treatment 1 is", input$nameOf_t1)
   })
@@ -330,24 +337,29 @@ shinyServer(function(input, output) {
   output$nameOf_t4 <- renderText({input$nameOf_t4})
   output$nameOfOutcome <- renderText({input$nameOfOutcome})
   
+  # output objects
+  output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
+  output$expectedOutcomesPerYearoptimalTreatment <- renderText({VOIResults$expectedOutcomesPerYearoptimalTreatment})
+  output$implementationValueExists <- renderText({VOIResults$implementationValueExists})            # new output
+  output$uncertaintyInCurrentEvidenceExists <- renderText({VOIResults$uncertaintyInCurrentEvidenceExists})
+  #output$probTreatment1isMax <- renderText({VOIResults$probTreatment1isMax })
+  #output$probTreatment2isMax <- renderText({VOIResults$probTreatment2isMax })
+  #output$probTreatment3isMax <- renderText({VOIResults$probTreatment3isMax })
+  #output$probTreatment4isMax <- renderText({VOIResults$probTreatment4isMax})
+  output$popDuringResearch <- renderText({VOIResults$popDuringResearch})
+  output$popAfterResearch <- renderText({VOIResults$popAfterResearch})
+  output$popTotal <- renderText({VOIResults$popTotal })
   output$histVOIYear <- renderPlot({plot(VOIResults$listForhistVOIYear, freq = FALSE,
                                          main = "Consequences of uncertainty (per year)",
                                          xlab = "Primary outcomes",
                                          ylab = "Probability (%)")})
-  
-  output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
-  output$probTreatment1isMax <- renderText({VOIResults$probTreatment1isMax })
-  output$probTreatment2isMax <- renderText({VOIResults$probTreatment2isMax })
-  output$probTreatment3isMax <- renderText({VOIResults$probTreatment3isMax })
-  output$probTreatment4isMax <- renderText({VOIResults$probTreatment4isMax})
-  output$popDuringResearch <- renderText({VOIResults$popDuringResearch})
-  output$popAfterResearch <- renderText({VOIResults$popAfterResearch})
-  output$popTotal <- renderText({VOIResults$popTotal })
   output$valueOfResearchPerYear <- renderText({VOIResults$valueOfResearchPerYear})
   output$valueOfImplementationPerYear <- renderText({VOIResults$valueOfImplementationPerYear})
-  output$Cell_A <- renderText({VOIResults$Cell_A})
-  output$Cell_C <- renderText({VOIResults$Cell_C})
-  output$Cell_D <- renderText({VOIResults$Cell_D})
+  output$tableEventsPerYear <- renderTable({VOIResults$tableEventsPerYearDF}, include.rownames = FALSE)
+  output$tableProbabilityMax <- renderTable({VOIResults$tableProbabilityMaxDF}, include.rownames = FALSE)
+  #output$Cell_A <- renderText({VOIResults$Cell_A})
+  #output$Cell_C <- renderText({VOIResults$Cell_C})
+  #output$Cell_D <- renderText({VOIResults$Cell_D})
   output$maxvalueOfImplementation <- renderText({VOIResults$maxvalueOfImplementation})
   output$maxvalueOfResearch <- renderText({VOIResults$maxvalueOfResearch})
   output$healthOpportunityCostsOfResearch <-   renderText({VOIResults$healthOpportunityCostsOfResearch})
@@ -356,6 +368,7 @@ shinyServer(function(input, output) {
   output$ICER_ResearchWithCurrentImplementation <- renderText({VOIResults$ICER_ResearchWithCurrentImplementation})
   output$ICER_ResearchWithPerfectImplementation <- renderText({VOIResults$ICER_ResearchWithPerfectImplementation})
   output$valuePer15KResearchSpend <- renderText({VOIResults$valuePer15KResearchSpend})
+  output$absoluteExpectedHealthOutcomesFromResearchProject <- renderText({VOIResults$absoluteExpectedHealthOutcomesFromResearchProject})
   
 })
 

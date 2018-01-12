@@ -336,28 +336,33 @@ shinyUI(fluidPage(
                
       ))),
     tabPanel("Results", 
+             # inputs 
              textOutput("nameOf_t1"),
              textOutput("nameOf_t2"), 
              textOutput("nameOf_t3"), # conditional - is this a problem?
              textOutput("nameOf_t4"),# conditional - is this a problem?
-             # name of outcome
              textOutput("nameOfOutcome"), # conditional - is this a problem?
              
-             plotOutput("histVOIYear"),
-             
+             # outputs
              textOutput("optimalTreatment" ) ,
-             textOutput("probTreatment1isMax" ) ,
-             textOutput("probTreatment2isMax" ) ,
-             textOutput("probTreatment3isMax" ) ,
-             textOutput("probTreatment4isMax" ) ,
+             textOutput("expectedOutcomesPerYearoptimalTreatment"),
+             textOutput("implementationValueExists"),        # new output
+             textOutput("uncertaintyInCurrentEvidenceExists"),
+             #textOutput("probTreatment1isMax" ) ,
+             #textOutput("probTreatment2isMax" ) ,
+             #textOutput("probTreatment3isMax" ) ,
+             #textOutput("probTreatment4isMax" ) ,
              textOutput("popDuringResearch" ) ,
              textOutput("popAfterResearch" ) ,
              textOutput("popTotal" ) ,
+             plotOutput("histVOIYear"),
              textOutput("valueOfResearchPerYear" ),
              textOutput("valueOfImplementationPerYear" ) ,
-             textOutput("Cell_A" ) ,
-             textOutput("Cell_C" ) ,
-             textOutput("Cell_D" ) ,
+             tableOutput("tableEventsPerYear"),
+             tableOutput("tableProbabilityMax"),
+             #textOutput("Cell_A" ) ,
+             #textOutput("Cell_C" ) ,
+             #textOutput("Cell_D" ) ,
              textOutput("maxvalueOfImplementation" ) ,
              textOutput("maxvalueOfResearch" ) ,
              textOutput("healthOpportunityCostsOfResearch" ) ,
@@ -365,7 +370,8 @@ shinyUI(fluidPage(
              textOutput("valueOfResearchWithPerfectImplementation" ) ,
              textOutput("ICER_ResearchWithCurrentImplementation" ) ,
              textOutput("ICER_ResearchWithPerfectImplementation" ) ,
-             textOutput("valuePer15KResearchSpend")
+             textOutput("valuePer15KResearchSpend"),
+             textOutput("absoluteExpectedHealthOutcomesFromResearchProject")
              
     ),
     tabPanel("Report", "<code for report ui>"),

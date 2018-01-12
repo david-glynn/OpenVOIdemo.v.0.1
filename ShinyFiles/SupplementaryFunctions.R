@@ -792,6 +792,7 @@ NBtoEVPIResults <- function(NB_t,
   absoluteExpectedHealthOutcomesFromResearchProject <- costResearchFunder*(valueOfResearchWithPerfectImplementation/costResearchFunder)
   
   
+  
   # complete list of outputs
   ###########################
   NBtoEVPIResults <- list(
