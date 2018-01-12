@@ -328,6 +328,35 @@ shinyServer(function(input, output) {
   # render INPUT and OUTPUT objects and pass to output list
   ####################################################
   
+  # paragraphs of text
+  # code below works!!
+  #output$T_headlineResults <- renderText({
+  #  paste("Type of analysis", ifelse(input$typeOfResearch == "RCT", "RCT type", "Other type"))
+  #})
+  # code below also works!
+  # output$T_headlineResults <- renderText({
+  #  ifelse(input$typeOfResearch == "RCT", "RCT type", "Other type")
+  # })
+  # code below does not work
+  # typeOfResearch <- reactive({input$typeOfResearch})
+  # output$T_headlineResults <- renderText({
+  #  paste(if(typeOfResearch() == "RCT"){ "RCT type"})
+  #  paste(if(typeOfResearch() == "feasibility"){ "feasibility type"})
+  # })
+  
+  # text for general discussion about current information (common accross all models and endpoints?)
+  
+  # discussion of tableEventsPerYear
+  output$resultsCurrenInformation <- renderText({
+    paste("From the table above",VOIResults$optimalTreatment, "is favoured by the evidence with", 
+          VOIResults$expectedOutcomesPerYearoptimalTreatment, input$nameOfOutcome, "'s expected per year.",
+          ifelse(VOIResults$implementationValueExists == TRUE, " Implemetation value exists blurb..",
+                 "Implementation value does not exist blurb.."))
+  })
+  
+  
+  # introducing the valuation of a 
+  
   # input objects
   output$nameOf_t1 <- renderText({
     paste("The name of treatment 1 is", input$nameOf_t1)

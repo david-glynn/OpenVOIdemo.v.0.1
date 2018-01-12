@@ -49,7 +49,8 @@ shinyUI(fluidPage(
                
                # display if: typeOfOutcome != netHealth
                # automatically display QALYs if typeOfOutcome == netHealth
-               textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks"), 
+               textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks", 
+                         value = "functional recovery"), 
                
                textInput("currencySymbol", "Currency used in analysis", 
                          value = "£"),
@@ -336,6 +337,39 @@ shinyUI(fluidPage(
                
       ))),
     tabPanel("Results", 
+             # display text conditional on which type of analysis has been carried out
+             # Note: useing conditionalPanel the conditions are written in JavaScript and '' must be used!!
+             
+             br(),
+             
+             # heading 1
+             h3("Value of implementing current evidence findings"),
+             
+             # table showing expected outcomes with each treatment
+             tableOutput("tableEventsPerYear"),
+             # text for general discussion about current information (common accross all models and endpoints?)
+             # discussion of tableEventsPerYear
+             textOutput("resultsCurrenInformation"),
+             br(),
+             
+             # heading 2
+             h3("Value of the proposed study"),
+             
+             # if it is a feasibility study - put is this extra bit
+             conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
+                              p("Understanding the value of a feasibility trial requires two steps..."),
+                              h4("Value of potential future trial")),
+             
+             tableOutput("tableProbabilityMax"),
+             
+             # Display the paragraphs of text
+             #conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
+             #                  p("RCT")),
+             #conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
+             #                  p("feasibility analsis")),
+          
+             #textOutput("T_headlineResults"),
+             
              # inputs 
              textOutput("nameOf_t1"),
              textOutput("nameOf_t2"), 
@@ -358,8 +392,6 @@ shinyUI(fluidPage(
              plotOutput("histVOIYear"),
              textOutput("valueOfResearchPerYear" ),
              textOutput("valueOfImplementationPerYear" ) ,
-             tableOutput("tableEventsPerYear"),
-             tableOutput("tableProbabilityMax"),
              #textOutput("Cell_A" ) ,
              #textOutput("Cell_C" ) ,
              #textOutput("Cell_D" ) ,
