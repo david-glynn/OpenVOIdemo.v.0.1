@@ -17,24 +17,24 @@ feasibilityPop <- function(incidence, discountRate, durationOfResearchDefinitive
   discountRate <- discountRate/100 # convert from 3.5 to 0.035
   
   #                                        time end                time start  
-  PopTotal <- (incidence/-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*0))
+  popTotal <- (incidence/-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*0))
   
   durationOfResearchFeas_adj <- ifelse(durationOfResearchFeas < timeInformation, durationOfResearchFeas, timeInformation )  # need to make sure the delay is not longer than timeInformation
-  PopDuringFeasResearch <- (incidence/-discountRate) * (exp(-discountRate*durationOfResearchFeas_adj) - exp(-discountRate*0))
+  popDuringFeasResearch <- (incidence/-discountRate) * (exp(-discountRate*durationOfResearchFeas_adj) - exp(-discountRate*0))
   
   durationOfResearchDefinitive_end_adj <- ifelse(durationOfResearchFeas_adj + durationOfResearchDefinitive > timeInformation, 
                                   timeInformation,
                                   durationOfResearchFeas_adj + durationOfResearchDefinitive)
   
-  PopDuringDefinitiveResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*durationOfResearchDefinitive_end_adj) - exp(-discountRate*durationOfResearchFeas_adj))
+  popDuringDefinitiveResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*durationOfResearchDefinitive_end_adj) - exp(-discountRate*durationOfResearchFeas_adj))
   
   
-  PopAfterDefinitiveResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*durationOfResearchDefinitive_end_adj))
+  popAfterDefinitiveResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*durationOfResearchDefinitive_end_adj))
   
-  output <- list(PopTotal = PopTotal,
-                 PopDuringFeasResearch = PopDuringFeasResearch,
-                 PopDuringDefinitiveResearch = PopDuringDefinitiveResearch,
-                 PopAfterDefinitiveResearch = PopAfterDefinitiveResearch)
+  output <- list(popTotal = popTotal,
+                 popDuringFeasResearch = popDuringFeasResearch,
+                 popDuringDefinitiveResearch = popDuringDefinitiveResearch,
+                 popAfterDefinitiveResearch = popAfterDefinitiveResearch)
   
   return(output)
 }
@@ -45,7 +45,7 @@ feasibilityPop <- function(incidence, discountRate, durationOfResearchDefinitive
 #             discountRate =  0.035,
 #             durationOfResearchDefinitive =  3,
 #             durationOfResearchFeas = 6)
-# pops$PopTotal - pops$PopDuringFeasResearch - pops$PopDuringDefinitiveResearch - pops$PopAfterDefinitiveResearch
+# pops$popTotal - pops$popDuringFeasResearch - pops$popDuringDefinitiveResearch - pops$popAfterDefinitiveResearch
 
 
 
@@ -149,14 +149,14 @@ NBtoEVPIResultsFeas <- function(NB_t,
   #############################################
   # population 
   
-  Popoutputs <- feasibilityPop(incidence, discountRate, durationOfResearchDefinitive, 
+  popOutputs <- feasibilityPop(incidence, discountRate, durationOfResearchDefinitive, 
                                timeInformation, durationOfResearchFeas)
     
   
-  PopTotal <-  Popoutputs$PopTotal
-  PopDuringFeasResearch <- Popoutputs$PopDuringFeasResearch
-  PopDuringDefinitiveResearch <- Popoutputs$PopDuringDefinitiveResearch
-  PopAfterDefinitiveResearch <- Popoutputs$PopAfterDefinitiveResearch
+  popTotal <-  popOutputs$popTotal
+  popDuringFeasResearch <- popOutputs$popDuringFeasResearch
+  popDuringDefinitiveResearch <- popOutputs$popDuringDefinitiveResearch
+  popAfterDefinitiveResearch <- popOutputs$popAfterDefinitiveResearch
   
   
   ########### BASIC TRIAL ANALYSIS ################################################
@@ -180,7 +180,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
   
   # output the list which is required to produce the VOI histogram - the plot will be constructed with
   # this output so that it can be publised in shinyapps.io
-  ListForhistVOIYear <-  Hist_value_of_trial_per_year
+  listForhistVOIYear <-  Hist_value_of_trial_per_year
   
   # this was a previous failed attempt, would not publish on shinyapps.io
   # base graphics draw directly on a device.
@@ -191,17 +191,17 @@ NBtoEVPIResultsFeas <- function(NB_t,
   
   ## Cell_A : net benefit of current situation with current utilisation
   # take the weighted average of the expected NB for each treatment scaled up to full population
-  Cell_A <- sum(ENB_t *Utilisation_t*PopTotal, na.rm = TRUE)
+  Cell_A <- sum(ENB_t *Utilisation_t*popTotal, na.rm = TRUE)
   
   ## Cell_B: need to add this?
   
   ## Cell_C : maximum Net benfit of implemetation (Early access - approval)  
-  Cell_C <- PopTotal*NB_EVTCI 
+  Cell_C <- popTotal*NB_EVTCI 
   
   ## Cell_D : maximum Net benfit of information (delay access for information)
   # "instant trial with perfect information"
   # Pure definition of Cell D
-  Cell_D <- NB_EVTPI *PopTotal
+  Cell_D <- NB_EVTPI *popTotal
   
   # assume perfect and instant implementation/information
   # and no costs of research imposed on health system
@@ -232,12 +232,12 @@ NBtoEVPIResultsFeas <- function(NB_t,
     ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemFeas/k, 0) +
     # If definitive trial HAPPENS
     ProbabilityOfDefinitiveResearch*(
-      PopDuringFeasResearch*NB_EVTCI + PopDuringDefinitiveResearch*NB_EVTCI +
-        PopAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
+      popDuringFeasResearch*NB_EVTCI + popDuringDefinitiveResearch*NB_EVTCI +
+        popAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
     ) +
     # If definitive trial DOES NOT happen (everybody just gets best treatment)
     (1 - ProbabilityOfDefinitiveResearch)*(
-      PopTotal*NB_EVTCI 
+      popTotal*NB_EVTCI 
     )
   
   # expected value of treating with current utilisation
@@ -250,12 +250,12 @@ NBtoEVPIResultsFeas <- function(NB_t,
     ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemFeas/k, 0) +
     # If definitive trial HAPPENS
     ProbabilityOfDefinitiveResearch*(
-      PopDuringFeasResearch*NB_EVTCU + PopDuringDefinitiveResearch*NB_EVTCU +
-        PopAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
+      popDuringFeasResearch*NB_EVTCU + popDuringDefinitiveResearch*NB_EVTCU +
+        popAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
     ) +
     # If definitive trial DOES NOT happen (everybody just gets best treatment)
     (1 - ProbabilityOfDefinitiveResearch)*(
-      PopTotal*NB_EVTCU 
+      popTotal*NB_EVTCU 
     )
   
   # this is the pure information value under different types of research and implementation assumptions
@@ -273,8 +273,8 @@ NBtoEVPIResultsFeas <- function(NB_t,
     # if its a net benefit analysis the NHS cost of pilot is always subtracted
     ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemFeas/k, 0) +
     # definitive trial always HAPPENS
-      PopDuringFeasResearch*NB_EVTCU + PopDuringDefinitiveResearch*NB_EVTCU +
-      PopAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
+      popDuringFeasResearch*NB_EVTCU + popDuringDefinitiveResearch*NB_EVTCU +
+      popAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
     # minus the alternative (fully implement best treatment with curren evidence)
       - Cell_C
 
@@ -318,11 +318,11 @@ NBtoEVPIResultsFeas <- function(NB_t,
     probTreatment4isMax = probTreatment4isMax,
     #popDuringResearch = popDuringResearch, # removed
     #popAfterResearch = popAfterResearch,   # removed
-    PopDuringFeasResearch = formatC(PopDuringFeasResearch, big.mark = ',', format = 'd'),                      # new output
-    PopDuringDefinitiveResearch = formatC(PopDuringDefinitiveResearch, big.mark = ',', format = 'd'),          #new output
-    PopAfterDefinitiveResearch = formatC(PopAfterDefinitiveResearch, big.mark = ',', format = 'd'),            # new output
-    PopTotal = formatC(PopTotal, big.mark = ',', format = 'd'), 
-    ListForhistVOIYear = ListForhistVOIYear,
+    popDuringFeasResearch = formatC(popDuringFeasResearch, big.mark = ',', format = 'd'),                      # new output
+    popDuringDefinitiveResearch = formatC(popDuringDefinitiveResearch, big.mark = ',', format = 'd'),          #new output
+    popAfterDefinitiveResearch = formatC(popAfterDefinitiveResearch, big.mark = ',', format = 'd'),            # new output
+    popTotal = formatC(popTotal, big.mark = ',', format = 'd'), 
+    listForhistVOIYear = listForhistVOIYear,
     valueOfResearchPerYear = formatC(valueOfResearchPerYear, big.mark = ',', format = 'd'),
     valueOfImplementationPerYear = formatC(valueOfImplementationPerYear, big.mark = ',', format = 'd'),
     tableEventsPerYearDF = tableEventsPerYearDF,                         # new

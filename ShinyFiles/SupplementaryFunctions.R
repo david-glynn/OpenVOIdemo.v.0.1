@@ -582,11 +582,11 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
   discountRate <- discountRate/100 # convert from 3.5 to 0.035
   
   #                                        time end                time start  
-  PopTotal <- (incidence/-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*0))
+  popTotal <- (incidence/-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*0))
   popDuringResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*durationOfResearch) - exp(-discountRate*0))
   popAfterResearch <-  ((incidence) /-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*durationOfResearch))
   
-  output <- list(PopTotal = PopTotal,
+  output <- list(popTotal = popTotal,
                  popDuringResearch = popDuringResearch,
                  popAfterResearch = popAfterResearch)
   
@@ -595,7 +595,7 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
 
 
 
-# # test data for NBtoEVPIResults
+# test data for NBtoEVPIResults
 # nameOf_t1 <- "late PTP"
 # nameOf_t2 <- "early PTP"
 # nameOf_t3 <- "treatment 3"
@@ -606,34 +606,18 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
 # discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
 # costResearchFunder = 882177 #Cost_research_funder =  882177
 # durationOfResearch = 3  # Time_research = 3
-# utilisation_t1 = 0.5 # check these sum to 1. 
+# utilisation_t1 = 0.5 # check these sum to 1.
 # utilisation_t2 = 0.5
 # utilisation_t3 = 0
 # utilisation_t4 = NA
-# 
 # NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
 #                           mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
 #                           mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
 #                           mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
 #                           )
-# 
 # costHealthSystem = 100000 # **note this!
 # k = 13000 # **note this
-# 
-# 
-
-# failed!
-#testData_NBtoEVPIResults <- list(nameOf_t1 <- "late PTP",nameOf_t2 <- "early PTP",nameOf_t3 <- "treatment 3"
-#                                 ,nameOf_t4 <- "treatment 4",typeOfOutcome <- "benefit" ,incidence = 8000 # was Incidence
-#                                 ,timeInformation  = 15 ,discountRate = 3.5  ,costResearchFunder = 882177 #Cost_research_funder =  882177
-#                                 ,durationOfResearch = 3  ,utilisation_t1 = 0.5 ,utilisation_t2 = 0.5
-#                                 ,utilisation_t3 = 0,utilisation_t4 = NA
-#                                 ,NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
-#                                                                       mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-#                                                                       mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
-#                                                                       mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA)
-#                                 ,costHealthSystem = NA ,k = NA )
-
+# currencySymbol = "£"
 
 # takes in a matrix of net benefits and outputs all relevant EVPI metrics
 # Requires: verybasicPop
@@ -646,7 +630,8 @@ NBtoEVPIResults <- function(NB_t,
                             MCD_t2, MCD_t3, MCD_t4,
                             utilisation_t1, utilisation_t2,
                             utilisation_t3, utilisation_t4,
-                            costHealthSystem = NA, k = NA){
+                            costHealthSystem = NA, k = NA,
+                            currencySymbol){
   
   # define variables required
   MCsims <- nrow(NB_t) # impled number of simulations
@@ -664,6 +649,16 @@ NBtoEVPIResults <- function(NB_t,
   
   # optimalTreatment: tells you which treatment is best given current information
   optimalTreatment <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)[which(ENB_t  == max(ENB_t , na.rm = TRUE))]
+  expectedOutcomesPerYearoptimalTreatment <- NB_EVTCI*incidence
+  
+  # logical, TRUE if implementation value exists i.e is there potential value in changing implementation?
+  # this is used to determine what text gets dispalyed in output
+  implementationValueExists <- ifelse(sum(ENB_t*Utilisation_t, na.rm = TRUE) == NB_EVTCI, FALSE, TRUE)
+  
+  # table of events per year - needs to be outputted as a data frame
+  Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
+  Expected_outcomes_per_year <- formatC(c(ENB_t[1], ENB_t[2], ENB_t[3], ENB_t[4])*incidence, big.mark = ',', format = 'd')
+  tableEventsPerYearDF <- as.data.frame(cbind(Treatment_name, Expected_outcomes_per_year))
   
   # Expected value of treating with perfect information
   NB_VTPI  <- apply(NB_t , 1, max, na.rm = TRUE) #so I can check convergence - COULD ADD THIS CHECK
@@ -681,13 +676,23 @@ NBtoEVPIResults <- function(NB_t,
   probTreatment3isMax <- Probability_t_is_max[3]
   probTreatment4isMax <- Probability_t_is_max[4]
   
+  # table of probability each treatmentis best - needs to be outputted as a data frame
+  Probability_of_being_best_treatment <- paste0(round(Probability_t_is_max*100) , '%')
+  tableProbabilityMaxDF <- as.data.frame(cbind(Treatment_name, Probability_of_being_best_treatment))
+  
+  # logical, is there any uncertaity in the current evidence?
+  # for use structuring the outputs of the results
+  # probability that the optimal treatment is 
+  # if the prob of any treatment being the best is 1 then there is no uncertainty in evidence
+  uncertaintyInCurrentEvidenceExists <- ifelse(sum(Probability_t_is_max == 1) == 1, FALSE, TRUE )
+  
   #############################################
   # population 
-  Popoutputs <- verybasicPop(incidence, discountRate, durationOfResearch, timeInformation)
+  popOutputs <- verybasicPop(incidence, discountRate, durationOfResearch, timeInformation)
   
-  popDuringResearch <- Popoutputs$popDuringResearch 
-  popAfterResearch <- Popoutputs$popAfterResearch 
-  PopTotal <- Popoutputs$PopTotal
+  popDuringResearch <- popOutputs$popDuringResearch 
+  popAfterResearch <- popOutputs$popAfterResearch 
+  popTotal <- popOutputs$popTotal
   
   
   ########### BASIC TRIAL ANALYSIS ################################################
@@ -711,7 +716,7 @@ NBtoEVPIResults <- function(NB_t,
   
   # output the list which is required to produce the VOI histogram - the plot will be constructed with
   # this output so that it can be publised in shinyapps.io
-  ListForhistVOIYear <-  Hist_value_of_trial_per_year
+  listForhistVOIYear <-  Hist_value_of_trial_per_year
   
   # this was a previous failed attempt, would not publish on shinyapps.io
   # base graphics draw directly on a device.
@@ -722,17 +727,17 @@ NBtoEVPIResults <- function(NB_t,
   
   ## Cell_A : net benefit of current situation with current utilisation
   # take the weighted average of the expected NB for each treatment scaled up to full population
-  Cell_A <- sum(ENB_t *Utilisation_t*PopTotal, na.rm = TRUE)
+  Cell_A <- sum(ENB_t *Utilisation_t*popTotal, na.rm = TRUE)
   
   ## Cell_B: need to add this?
   
   ## Cell_C : maximum Net benfit of implemetation (Early access - approval)  
-  Cell_C <- PopTotal*NB_EVTCI 
+  Cell_C <- popTotal*NB_EVTCI 
 
   ## Cell_D : maximum Net benfit of information (delay access for information)
   # "instant trial with perfect information"
   # Pure definition of Cell D
-  Cell_D <- NB_EVTPI *PopTotal
+  Cell_D <- NB_EVTPI *popTotal
   
   # assume perfect and instant implementation/information
   # and no costs of research imposed on health system
@@ -780,35 +785,45 @@ NBtoEVPIResults <- function(NB_t,
 
   valuePer15KResearchSpend <- (valueOfResearchWithPerfectImplementation/costResearchFunder)*15000
   
+  # absolute value of proposed research project 
+  # ** note this is just equal to the valueOfResearchWithPerfectImplementation for this type of model
+  # the health outcomes you get from funding the research project
+  # => what is the expected aboslute benefit of funding the feasibility section of the project
+  absoluteExpectedHealthOutcomesFromResearchProject <- costResearchFunder*(valueOfResearchWithPerfectImplementation/costResearchFunder)
   
   
   # complete list of outputs
   ###########################
   NBtoEVPIResults <- list(
     optimalTreatment = optimalTreatment,
+    expectedOutcomesPerYearoptimalTreatment = formatC(expectedOutcomesPerYearoptimalTreatment, big.mark = ',', format = 'd'),
+    implementationValueExists = implementationValueExists,            # new output
+    uncertaintyInCurrentEvidenceExists = uncertaintyInCurrentEvidenceExists, # new
     probTreatment1isMax = probTreatment1isMax, 
     probTreatment2isMax = probTreatment2isMax, 
     probTreatment3isMax = probTreatment3isMax, 
     probTreatment4isMax = probTreatment4isMax,
-    popDuringResearch = popDuringResearch,
-    popAfterResearch = popAfterResearch,
-    PopTotal = PopTotal, 
+    popDuringResearch = formatC(popDuringResearch, big.mark = ',', format = 'd'),
+    popAfterResearch = formatC(popAfterResearch, big.mark = ',', format = 'd'),
+    popTotal = formatC(popTotal, big.mark = ',', format = 'd'),
     #histVOIYear = histVOIYear, 
-    ListForhistVOIYear = ListForhistVOIYear,
-    valueOfResearchPerYear = valueOfResearchPerYear,
-    valueOfImplementationPerYear = valueOfImplementationPerYear,
+    listForhistVOIYear = listForhistVOIYear,
+    valueOfResearchPerYear = formatC(valueOfResearchPerYear, big.mark = ',', format = 'd'),
+    valueOfImplementationPerYear = formatC(valueOfImplementationPerYear, big.mark = ',', format = 'd'),
+    tableEventsPerYearDF = tableEventsPerYearDF,                         # new
+    tableProbabilityMaxDF = tableProbabilityMaxDF,                      # new
     Cell_A = Cell_A,
     Cell_C = Cell_C,
     Cell_D = Cell_D,
-    maxvalueOfImplementation = maxvalueOfImplementation,
-    maxvalueOfResearch = maxvalueOfResearch,
-    healthOpportunityCostsOfResearch = healthOpportunityCostsOfResearch,
-    valueOfResearchWithCurrentImplementation = valueOfResearchWithCurrentImplementation,
-    valueOfResearchWithPerfectImplementation = valueOfResearchWithPerfectImplementation,
-    ICER_ResearchWithCurrentImplementation = ICER_ResearchWithCurrentImplementation,
-    ICER_ResearchWithPerfectImplementation = ICER_ResearchWithPerfectImplementation,
-    valuePer15KResearchSpend = valuePer15KResearchSpend
-    
+    maxvalueOfImplementation = formatC(maxvalueOfImplementation,big.mark = ',',format = 'd'),
+    maxvalueOfResearch = formatC(maxvalueOfResearch,big.mark = ',',format = 'd'),
+    healthOpportunityCostsOfResearch = formatC(round(healthOpportunityCostsOfResearch,2), big.mark = ','),
+    valueOfResearchWithCurrentImplementation = formatC(valueOfResearchWithCurrentImplementation,big.mark = ',',format = 'd'),
+    valueOfResearchWithPerfectImplementation = formatC(valueOfResearchWithPerfectImplementation,big.mark = ',',format = 'd'),
+    ICER_ResearchWithCurrentImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithCurrentImplementation,big.mark = ',', format = 'd')),
+    ICER_ResearchWithPerfectImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithPerfectImplementation,big.mark = ',', format = 'd')),
+    valuePer15KResearchSpend = round(valuePer15KResearchSpend, 2),
+    absoluteExpectedHealthOutcomesFromResearchProject = formatC(absoluteExpectedHealthOutcomesFromResearchProject, big.mark = ',', format = 'd')
     
   )
   
@@ -818,13 +833,6 @@ NBtoEVPIResults <- function(NB_t,
 }
 
 
-# TEST THE function
-#do.call(NBtoEVPIResults , as.list(testData_NBtoEVPIResults))
-
-
-
-
-
 # test the function:
 # # costruct input matrix
 # NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
@@ -832,7 +840,6 @@ NBtoEVPIResults <- function(NB_t,
 #                                       mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
 #                                       mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
 # )
-
 # resultlist <- NBtoEVPIResults(NB_t = NB_t,
 #                 nameOf_t1 = "1",nameOf_t2 = "2", nameOf_t3 = "3", nameOf_t4 = "4",
 #                 typeOfOutcome = "benefit", incidence = 1000 ,timeInformation = 15,
@@ -840,6 +847,5 @@ NBtoEVPIResults <- function(NB_t,
 #                 MCD_t2 = 0, MCD_t3 = 0, MCD_t4 = 0,
 #                 utilisation_t1 = 50, utilisation_t2 = 50,
 #                 utilisation_t3 = 0, utilisation_t4 =0,
-#                 costHealthSystem = NA, k = NA)
+#                 costHealthSystem = NA, k = NA, currencySymbol = "£")
 
-#resultlist$histVOIYear

@@ -352,7 +352,7 @@ shinyUI(fluidPage(
              textOutput("probTreatment4isMax" ) ,
              textOutput("popDuringResearch" ) ,
              textOutput("popAfterResearch" ) ,
-             textOutput("PopTotal" ) ,
+             textOutput("popTotal" ) ,
              textOutput("valueOfResearchPerYear" ),
              textOutput("valueOfImplementationPerYear" ) ,
              textOutput("Cell_A" ) ,

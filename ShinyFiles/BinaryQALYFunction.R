@@ -202,6 +202,7 @@ BinaryQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1, INBBinary
   
   # create Binary QALY economic model from probability of event
   #########################
+  # creates a matrix NB_t which holds simulations of NB for each treatment
 
   if(tCostsDependOnEvent == "No"){ # if treatment costs do not depend on whether the event occurs or not
   

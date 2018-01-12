@@ -263,8 +263,8 @@ shinyServer(function(input, output) {
     VOIResults$probTreatment4isMax <- resultsHolder()$probTreatment4isMax
     VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
     VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
-    VOIResults$PopTotal <- resultsHolder()$PopTotal
-    VOIResults$ListForhistVOIYear <- resultsHolder()$ListForhistVOIYear
+    VOIResults$popTotal <- resultsHolder()$popTotal
+    VOIResults$listForhistVOIYear <- resultsHolder()$listForhistVOIYear
     VOIResults$valueOfResearchPerYear <- resultsHolder()$valueOfResearchPerYear
     VOIResults$valueOfImplementationPerYear <- resultsHolder()$valueOfImplementationPerYear
     VOIResults$Cell_A <- resultsHolder()$Cell_A
@@ -318,7 +318,7 @@ shinyServer(function(input, output) {
   output$nameOf_t4 <- renderText({input$nameOf_t4})
   output$nameOfOutcome <- renderText({input$nameOfOutcome})
   
-  output$histVOIYear <- renderPlot({plot(VOIResults$ListForhistVOIYear, freq = FALSE,
+  output$histVOIYear <- renderPlot({plot(VOIResults$listForhistVOIYear, freq = FALSE,
                                          main = "Consequences of uncertainty (per year)",
                                          xlab = "Primary outcomes",
                                          ylab = "Probability (%)")})
@@ -330,7 +330,7 @@ shinyServer(function(input, output) {
   output$probTreatment4isMax <- renderText({VOIResults$probTreatment4isMax})
   output$popDuringResearch <- renderText({VOIResults$popDuringResearch})
   output$popAfterResearch <- renderText({VOIResults$popAfterResearch})
-  output$PopTotal <- renderText({VOIResults$PopTotal })
+  output$popTotal <- renderText({VOIResults$popTotal })
   output$valueOfResearchPerYear <- renderText({VOIResults$valueOfResearchPerYear})
   output$valueOfImplementationPerYear <- renderText({VOIResults$valueOfImplementationPerYear})
   output$Cell_A <- renderText({VOIResults$Cell_A})
