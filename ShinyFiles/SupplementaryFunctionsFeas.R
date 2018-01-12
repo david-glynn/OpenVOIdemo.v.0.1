@@ -73,7 +73,7 @@ feasibilityPop <- function(incidence, discountRate, durationOfResearchDefinitive
 #                           mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
 #                           mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
 #                           )
-# ProbabilityOfDefinitiveResearch = 0.5
+# probabilityOfDefinitiveResearch = 0.5
 # costHealthSystemFeas = 100000 # Cost_research_pilot_NHS
 # costHealthSystemDefinitive = 2000000
 # k = 13000 
@@ -93,9 +93,9 @@ NBtoEVPIResultsFeas <- function(NB_t,
                             MCD_t2, MCD_t3, MCD_t4,
                             utilisation_t1, utilisation_t2,
                             utilisation_t3, utilisation_t4,
-                            ProbabilityOfDefinitiveResearch,
+                            probabilityOfDefinitiveResearch,
                             costHealthSystemFeas = NA,costHealthSystemDefinitive =NA, k = NA,
-                            currencySymbol){
+                            currencySymbol= "£"){
   
   # define variables required
   MCsims <- nrow(NB_t) # impled number of simulations
@@ -231,12 +231,12 @@ NBtoEVPIResultsFeas <- function(NB_t,
     # if its a net benefit analysis the NHS cost of pilot is always subtracted
     ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemFeas/k, 0) +
     # If definitive trial HAPPENS
-    ProbabilityOfDefinitiveResearch*(
+    probabilityOfDefinitiveResearch*(
       popDuringFeasResearch*NB_EVTCI + popDuringDefinitiveResearch*NB_EVTCI +
         popAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
     ) +
     # If definitive trial DOES NOT happen (everybody just gets best treatment)
-    (1 - ProbabilityOfDefinitiveResearch)*(
+    (1 - probabilityOfDefinitiveResearch)*(
       popTotal*NB_EVTCI 
     )
   
@@ -249,12 +249,12 @@ NBtoEVPIResultsFeas <- function(NB_t,
     # if its a net benefit analysis the NHS cost of pilot is always subtracted
     ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemFeas/k, 0) +
     # If definitive trial HAPPENS
-    ProbabilityOfDefinitiveResearch*(
+    probabilityOfDefinitiveResearch*(
       popDuringFeasResearch*NB_EVTCU + popDuringDefinitiveResearch*NB_EVTCU +
         popAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
     ) +
     # If definitive trial DOES NOT happen (everybody just gets best treatment)
-    (1 - ProbabilityOfDefinitiveResearch)*(
+    (1 - probabilityOfDefinitiveResearch)*(
       popTotal*NB_EVTCU 
     )
   
@@ -284,7 +284,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
   expectedCostResearchFunder <- 
     costResearchFunderFeas +  # always incur this cost
     # If definitive trial HAPPENS
-    ProbabilityOfDefinitiveResearch*costResearchFunderDefinitive
+    probabilityOfDefinitiveResearch*costResearchFunderDefinitive
     
   # ICER of research relative to early access (assumed to be costless to the agency)
   # all other costs assumed to be captured by the MCD
@@ -294,7 +294,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
   valuePer15KResearchSpend <- (valueOfResearchWithPerfectImplementation/expectedCostResearchFunder)*15000
   
   # expected costs to helath system 
-  expectedCostHealthSystem <-   costHealthSystemFeas +  ProbabilityOfDefinitiveResearch*costHealthSystemDefinitive
+  expectedCostHealthSystem <-   costHealthSystemFeas +  probabilityOfDefinitiveResearch*costHealthSystemDefinitive
   
   # expected op costs of the research
   healthOpportunityCostsOfResearch <- -expectedCostHealthSystem/k
@@ -367,7 +367,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
 #                 MCD_t2 = 0, MCD_t3 = 0, MCD_t4 = 0,
 #                 utilisation_t1 = 100, utilisation_t2 = 0,
 #                 utilisation_t3 = 0, utilisation_t4 =0,
-#                 ProbabilityOfDefinitiveResearch = 0.5, 
+#                 probabilityOfDefinitiveResearch = 0.5, 
 #                 costHealthSystemFeas = 150000, costHealthSystemDefinitive = 490000,
 #                 k = 15000, currencySymbol = "£")
 

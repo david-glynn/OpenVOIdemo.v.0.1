@@ -186,7 +186,13 @@ shinyServer(function(input, output) {
                                     utilisation_t1=input$utilisation_t1 ,
                                     utilisation_t2=input$utilisation_t2 ,
                                     utilisation_t3=input$utilisation_t3 ,
-                                    utilisation_t4=input$utilisation_t4 )
+                                    utilisation_t4=input$utilisation_t4 ,
+                                    durationOfResearchDefinitive = input$durationOfResearchDefinitive, 
+                                    durationOfResearchFeas = input$durationOfResearchFeas,
+                                    costResearchFunderFeas = input$costResearchFunderFeas,
+                                    costResearchFunderDefinitive = input$costResearchFunderDefinitive,
+                                    probabilityOfDefinitiveResearch = input$probabilityOfDefinitiveResearch, 
+                                    currencySymbol = input$currencySymbol, typeOfResearch = input$typeOfResearch)
       })}
     
     # contunuous natural RCT
@@ -261,12 +267,17 @@ shinyServer(function(input, output) {
     VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax
     VOIResults$probTreatment3isMax <- resultsHolder()$probTreatment3isMax
     VOIResults$probTreatment4isMax <- resultsHolder()$probTreatment4isMax
+    VOIResults$expectedOutcomesPerYearoptimalTreatment <- resultsHolder()$expectedOutcomesPerYearoptimalTreatment
+    VOIResults$implementationValueExists <- resultsHolder()$ implementationValueExists            # new output
+    VOIResults$uncertaintyInCurrentEvidenceExists <- resultsHolder()$uncertaintyInCurrentEvidenceExists
     VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
     VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
     VOIResults$popTotal <- resultsHolder()$popTotal
     VOIResults$listForhistVOIYear <- resultsHolder()$listForhistVOIYear
     VOIResults$valueOfResearchPerYear <- resultsHolder()$valueOfResearchPerYear
     VOIResults$valueOfImplementationPerYear <- resultsHolder()$valueOfImplementationPerYear
+    VOIResults$tableEventsPerYearDF <- resultsHolder()$tableEventsPerYearDF                        # new
+    VOIResults$tableProbabilityMaxDF <- resultsHolder()$tableProbabilityMaxDF
     VOIResults$Cell_A <- resultsHolder()$Cell_A
     VOIResults$Cell_C <- resultsHolder()$Cell_C
     VOIResults$Cell_D <- resultsHolder()$Cell_D
@@ -278,6 +289,7 @@ shinyServer(function(input, output) {
     VOIResults$ICER_ResearchWithCurrentImplementation <- resultsHolder()$ICER_ResearchWithCurrentImplementation
     VOIResults$ICER_ResearchWithPerfectImplementation <- resultsHolder()$ICER_ResearchWithPerfectImplementation
     VOIResults$valuePer15KResearchSpend <- resultsHolder()$valuePer15KResearchSpend
+    VOIResults$absoluteExpectedHealthOutcomesFromResearchProject <- resultsHolder()$absoluteExpectedHealthOutcomesFromResearchProject
     
   }) # end RCT observe event expression
   

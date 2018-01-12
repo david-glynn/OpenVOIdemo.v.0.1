@@ -631,7 +631,7 @@ NBtoEVPIResults <- function(NB_t,
                             utilisation_t1, utilisation_t2,
                             utilisation_t3, utilisation_t4,
                             costHealthSystem = NA, k = NA,
-                            currencySymbol){
+                            currencySymbol="£"){
   
   # define variables required
   MCsims <- nrow(NB_t) # impled number of simulations
