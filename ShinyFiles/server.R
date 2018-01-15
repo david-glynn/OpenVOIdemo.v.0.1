@@ -344,16 +344,30 @@ shinyServer(function(input, output) {
   #  paste(if(typeOfResearch() == "feasibility"){ "feasibility type"})
   # })
   
-  # text for general discussion about current information (common accross all models and endpoints?)
   
+  # text for general discussion about current information (common accross all models and endpoints?)
   # discussion of tableEventsPerYear
   output$resultsCurrenInformation <- renderText({
     paste("From the table above",VOIResults$optimalTreatment, "is favoured by the evidence with", 
           VOIResults$expectedOutcomesPerYearoptimalTreatment, input$nameOfOutcome, "'s expected per year.",
-          ifelse(VOIResults$implementationValueExists == TRUE, " Implemetation value exists blurb..",
-                 "Implementation value does not exist blurb.."))
+          ifelse(VOIResults$implementationValueExists == TRUE, 
+                 # text if there is implementation value
+                 paste(" Because utilisation of",VOIResults$optimalTreatment , " is not 100%, outcomes can be improved by encouraging the use of", VOIResults$optimalTreatment,
+                 ". The benefits of switching practice to",VOIResults$optimalTreatment , 
+                 " are estimated to be",VOIResults$valueOfImplementationPerYear,input$nameOfOutcome ,"'s per year."),
+                 # text if there is NOT implementation value
+                 paste(" Because the utilisation of", VOIResults$optimalTreatment , 
+                       " is 100%, outcomes can not be improved by encouraging the use of", VOIResults$optimalTreatment ,".")))
   })
   
+  
+  output$resultsValueOfResearch <- renderText({
+    ifelse(VOIResults$maxvalueOfResearch > 0,
+           # text if there is value in the research
+           paste("value in research"),
+           # text if NO value in research
+           paste("no value in research"))
+  })
   
   # introducing the valuation of a 
   

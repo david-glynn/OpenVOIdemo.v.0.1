@@ -76,7 +76,7 @@ feasibilityPop <- function(incidence, discountRate, durationOfResearchDefinitive
 # probabilityOfDefinitiveResearch = 0.5
 # costHealthSystemFeas = 100000 # Cost_research_pilot_NHS
 # costHealthSystemDefinitive = 2000000
-# k = 13000 
+# k = 13000
 # currencySymbol = "£"
 
 # takes in a matrix of net benefits and outputs all relevant EVPI metrics
@@ -100,7 +100,8 @@ NBtoEVPIResultsFeas <- function(NB_t,
   # define variables required
   MCsims <- nrow(NB_t) # impled number of simulations
   Utilisation_t <- c(utilisation_t1/100, utilisation_t2/100, utilisation_t3/100, utilisation_t4/100)
-
+  numberOfTreatments <- sum(!is.na(NB_t[1,]))
+  
   # expected outcome with each treatment (uninformed prior)
   ENB_t  <- apply(NB_t , 2, mean)
   
@@ -119,6 +120,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
   Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
   Expected_outcomes_per_year <- formatC(c(ENB_t[1], ENB_t[2], ENB_t[3], ENB_t[4])*incidence, big.mark = ',', format = 'd')
   tableEventsPerYearDF <- as.data.frame(cbind(Treatment_name, Expected_outcomes_per_year))
+  tableEventsPerYearDF <- tableEventsPerYearDF[1:numberOfTreatments,]   # only output the number of rows = to the number of treatments considered
   
   # Expected value of treating with perfect information
   NB_VTPI  <- apply(NB_t , 1, max, na.rm = TRUE) #so I can check convergence - COULD ADD THIS CHECK
@@ -139,6 +141,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
   # table of probability each treatmentis best - needs to be outputted as a data frame
   Probability_of_being_best_treatment <- paste0(round(Probability_t_is_max*100) , '%')
   tableProbabilityMaxDF <- as.data.frame(cbind(Treatment_name, Probability_of_being_best_treatment))
+  tableProbabilityMaxDF <- tableProbabilityMaxDF[1:numberOfTreatments,]
   
   # logical, is there any uncertaity in the current evidence?
   # for use structuring the outputs of the results

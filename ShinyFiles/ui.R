@@ -337,30 +337,59 @@ shinyUI(fluidPage(
                
       ))),
     tabPanel("Results", 
+             # notes:
              # display text conditional on which type of analysis has been carried out
              # Note: useing conditionalPanel the conditions are written in JavaScript and '' must be used!!
              
+          
+             br(),
+             # heading 0
+             h4("Headline results and overview"),
              br(),
              
              # heading 1
-             h3("Value of implementing current evidence findings"),
-             
-             # table showing expected outcomes with each treatment
-             tableOutput("tableEventsPerYear"),
-             # text for general discussion about current information (common accross all models and endpoints?)
-             # discussion of tableEventsPerYear
-             textOutput("resultsCurrenInformation"),
+             h4("Type of analysis"),
+             # if it is an RCT: 
+             conditionalPanel(condition = "input.typeOfResearch != 'feasibility'",
+                              p("This proposal is for a randomised controlled trial (RCT).
+                                In this type of study, individuals are randomised to different treatments and the outcomes are compared accross the groups.")),
+             # if it is a feasibility study:
+             conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
+                              p("This proposal is for a feasibility study. 
+                                There are challenges and uncertainties associated with running a full trial. 
+                                Due to these uncertainties it is unclear whether a definitive trial is possible.
+                                Research only impacts health in so far as it changes clinical practice. 
+                                This feasibility trial is unlikely to generate enough evidence to justifying changing practice on its own. 
+                                Therefore the impact of this feasibility trial on population health is through the potential future definitive trial . 
+                                If the definitive trial is not possible the cost of funding it will not result in health benefit. 
+                                Since the value of the feasibility trial depends on the definitive trial, information on the future definitive trial is required to value feasibility trial.")),
              br(),
              
              # heading 2
-             h3("Value of the proposed study"),
+             h4("Value of implementing current evidence findings"),
+             # table showing expected outcomes with each treatment
+             tableOutput("tableEventsPerYear"),
+             # text for general discussion about current information (common accross all models and endpoints?)
+             textOutput("resultsCurrenInformation"),
+             br(),
              
-             # if it is a feasibility study - put is this extra bit
+             
+             # heading 3
+             h4("Value of the proposed study"),
+             # if feasibility study: (require this extra bit)
              conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
-                              p("Understanding the value of a feasibility trial requires two steps..."),
+                              p("Understanding the value of a feasibility trial requires two steps.
+                                First the value of the definitive trial must be estimated. 
+                                Second, this value must be adjusted for the fact that the definitive trial may not take place."),
                               h4("Value of potential future trial")),
-             
              tableOutput("tableProbabilityMax"),
+             # text for discussion about value of research (common accross all models and endpoints?)
+             textOutput("resultsValueOfResearch"),
+             br(),
+             
+             
+             
+             
              
              # Display the paragraphs of text
              #conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
