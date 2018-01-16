@@ -272,14 +272,15 @@ NBtoEVPIResultsFeas <- function(NB_t,
   valueOfResearchWithPerfectImplementation <- NB_E_maxt_trial - Cell_C 
   
   # calculate the value of feasibility research if the definitivei trial was certain to occur
+  # assumes that implementation will stay the same during the trial
   valueOfCertainResearchWithPerfectImplementation <- 
     # if its a net benefit analysis the NHS cost of pilot is always subtracted
     ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemFeas/k, 0) +
     # definitive trial always HAPPENS
       popDuringFeasResearch*NB_EVTCU + popDuringDefinitiveResearch*NB_EVTCU +
-      popAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0)
+      popAfterDefinitiveResearch*NB_EVTPI + ifelse(typeOfOutcome == "netHealth" ,- costHealthSystemDefinitive/k, 0) -
     # minus the alternative (fully implement best treatment with curren evidence)
-      - Cell_C
+    Cell_C
 
   
   # expected research funder costs

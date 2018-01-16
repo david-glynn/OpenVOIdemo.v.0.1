@@ -104,11 +104,20 @@ shinyUI(fluidPage(
                
                ## treatment 1
                
-               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == FALSE
+               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "No"
                numericInput("cost_t1", "Lifetime treatment costs associated with treatment 1",
                             value = 100, min = NA, max = NA, step = 10,
                             width = '50%'),
                
+               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
+               numericInput("costEvent_t1", "Lifetime treatment costs associated with treatment 1 if the primary outcome occurs",
+                            value = 100, min = NA, max = NA, step = 10,
+                            width = '50%'),
+               
+               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
+               numericInput("costNotEvent_t1", "Lifetime treatment costs associated with treatment 1 if the primary outcome does not occur",
+                            value = 100, min = NA, max = NA, step = 10,
+                            width = '50%'),
                
                ## treatment 2
                
@@ -134,8 +143,18 @@ shinyUI(fluidPage(
                                        "Always negative" = "alwaysNegative"),
                            selected = "alwaysPositive"),
                
-               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == FALSE
+               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "No"
                numericInput("cost_t2", "Lifetime treatment costs associated with treatment 2",
+                            value = 100, min = NA, max = NA, step = 10,
+                            width = '50%'),
+               
+               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
+               numericInput("costEvent_t2", "Lifetime treatment costs associated with treatment 2 if the primary outcome occurs",
+                            value = 100, min = NA, max = NA, step = 10,
+                            width = '50%'),
+               
+               # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
+               numericInput("costNotEvent_t2", "Lifetime treatment costs associated with treatment 2 if the primary outcome does not occur",
                             value = 100, min = NA, max = NA, step = 10,
                             width = '50%'),
                
@@ -173,9 +192,19 @@ shinyUI(fluidPage(
                                        "Always negative" = "alwaysNegative"),
                            selected = "alwaysPositive"),
                
-               # Display if: numberOfTreatments >= 3 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == FALSE
+               # Display if: numberOfTreatments >= 3 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "No"
                numericInput("cost_t3", "Lifetime treatment costs associated with treatment 3",
                             value = NA, min = NA, max = NA, step = 10,
+                            width = '50%'),
+               
+               # Display if: numberOfTreatments >= 3 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
+               numericInput("costEvent_t3", "Lifetime treatment costs associated with treatment 3 if the primary outcome occurs",
+                            value = 100, min = NA, max = NA, step = 10,
+                            width = '50%'),
+               
+               # Display if: numberOfTreatments >= 3 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
+               numericInput("costNotEvent_t3", "Lifetime treatment costs associated with treatment 3 if the primary outcome does not occur",
+                            value = 100, min = NA, max = NA, step = 10,
                             width = '50%'),
                
                # Display if: numberOfTreatments >= 3
@@ -210,9 +239,19 @@ shinyUI(fluidPage(
                                        "Always negative" = "alwaysNegative"),
                            selected = "alwaysPositive"),
                
-               # Display if: numberOfTreatments >= 4 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == FALSE
+               # Display if: numberOfTreatments >= 4 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "No"
                numericInput("cost_t4", "Lifetime treatment costs associated with treatment 4",
                             value = NA, min = NA, max = NA, step = 10,
+                            width = '50%'),
+               
+               # Display if: numberOfTreatments >= 4 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
+               numericInput("costEvent_t4", "Lifetime treatment costs associated with treatment 4 if the primary outcome occurs",
+                            value = 100, min = NA, max = NA, step = 10,
+                            width = '50%'),
+               
+               # Display if: numberOfTreatments >= 4 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
+               numericInput("costNotEvent_t4", "Lifetime treatment costs associated with treatment 4 if the primary outcome does not occur",
+                            value = 100, min = NA, max = NA, step = 10,
                             width = '50%'),
                
                # Display if: numberOfTreatments >= 4
@@ -366,6 +405,14 @@ shinyUI(fluidPage(
              br(),
              
              # heading 2
+             h4("Summary of treatments"),
+             # if cost + QALY study: (require this extra bit)
+             conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                              tableOutput("tableTreatmentCosts")),
+             br(),
+             
+             
+             # heading 3
              h4("Value of implementing current evidence findings"),
              # table showing expected outcomes with each treatment
              tableOutput("tableEventsPerYear"),
@@ -374,7 +421,7 @@ shinyUI(fluidPage(
              br(),
              
              
-             # heading 3
+             # heading 4
              h4("Value of the proposed study"),
              # if feasibility study: (require this extra bit)
              conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",

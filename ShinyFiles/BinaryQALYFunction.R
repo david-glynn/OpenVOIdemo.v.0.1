@@ -263,7 +263,7 @@ BinaryQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1, INBBinary
                                 utilisation_t1, utilisation_t2,
                                 utilisation_t3, utilisation_t4,
                                 costHealthSystem, k)
-  VOIoutputs$tableTreatmentCostsDF <- tableTreatmentCostsDF
+  VOIoutputs$tableTreatmentCostsDF <- tableTreatmentCostsDF # add the expected cost table to the input list
   
   # return the list of results
   ###############################
@@ -291,3 +291,137 @@ BinaryQALYFunction <- BinaryQALYFunction.v.0.1
 #                                     utilisation_t3=NA, utilisation_t4=NA,
 #                                     costHealthSystem = 9899380, k = 13000, currencySymbol = "£")
 
+
+
+
+
+########### BINARY QALY FEASIBILITY
+
+BinaryQALYFunctionFeas.v.0.1 <- function(numberOfTreatments, MCsims, P_t1, INBBinaryEvent,
+                                     mu_t2, variance_t2, dist_t2, direction_t2,
+                                     mu_t3, variance_t3, dist_t3, direction_t3,
+                                     mu_t4, variance_t4, dist_t4, direction_t4,
+                                     nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                     tCostsDependOnEvent, 
+                                     cost_t1, cost_t2, cost_t3, cost_t4,
+                                     costEvent_t1,costEvent_t2,costEvent_t3,costEvent_t4,
+                                     costNotEvent_t1,costNotEvent_t2,costNotEvent_t3,costNotEvent_t4,
+                                     typeOfOutcome, incidence,timeInformation,
+                                     discountRate ,
+                                     MCD_t2, MCD_t3, MCD_t4,
+                                     utilisation_t1, utilisation_t2,
+                                     utilisation_t3, utilisation_t4, 
+                                     costHealthSystem, k, currencySymbol,
+                                     probabilityOfDefinitiveResearch,durationOfResearchDefinitive,
+                                     durationOfResearchFeas,costResearchFunderFeas,
+                                     costResearchFunderDefinitive,
+                                     costHealthSystemFeas,costHealthSystemDefinitive ){
+  
+  # simulate probabilities of event
+  #########################
+  
+  # simulate probabilities of event with baseline treatment
+  P_t1 <- rep(P_t1, MCsims)
+  
+  # simulate probabilities of the event for other treatments
+  P_t <- simProbOfOutcomeMatrixBinary(numberOfTreatments, P_t1,
+                                      mu_t2, variance_t2, dist_t2, direction_t2,
+                                      mu_t3, variance_t3, dist_t3, direction_t3,
+                                      mu_t4, variance_t4, dist_t4, direction_t4)
+  
+  # create Binary QALY economic model from probability of event
+  #########################
+  # creates a matrix NB_t which holds simulations of NB for each treatment
+  
+  if(tCostsDependOnEvent == "No"){ # if treatment costs do not depend on whether the event occurs or not
+    
+    NB_t  <- P_t*INBBinaryEvent # multiply every element by INBBinaryEvent (1st step in converting to NB)
+    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    # subtract the costs from each column in the vector.
+    addCost_t <- c(-cost_t1/k ,-cost_t2/k, -cost_t3/k, -cost_t4/k) 
+    NB_t  <- NB_t  + rep(addCost_t, each = MCsims) # each column now represents simulations of the NB of each treatment
+    
+    # generate and format costs table (assuming treatment costs do not depend on event)
+    cost_t <- c(cost_t1, cost_t2, cost_t3, cost_t4)
+    Cost_per_individual <- paste0(currencySymbol,formatC(cost_t, big.mark = ',', format = 'd'))
+    Yearly_costs <- paste0(currencySymbol,formatC(cost_t*incidence, big.mark = ',', format = 'd'))
+    Additional_cost_per_year <- paste0(currencySymbol,formatC((cost_t - cost_t1)*incidence, big.mark = ',', format = 'd'))
+    popTotal <- verybasicPop(incidence, discountRate, durationOfResearch, timeInformation)$popTotal
+    Total_Costs <- paste0(currencySymbol,formatC(cost_t*popTotal, big.mark = ',', format = 'd'))
+    Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
+    tableTreatmentCostsDF <- as.data.frame(cbind(Treatment_name, Cost_per_individual, Yearly_costs, Additional_cost_per_year, Total_Costs))
+    tableTreatmentCostsDF <- tableTreatmentCostsDF[1:numberOfTreatments,]
+    
+  } else { # if treatment costs DO depend on whether the event occurs or not
+    
+    costEvent_t <- c(costEvent_t1,costEvent_t2,costEvent_t3,costEvent_t4)
+    costNotEvent_t <- c(costNotEvent_t1,costNotEvent_t2,costNotEvent_t3,costNotEvent_t4)
+    # for each row of P_t calculate the QALY benefit of the event occuring minus the costs associated with the event/not event
+    outputNB <- apply(P_t, 1, function(x)
+      x*INBBinaryEvent + (x*-costEvent_t/k) + ((1-x)*-costNotEvent_t/k))
+    NB_t <- t(outputNB) # need to transpose output to get in correct NB_t matrix form
+    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the matrix
+    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    
+    
+    # generate and format costs table (assuming treatment costs DO depend on event)
+    EP_t <- apply(P_t, 2, mean) # expected probability of outcomes
+    expectedCost_t <- EP_t*costEvent_t + (1 - EP_t)*costNotEvent_t # expected cost per person for each treatment
+    Cost_per_individual <- paste0(currencySymbol,formatC(expectedCost_t, big.mark = ',', format = 'd'))
+    Yearly_costs <- paste0(currencySymbol,formatC(expectedCost_t*incidence, big.mark = ',', format = 'd'))
+    Additional_cost_per_year <- paste0(currencySymbol,formatC((expectedCost_t - expectedCost_t[1])*incidence, big.mark = ',', format = 'd'))
+    popTotal <- verybasicPop(incidence, discountRate, durationOfResearch, timeInformation)$popTotal
+    Total_Costs <- paste0(currencySymbol,formatC(expectedCost_t*popTotal, big.mark = ',', format = 'd'))
+    Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
+    tableTreatmentCostsDF <- as.data.frame(cbind(Treatment_name, Cost_per_individual, Yearly_costs, Additional_cost_per_year, Total_Costs))
+    tableTreatmentCostsDF <- tableTreatmentCostsDF[1:numberOfTreatments,]
+    
+  }
+  
+  # Calculate outputs from NB matrix
+  ######################################
+  
+  VOIoutputs <- NBtoEVPIResultsFeas(NB_t,
+                                    nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                    typeOfOutcome, incidence,timeInformation,
+                                    discountRate ,durationOfResearchDefinitive,
+                                    durationOfResearchFeas,costResearchFunderFeas,
+                                    costResearchFunderDefinitive,
+                                    MCD_t2, MCD_t3, MCD_t4,
+                                    utilisation_t1, utilisation_t2,
+                                    utilisation_t3, utilisation_t4,
+                                    probabilityOfDefinitiveResearch,
+                                    costHealthSystemFeas,costHealthSystemDefinitive, k,
+                                    currencySymbol)
+  VOIoutputs$tableTreatmentCostsDF <- tableTreatmentCostsDF # add the expected cost table to the input list
+  
+  # return the list of results
+  ###############################
+  
+  return(VOIoutputs)
+  
+}
+
+
+BinaryQALYFunctionFeas <- BinaryQALYFunctionFeas.v.0.1
+#test function
+# resultsholder <- BinaryQALYFunctionFeas(numberOfTreatments =2 , MCsims = 10000, P_t1 =0.95, INBBinaryEvent = 9.5,
+#                                     mu_t2=0, variance_t2=0.25, dist_t2="norm", direction_t2= NA,
+#                                     mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
+#                                     mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
+#                                     nameOf_t1="continual treatment",nameOf_t2="withdrawal", nameOf_t3=NA, nameOf_t4=NA,
+#                                     tCostsDependOnEvent = "Yes",
+#                                     cost_t1 = 100, cost_t2 = 1000, cost_t3 = NA, cost_t4 = NA,
+#                                     costEvent_t1 = 3100000,costEvent_t2 = 3100000,costEvent_t3 = NA,costEvent_t4 = NA,
+#                                     costNotEvent_t1 = 7300000,costNotEvent_t2= 4000000,costNotEvent_t3=NA,costNotEvent_t4 = NA,
+#                                     typeOfOutcome="benefit", incidence=26.26,timeInformation=10,
+#                                     discountRate=3.5 ,
+#                                     MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
+#                                     utilisation_t1=100, utilisation_t2=0,
+#                                     utilisation_t3=NA, utilisation_t4=NA,
+#                                     costHealthSystem = 9899380, k = 13000, currencySymbol = "£",
+#                                     probabilityOfDefinitiveResearch,durationOfResearchDefinitive = 0.5,
+#                                     durationOfResearchFeas = 2,costResearchFunderFeas = 300000,
+#                                     costResearchFunderDefinitive = 2000000,
+#                                     costHealthSystemFeas = 100000,costHealthSystemDefinitive = 1500000)
