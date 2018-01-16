@@ -71,7 +71,7 @@ ContinuousQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, INBContinEv
                                             MCD_t2, MCD_t3, MCD_t4,
                                             utilisation_t1, utilisation_t2,
                                             utilisation_t3, utilisation_t4,
-                                            costHealthSystem, k){
+                                            costHealthSystem, k, currencySymbol){
   
   # simulate plausible changes in continuous outcome for each treatment relative to t1 (aka deltas)
   #########################
@@ -94,6 +94,18 @@ ContinuousQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, INBContinEv
   
   # each column now represents simulations of the NB of each treatment
   
+  # generate and format costs table (assuming treatment costs do not depend on continuous event)
+  cost_t <- c(cost_t1, cost_t2, cost_t3, cost_t4)
+  Cost_per_individual <- paste0(currencySymbol,formatC(cost_t, big.mark = ',', format = 'd'))
+  Yearly_costs <- paste0(currencySymbol,formatC(cost_t*incidence, big.mark = ',', format = 'd'))
+  Additional_cost_per_year <- paste0(currencySymbol,formatC((cost_t - cost_t1)*incidence, big.mark = ',', format = 'd'))
+  popTotal <- (incidence/-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*0))
+  Total_Costs <- paste0(currencySymbol,formatC(cost_t*popTotal, big.mark = ',', format = 'd'))
+  Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
+  tableTreatmentCostsDF <- as.data.frame(cbind(Treatment_name, Cost_per_individual, Yearly_costs, Additional_cost_per_year, Total_Costs))
+  tableTreatmentCostsDF <- tableTreatmentCostsDF[1:numberOfTreatments,]
+  
+  
   # Calculate outputs from NB matrix
   ######################################
   
@@ -104,7 +116,8 @@ ContinuousQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, INBContinEv
                                 MCD_t2, MCD_t3, MCD_t4,
                                 utilisation_t1, utilisation_t2,
                                 utilisation_t3, utilisation_t4,
-                                costHealthSystem, k)
+                                costHealthSystem, k, currencySymbol)
+  VOIoutputs$tableTreatmentCostsDF <- tableTreatmentCostsDF # add the expected cost table to the input list
   
   # return the list of results
   ###############################
@@ -127,7 +140,7 @@ ContinuousQALYFunction <- ContinuousQALYFunction.v.0.1
 #                                                  MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
 #                                                  utilisation_t1=100, utilisation_t2=0,
 #                                                  utilisation_t3=NA, utilisation_t4=NA,
-#                                                  costHealthSystem = 1000000, k = 13000)
+#                                                  costHealthSystem = 1000000, k = 13000, currencySymbol ="£")
 
 
 

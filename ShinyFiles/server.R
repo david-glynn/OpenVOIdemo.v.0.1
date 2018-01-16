@@ -116,7 +116,8 @@ shinyServer(function(input, output) {
                                         utilisation_t2=input$utilisation_t2 ,
                                         utilisation_t3=input$utilisation_t3 ,
                                         utilisation_t4=input$utilisation_t4 ,
-                                        costHealthSystem = input$costHealthSystem, k = input$k)
+                                        costHealthSystem = input$costHealthSystem, k = input$k,
+                                        currencySymbol = input$currencySymbol)
       })}
 
     
@@ -197,7 +198,7 @@ shinyServer(function(input, output) {
       
       resultsHolder <- reactive({
         # Function for Binary RCT natural outcome
-        ContinuousOutcomeFunction.v.0.1(numberOfTreatments = input$numberOfTreatments , 
+        ContinuousOutcomeFunction(numberOfTreatments = input$numberOfTreatments , 
                                     MCsims = input$MCsims, 
                                     mu_t2=input$mu_t2, variance_t2=input$variance_t2 ,
                                     dist_t2=input$dist_t2 , direction_t2= input$direction_t2,
@@ -218,7 +219,8 @@ shinyServer(function(input, output) {
                                     utilisation_t1=input$utilisation_t1 ,
                                     utilisation_t2=input$utilisation_t2 ,
                                     utilisation_t3=input$utilisation_t3 ,
-                                    utilisation_t4=input$utilisation_t4 )
+                                    utilisation_t4=input$utilisation_t4 ,
+                                    currencySymbol = input$currencySymbol)
       })}
     
     # survival natural RCT
@@ -375,6 +377,43 @@ shinyServer(function(input, output) {
                                     currencySymbol = input$currencySymbol)
       })}
       
+    
+    # natural Feasibility continuous
+    ####################
+    if(input$typeOfOutcome != "netHealth" & input$typeOfEndpoint == "continuous")
+    { # start code 
+      
+      resultsHolder <- reactive({
+        # Function for Continuous FEASIBILIITY natural outcome
+        ContinuousOutcomeFunctionFeas(numberOfTreatments = input$numberOfTreatments , 
+                                  MCsims = input$MCsims,
+                                  mu_t2=input$mu_t2, variance_t2=input$variance_t2 ,
+                                  dist_t2=input$dist_t2 , direction_t2= input$direction_t2,
+                                  mu_t3=input$mu_t3 , variance_t3=input$variance_t3 ,
+                                  dist_t3=input$dist_t3 , direction_t3=input$direction_t3 ,
+                                  mu_t4=input$mu_t4 , variance_t4=input$variance_t4 ,
+                                  dist_t4=input$dist_t4 , direction_t4=input$direction_t4 ,
+                                  nameOf_t1=input$nameOf_t1 ,nameOf_t2=input$nameOf_t2 ,
+                                  nameOf_t3=input$nameOf_t3 , nameOf_t4=input$nameOf_t4 ,
+                                  typeOfOutcome=input$typeOfOutcome ,
+                                  incidence=input$incidence,
+                                  timeInformation=input$timeInformation ,
+                                  discountRate=input$discountRate  ,
+                                  MCD_t2=input$MCD_t2 , MCD_t3=input$MCD_t3 ,
+                                  MCD_t4=input$MCD_t4 ,
+                                  utilisation_t1=input$utilisation_t1 ,
+                                  utilisation_t2=input$utilisation_t2 ,
+                                  utilisation_t3=input$utilisation_t3 ,
+                                  utilisation_t4=input$utilisation_t4 ,
+                                  durationOfResearchDefinitive = input$durationOfResearchDefinitive, 
+                                  durationOfResearchFeas = input$durationOfResearchFeas,
+                                  costResearchFunderFeas = input$costResearchFunderFeas,
+                                  costResearchFunderDefinitive = input$costResearchFunderDefinitive,
+                                  probabilityOfDefinitiveResearch = input$probabilityOfDefinitiveResearch, #input$probabilityOfDefinitiveResearch, 
+                                  currencySymbol = input$currencySymbol)
+      })}
+    
+    
     # assign results for all FEASIBILITY models
     VOIResults$optimalTreatment <- resultsHolder()$optimalTreatment
     VOIResults$probTreatment1isMax <- resultsHolder()$probTreatment1isMax
