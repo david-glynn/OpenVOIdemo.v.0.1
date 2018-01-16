@@ -112,13 +112,7 @@
 # utilisation_t2=0
 # utilisation_t3=NA
 # utilisation_t4=NA
-# costResearchFunderFeas = 100000
-# costResearchFunderDefinitive = 882177 #Cost_research_funder =  882177
-# durationOfResearchDefinitive = 3 #durationOfResearch = 3  # Time_research = 3
-# durationOfResearchFeas = 1
-# probabilityOfDefinitiveResearch = 0.5
 # currencySymbol = "£"
-# typeOfResearch = "feasibility"
 
 BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
                                         mu_t2, variance_t2, dist_t2, direction_t2,
@@ -130,9 +124,7 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
                                         MCD_t2, MCD_t3, MCD_t4,
                                         utilisation_t1, utilisation_t2,
                                         utilisation_t3, utilisation_t4,
-                                        durationOfResearchDefinitive, durationOfResearchFeas,
-                                        costResearchFunderFeas,costResearchFunderDefinitive,
-                                        probabilityOfDefinitiveResearch, currencySymbol, typeOfResearch
+                                        currencySymbol
                                         ){
   
   # simulate probabilities of event
@@ -162,7 +154,6 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
   # Calculate outputs from NB matrix
   ######################################
   
-  if(typeOfResearch == "RCT"){
     VOIoutputs <- NBtoEVPIResults(NB_t,
                                   nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
                                   typeOfOutcome, incidence,timeInformation,
@@ -171,9 +162,117 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
                                   utilisation_t1, utilisation_t2,
                                   utilisation_t3, utilisation_t4,
                                   costHealthSystem = NA, k = NA, currencySymbol)
-  }
   
-  if(typeOfResearch == "feasibility"){
+  # return the list of results
+  ###############################
+  
+  return(VOIoutputs)
+  
+}
+
+BinaryOutcomeFunction <- BinaryOutcomeFunction.v.0.1
+
+# test function
+# resultsholder <- BinaryOutcomeFunction(numberOfTreatments =2 , MCsims = 1000, P_t1 =0.5,
+#                                        mu_t2=0, variance_t2=1, dist_t2="norm", direction_t2= NA,
+#                                        mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
+#                                        mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
+#                                        nameOf_t1="1",nameOf_t2="2", nameOf_t3=NA, nameOf_t4=NA,
+#                                        typeOfOutcome="benefit", incidence=1000,timeInformation=15,
+#                                        discountRate=3.5 ,durationOfResearch= 4,costResearchFunder=1000000,
+#                                        MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
+#                                        utilisation_t1=100, utilisation_t2=0,
+#                                        utilisation_t3=NA, utilisation_t4=NA,
+#                                        currencySymbol="£")
+
+
+
+
+
+
+
+
+############## FEASIBILITY BINARY OUTCOME FUNCTION
+
+# numberOfTreatments =2
+# MCsims = 100
+# P_t1 =0.5
+# mu_t2=0
+# variance_t2=1
+# dist_t2="norm"
+# direction_t2= NA
+# mu_t3=NA
+# variance_t3=NA
+# dist_t3=NA
+# direction_t3=NA
+# mu_t4=NA
+# variance_t4=NA
+# dist_t4=NA
+# direction_t4=NA
+# nameOf_t1="1"
+# nameOf_t2="2"
+# nameOf_t3=NA
+# nameOf_t4=NA
+# typeOfOutcome="benefit"
+# incidence=1000
+# timeInformation=15
+# discountRate=3.5
+# MCD_t2=0
+# MCD_t3=NA
+# MCD_t4=NA
+# utilisation_t1=100
+# utilisation_t2=0
+# utilisation_t3=NA
+# utilisation_t4=NA
+# costResearchFunderFeas = 100000
+# costResearchFunderDefinitive = 882177 #Cost_research_funder =  882177
+# durationOfResearchDefinitive = 3 #durationOfResearch = 3  # Time_research = 3
+# durationOfResearchFeas = 1
+# probabilityOfDefinitiveResearch = 0.5
+# currencySymbol = "£"
+
+BinaryOutcomeFunctionFeas.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
+                                        mu_t2, variance_t2, dist_t2, direction_t2,
+                                        mu_t3, variance_t3, dist_t3, direction_t3,
+                                        mu_t4, variance_t4, dist_t4, direction_t4,
+                                        nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                        typeOfOutcome, incidence,timeInformation,
+                                        discountRate,
+                                        MCD_t2, MCD_t3, MCD_t4,
+                                        utilisation_t1, utilisation_t2,
+                                        utilisation_t3, utilisation_t4,
+                                        durationOfResearchDefinitive, durationOfResearchFeas,
+                                        costResearchFunderFeas,costResearchFunderDefinitive,
+                                        probabilityOfDefinitiveResearch, currencySymbol
+){
+  
+  # simulate probabilities of event
+  #########################
+  
+  # simulate probabilities of event with baseline treatment
+  P_t1 <- rep(P_t1, MCsims)
+  
+  # simulate probabilities of the event for other treatments
+  P_t <- simProbOfOutcomeMatrixBinary(numberOfTreatments, P_t1,
+                                      mu_t2, variance_t2, dist_t2, direction_t2,
+                                      mu_t3, variance_t3, dist_t3, direction_t3,
+                                      mu_t4, variance_t4, dist_t4, direction_t4)
+  
+  # create Binary economic model from probability of event
+  #########################
+  
+  INB_Event <- ifelse(typeOfOutcome== "benefit", 1, -1)
+  
+  NB_t  <- P_t*INB_Event # multiply every element by INB_Event (1st step in converting to NB)
+  
+  addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+  NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+  
+  # each column now represents simulations of the NB of each treatment
+  
+  # Calculate outputs from NB matrix
+  ######################################
+
     VOIoutputs <- NBtoEVPIResultsFeas(NB_t,
                                       nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
                                       typeOfOutcome, incidence,timeInformation,
@@ -186,9 +285,6 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
                                       probabilityOfDefinitiveResearch,
                                       costHealthSystemFeas = NA,costHealthSystemDefinitive =NA, k = NA,
                                       currencySymbol)
-  }
-
-
   
   # return the list of results
   ###############################
@@ -197,21 +293,23 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
   
 }
 
+BinaryOutcomeFunctionFeas <- BinaryOutcomeFunctionFeas.v.0.1
 
 
-# test function
-# resultsholder <- BinaryOutcomeFunction.v.0.1(numberOfTreatments =2 , MCsims = 1000, P_t1 =0.5,
+
+# test function 
+# resultsholder <- BinaryOutcomeFunctionFeas(numberOfTreatments =2 , MCsims = 1000, P_t1 =0.5,
 #                                        mu_t2=0, variance_t2=1, dist_t2="norm", direction_t2= NA,
 #                                        mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
 #                                        mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
 #                                        nameOf_t1="1",nameOf_t2="2", nameOf_t3=NA, nameOf_t4=NA,
 #                                        typeOfOutcome="benefit", incidence=1000,timeInformation=15,
-#                                        discountRate=3.5 ,durationOfResearch= 4,costResearchFunder=1000000,
+#                                        discountRate=3.5,
 #                                        MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
 #                                        utilisation_t1=100, utilisation_t2=0,
 #                                        utilisation_t3=NA, utilisation_t4=NA,
 #                                        durationOfResearchDefinitive = 6, durationOfResearchFeas = 2,
 #                                        costResearchFunderFeas = 100000,costResearchFunderDefinitive= 2000000,
-#                                        probabilityOfDefinitiveResearch = 0.5, 
-#                                        currencySymbol="£", typeOfResearch = "feasibility")
+#                                        probabilityOfDefinitiveResearch = 0.5,
+#                                        currencySymbol="£")
 

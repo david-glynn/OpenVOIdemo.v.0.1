@@ -312,7 +312,7 @@ shinyUI(fluidPage(
                numericInput("durationOfResearchDefinitive", "Expected duration of follow-up research (years)",
                             value = 5, min = 0, max = NA, step = 0.1),
                
-               numericInput("ProbabilityOfDefinitiveResearch", "Liklihood of feasibility research leading to follow-up study",
+               numericInput("probabilityOfDefinitiveResearch", "Liklihood of feasibility research leading to follow-up study",
                             value = 0.5, min = 0, max = 1, step = 0.05),
                
                numericInput("costResearchFunderFeas", "Costs of feasibility research to funder",
@@ -390,14 +390,7 @@ shinyUI(fluidPage(
              
              
              
-             
-             # Display the paragraphs of text
-             #conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
-             #                  p("RCT")),
-             #conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
-             #                  p("feasibility analsis")),
-          
-             #textOutput("T_headlineResults"),
+            
              
              # inputs 
              textOutput("nameOf_t1"),
@@ -418,6 +411,9 @@ shinyUI(fluidPage(
              textOutput("popDuringResearch" ) ,
              textOutput("popAfterResearch" ) ,
              textOutput("popTotal" ) ,
+             textOutput("popDuringFeasResearch" ) ,
+             textOutput("popDuringDefinitiveResearch" ) ,
+             textOutput("popAfterDefinitiveResearch" ) ,
              plotOutput("histVOIYear"),
              textOutput("valueOfResearchPerYear" ),
              textOutput("valueOfImplementationPerYear" ) ,
@@ -427,12 +423,20 @@ shinyUI(fluidPage(
              textOutput("maxvalueOfImplementation" ) ,
              textOutput("maxvalueOfResearch" ) ,
              textOutput("healthOpportunityCostsOfResearch" ) ,
+             textOutput("expectedCostResearchFunder" ) ,                # unique Feas
              textOutput("valueOfResearchWithCurrentImplementation" ) ,
              textOutput("valueOfResearchWithPerfectImplementation" ) ,
+             textOutput("valueOfCertainResearchWithPerfectImplementation" ) ,  # unique feas
              textOutput("ICER_ResearchWithCurrentImplementation" ) ,
              textOutput("ICER_ResearchWithPerfectImplementation" ) ,
              textOutput("valuePer15KResearchSpend"),
-             textOutput("absoluteExpectedHealthOutcomesFromResearchProject")
+             textOutput("absoluteExpectedHealthOutcomesFromResearchProject"),
+             textOutput("costResearchFunderFeas"),
+             textOutput("costResearchFunderDefinitive"),
+             textOutput("probabilityOfDefinitiveResearch"),
+             textOutput("test1"),
+             textOutput("test2"),
+             textOutput("test3")
              
     ),
     tabPanel("Report", "<code for report ui>"),

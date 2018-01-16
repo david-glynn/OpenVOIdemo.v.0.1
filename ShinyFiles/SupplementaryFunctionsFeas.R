@@ -288,6 +288,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
     costResearchFunderFeas +  # always incur this cost
     # If definitive trial HAPPENS
     probabilityOfDefinitiveResearch*costResearchFunderDefinitive
+  
     
   # ICER of research relative to early access (assumed to be costless to the agency)
   # all other costs assumed to be captured by the MCD
@@ -345,12 +346,10 @@ NBtoEVPIResultsFeas <- function(NB_t,
     valuePer15KResearchSpend = round(valuePer15KResearchSpend, 2),
     expectedCostResearchFunder = paste0(currencySymbol ,formatC(expectedCostResearchFunder, big.mark = ',',format = 'd')), # new output for pilot studies
     absoluteExpectedHealthOutcomesFromResearchProject = formatC(absoluteExpectedHealthOutcomesFromResearchProject, big.mark = ',', format = 'd')  # new output for pilot studies
-    
-    
   )
   
   # return this list from the function
-  NBtoEVPIResults
+  return(NBtoEVPIResults)
   
 }
 
@@ -370,7 +369,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
 #                 MCD_t2 = 0, MCD_t3 = 0, MCD_t4 = 0,
 #                 utilisation_t1 = 100, utilisation_t2 = 0,
 #                 utilisation_t3 = 0, utilisation_t4 =0,
-#                 probabilityOfDefinitiveResearch = 0.5, 
+#                 probabilityOfDefinitiveResearch = 0.5,
 #                 costHealthSystemFeas = 150000, costHealthSystemDefinitive = 490000,
 #                 k = 15000, currencySymbol = "£")
 
