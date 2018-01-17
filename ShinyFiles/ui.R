@@ -323,7 +323,7 @@ shinyUI(fluidPage(
                
       ),
       tabPanel("Standard RCT", 
-               actionButton("runRCT", label = "Run calculation for RCT"),
+               actionButton("run", label = "Run analysis"),
                
                numericInput("MCsims", "Number of simulations",
                             value = 50000, min = 0, max = 10000000, step = 500),
@@ -340,7 +340,6 @@ shinyUI(fluidPage(
                
       ),
       tabPanel("Feasibility Trial", 
-               actionButton("runFeas", label = "Run calculation for feasibility trial"),
                
                numericInput("MCsims", "Number of simulations",
                             value = 50000, min = 0, max = 10000000, step = 500),
@@ -372,7 +371,11 @@ shinyUI(fluidPage(
                
       ),
       tabPanel("Reconsider Evidence", 
-               actionButton("runRec", label = "Run calculation for reconsideration of evidence")
+               numericInput("MCsimsInner", "Number of simulations for inner loop",
+                            value = 50000, min = 0, max = 10000000, step = 500),
+               
+               numericInput("MCsimsOuter", "Number of simulations for outer loop",
+                            value = 50000, min = 0, max = 10000000, step = 500)
                
       ))),
     tabPanel("Results", 
