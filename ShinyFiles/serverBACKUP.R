@@ -1,4 +1,7 @@
 # serverBACKUP.R
+# method in which each model is built in shiny with a separate action button for each type of analysis
+
+
 
 # must load the required functions! SupplementaryFunctions.R
 

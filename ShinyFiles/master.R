@@ -2,7 +2,8 @@
 # master function
 # wrapper function for all functions used
 # takes all reacitive inputs from ui
-
+# note: ordering of inputs into lower level models does not matter - all inputs from ui.R exist as named variables
+# each function used here is defined in R scripts which are sourced in the server.R function of the shiny app
 
 # source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/BinaryOutcomeFunction.R", local = TRUE)
 # source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/BinaryQALYFunction.R", local = TRUE)
@@ -167,9 +168,12 @@ master <- function(
                    ){
   
 
+  ########################
+  # Binary Endpoint models
+  ########################
+  
   # RUN IF: binary natural outcome RCT
   if(typeOfEndpoint == "binary" & typeOfOutcome != "netHealth" & typeOfResearch == "RCT"){
-    
     masterOutput <- BinaryOutcomeFunction(numberOfTreatments, MCsims, P_t1,
                          mu_t2, variance_t2, dist_t2, direction_t2,
                          mu_t3, variance_t3, dist_t3, direction_t3,
@@ -183,6 +187,28 @@ master <- function(
                          currencySymbol)
     return(masterOutput)
     }
+  
+  
+  # RUN IF: binary QALY RCT
+  if(typeOfEndpoint == "binary" & typeOfOutcome == "netHealth" & typeOfResearch == "RCT"){
+    masterOutput <- BinaryQALYFunction(numberOfTreatments, MCsims, P_t1, INBBinaryEvent,
+                                         mu_t2, variance_t2, dist_t2, direction_t2,
+                                         mu_t3, variance_t3, dist_t3, direction_t3,
+                                         mu_t4, variance_t4, dist_t4, direction_t4,
+                                         nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                         tCostsDependOnEvent, 
+                                         cost_t1, cost_t2, cost_t3, cost_t4,
+                                         costEvent_t1,costEvent_t2,costEvent_t3,costEvent_t4,
+                                         costNotEvent_t1,costNotEvent_t2,costNotEvent_t3,costNotEvent_t4,
+                                         typeOfOutcome, incidence,timeInformation,
+                                         discountRate ,durationOfResearch,costResearchFunder,
+                                         MCD_t2, MCD_t3, MCD_t4,
+                                         utilisation_t1, utilisation_t2,
+                                         utilisation_t3, utilisation_t4, 
+                                         costHealthSystem, k, currencySymbol)
+    return(masterOutput)
+  }
+  
   
   # RUN IF: binary natural outcome Feasibility
   if(typeOfEndpoint == "binary" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"){
@@ -200,7 +226,171 @@ master <- function(
                               costResearchFunderFeas,costResearchFunderDefinitive,
                               probabilityOfDefinitiveResearch, currencySymbol)
     return(masterOutput)
-    }
+  }
+  
+  
+  # RUN IF: binary QALY Feasibility
+  if(typeOfEndpoint == "binary" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"){
+    masterOutput <- BinaryQALYFunctionFeas(numberOfTreatments, MCsims, P_t1, INBBinaryEvent,
+                                           mu_t2, variance_t2, dist_t2, direction_t2,
+                                           mu_t3, variance_t3, dist_t3, direction_t3,
+                                           mu_t4, variance_t4, dist_t4, direction_t4,
+                                           nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                           tCostsDependOnEvent, 
+                                           cost_t1, cost_t2, cost_t3, cost_t4,
+                                           costEvent_t1,costEvent_t2,costEvent_t3,costEvent_t4,
+                                           costNotEvent_t1,costNotEvent_t2,costNotEvent_t3,costNotEvent_t4,
+                                           typeOfOutcome, incidence,timeInformation,
+                                           discountRate ,
+                                           MCD_t2, MCD_t3, MCD_t4,
+                                           utilisation_t1, utilisation_t2,
+                                           utilisation_t3, utilisation_t4, 
+                                           costHealthSystem, k, currencySymbol,
+                                           probabilityOfDefinitiveResearch,durationOfResearchDefinitive,
+                                           durationOfResearchFeas,costResearchFunderFeas,
+                                           costResearchFunderDefinitive,
+                                           costHealthSystemFeas,costHealthSystemDefinitive )
+    return(masterOutput)
+  }
+  
+  ########################
+  # Continuous Endpoint models
+  ########################
+  
+  # RUN IF: continuous natural outcome RCT
+  if(typeOfEndpoint == "continuous" & typeOfOutcome != "netHealth" & typeOfResearch == "RCT"){
+    masterOutput <- ContinuousOutcomeFunction(numberOfTreatments, MCsims,
+                                              mu_t2, variance_t2, dist_t2, direction_t2,
+                                              mu_t3, variance_t3, dist_t3, direction_t3,
+                                              mu_t4, variance_t4, dist_t4, direction_t4,
+                                              nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                              typeOfOutcome, incidence,timeInformation,
+                                              discountRate ,durationOfResearch,costResearchFunder,
+                                              MCD_t2, MCD_t3, MCD_t4,
+                                              utilisation_t1, utilisation_t2,
+                                              utilisation_t3, utilisation_t4,
+                                              currencySymbol)
+    return(masterOutput)
+  }
+  
+  # RUN IF: continuous QALY RCT
+  if(typeOfEndpoint == "continuous" & typeOfOutcome == "netHealth" & typeOfResearch == "RCT"){
+    masterOutput <- ContinuousQALYFunction(numberOfTreatments, MCsims, INBContinEvent,
+                                           mu_t2, variance_t2, dist_t2, direction_t2,
+                                           mu_t3, variance_t3, dist_t3, direction_t3,
+                                           mu_t4, variance_t4, dist_t4, direction_t4,
+                                           nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                           cost_t1, cost_t2, cost_t3, cost_t4,
+                                           typeOfOutcome, incidence,timeInformation,
+                                           discountRate ,durationOfResearch,costResearchFunder,
+                                           MCD_t2, MCD_t3, MCD_t4,
+                                           utilisation_t1, utilisation_t2,
+                                           utilisation_t3, utilisation_t4,
+                                           costHealthSystem, k, currencySymbol)
+    return(masterOutput)
+  }
+  
+  
+  # RUN IF: continuous natural outcome Feasibility
+  if(typeOfEndpoint == "continuous" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"){
+    masterOutput <- ContinuousOutcomeFunctionFeas(numberOfTreatments, MCsims,
+                                                  mu_t2, variance_t2, dist_t2, direction_t2,
+                                                  mu_t3, variance_t3, dist_t3, direction_t3,
+                                                  mu_t4, variance_t4, dist_t4, direction_t4,
+                                                  nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                                  typeOfOutcome, incidence,timeInformation,
+                                                  discountRate ,
+                                                  MCD_t2, MCD_t3, MCD_t4,
+                                                  utilisation_t1, utilisation_t2,
+                                                  utilisation_t3, utilisation_t4,
+                                                  durationOfResearchDefinitive, durationOfResearchFeas,
+                                                  costResearchFunderFeas,costResearchFunderDefinitive,
+                                                  probabilityOfDefinitiveResearch,
+                                                  currencySymbol)
+      
+      
+    return(masterOutput)
+  }
+  
+  
+  # RUN IF: continuous QALY Feasibility
+  if(typeOfEndpoint == "continuous" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"){
+    masterOutput <- ContinuousQALYFunctionFeas(numberOfTreatments, MCsims, INBContinEvent,
+                                               mu_t2, variance_t2, dist_t2, direction_t2,
+                                               mu_t3, variance_t3, dist_t3, direction_t3,
+                                               mu_t4, variance_t4, dist_t4, direction_t4,
+                                               nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                               cost_t1, cost_t2, cost_t3, cost_t4,
+                                               typeOfOutcome, incidence,timeInformation,
+                                               discountRate ,
+                                               MCD_t2, MCD_t3, MCD_t4,
+                                               utilisation_t1, utilisation_t2,
+                                               utilisation_t3, utilisation_t4,
+                                               costHealthSystem, k, currencySymbol,
+                                               probabilityOfDefinitiveResearch,durationOfResearchDefinitive,
+                                               durationOfResearchFeas,costResearchFunderFeas,
+                                               costResearchFunderDefinitive,
+                                               costHealthSystemFeas,costHealthSystemDefinitive)
+    return(masterOutput)
+  }
+  
+  
+  ########################
+  # Survival Endpoint models
+  ########################
+  
+  # RUN IF: survival natural outcome RCT
+  if(typeOfEndpoint == "survival" & typeOfOutcome != "netHealth" & typeOfResearch == "RCT"){
+    masterOutput <- SurvivalOutcomeFunction(numberOfTreatments, MCsims, 
+                                            survivalDist,scaleParameter_t1,shapeParameter_t1,
+                                            mu_t2, variance_t2, dist_t2, direction_t2,
+                                            mu_t3, variance_t3, dist_t3, direction_t3,
+                                            mu_t4, variance_t4, dist_t4, direction_t4,
+                                            nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                            typeOfOutcome, incidence,timeInformation,
+                                            discountRate ,durationOfResearch,costResearchFunder,
+                                            MCD_t2, MCD_t3, MCD_t4,
+                                            utilisation_t1, utilisation_t2,
+                                            utilisation_t3, utilisation_t4, currencySymbol)
+    return(masterOutput)
+  }
+  
+  # RUN IF: survival QALY RCT
+  if(typeOfEndpoint == "survival" & typeOfOutcome == "netHealth" & typeOfResearch == "RCT"){
+    masterOutput <- SurvivalQALYFunction(numberOfTreatments, MCsims, 
+                                         survivalDist,scaleParameter_t1,shapeParameter_t1,
+                                         INBSurvivalEndpoint,
+                                         mu_t2, variance_t2, dist_t2, direction_t2,
+                                         mu_t3, variance_t3, dist_t3, direction_t3,
+                                         mu_t4, variance_t4, dist_t4, direction_t4,
+                                         nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                         cost_t1, cost_t2, cost_t3, cost_t4,
+                                         typeOfOutcome, incidence,timeInformation,
+                                         discountRate ,durationOfResearch,costResearchFunder,
+                                         MCD_t2, MCD_t3, MCD_t4,
+                                         utilisation_t1, utilisation_t2,
+                                         utilisation_t3, utilisation_t4,
+                                         costHealthSystem, k, currencySymbol)
+      return(masterOutput)
+  }
+  
+  
+  # RUN IF: survival natural outcome Feasibility
+  if(typeOfEndpoint == "survival" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"){
+    masterOutput <- 
+      
+      
+      return(masterOutput)
+  }
+  
+  
+  # RUN IF: survival QALY Feasibility
+  if(typeOfEndpoint == "survival" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"){
+    masterOutput <- 
+      
+      
+      return(masterOutput)
+  }
   
   
 }

@@ -54,6 +54,7 @@
 # cost_t2 = 2000
 # cost_t3 = NA
 # cost_t4 = NA
+# tCostsDependOnEvent = "No"
 
 SurvivalQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, 
                                           survivalDist,scaleParameter_t1,shapeParameter_t1,
@@ -68,7 +69,7 @@ SurvivalQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims,
                                           MCD_t2, MCD_t3, MCD_t4,
                                           utilisation_t1, utilisation_t2,
                                           utilisation_t3, utilisation_t4,
-                                          costHealthSystem, k){
+                                          costHealthSystem, k, currencySymbol){
   
   
   # no uncertainty in baseline for now
@@ -90,18 +91,31 @@ SurvivalQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims,
   
   # create economic model from expected survial
   #########################
+  
+  #if(tCostsDependOnEvent == "No"){ # if treatment costs do not depend on duration of survival
+    
+    NB_t  <- ExpectedSurvival_t*INBSurvivalEndpoint # multiply every element by INBSurvivalEndpoint (1st step in converting to NB)
+    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    # subtract the costs from each column in the vector.
+    addCost_t <- c(-cost_t1/k ,-cost_t2/k, -cost_t3/k, -cost_t4/k) 
+    NB_t  <- NB_t  + rep(addCost_t, each = MCsims)
+    
+    # generate and format costs table (assuming treatment costs do not depend on duration of survival)
+    cost_t <- c(cost_t1, cost_t2, cost_t3, cost_t4)
+    Cost_per_individual <- paste0(currencySymbol,formatC(cost_t, big.mark = ',', format = 'd'))
+    Yearly_costs <- paste0(currencySymbol,formatC(cost_t*incidence, big.mark = ',', format = 'd'))
+    Additional_cost_per_year <- paste0(currencySymbol,formatC((cost_t - cost_t1)*incidence, big.mark = ',', format = 'd'))
+    popTotal <- verybasicPop(incidence, discountRate, durationOfResearch, timeInformation)$popTotal
+    Total_Costs <- paste0(currencySymbol,formatC(cost_t*popTotal, big.mark = ',', format = 'd'))
+    Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
+    tableTreatmentCostsDF <- as.data.frame(cbind(Treatment_name, Cost_per_individual, Yearly_costs, Additional_cost_per_year, Total_Costs))
+    tableTreatmentCostsDF <- tableTreatmentCostsDF[1:numberOfTreatments,]
+    
+  #} else { # if treatment costs DO depend duration of survival
+  #}
 
-  NB_t  <- ExpectedSurvival_t*INBSurvivalEndpoint # multiply every element by INBSurvivalEndpoint (1st step in converting to NB)
-  
-  addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-  NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
-  
-  # subtract the costs from each column in the vector.
-  
-  addCost_t <- c(-cost_t1/k ,-cost_t2/k, -cost_t3/k, -cost_t4/k) 
-  NB_t  <- NB_t  + rep(addCost_t, each = MCsims)
-  
-  # each column now represents simulations of the NB of each treatment
+
   
   # Calculate outputs from NB matrix
   ######################################
@@ -113,7 +127,8 @@ SurvivalQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims,
                                 MCD_t2, MCD_t3, MCD_t4,
                                 utilisation_t1, utilisation_t2,
                                 utilisation_t3, utilisation_t4,
-                                costHealthSystem, k)
+                                costHealthSystem, k, currencySymbol)
+  VOIoutputs$tableTreatmentCostsDF <- tableTreatmentCostsDF # add the expected cost table to the input list
   
   # return the list of results
   ###############################
@@ -140,5 +155,5 @@ SurvivalQALYFunction <- SurvivalQALYFunction.v.0.1
 #                                                  MCD_t2=0, MCD_t3=NA, MCD_t4=NA,
 #                                                  utilisation_t1=100, utilisation_t2=0,
 #                                                  utilisation_t3=NA, utilisation_t4=NA,
-#                                                  costHealthSystem = 1000000, k = 13000)
+#                                                  costHealthSystem = 1000000, k = 13000, currencySymbol = "£")
 
