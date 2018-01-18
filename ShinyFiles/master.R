@@ -245,7 +245,7 @@ master <- function(
                                            MCD_t2, MCD_t3, MCD_t4,
                                            utilisation_t1, utilisation_t2,
                                            utilisation_t3, utilisation_t4, 
-                                           costHealthSystem, k, currencySymbol,
+                                           k, currencySymbol,
                                            probabilityOfDefinitiveResearch,durationOfResearchDefinitive,
                                            durationOfResearchFeas,costResearchFunderFeas,
                                            costResearchFunderDefinitive,
@@ -377,23 +377,51 @@ master <- function(
   
   # RUN IF: survival natural outcome Feasibility
   if(typeOfEndpoint == "survival" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"){
-    masterOutput <- 
-      
-      
+    masterOutput <- SurvivalOutcomeFunctionFeas(numberOfTreatments, MCsims, 
+                                                survivalDist,scaleParameter_t1,shapeParameter_t1,
+                                                mu_t2, variance_t2, dist_t2, direction_t2,
+                                                mu_t3, variance_t3, dist_t3, direction_t3,
+                                                mu_t4, variance_t4, dist_t4, direction_t4,
+                                                nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                                typeOfOutcome, incidence,timeInformation,
+                                                discountRate ,
+                                                MCD_t2, MCD_t3, MCD_t4,
+                                                utilisation_t1, utilisation_t2,
+                                                utilisation_t3, utilisation_t4, 
+                                                durationOfResearchDefinitive, durationOfResearchFeas,
+                                                costResearchFunderFeas,costResearchFunderDefinitive,
+                                                probabilityOfDefinitiveResearch, currencySymbol)
       return(masterOutput)
   }
   
   
   # RUN IF: survival QALY Feasibility
   if(typeOfEndpoint == "survival" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"){
-    masterOutput <- 
-      
-      
+    masterOutput <- SurvivalQALYFunctionFeas(numberOfTreatments, MCsims, 
+                                             survivalDist,scaleParameter_t1,shapeParameter_t1,
+                                             INBSurvivalEndpoint,
+                                             mu_t2, variance_t2, dist_t2, direction_t2,
+                                             mu_t3, variance_t3, dist_t3, direction_t3,
+                                             mu_t4, variance_t4, dist_t4, direction_t4,
+                                             nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4,
+                                             cost_t1, cost_t2, cost_t3, cost_t4,
+                                             typeOfOutcome, incidence,timeInformation,
+                                             discountRate ,
+                                             MCD_t2, MCD_t3, MCD_t4,
+                                             utilisation_t1, utilisation_t2,
+                                             utilisation_t3, utilisation_t4,
+                                             k, currencySymbol,
+                                             probabilityOfDefinitiveResearch,durationOfResearchDefinitive,
+                                             durationOfResearchFeas,costResearchFunderFeas,
+                                             costResearchFunderDefinitive,
+                                             costHealthSystemFeas,costHealthSystemDefinitive)
       return(masterOutput)
   }
   
   
-}
+} # end master function
+
+
 
 
 

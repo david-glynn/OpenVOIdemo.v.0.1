@@ -5,7 +5,11 @@ shinyUI(fluidPage(
   titlePanel("Open VOI - Demo"),
   
   tabsetPanel(
-    tabPanel("About", 
+    
+    ##################
+    # HOW TO page
+    ##################
+    tabPanel("How to use the app", 
              br(),
              h3("What this app does"),
              p("This is an R Shiny App which allows easy and quick value of information calculations to
@@ -13,8 +17,11 @@ shinyUI(fluidPage(
              p("Full details of the approach used and applied examples using these methods are forthcoming. In the meantime see https://www.york.ac.uk/che/research/teehta/research-prioritisation/ for further details.")
              
              ),
-    tabPanel("Inputs", tabsetPanel(
-      tabPanel("General Inputs", 
+    
+    ##################
+    # INPUTs page page
+    ##################
+    tabPanel("Inputs", 
                
                ### High level inputs which control what is dipalyed to user
                
@@ -300,7 +307,7 @@ shinyUI(fluidPage(
                # BUG!! If this has NA value then the app crashes
                # display if: typeOfEndpoint == survival & typeOfOutcome == "netHealth"
                numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
-                            value = 0.5, min = NA, max = NA, step = 0.05)
+                            value = 0.5, min = NA, max = NA, step = 0.05),
                
                
                ### success or failure endpoint inputs
@@ -321,8 +328,6 @@ shinyUI(fluidPage(
               #              value = NA, min = NA, max = NA, step = 0.05)
                
                
-      ),
-      tabPanel("Standard RCT", 
                actionButton("run", label = "Run analysis"),
                
                numericInput("MCsims", "Number of simulations",
@@ -336,10 +341,8 @@ shinyUI(fluidPage(
                
                # display if: typeOfOutcome == "netHealth"
                numericInput("costHealthSystem", "Costs of research imposed on health system",
-                            value = 1000000, min = 0, max = NA, step = 100)
+                            value = 1000000, min = 0, max = NA, step = 100),
                
-      ),
-      tabPanel("Feasibility Trial", 
                
                numericInput("MCsims", "Number of simulations",
                             value = 50000, min = 0, max = 10000000, step = 500),
@@ -365,19 +368,20 @@ shinyUI(fluidPage(
                
                # display if: typeOfOutcome == "netHealth"
                numericInput("costHealthSystemDefinitive", "Costs of follow-up research imposed on health system",
-                            value = 1000000, min = 0, max = NA, step = 100)
+                            value = 1000000, min = 0, max = NA, step = 100),
                
                
-               
-      ),
-      tabPanel("Reconsider Evidence", 
                numericInput("MCsimsInner", "Number of simulations for inner loop",
                             value = 50000, min = 0, max = 10000000, step = 500),
                
                numericInput("MCsimsOuter", "Number of simulations for outer loop",
                             value = 50000, min = 0, max = 10000000, step = 500)
                
-      ))),
+      ),
+    
+    ##################
+    # RESULTS page
+    ##################
     tabPanel("Results", 
              # notes:
              # display text conditional on which type of analysis has been carried out
@@ -489,7 +493,10 @@ shinyUI(fluidPage(
              textOutput("test3")
              
     ),
-    tabPanel("Report", "<code for report ui>"),
+    
+    ##################
+    # ABOUT page
+    ##################
     tabPanel("About", "<code for about ui>")
   )
   
