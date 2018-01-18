@@ -1,3 +1,13 @@
+############################
+# potential bugs: 
+# how many MCsims should be the max? some funny behavour at large numbers.
+#
+# possible improvements:
+# 
+# tests:
+# need to see how it works with NAs as defaults for everything!
+
+
 
 library(shiny)
 
@@ -216,37 +226,49 @@ shinyUI(fluidPage(
                         ##########
                         
                         wellPanel(
-                          h4("Treatment 1 inputs"),
+                          h4("Treatment 1"),
                           p("This is considered the baseline treatment. If a no treatment or standard practice option is considered then it should be entered here"),
-                        textInput("nameOf_t1", "Name of treatment 1 (optional)", 
+                        
+                          textInput("nameOf_t1", "Name of treatment 1 (optional)", 
                                   value = "late PTP"),
                         
-                        numericInput("utilisation_t1", "Utilisation of treatment 1 (%)",
+                          numericInput("utilisation_t1", "Current utilisation of treatment 1 (%)",
                                      value = 100, min = 0, max = 100, step = 0.1),
                         
-                        # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "No"
-                        numericInput("cost_t1", "Lifetime treatment costs associated with treatment 1",
-                                     value = 100, min = NA, max = NA, step = 10),
+                          conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
+                                           numericInput("P_t1", "Probability of outcome with treatment 1 (Baseline risk)",
+                                                        value = 0.5, min = 0, max = 1, step = 0.05)),
+                          
+                          # survival inputs for t1
+                          conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
+                                           numericInput("scaleParameter_t1", "Scale parameter for treatment 1 (natural scale)",
+                                                        value = 5, min = 0, max = NA, step = 1),
+                                           
+                                           conditionalPanel(condition = "input.survivalDist == 'weibull'",
+                                                            numericInput("shapeParameter_t1", "Shape parameter for treatment 1 (natural scale)",
+                                                                         value = 1.1, min = 0, max = NA, step = 0.1))
+                          ), # end survival inputs for t1
+                          
+                          conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
+                                           p("Note that if the primary endpoint is continuous the expected outcome on the continuous scale with the baseline treatment is not required. For further details see ####INSERT REFERENCE")),
+                          
+                          # Cost inputs for t1
+                          conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                                        
+                                           conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                            numericInput("cost_t1", "Lifetime treatment costs associated with treatment 1",
+                                                                         value = 100, min = NA, max = NA, step = 10) ),
+                                           
+                                           conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                            numericInput("costEvent_t1", "Lifetime treatment costs associated with treatment 1 if the primary outcome occurs",
+                                                                         value = 100, min = NA, max = NA, step = 10),
+                                                            
+                                                            # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
+                                                            numericInput("costNotEvent_t1", "Lifetime treatment costs associated with treatment 1 if the primary outcome does not occur",
+                                                                         value = 100, min = NA, max = NA, step = 10) )
+                          ) # end Cost inputs for t1
+                          
                         
-                        # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
-                        numericInput("costEvent_t1", "Lifetime treatment costs associated with treatment 1 if the primary outcome occurs",
-                                     value = 100, min = NA, max = NA, step = 10),
-                        
-                        # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
-                        numericInput("costNotEvent_t1", "Lifetime treatment costs associated with treatment 1 if the primary outcome does not occur",
-                                     value = 100, min = NA, max = NA, step = 10),
-                        
-                        # display if: typeOfEndpoint == binary
-                        numericInput("P_t1", "Probability of outcome with treatment 1 (Baseline risk)",
-                                     value = 0.5, min = 0, max = 1, step = 0.05),
-                        
-                        # display if: typeOfEndpoint == survival
-                        numericInput("scaleParameter_t1", "Scale parameter for treatment 1 (natural scale)",
-                                     value = 5, min = 0, max = NA, step = 1),
-                        
-                        # display if: typeOfEndpoint == survival & survivalDist == "weibull"
-                        numericInput("shapeParameter_t1", "Shape parameter for treatment 1 (natural scale)",
-                                     value = 1.1, min = 0, max = NA, step = 0.1)
                         
                         ) # end wellPanel t1
                         ), # end column t1
@@ -257,11 +279,11 @@ shinyUI(fluidPage(
                         ##########
                         
                         wellPanel(
-                          h4("Treatment 2 inputs"),
+                          h4("Treatment 2"),
                         textInput("nameOf_t2", "Name of treatment 2 (optional)", 
                                   value = "early PTP"),
                         
-                        numericInput("utilisation_t2", "Utilisation of treatment 2 (%)",
+                        numericInput("utilisation_t2", "Current utilisation of treatment 2 (%)",
                                      value = 0, min = 0, max = 100, step = 0.1),
                         
                         # display if: typeOfEndpoint != successFail
@@ -310,13 +332,13 @@ shinyUI(fluidPage(
                         conditionalPanel(condition = "input.numberOfTreatments >= 3",
                                          
                                          wellPanel(
-                                           h4("Treatment 3 inputs"),
+                                           h4("Treatment 3"),
                                            # display if: numberOfTreatments >= 3
                                            textInput("nameOf_t3", "Name of treatment 3 (optional)", 
                                                      value = "treatment 3"),
                                            
                                            # display if: numberOfTreatments >= 3
-                                           numericInput("utilisation_t3", "Utilisation of treatment 3 (%)",
+                                           numericInput("utilisation_t3", "Current utilisation of treatment 3 (%)",
                                                         value = 0, min = 0, max = 100, step = 0.1),
                                            
                                            # display if: numberOfTreatments >= 3 & typeOfEndpoint != successFail 
@@ -371,12 +393,12 @@ shinyUI(fluidPage(
                         conditionalPanel(condition = "input.numberOfTreatments >= 4",
                                          
                               wellPanel(
-                                h4("Treatment 4 inputs"),
+                                h4("Treatment 4"),
                               # display if: numberOfTreatments >= 4
                               textInput("nameOf_t4", "Name of treatment 4 (optional)", 
                                         value = "treatment 4"),
                               # display if: numberOfTreatments >= 4
-                              numericInput("utilisation_t4", "Utilisation of treatment 4 (%)",
+                              numericInput("utilisation_t4", "Current utilisation of treatment 4 (%)",
                                            value = 0, min = 0, max = 100, step = 0.1),
                               
                               # display if: numberOfTreatments >= 4 & typeOfEndpoint != successFail 
