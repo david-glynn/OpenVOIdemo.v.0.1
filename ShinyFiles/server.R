@@ -182,6 +182,36 @@ shinyServer(function(input, output) {
   # Create conditional text segments for results section
   ###########################
   
+  # Headline results and overview
+  ########
+  
+  output$introduceResearch <- renderText({
+    paste("This proposal is for a",input$numberOfTreatments, "arm", 
+          ifelse(input$typeOfResearch == "RCT",
+                 "randomised controlled trial.",
+                 "feasibility study."),
+          "The primary endpoint in the trial is", input$nameOfOutcome, ".",
+          "The analysis will compare the average outcomes across the treatment groups."
+          ) # end paste
+  })
+  
+  # ICER in primary outcome / QALY or otherwise
+  #output$ICERresult <- renderText({
+  #  paste(" Considering the uncertainty in the primary endpoint",
+  #        ifelse(input$typeOfResearch == "feasibility",
+  #               paste("and a", input$probabilityOfDefinitiveResearch, "% chance of the feasibility study leading to a definitive trial,"),
+  #               ""),
+  #        "the proposal is worth approximately", VOIResults$ICER_ResearchWithPerfectImplementation, 
+  #        "per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm",
+  #                                           "gained",
+  #                                           "avoided"))
+  #})
+  
+  
+    
+  
+  
+  
   # text for general discussion about current information (common accross all models and endpoints?)
   output$resultsCurrenInformation <- renderText({
     paste("From the table above",VOIResults$optimalTreatment, "is favoured by the evidence with", 

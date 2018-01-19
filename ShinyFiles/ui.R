@@ -17,19 +17,89 @@ shinyUI(fluidPage(
   tabsetPanel(
     
     ##################
-    # HOW TO page
+    # HOW TO ESTIMATE tab
     ##################
-    tabPanel("How to use the app", 
+    tabPanel("Welcome",
              br(),
-             h3("What this app does"),
-             p("This is an R Shiny App which allows easy and quick value of information calculations to
-               estimate the value of research proposals. The approach translates the uncertainty in the primary outcome into health consequences. If a decision is uncertain there is a chance that the optimal treatment will not be chosen. The value of research is the value of avoiding sub optimal decisions."), 
-             p("Full details of the approach used and applied examples using these methods are forthcoming. In the meantime see https://www.york.ac.uk/che/research/teehta/research-prioritisation/ for further details.")
+             p("Demo release version 0.1"),
+             h4("How to use this app"),
+             p("This is an R Shiny App which facilitates value of information calculations to estimate the value of research proposals in a timely manner. 
+               The need for value of information methods in undestanding research value and the intuition behind the methods will be provided below.
+               The inputs required to assess the value of research represent the minimum needed to understand the consequences of uncertainty in the current evidence base and the need for further evaluative research.
+               Full details of the approach used and applied examples using these methods are forthcoming. In the meantime see https://www.york.ac.uk/che/research/teehta/research-prioritisation/ for further details.
+               "),
+             p(strong("Users unfamiliar with value of informaiton methods"), "are encouraged to read the section on 'How to estimate research value'. This section describes the value of information approach and how it applies to research funding in a resource constrainted health care system.
+               "),
+             p(strong("Those who have not used this app before"), "should read the section on 'How to use this app'. This section describes the types of analysis which are possible with this app and the inputs that are required.
+               "),
+             br(),
+             tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007")
              
-             ),
+             
+             ), # end Welcome tabPanel
+    
     
     ##################
-    # INPUTs page page
+    # HOW TO ESTIMATE tab
+    ##################
+    tabPanel("How to estimate research value", 
+             br(),
+             h4("How can health oucomes be improved?"),
+             p("Additional evidence is valuable because it can improve patient outcomes by resolving existing uncertainty about the effectiveness of the interventions available. This helps inform treatment decisions for subsequent patients. 
+               A judgement about the level of uncertainty in the existing evidence base can come from a number of sources including a systematic literature review and meta-analysis, expert elicitation, extrapolation, meta-epidemiological study, or a combination of these different sources. 
+               The expected health benefit provided by reducing uncertainty is called the information value for a research project."
+               ),
+             p("In addition to funding research, it is also possible to improve health outcomes by ensuring that the treatment option that is expected to be best based on the findings of existing evidence is implemented into clinical practice.  In fact, the improvements in health outcomes from implementing the findings of the current evidence base (implementation value) may be greater than the potential improvements in health outcomes through conducting further research."
+               ),
+             p("Drawing a distinction between the information value and the implementation value is important because conducting further evaluative research is not the only way to change clinical practice. The results of a new research study may influence clinical practice and may contribute to the implementation of research findings but this is not the only, or necessarily the most effective, way to do so. There are other mechanisms (e.g., more effective dissemination of existing evidence) and policies which are within the remit of other bodies (e.g., incentives and sanctions) to affect implementation. Therefore, conducting research to influence implementation rather than because there is real value in acquiring additional evidence itself would seem inappropriate. This is because limited research capacity could have been used elsewhere to conduct research in areas where it would have offered greater potential health benefits
+               "),
+             h4("What change in the primary endpoint is required?"),
+             p("Uncertainty in a decision about alternative treatment options arises from the range of plausible values that the important endpoints can take.  When the range of plausible values for a particular parameter such as the relative treatment effect can support more than one intervention (e.g., the confidence interval for the estimate of relative effect crosses the line of no difference) this uncertainty has consequences for health outcomes.  This is because for any treatment choice there is a chance that an alternative intervention could have improved health outcomes to a greater extent.  The importance of this uncertainty is indicated by the scale of the health consequences of the uncertainty.   The chance that an intervention is not the most effective, how much less effective it is likely to be, and the size of the patient population facing the uncertain treatment choice all contribute to the health consequences of uncertainty.
+               "),
+             p("The primary endpoint, which usually captures the most important aspects of health outcome, can be used as a starting point to understand the consequences of current uncertainty. However, in situations where there are a number of other important considerations that are not captured in the primary outcome, we can specify a minimum clinical difference (MCD) in the primary outcome that would need to be detected in future research.  This represents the change in the primary endpoint that would need to be detected for the results of any new research study to be considered clinically significant and have an impact on clinical practice. 
+               This MCD concept will be explained further in the next section: 'How to use this app'.")
+             
+             
+             ), # end how to estimate tabPanel
+    
+    ##################
+    # HOW TO use this app tab
+    ##################
+    tabPanel("How to use this app",
+             br(),
+             p("The evidence requirements for this app (listed below) represent the minimum needed to establish the value of additional research.
+               "),
+             h4("Inputs required to estimate research value"),
+             strong("Primary endpoint for the trial"),
+             p("The primary outcome measure or endpoint captures the most important aspects of health outcome. The value of additional research is expressed in terms of ‘benefits gained’ or ‘harms avoided’ depending on whether this outcome is a benefit or harm. Alternative scenarios based on different endpoints can also be used to consider the impact of additional evidence on different aspects of outcome. 
+               Where the analysis is restricted to a primary outcome but there are a number of other important aspects of outcome that are not captured in the analysis, we can specify a minimum clinical difference in effect to implicitly account for these other unquantified aspects of outcome and/or costs (see the MCD section below)
+               "),
+             strong("Relative treatment effects"),
+             p("An estimate of the relative effectiveness of the intervention is required for the primary outcome, along with an estimate of its uncertainty. 
+               This information is required in the form of a mean and variance of the log odds ratio (for binary and continuous outcomes) or a mean and variance of the log hazard ratio (for survival outcomes). 
+               This estimate is usually obtained from a standard meta-analysis. However, if the estimate is unavailable or considered inadequate, alternative values can be used to represent different judgements about the uncertain relative treatment effect. 
+               "),
+             strong("Baseline event rate"),
+             p(""),
+             strong("Current level of utilisation of the interventions"),
+             p(""),
+             strong("Incidence per annum"),
+             p(""),
+             strong("Costs of the research"),
+             p(""),
+             strong("Duration of the research"),
+             p(""),
+             strong("Length of time for which the new evidence would be valuable"),
+             p(""),
+             strong("Discount rate"),
+             p(""),
+             strong("Other inputs - Feasibility and Reconsideration of evidence"),
+             p("")
+      
+    ), # end how to use this app tabPanel
+    
+    ##################
+    # INPUTs page tab
     ##################
     tabPanel("Inputs", 
                
@@ -453,14 +523,12 @@ shinyUI(fluidPage(
     # RESULTS page
     ##################
     tabPanel("Results", 
-             # notes:
-             # display text conditional on which type of analysis has been carried out
-             # Note: useing conditionalPanel the conditions are written in JavaScript and '' must be used!!
-             
           
              br(),
              # heading 0
              h4("Headline results and overview"),
+             textOutput("introduceResearch"),
+             #textOutput("ICERresult"),
              br(),
              
              # heading 1
