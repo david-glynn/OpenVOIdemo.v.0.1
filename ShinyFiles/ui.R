@@ -194,7 +194,7 @@ shinyUI(fluidPage(
                                                         value = 0.5, min = NA, max = NA, step = 0.05)),
                           
                           # make conditional? display if: typeOfOutcome != netHealth. automatically display QALYs if typeOfOutcome == netHealth
-                          textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks", 
+                          textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks, QALYs)", 
                                     value = "functional recovery"), 
                           
                           textInput("currencySymbol", "Currency used in analysis", 
@@ -528,7 +528,7 @@ shinyUI(fluidPage(
              # heading 0
              h4("Headline results and overview"),
              textOutput("introduceResearch"),
-             #textOutput("ICERresult"),
+             textOutput("ICERresult"),
              br(),
              
              # heading 1

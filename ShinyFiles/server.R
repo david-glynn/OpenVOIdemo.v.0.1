@@ -1,3 +1,11 @@
+#######################
+# potential server side bugs: 
+# if the app is open on a number of windows on the browser (i.e. if it has not been "stopped" in a while)
+# then Binary/Survival Feas NetHealth models crash. Some problem with trying to find popDurationResearch 
+# 
+#
+
+
 # must load the required functions! SupplementaryFunctions.R
 
 library(shiny)
@@ -195,20 +203,17 @@ shinyServer(function(input, output) {
           ) # end paste
   })
   
-  # ICER in primary outcome / QALY or otherwise
-  #output$ICERresult <- renderText({
-  #  paste(" Considering the uncertainty in the primary endpoint",
-  #        ifelse(input$typeOfResearch == "feasibility",
-  #               paste("and a", input$probabilityOfDefinitiveResearch, "% chance of the feasibility study leading to a definitive trial,"),
-  #               ""),
-  #        "the proposal is worth approximately", VOIResults$ICER_ResearchWithPerfectImplementation, 
-  #        "per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm",
-  #                                           "gained",
-  #                                           "avoided"))
-  #})
-  
-  
-    
+  # ICER in primary natural outcome for RCT and feasibility study
+  output$ICERresult <- renderText({
+   paste(" Considering the uncertainty in the primary endpoint",
+         ifelse(input$typeOfResearch == "feasibility",
+                paste("and a", input$probabilityOfDefinitiveResearch, "chance of the feasibility study leading to a definitive trial,"),
+                ""),
+         "the value of the research is calculated to be approximately", VOIResults$ICER_ResearchWithPerfectImplementation,
+         "per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm",
+                                            "gained",
+                                            "avoided"))
+  })
   
   
   

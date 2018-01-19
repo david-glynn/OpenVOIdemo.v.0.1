@@ -215,7 +215,7 @@ SurvivalQALYFunctionFeas.v.0.1 <- function(numberOfTreatments, MCsims,
   Cost_per_individual <- paste0(currencySymbol,formatC(cost_t, big.mark = ',', format = 'd'))
   Yearly_costs <- paste0(currencySymbol,formatC(cost_t*incidence, big.mark = ',', format = 'd'))
   Additional_cost_per_year <- paste0(currencySymbol,formatC((cost_t - cost_t1)*incidence, big.mark = ',', format = 'd'))
-  popTotal <- verybasicPop(incidence, discountRate, durationOfResearch, timeInformation)$popTotal
+  popTotal <- (incidence/-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*0))
   Total_Costs <- paste0(currencySymbol,formatC(cost_t*popTotal, big.mark = ',', format = 'd'))
   Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
   tableTreatmentCostsDF <- as.data.frame(cbind(Treatment_name, Cost_per_individual, Yearly_costs, Additional_cost_per_year, Total_Costs))
