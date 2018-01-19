@@ -198,21 +198,23 @@ shinyServer(function(input, output) {
           ifelse(input$typeOfResearch == "RCT",
                  "randomised controlled trial.",
                  "feasibility study."),
-          "The primary endpoint in the trial is", input$nameOfOutcome, ".",
-          "The analysis will compare the average outcomes across the treatment groups."
+          "The primary endpoint in the trial is", input$nameOfOutcome, "."
           ) # end paste
   })
   
   # ICER in primary natural outcome for RCT and feasibility study
   output$ICERresult <- renderText({
-   paste(" Considering the uncertainty in the primary endpoint",
+   paste("Considering the uncertainty in the primary endpoint",
          ifelse(input$typeOfResearch == "feasibility",
                 paste("and a", input$probabilityOfDefinitiveResearch, "chance of the feasibility study leading to a definitive trial,"),
                 ""),
          "the value of the research is calculated to be approximately", VOIResults$ICER_ResearchWithPerfectImplementation,
          "per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm",
-                                            "gained",
-                                            "avoided"))
+                                            "gained.",
+                                            "avoided."),
+         "This means that the research fundeder must spend",VOIResults$ICER_ResearchWithPerfectImplementation,
+         "to", ifelse(input$typeOfOutcome != "harm", "gain", "avoid"), "one", input$nameOfOutcome, ".",
+         "As the research funder has limited resources, whether this represents good value for money depends on how this compares to other proposals competing for funding.")
   })
   
   

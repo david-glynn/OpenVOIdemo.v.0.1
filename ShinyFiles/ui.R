@@ -528,6 +528,7 @@ shinyUI(fluidPage(
              # heading 0
              h4("Headline results and overview"),
              textOutput("introduceResearch"),
+             br(),
              textOutput("ICERresult"),
              br(),
              
