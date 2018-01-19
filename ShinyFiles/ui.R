@@ -263,7 +263,6 @@ shinyUI(fluidPage(
                                                             numericInput("costEvent_t1", "Lifetime treatment costs associated with treatment 1 if the primary outcome occurs",
                                                                          value = 100, min = NA, max = NA, step = 10),
                                                             
-                                                            # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
                                                             numericInput("costNotEvent_t1", "Lifetime treatment costs associated with treatment 1 if the primary outcome does not occur",
                                                                          value = 100, min = NA, max = NA, step = 10) )
                           ) # end Cost inputs for t1
@@ -286,41 +285,43 @@ shinyUI(fluidPage(
                         numericInput("utilisation_t2", "Current utilisation of treatment 2 (%)",
                                      value = 0, min = 0, max = 100, step = 0.1),
                         
-                        # display if: typeOfEndpoint != successFail
-                        selectInput("dist_t2", label = "Distribution of treatment 2", 
+                        selectInput("dist_t2", label = "Distribution of treatment 2 relative effects", 
                                     choices = c("Normal" = "norm", 
                                                 "Half Normal" = "halfNorm"),
                                     selected = "Normal"),
                         
-                        # display if: dist_t2 == "norm" & typeOfEndpoint != successFail
-                        numericInput("mu_t2", "Mean log odds ratio for treatment 2",
-                                     value = 0, min = NA, max = NA, step = 0.05),
+                        # normal dist inputs for t2
+                        conditionalPanel(condition = "input.dist_t2 == 'norm'",
+                                         numericInput("mu_t2", "Mean log odds / log hazard ratio for treatment 2",
+                                                      value = 0, min = NA, max = NA, step = 0.05),
+                                         
+                                         numericInput("variance_t2", "Variance of log odds / log hazard ratio for treatment 2",
+                                                      value = 0.25, min = NA, max = NA, step = 0.05)
+                                         ), # end normal dist inputs for t2
                         
-                        # display if: dist_t2 == "norm" & typeOfEndpoint != successFail
-                        numericInput("variance_t2", "Variance of log odds ratio for treatment 2",
-                                     value = 0.25, min = NA, max = NA, step = 0.05),
-                        
-                        # display if: dist_t2 == "halfNorm" & typeOfEndpoint != successFail
-                        selectInput("direction_t2", label = "Direction of distribution for treatment 2", 
-                                    choices = c("Always positive" = "alwaysPositive", 
-                                                "Always negative" = "alwaysNegative"),
-                                    selected = "alwaysPositive"),
-                        
-                        # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "No"
-                        numericInput("cost_t2", "Lifetime treatment costs associated with treatment 2",
-                                     value = 100, min = NA, max = NA, step = 10),
-                        
-                        # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
-                        numericInput("costEvent_t2", "Lifetime treatment costs associated with treatment 2 if the primary outcome occurs",
-                                     value = 100, min = NA, max = NA, step = 10),
-                        
-                        # Display if: typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
-                        numericInput("costNotEvent_t2", "Lifetime treatment costs associated with treatment 2 if the primary outcome does not occur",
-                                     value = 100, min = NA, max = NA, step = 10),
+                        conditionalPanel(condition = "input.dist_t2 == 'halfNorm'",
+                                         selectInput("direction_t2", label = "Direction of distribution for treatment 2", 
+                                                     choices = c("Always positive" = "alwaysPositive", 
+                                                                 "Always negative" = "alwaysNegative"),
+                                                     selected = "alwaysPositive")),
                         
                         numericInput("MCD_t2", "MCD for treatment 2",
-                                     value = 0, min = NA, max = NA, step = 0.05)
+                                     value = 0, min = NA, max = NA, step = 0.05),
                         
+                        # Cost inputs for t2
+                        conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                                         
+                                         conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                          numericInput("cost_t2", "Lifetime treatment costs associated with treatment 2",
+                                                                       value = 100, min = NA, max = NA, step = 10) ),
+                                         
+                                         conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                          numericInput("costEvent_t2", "Lifetime treatment costs associated with treatment 2 if the primary outcome occurs",
+                                                                       value = 100, min = NA, max = NA, step = 10),
+                                                          
+                                                          numericInput("costNotEvent_t2", "Lifetime treatment costs associated with treatment 2 if the primary outcome does not occur",
+                                                                       value = 100, min = NA, max = NA, step = 10) )
+                        ) # end Cost inputs for t2
                         ) # end wellPanel t2
                         ), # end column t2
                  
@@ -342,47 +343,47 @@ shinyUI(fluidPage(
                                                         value = 0, min = 0, max = 100, step = 0.1),
                                            
                                            # display if: numberOfTreatments >= 3 & typeOfEndpoint != successFail 
-                                           selectInput("dist_t3", label = "Distribution of treatment 3", 
+                                           selectInput("dist_t3", label = "Distribution of treatment 3 relative effects", 
                                                        choices = c("Normal" = "norm", 
                                                                    "Half Normal" = "halfNorm"),
                                                        selected = "Normal"),
+                                   
+                                           # normal dist inputs for t3
+                                           conditionalPanel(condition = "input.dist_t3 == 'norm'",
+                                                            numericInput("mu_t3", "Mean log odds / log hazard ratio for treatment 3",
+                                                                         value = 0, min = NA, max = NA, step = 0.05),
+                                                            
+                                                            numericInput("variance_t3", "Variance of log odds / log hazard ratio for treatment 3",
+                                                                         value = 0.25, min = NA, max = NA, step = 0.05)
+                                           ), # end normal dist inputs for t3
                                            
-                                           # display if: numberOfTreatments >= 3 & dist_t2 == "norm" & typeOfEndpoint != successFail
-                                           numericInput("mu_t3", "Mean log odds ratio for treatment 3",
+                                           conditionalPanel(condition = "input.dist_t3 == 'halfNorm'",
+                                                            selectInput("direction_t3", label = "Direction of distribution for treatment 3", 
+                                                                        choices = c("Always positive" = "alwaysPositive", 
+                                                                                    "Always negative" = "alwaysNegative"),
+                                                                        selected = "alwaysPositive")),
+                                           
+                                           numericInput("MCD_t3", "MCD for treatment 3",
                                                         value = 0, min = NA, max = NA, step = 0.05),
                                            
-                                           # display if: numberOfTreatments >= 3 & dist_t2 == "norm" & typeOfEndpoint != successFail
-                                           numericInput("variance_t3", "Variance of log odds ratio for treatment 3",
-                                                        value = 0.25, min = NA, max = NA, step = 0.05),
+                                           # Cost inputs for t3
+                                           conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                                                            
+                                                            conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                                             numericInput("cost_t3", "Lifetime treatment costs associated with treatment 3",
+                                                                                          value = 100, min = NA, max = NA, step = 10) ),
+                                                            
+                                                            conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                                             numericInput("costEvent_t3", "Lifetime treatment costs associated with treatment 3 if the primary outcome occurs",
+                                                                                          value = 100, min = NA, max = NA, step = 10),
+                                                                             
+                                                                             numericInput("costNotEvent_t3", "Lifetime treatment costs associated with treatment 3 if the primary outcome does not occur",
+                                                                                          value = 100, min = NA, max = NA, step = 10) )
+                                           ) # end cost inputs t3
                                            
-                                           # display if: numberOfTreatments >= 3 & dist_t2 == "halfNorm" & typeOfEndpoint != successFail
-                                           selectInput("direction_t3", label = "Direction of distribution for treatment 3", 
-                                                       choices = c("Always positive" = "alwaysPositive", 
-                                                                   "Always negative" = "alwaysNegative"),
-                                                       selected = "alwaysPositive"),
-                                           
-                                           # Display if: numberOfTreatments >= 3 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "No"
-                                           numericInput("cost_t3", "Lifetime treatment costs associated with treatment 3",
-                                                        value = NA, min = NA, max = NA, step = 10),
-                                           
-                                           # Display if: numberOfTreatments >= 3 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
-                                           numericInput("costEvent_t3", "Lifetime treatment costs associated with treatment 3 if the primary outcome occurs",
-                                                        value = 100, min = NA, max = NA, step = 10),
-                                           
-                                           # Display if: numberOfTreatments >= 3 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
-                                           numericInput("costNotEvent_t3", "Lifetime treatment costs associated with treatment 3 if the primary outcome does not occur",
-                                                        value = 100, min = NA, max = NA, step = 10),
-                                           
-                                           # Display if: numberOfTreatments >= 3
-                                           numericInput("MCD_t3", "MCD for treatment 3",
-                                                        value = 0, min = NA, max = NA, step = 0.05)
-                                           
-                                           
+                
                                          ) # end wellPanel t3
-                                         
-                                         
                                          ) # end conditional panel t3
-                        
                         ), # end column t3
                  
                  column(3,
@@ -402,51 +403,50 @@ shinyUI(fluidPage(
                                            value = 0, min = 0, max = 100, step = 0.1),
                               
                               # display if: numberOfTreatments >= 4 & typeOfEndpoint != successFail 
-                              selectInput("dist_t4", label = "Distribution of treatment 4", 
+                              selectInput("dist_t4", label = "Distribution of treatment 4 relative effects", 
                                           choices = c("Normal" = "norm", 
                                                       "Half Normal" = "halfNorm"),
                                           selected = "Normal"),
                               
-                              # display if: numberOfTreatments >= 4 & dist_t2 == "norm" 
-                              # change text to mean of log hazard ratio if typeOfEndpoint == survival
-                              numericInput("mu_t4", "Mean log odds ratio for treatment 4",
+                              
+                              # normal dist inputs for t4
+                              conditionalPanel(condition = "input.dist_t4 == 'norm'",
+                                               numericInput("mu_t4", "Mean log odds / log hazard ratio for treatment 4",
+                                                            value = 0, min = NA, max = NA, step = 0.05),
+                                               
+                                               numericInput("variance_t4", "Variance of log odds / log hazard ratio for treatment 4",
+                                                            value = 0.25, min = NA, max = NA, step = 0.05)
+                              ), # end normal dist inputs for t4
+                              
+                              conditionalPanel(condition = "input.dist_t4 == 'halfNorm'",
+                                               selectInput("direction_t4", label = "Direction of distribution for treatment 4", 
+                                                           choices = c("Always positive" = "alwaysPositive", 
+                                                                       "Always negative" = "alwaysNegative"),
+                                                           selected = "alwaysPositive")),
+                              
+                              numericInput("MCD_t4", "MCD for treatment 4",
                                            value = 0, min = NA, max = NA, step = 0.05),
                               
-                              # display if: numberOfTreatments >= 4 & dist_t2 == "norm" 
-                              # change text to variance of log hazard ratio if typeOfEndpoint == survival
-                              numericInput("variance_t4", "Variance of log odds ratio for treatment 4",
-                                           value = 0.25, min = NA, max = NA, step = 0.05),
-                              
-                              # display if: numberOfTreatments >= 4 & dist_t2 == "halfNorm" 
-                              selectInput("direction_t4", label = "Direction of distribution for treatment 4", 
-                                          choices = c("Always positive" = "alwaysPositive", 
-                                                      "Always negative" = "alwaysNegative"),
-                                          selected = "alwaysPositive"),
-                              
-                              # Display if: numberOfTreatments >= 4 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "No"
-                              numericInput("cost_t4", "Lifetime treatment costs associated with treatment 4",
-                                           value = NA, min = NA, max = NA, step = 10),
-                              
-                              # Display if: numberOfTreatments >= 4 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
-                              numericInput("costEvent_t4", "Lifetime treatment costs associated with treatment 4 if the primary outcome occurs",
-                                           value = 100, min = NA, max = NA, step = 10),
-                              
-                              # Display if: numberOfTreatments >= 4 & typeOfOutcome == "netHealth" & tCostsDependOnEvent == "Yes"
-                              numericInput("costNotEvent_t4", "Lifetime treatment costs associated with treatment 4 if the primary outcome does not occur",
-                                           value = 100, min = NA, max = NA, step = 10),
-                              
-                              # Display if: numberOfTreatments >= 4
-                              numericInput("MCD_t4", "MCD for treatment 4",
-                                           value = 0, min = NA, max = NA, step = 0.05)
+                              # Cost inputs for t4
+                              conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                                               
+                                               conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                                numericInput("cost_t4", "Lifetime treatment costs associated with treatment 4",
+                                                                             value = 100, min = NA, max = NA, step = 10) ),
+                                               
+                                               conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                                numericInput("costEvent_t4", "Lifetime treatment costs associated with treatment 4 if the primary outcome occurs",
+                                                                             value = 100, min = NA, max = NA, step = 10),
+                                                                
+                                                                numericInput("costNotEvent_t4", "Lifetime treatment costs associated with treatment 4 if the primary outcome does not occur",
+                                                                             value = 100, min = NA, max = NA, step = 10) )
+                              ) # end cost inputs t4
                               
                               ) # end wellPanel t4
                         ) # end of conditionalPanel t4
                         ) # end treatment 4 column
                ) # end lower fluidRow
-               
              ) # end of inputs fluidPage
-        
-               
       ), # end of inputs tab panel
     
     ##################
@@ -562,7 +562,22 @@ shinyUI(fluidPage(
              textOutput("test2"),
              textOutput("test3")
              
-    ),
+    ), # end results tabPanel
+    
+    ##################
+    # Write report page
+    ##################
+    # use textAreaInput to provide boxes so that analysts can justify their variable choices
+    # 
+    
+    tabPanel("Write Report",
+             fluidPage(
+               fluidRow(
+                 column(4, "col 1"),
+                 column(4, "col 2")
+               ) # end 1st Write Report fluidRow 
+             ) # end Write Report fluidPage 
+    ), # end write report tabPanel
     
     ##################
     # ABOUT page
@@ -572,9 +587,12 @@ shinyUI(fluidPage(
                fluidRow(
                  column(4, "<code for about ui>"),
                  column(4, "next row")
-               )
+               ) # end 1st About fluidRow  
                
-             ))
-  )
+             ) # end About fluidPage 
+    ) # end About tabPanel
+    
+  ) # end App tabSetPanel
   
-))
+) # end App fluid page
+) # end App shinyUi function
