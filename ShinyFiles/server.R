@@ -145,6 +145,8 @@ shinyServer(function(input, output) {
     VOIResults$probTreatment2isMax <- resultsHolder()$probTreatment2isMax
     VOIResults$probTreatment3isMax <- resultsHolder()$probTreatment3isMax
     VOIResults$probTreatment4isMax <- resultsHolder()$probTreatment4isMax
+    VOIResults$probOptimalTisMax <- resultsHolder()$probOptimalTisMax
+    VOIResults$probOptimalTisNotMax <- resultsHolder()$probOptimalTisNotMax
     VOIResults$expectedOutcomesPerYearoptimalTreatment <- resultsHolder()$expectedOutcomesPerYearoptimalTreatment
     VOIResults$implementationValueExists <- resultsHolder()$ implementationValueExists            # new output
     VOIResults$uncertaintyInCurrentEvidenceExists <- resultsHolder()$uncertaintyInCurrentEvidenceExists
@@ -202,22 +204,49 @@ shinyServer(function(input, output) {
           ) # end paste
   })
   
+  #****
+  # adjust for when research is not valuable!!!
   # ICER in primary natural outcome for RCT and feasibility study
   output$ICERresult <- renderText({
    paste("Considering the uncertainty in the primary endpoint",
+         # extra text for feasibility studies
          ifelse(input$typeOfResearch == "feasibility",
                 paste("and a", input$probabilityOfDefinitiveResearch, "chance of the feasibility study leading to a definitive trial,"),
                 ""),
-         "the value of the research is calculated to be approximately", VOIResults$ICER_ResearchWithPerfectImplementation,
-         "per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm",
-                                            "gained.",
-                                            "avoided."),
-         "This means that the research fundeder must spend",VOIResults$ICER_ResearchWithPerfectImplementation,
-         "to", ifelse(input$typeOfOutcome != "harm", "gain", "avoid"), "one", input$nameOfOutcome, ".",
-         "As the research funder has limited resources, whether this represents good value for money depends on how this compares to other proposals competing for funding.")
+         # text if there is/isnt value in the research
+         ifelse(VOIResults$maxvalueOfResearch > 0,
+                # text if there is value in the research
+                paste("the value of the research is calculated to be approximately", VOIResults$ICER_ResearchWithPerfectImplementation,
+                      "per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm","gained.","avoided."),
+                      "This means that the research fundeder must spend",VOIResults$ICER_ResearchWithPerfectImplementation,
+                      "to", ifelse(input$typeOfOutcome != "harm", "gain", "avoid"), "one", input$nameOfOutcome, ".",
+                      "As the research funder has limited resources, whether this represents good value for money depends on how this compares to other proposals competing for funding."),
+                # text if NO value in research
+                paste(VOIResults$optimalTreatment, "is certainty the optimal treatment and therefore there is no value in any further research.
+                      ", ifelse(VOIResults$implementationValueExists == TRUE, 
+                                paste("Because utilisation of",VOIResults$optimalTreatment , " is not 100%, outcomes can be improved by encouraging it's use in the health system." ),
+                                paste("Because the current utilisation of", VOIResults$optimalTreatment , " is already 100%, outcomes can not be improved by encouraging it's use in the health system."))
+                )
+   )
+   )
   })
   
+
+  # treatment cost table
+  output$tableTreatmentCosts <- renderTable({VOIResults$tableTreatmentCostsDF}, include.rownames = FALSE)
   
+  # text for discussion about treatment costs
+  output$discussTableTreatmentCosts <- renderText({
+    paste("The table above shows the estimated costs associated with each of the treatments.
+          The yearly costs are calculated by multiplying the cost of treating one individual with the incidence per year (", formatC(input$incidence, big.mark = ',', format = 'd'), ").", 
+          "The additional costs are calculated by subtracting the yearly costs of the baseline treatment (treatment 1) from the costs of the other treatments.
+          Total costs are obtained by multiplying the cost of treating one individual with the total number of individuals who will face this decision (", VOIResults$popTotal, ").", 
+          "The total number who face the decision will depend on the incidence, the time over which the evidence is expected to be valuable and the discount rate.")
+  
+  })
+
+  # expected outcomes per year table
+  output$tableEventsPerYear <- renderTable({VOIResults$tableEventsPerYearDF}, include.rownames = FALSE)
   
   # text for general discussion about current information (common accross all models and endpoints?)
   output$resultsCurrenInformation <- renderText({
@@ -227,20 +256,72 @@ shinyServer(function(input, output) {
                  # text if there is implementation value
                  paste(" Because utilisation of",VOIResults$optimalTreatment , " is not 100%, outcomes can be improved by encouraging the use of", VOIResults$optimalTreatment,
                  ". The benefits of switching practice to",VOIResults$optimalTreatment , 
-                 " are estimated to be",VOIResults$valueOfImplementationPerYear,input$nameOfOutcome ,"'s per year."),
+                 " are estimated to be",VOIResults$valueOfImplementationPerYear,input$nameOfOutcome ,"s per year."),
                  # text if there is NOT implementation value
-                 paste(" Because the utilisation of", VOIResults$optimalTreatment , 
-                       " is 100%, outcomes can not be improved by encouraging the use of", VOIResults$optimalTreatment ,".")))
+                 paste(" Because the current utilisation of", VOIResults$optimalTreatment , 
+                       " is already 100%, outcomes can not be improved by encouraging the use of", VOIResults$optimalTreatment ,".")))
   })
   
-  # text for discussion about value of research (common accross all models and endpoints?)
+  # first block of text for discussion of the potential value of research
+  #     - when there is value in research 
+  #     - when there is NOT value in research
+  # note: conditional panel JavaScript has a problem when the condition is an object created by server operations
+  # need to render text and diagrams and so cannot do everything in one output$ object.
   output$resultsValueOfResearch <- renderText({
     ifelse(VOIResults$maxvalueOfResearch > 0,
            # text if there is value in the research
-           paste("value in research..."),
-           # text if NO value in research
-           paste("no value in research..."))
+           paste("There is uncertainty about which treatment is optimal in this decision. 
+                 This uncertainty means that for every individual treated there is a chance that the current practice may not be the best choice
+                 This uncertainty translates into consequences for patient outcomes, i.e. health consequences due to uncertainty about the best treatment.
+                 This is calculated by combining the uncertain relative effect with", 
+                    ifelse(input$typeOfEndpoint != "continuous", 
+                                paste("an estimate of the baseline risk of the outcome and multiplying by the number of individuals affected by the decision each year."),
+                                                paste("the number of individuals affected by the decision each year.")),
+                 "This results in a distribution of health consequences in number of",input$nameOfOutcome, "s per year.
+                 The distribution of these consequences is illustrated in the diagram below:"
+                 ),
+           # text if there is NO value of research
+           paste("The evidence suggests that there is no uncertainty and that",VOIResults$optimalTreatment , "is definitely the optimal treatment.
+                 This lack of uncertainty means there is no value in", 
+                 ifelse(input$typeOfResearch == "feasibility",
+                        "carrying out research. Even if the follow up research was possible, it would not provide useful information. Therefore neither the feasibility study nor the follow up study are expected to improve health outcomes.",
+                        "further research."),
+                 "To improve health outcomes, resources should be focused on implementation.")
+    )
   })
+  
+  
+  # bug
+  # problem in ui.R conditional planel
+  # cannot make javaScript condition depend on results of VOI calcluation
+  # must display this even if there is value in the research
+  output$histVOIYear <- renderPlot({
+        plot(VOIResults$listForhistVOIYear, freq = FALSE,
+                                         main = "Consequences of uncertainty (per year)",
+                                         xlab = "Primary outcomes",
+                                         ylab = "Probability (%)")
+    })
+
+  # discuss the histogram of VOI results
+  # if there is no value in research - there is no commentary on the diagram.
+  output$discussHistVOIYear <- renderText({
+    ifelse(VOIResults$maxvalueOfResearch > 0,
+           paste("From the diagram above, it can be seen that there is a",VOIResults$probOptimalTisMax ,
+                 "chance that the optimal treatment with current evidence (", VOIResults$optimalTreatment, ") is the correct choice, however, there is still a",
+                 VOIResults$probOptimalTisNotMax, "chance that this not actually the best option."),
+           ""
+           )
+  })
+  
+  
+
+  
+  
+  
+  
+  
+  
+  
   
   
   # Raw input and output objects
@@ -270,20 +351,17 @@ shinyServer(function(input, output) {
   output$popDuringFeasResearch <- renderText({VOIResults$popDuringFeasResearch})       # feas outputs
   output$popDuringDefinitiveResearch <- renderText({VOIResults$popDuringDefinitiveResearch})       # feas outputs
   output$popAfterDefinitiveResearch <- renderText({VOIResults$popAfterDefinitiveResearch})        # feas outputs
-  output$histVOIYear <- renderPlot({plot(VOIResults$listForhistVOIYear, freq = FALSE,
-                                         main = "Consequences of uncertainty (per year)",
-                                         xlab = "Primary outcomes",
-                                         ylab = "Probability (%)")})
+  
   output$valueOfResearchPerYear <- renderText({paste("value of research per year is",  VOIResults$valueOfResearchPerYear)})
   output$valueOfImplementationPerYear <- renderText({paste("value of implementation per year is", VOIResults$valueOfImplementationPerYear)})
-  output$tableEventsPerYear <- renderTable({VOIResults$tableEventsPerYearDF}, include.rownames = FALSE)
+  
   output$tableProbabilityMax <- renderTable({VOIResults$tableProbabilityMaxDF}, include.rownames = FALSE)
-  output$tableTreatmentCosts <- renderTable({VOIResults$tableTreatmentCostsDF}, include.rownames = FALSE)
+  
   #output$Cell_A <- renderText({VOIResults$Cell_A})
   #output$Cell_C <- renderText({VOIResults$Cell_C})
   #output$Cell_D <- renderText({VOIResults$Cell_D})
   output$maxvalueOfImplementation <- renderText({VOIResults$maxvalueOfImplementation})
-  output$maxvalueOfResearch <- renderText({VOIResults$maxvalueOfResearch})
+  #output$maxvalueOfResearch <- renderText({VOIResults$maxvalueOfResearch})
   output$healthOpportunityCostsOfResearch <-   renderText({VOIResults$healthOpportunityCostsOfResearch})
   output$expectedCostResearchFunder <-   renderText({paste("expected costs to research funder" ,VOIResults$expectedCostResearchFunder)})
   output$valueOfResearchWithCurrentImplementation <- renderText({paste("value of research with current implementation ",VOIResults$valueOfResearchWithCurrentImplementation)})

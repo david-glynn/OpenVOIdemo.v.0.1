@@ -525,11 +525,12 @@ shinyUI(fluidPage(
     tabPanel("Results", 
           
              br(),
-             # heading 0
-             h4("Headline results and overview"),
-             textOutput("introduceResearch"),
-             br(),
-             textOutput("ICERresult"),
+             wellPanel(
+               h4("Headline results and overview"),
+               textOutput("introduceResearch"),
+               br(),
+               textOutput("ICERresult")
+             ),
              br(),
              
              # heading 1
@@ -550,13 +551,14 @@ shinyUI(fluidPage(
                                 Since the value of the feasibility trial depends on the definitive trial, information on the future definitive trial is required to value feasibility trial.")),
              br(),
              
-             # heading 2
-             h4("Summary of treatments"),
+             # heading 2: treatment costs (conditional)
              # if cost + QALY study: (require this extra bit)
              conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
-                              tableOutput("tableTreatmentCosts")),
-             br(),
-             
+                              h4("Summary of treatment costs"),
+                              tableOutput("tableTreatmentCosts"),
+                              textOutput("discussTableTreatmentCosts"),
+                              br()),
+            
              
              # heading 3
              h4("Value of implementing current evidence findings"),
@@ -568,16 +570,25 @@ shinyUI(fluidPage(
              
              
              # heading 4
-             h4("Value of the proposed study"),
-             # if feasibility study: (require this extra bit)
+             h4("Value of the proposed research"),
+             # CONDITIONAL TEXT and HEADING: if feasibility study: (require this extra bit)
              conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
                               p("Understanding the value of a feasibility trial requires two steps.
                                 First the value of the definitive trial must be estimated. 
                                 Second, this value must be adjusted for the fact that the definitive trial may not take place."),
-                              h4("Value of potential future trial")),
+                              h5("Value of potential future trial")),
              tableOutput("tableProbabilityMax"),
              # text for discussion about value of research (common accross all models and endpoints?)
-             textOutput("resultsValueOfResearch"),
+             textOutput("resultsValueOfResearch.1"),
+             # bug
+             # problem in ui.R conditional planel
+             # cannot make javaScript condition depend on results of VOI calcluation
+             # must display this even if there is value in the research
+             plotOutput("histVOIYear"),
+             # **problem**
+             # the probabilies do not match between the histogram output and the analysis
+             # the histogram is probably wrong and needs to be changed.
+             textOutput("discussHistVOIYear"),
              br(),
              
              
@@ -586,17 +597,17 @@ shinyUI(fluidPage(
             
              
              # inputs 
-             textOutput("nameOf_t1"),
-             textOutput("nameOf_t2"), 
-             textOutput("nameOf_t3"), # conditional - is this a problem?
-             textOutput("nameOf_t4"),# conditional - is this a problem?
-             textOutput("nameOfOutcome"), # conditional - is this a problem?
+             #textOutput("nameOf_t1"),
+             #textOutput("nameOf_t2"), 
+             #textOutput("nameOf_t3"), # conditional - is this a problem?
+             #textOutput("nameOf_t4"),# conditional - is this a problem?
+             #textOutput("nameOfOutcome"), # conditional - is this a problem?
              
              # outputs
-             textOutput("optimalTreatment" ) ,
-             textOutput("expectedOutcomesPerYearoptimalTreatment"),
-             textOutput("implementationValueExists"),        # new output
-             textOutput("uncertaintyInCurrentEvidenceExists"),
+             #textOutput("optimalTreatment" ) ,
+             #textOutput("expectedOutcomesPerYearoptimalTreatment"),
+             #textOutput("implementationValueExists"),        # new output
+             #textOutput("uncertaintyInCurrentEvidenceExists"),
              #textOutput("probTreatment1isMax" ) ,
              #textOutput("probTreatment2isMax" ) ,
              #textOutput("probTreatment3isMax" ) ,
@@ -607,7 +618,7 @@ shinyUI(fluidPage(
              textOutput("popDuringFeasResearch" ) ,
              textOutput("popDuringDefinitiveResearch" ) ,
              textOutput("popAfterDefinitiveResearch" ) ,
-             plotOutput("histVOIYear"),
+             
              textOutput("valueOfResearchPerYear" ),
              textOutput("valueOfImplementationPerYear" ) ,
              #textOutput("Cell_A" ) ,
@@ -626,10 +637,10 @@ shinyUI(fluidPage(
              textOutput("absoluteExpectedHealthOutcomesFromResearchProject"),
              textOutput("costResearchFunderFeas"),
              textOutput("costResearchFunderDefinitive"),
-             textOutput("probabilityOfDefinitiveResearch"),
-             textOutput("test1"),
-             textOutput("test2"),
-             textOutput("test3")
+             textOutput("probabilityOfDefinitiveResearch")
+             #textOutput("test1"),
+             #textOutput("test2"),
+             #textOutput("test3")
              
     ), # end results tabPanel
     
@@ -639,7 +650,7 @@ shinyUI(fluidPage(
     # use textAreaInput to provide boxes so that analysts can justify their variable choices
     # 
     
-    tabPanel("Write Report",
+    tabPanel("Write and Download Report",
              fluidPage(
                fluidRow(
                  column(4, "col 1"),

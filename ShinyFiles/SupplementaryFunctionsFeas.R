@@ -119,7 +119,8 @@ NBtoEVPIResultsFeas <- function(NB_t,
   # table of events per year - needs to be outputted as a data frame
   Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
   Expected_outcomes_per_year <- formatC(c(ENB_t[1], ENB_t[2], ENB_t[3], ENB_t[4])*incidence, big.mark = ',', format = 'd')
-  tableEventsPerYearDF <- as.data.frame(cbind(Treatment_name, Expected_outcomes_per_year))
+  Current_utilisation <- paste0(round(Utilisation_t*100) , '%')
+  tableEventsPerYearDF <- as.data.frame(cbind(Treatment_name, Expected_outcomes_per_year, Current_utilisation))
   tableEventsPerYearDF <- tableEventsPerYearDF[1:numberOfTreatments,]   # only output the number of rows = to the number of treatments considered
   
   # Expected value of treating with perfect information
@@ -137,6 +138,12 @@ NBtoEVPIResultsFeas <- function(NB_t,
   probTreatment2isMax <- Probability_t_is_max[2]
   probTreatment3isMax <- Probability_t_is_max[3]
   probTreatment4isMax <- Probability_t_is_max[4]
+  
+  # what is the probability that the best treatment is optimal
+  # first calculate it unformatted - for use to calculate its opposite
+  probOptimalTisMaxUnFormat <- Probability_t_is_max[which(ENB_t  == max(ENB_t , na.rm = TRUE))]
+  probOptimalTisMax <- paste0(round(probOptimalTisMaxUnFormat*100) , '%')
+  probOptimalTisNotMax <- paste0(round((1 - probOptimalTisMaxUnFormat)*100) , '%')
   
   # table of probability each treatmentis best - needs to be outputted as a data frame
   Probability_of_being_best_treatment <- paste0(round(Probability_t_is_max*100) , '%')
@@ -321,6 +328,8 @@ NBtoEVPIResultsFeas <- function(NB_t,
     probTreatment2isMax = probTreatment2isMax, 
     probTreatment3isMax = probTreatment3isMax, 
     probTreatment4isMax = probTreatment4isMax,
+    probOptimalTisMax = probOptimalTisMax,                 # note: already formatted
+    probOptimalTisNotMax = probOptimalTisNotMax,           # note: already formatted
     #popDuringResearch = popDuringResearch, # removed
     #popAfterResearch = popAfterResearch,   # removed
     popDuringFeasResearch = formatC(popDuringFeasResearch, big.mark = ',', format = 'd'),                      # new output
