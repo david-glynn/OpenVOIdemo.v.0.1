@@ -543,12 +543,12 @@ shinyUI(fluidPage(
              conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
                               p("This proposal is for a feasibility study. 
                                 There are challenges and uncertainties associated with running a full trial. 
-                                Due to these uncertainties it is unclear whether a definitive trial is possible.
+                                Due to these uncertainties it is unclear whether the larger follow-up trial is possible.
                                 Research only impacts health in so far as it changes clinical practice. 
                                 This feasibility trial is unlikely to generate enough evidence to justifying changing practice on its own. 
-                                Therefore the impact of this feasibility trial on population health is through the potential future definitive trial . 
-                                If the definitive trial is not possible the cost of funding it will not result in health benefit. 
-                                Since the value of the feasibility trial depends on the definitive trial, information on the future definitive trial is required to value feasibility trial.")),
+                                Therefore the impact of this feasibility trial on population health is through the potential future follow-up trial . 
+                                If the follow-up trial is not possible the cost of funding it will not result in health benefit. 
+                                Since the value of the feasibility trial depends on the follow-up trial, an evaluation of the future follow-up trial is required to value feasibility trial.")),
              br(),
              
              # heading 2: treatment costs (conditional)
@@ -574,12 +574,13 @@ shinyUI(fluidPage(
              # CONDITIONAL TEXT and HEADING: if feasibility study: (require this extra bit)
              conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
                               p("Understanding the value of a feasibility trial requires two steps.
-                                First the value of the definitive trial must be estimated. 
-                                Second, this value must be adjusted for the fact that the definitive trial may not take place."),
-                              h5("Value of potential future trial")),
+                                First the value of the follow-up trial must be estimated. 
+                                Second, this value must be adjusted for the fact that the follow-up trial may not take place."),
+                              strong("Value of potential follow-up trial"),
+                              br()),
              tableOutput("tableProbabilityMax"),
              # text for discussion about value of research (common accross all models and endpoints?)
-             textOutput("resultsValueOfResearch.1"),
+             textOutput("resultsValueOfResearch"),
              # bug
              # problem in ui.R conditional planel
              # cannot make javaScript condition depend on results of VOI calcluation
@@ -590,10 +591,23 @@ shinyUI(fluidPage(
              # the histogram is probably wrong and needs to be changed.
              textOutput("discussHistVOIYear"),
              br(),
+             textOutput("VOIresultsPart1"), # this section of the results is common to both RCT and Feas
+             br(),
+             # extra text for RCT results and interpretation
+             conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
+                              textOutput("RCTVOIresults")),
              
+             # extra text for Feasibility results and interpretation
+             conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
+                              strong("Adjust value of potential follow up trial"),
+                              textOutput("FeasVOIresults")),
              
-             
-             
+             # leave some space at the end of the page
+             br(),
+             br(),
+             br(),
+             br(),
+             br()
             
              
              # inputs 
@@ -612,32 +626,32 @@ shinyUI(fluidPage(
              #textOutput("probTreatment2isMax" ) ,
              #textOutput("probTreatment3isMax" ) ,
              #textOutput("probTreatment4isMax" ) ,
-             textOutput("popDuringResearch" ) ,
-             textOutput("popAfterResearch" ) ,
-             textOutput("popTotal" ) ,
-             textOutput("popDuringFeasResearch" ) ,
-             textOutput("popDuringDefinitiveResearch" ) ,
-             textOutput("popAfterDefinitiveResearch" ) ,
+             #textOutput("popDuringResearch" ) ,
+             #textOutput("popAfterResearch" ) ,
+             #textOutput("popTotal" ) ,
+             #textOutput("popDuringFeasResearch" ) ,
+             #textOutput("popDuringDefinitiveResearch" ) ,
+             #textOutput("popAfterDefinitiveResearch" ) ,
              
-             textOutput("valueOfResearchPerYear" ),
-             textOutput("valueOfImplementationPerYear" ) ,
+             #textOutput("valueOfResearchPerYear" ),
+             #textOutput("valueOfImplementationPerYear" ) ,
              #textOutput("Cell_A" ) ,
              #textOutput("Cell_C" ) ,
              #textOutput("Cell_D" ) ,
-             textOutput("maxvalueOfImplementation" ) ,
-             textOutput("maxvalueOfResearch" ) ,
-             textOutput("healthOpportunityCostsOfResearch" ) ,
-             textOutput("expectedCostResearchFunder" ) ,                # unique Feas
-             textOutput("valueOfResearchWithCurrentImplementation" ) ,
-             textOutput("valueOfResearchWithPerfectImplementation" ) ,
-             textOutput("valueOfCertainResearchWithPerfectImplementation" ) ,  # unique feas
-             textOutput("ICER_ResearchWithCurrentImplementation" ) ,
-             textOutput("ICER_ResearchWithPerfectImplementation" ) ,
-             textOutput("valuePer15KResearchSpend"),
-             textOutput("absoluteExpectedHealthOutcomesFromResearchProject"),
-             textOutput("costResearchFunderFeas"),
-             textOutput("costResearchFunderDefinitive"),
-             textOutput("probabilityOfDefinitiveResearch")
+             #textOutput("maxvalueOfImplementation" ) ,
+             #textOutput("maxvalueOfResearch" ) ,
+             #textOutput("healthOpportunityCostsOfResearch" ) ,
+             #textOutput("expectedCostResearchFunder" ) ,                # unique Feas
+             #textOutput("valueOfResearchWithCurrentImplementation" ) ,
+             #textOutput("valueOfResearchWithPerfectImplementation" ) ,
+             #textOutput("valueOfCertainResearchWithPerfectImplementation" ) ,  # unique feas
+             #textOutput("ICER_ResearchWithCurrentImplementation" ) ,
+             #textOutput("ICER_ResearchWithPerfectImplementation" ) ,
+             #textOutput("valuePer15KResearchSpend"),
+             #textOutput("absoluteExpectedHealthOutcomesFromResearchProject"),
+             #textOutput("costResearchFunderFeas"),
+             #textOutput("costResearchFunderDefinitive"),
+             #textOutput("probabilityOfDefinitiveResearch")
              #textOutput("test1"),
              #textOutput("test2"),
              #textOutput("test3")
