@@ -599,7 +599,7 @@ shinyUI(fluidPage(
              
              # extra text for Feasibility results and interpretation
              conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
-                              strong("Adjust value of potential follow up trial"),
+                              strong("Adjust value of potential follow up trial to value the feasibility study"),
                               textOutput("FeasVOIresults")),
              
              # leave some space at the end of the page

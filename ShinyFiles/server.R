@@ -211,7 +211,7 @@ shinyServer(function(input, output) {
    paste("Considering the uncertainty in the primary endpoint",
          # extra text for feasibility studies
          ifelse(input$typeOfResearch == "feasibility",
-                paste("and a", input$probabilityOfDefinitiveResearch, "chance of the feasibility study leading to a follow-up trial,"),
+                paste("and a", paste0(input$probabilityOfDefinitiveResearch*100, "%"), "chance of the feasibility study leading to a follow-up trial,"),
                 ""),
          # text if there is/isnt value in the research
          ifelse(VOIResults$maxvalueOfResearch > 0,
@@ -363,21 +363,23 @@ shinyServer(function(input, output) {
            )
   })
   
-  # **edit text!
+  # **finish text!
   # that weird A formatting problem with paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'))
   # Text only for Feasibility analysis
   output$FeasVOIresults <- renderText({
     ifelse(VOIResults$maxvalueOfResearch > 0,
-           paste("However, the proposed trial will not report immediately and the value of additional evidence will decline the longer it takes to report.
-                 As the trial is expected to take",input$durationOfResearch ,"years to report, 
-                 the expected value of the additional evidence is",VOIResults$valueOfResearchWithPerfectImplementation ,paste0(input$nameOfOutcome, "s"),ifelse(input$typeOfOutcome != "harm", "gained", "avoided") ,"over the",input$durationOfResearch, "year period. 
-                 The trial is expected to cost the research funder",paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd')) ,". 
-                 Therefore, the maximum value of the trial is (",paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'), "/",VOIResults$valueOfResearchWithPerfectImplementation), "=)",
-                 VOIResults$ICER_ResearchWithPerfectImplementation,"per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm", "gained.", "avoided."),
-                 "The value of the proposed research can be compared to the other proposals competing for funding. 
-                 Whether this research represents good value to the health system depends on the value of the other potential uses of these resources."
+           paste("From the above analysis, the maximum that can be gained from the follow-up research is",VOIResults$maxvalueOfResearch ,paste0(input$nameOfOutcome,"s."), 
+           "However, the feasibility trial takes",input$durationOfResearchFeas ,"years to report and has a",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,
+           "chance of leading to the follow-up trial, which would then take an additional",input$durationOfResearchDefinitive ,"years to report. 
+           Naturally, the value of the additional evidence will decline the longer it takes the follow-up trial to report. 
+           If the follow-up trial was certain to report, it would take (",input$durationOfResearchFeas ,"+",input$durationOfResearchDefinitive ,"=)",input$durationOfResearchFeas + input$durationOfResearchDefinitive ,
+           "years in total and the expected value of the additional evidence would be 588 relapses prevented over the 15 year period. As we assume a 50% chance of the definitive trial reporting this falls to 294 relapses prevented. 
+                 The feasibility trial is expected to cost NETSCC approximately £601,481, the definitive trial is expected to cost £2,522,710. However, there is a 50% chance that the definitive trial will not occur so the total expected cost to NETSCC is (£601,481 + £2,522,710 x 50% =) £1,862,836. Therefore, the maximum value of the trial is (£1,862,836/294 =) £6,336 per relapse prevented.  This value will depend on the probability of the definitive trial occurring, if there is an 80% chance of the feasibility trial leading to a definitive trial the maximum value of the trial would be £5,574 per relapse prevented. If there was a 20% chance the value would be £9,402 per relapse prevented.
                  
-           ),
+           
+
+          
+           "),
            # if there is no value in research just leave blank
            ""
     )
