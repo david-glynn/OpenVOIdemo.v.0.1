@@ -67,6 +67,7 @@ shinyServer(function(input, output) {
                tCostsDependOnEvent= input$tCostsDependOnEvent,
                numberOfTreatments= input$numberOfTreatments,
                typeOfResearch= input$typeOfResearch,
+               reconsider = input$reconsider,
                MCsims= input$MCsims,
                # report writing inputs
                nameOf_t1= input$nameOf_t1,
@@ -254,9 +255,9 @@ shinyServer(function(input, output) {
           VOIResults$expectedOutcomesPerYearoptimalTreatment, paste0(input$nameOfOutcome, "s"), "expected per year.",
           ifelse(VOIResults$implementationValueExists == TRUE, 
                  # text if there is implementation value
-                 paste(" Because utilisation of",VOIResults$optimalTreatment , " is not 100%, outcomes can be improved by encouraging the use of", VOIResults$optimalTreatment,
+                 paste(" Because utilisation of",VOIResults$optimalTreatment , "is not 100%, outcomes can be improved by encouraging the use of", VOIResults$optimalTreatment,
                  ". The benefits of switching practice to",VOIResults$optimalTreatment , 
-                 " are estimated to be",VOIResults$valueOfImplementationPerYear,paste0(input$nameOfOutcome,"s") ,"per year."),
+                 " are estimated to be",VOIResults$valueOfImplementationPerYear,paste0(input$nameOfOutcome,"s") ,"per year and",VOIResults$maxvalueOfImplementation ,paste0(input$nameOfOutcome,"s"), "over the", input$timeInformation, "year time horion."),
                  # text if there is NOT implementation value
                  paste(" Because the current utilisation of", VOIResults$optimalTreatment , 
                        " is already 100%, outcomes can not be improved by encouraging the use of", VOIResults$optimalTreatment ,".")))
@@ -354,16 +355,30 @@ shinyServer(function(input, output) {
            The trial is expected to cost the research funder",paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd')) ,". 
            Therefore, the maximum value of the trial is (",paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'), "/",VOIResults$valueOfResearchWithPerfectImplementation), "=)",
            VOIResults$ICER_ResearchWithPerfectImplementation,"per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm", "gained.", "avoided."),
-           "The value of the proposed research can be compared to the other proposals competing for funding. 
-           Whether this research represents good value to the health system depends on the value of the other potential uses of these resources."
-           
+           ifelse(input$typeOfOutcome == "netHealth",
+                  # final text if QALY analysis
+                  "Funding this research, imposes a cost of",paste0(currencySymbol, formatC(input$costHealthSystem, big.mark = ',',format = 'd')) ,"on the health system.
+                  These resources could have been used in direct patient care.
+                  In order to reflect the health opportunity costs associated with these costs we use the value of",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"per QALY.
+                  This means that for every",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"of health system resources displaced the system can expect to lose one QALY.
+                  The opportunity costs associated with the health system research costs is estimated to be (",paste0(currencySymbol, formatC(input$costHealthSystem, big.mark = ',',format = 'd')),"/",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"=)",VOIResults$healthOpportunityCostsOfResearch ,"QALYs.
+                  These opportunity costs have already been subtracted from the trial benefits in calculating the value of the trial.
+                  As the value of the trial is expressed in a generic measure of health outcome it can be compared to other candidates competing for funding.
+                  As stated previously, for every",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd'))  ,"spent the health system can expect to produce one QALY. 
+                  By funding this proposal the funding agency has to spend",VOIResults$ICER_ResearchWithPerfectImplementation ,"to produce one QALY. 
+                  This means that the proposal offers",ifelse(VOIResults$ICER_ResearchWithPerfectImplementation < input$k, "better", "worse") ,"value for money to the health system compared to general service provision.
+                  However, given the fixed budget for research funding, whether the proposed trial represents good value for research spending depends on how it compares to other proposals competing for funding.",
+                  # final text if not QALY analysis
+                  "The value of the proposed research can now be compared to the other proposals competing for funding. 
+                  Whether this research represents good value to the health system depends on the value of the other potential uses of these resources.")
+        
            ),
            # if there is no value in research just leave blank
            ""
            )
   })
   
-  # **finish text!
+  # 
   # that weird A formatting problem with paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'))
   # Text only for Feasibility analysis
   output$FeasVOIresults <- renderText({
@@ -373,13 +388,14 @@ shinyServer(function(input, output) {
            "chance of leading to the follow-up trial, which would then take an additional",input$durationOfResearchDefinitive ,"years to report. 
            Naturally, the value of the additional evidence will decline the longer it takes the follow-up trial to report. 
            If the follow-up trial was certain to report, it would take (",input$durationOfResearchFeas ,"+",input$durationOfResearchDefinitive ,"=)",input$durationOfResearchFeas + input$durationOfResearchDefinitive ,
-           "years in total and the expected value of the additional evidence would be 588 relapses prevented over the 15 year period. As we assume a 50% chance of the definitive trial reporting this falls to 294 relapses prevented. 
-                 The feasibility trial is expected to cost NETSCC approximately £601,481, the definitive trial is expected to cost £2,522,710. However, there is a 50% chance that the definitive trial will not occur so the total expected cost to NETSCC is (£601,481 + £2,522,710 x 50% =) £1,862,836. Therefore, the maximum value of the trial is (£1,862,836/294 =) £6,336 per relapse prevented.  This value will depend on the probability of the definitive trial occurring, if there is an 80% chance of the feasibility trial leading to a definitive trial the maximum value of the trial would be £5,574 per relapse prevented. If there was a 20% chance the value would be £9,402 per relapse prevented.
-                 
-           
+           "years in total and the expected value of the additional evidence would be",VOIResults$valueOfCertainResearchWithPerfectImplementation ,paste0(input$nameOfOutcome,"s"),ifelse(input$typeOfOutcome != "harm", "gained", "avoided"),"over the",input$timeInformation ,"year period. 
+           As there is a",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"chance that the follow-up trial is possible, the value of the project falls to",VOIResults$valueOfResearchWithPerfectImplementation ,paste0(input$nameOfOutcome,"s"),ifelse(input$typeOfOutcome != "harm", "gained.", "avoided."),
+           "The feasibility trial is expected to cost the research funder",paste0(currencySymbol, formatC(input$costResearchFunderFeas, big.mark = ',',format = 'd')) ,"and the definitive trial is expected to cost",paste0(currencySymbol, formatC(input$costResearchFunderDefinitive, big.mark = ',',format = 'd')),
+           ". As the feasibility study costs will always be incurred and there is a",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"chance that the follow-up research will not occur, 
+           the total expected cost to the research funder is (",paste0(currencySymbol, formatC(input$costResearchFunderFeas, big.mark = ',',format = 'd')) ,"+",paste0(currencySymbol, formatC(input$costResearchFunderDefinitive, big.mark = ',',format = 'd')) ,"x",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"=)",VOIResults$expectedCostResearchFunder,
+           ". Therefore, the expected value of funding the feasibility trial is (",VOIResults$expectedCostResearchFunder,"/",VOIResults$valueOfResearchWithPerfectImplementation  ,"=)",VOIResults$ICER_ResearchWithPerfectImplementation,"per",input$nameOfOutcome,ifelse(input$typeOfOutcome != "harm", "gained.", "avoided.")
 
-          
-           "),
+           ),
            # if there is no value in research just leave blank
            ""
     )

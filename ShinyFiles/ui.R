@@ -1,7 +1,8 @@
 ############################
 # potential bugs: 
 # how many MCsims should be the max? some funny behavour at large numbers.
-#
+# if "reconsider == Yes" (when there is no model that runs under this condition) the model evaluates the previous model again.
+# 
 # possible improvements:
 # 
 # tests:
@@ -135,11 +136,16 @@ shinyUI(fluidPage(
                             
                             selectInput(inputId = "typeOfResearch", label = "Type of research", 
                                         choices = c("RCT" = "RCT", 
-                                                    "Feasibility study" = "feasibility", 
-                                                    "Reconsideration of evidence" = "reconsider"),
+                                                    "Feasibility study" = "feasibility"),
                                         selected = "RCT"),
                             
-                            
+                            conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
+                                             radioButtons(inputId = "reconsider", label = "Calculate the value of reconsidering the evidence?", 
+                                                          choices = c("Yes" = "Yes", 
+                                                                      "No" = "No"),
+                                                          selected = "No"),
+                                             p("Note: the calculation to reconsider the evidence can take between ## and ## minutes to report.")),
+                          
                             conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.typeOfOutcome == 'netHealth'",
                                              radioButtons(inputId = "tCostsDependOnEvent", label = "Do the treatment costs depend on the primary outcome?", 
                                                           choices = c("Yes" = "Yes", 
@@ -176,8 +182,8 @@ shinyUI(fluidPage(
                                        value = 3.5, min = 0, max = 100, step = 0.1),
                         
                           conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
-                                           numericInput("k", "Opportunity cost of health expenditure (£)",
-                                                        value = 15000, min = NA, max = NA, step = 500)),
+                                           numericInput("k", "Opportunity cost of health system expenditure (£)",
+                                                        value = 15000, min = 0, max = NA, step = 500)),
                         
                           conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.typeOfOutcome == 'netHealth'",
                                            numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
@@ -194,7 +200,7 @@ shinyUI(fluidPage(
                                                         value = 0.5, min = NA, max = NA, step = 0.05)),
                           
                           # make conditional? display if: typeOfOutcome != netHealth. automatically display QALYs if typeOfOutcome == netHealth
-                          textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks, QALYs)", 
+                          textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks, QALY)", 
                                     value = "functional recovery"), 
                           
                           textInput("currencySymbol", "Currency used in analysis", 
@@ -269,13 +275,15 @@ shinyUI(fluidPage(
                           actionButton("run", label = "Run analysis"),
                           br(),
                            
-                          conditionalPanel(condition = "input.typeOfResearch != 'reconsider'",
+                          # **check maximum number feasible
+                          conditionalPanel(condition = "input.reconsider != 'Yes'",
                                            numericInput("MCsims", "Number of simulations",
                                                         value = 50000, min = 0, max = 10000000, step = 500)),
                           
-                          conditionalPanel(condition = "input.typeOfResearch == 'reconsider'",
+                          # **check maximum number feasible
+                          conditionalPanel(condition = "input.reconsider == 'Yes'",
                                            
-                                           p("Note that this analysis may take up to 2 hours to report. This is due to the large number of simulations required"),
+                                           p("Note that this analysis will take between ## and ## minutes to report. This is due to the large number of simulations required"),
                                            numericInput("MCsimsInner", "Number of simulations for inner loop",
                                                         value = 50000, min = 0, max = 10000000, step = 500),
                                            

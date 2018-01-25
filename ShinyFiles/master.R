@@ -98,6 +98,7 @@ master <- function(
                    tCostsDependOnEvent,
                    numberOfTreatments,
                    typeOfResearch,
+                   reconsider,
                    MCsims,
                    # report writing inputs
                    nameOf_t1,
@@ -173,7 +174,7 @@ master <- function(
   ########################
   
   # RUN IF: binary natural outcome RCT
-  if(typeOfEndpoint == "binary" & typeOfOutcome != "netHealth" & typeOfResearch == "RCT"){
+  if(typeOfEndpoint == "binary" & typeOfOutcome != "netHealth" & typeOfResearch == "RCT" & reconsider == "No"){
     masterOutput <- BinaryOutcomeFunction(numberOfTreatments, MCsims, P_t1,
                          mu_t2, variance_t2, dist_t2, direction_t2,
                          mu_t3, variance_t3, dist_t3, direction_t3,
@@ -190,7 +191,7 @@ master <- function(
   
   
   # RUN IF: binary QALY RCT
-  if(typeOfEndpoint == "binary" & typeOfOutcome == "netHealth" & typeOfResearch == "RCT"){
+  if(typeOfEndpoint == "binary" & typeOfOutcome == "netHealth" & typeOfResearch == "RCT"& reconsider == "No"){
     masterOutput <- BinaryQALYFunction(numberOfTreatments, MCsims, P_t1, INBBinaryEvent,
                                          mu_t2, variance_t2, dist_t2, direction_t2,
                                          mu_t3, variance_t3, dist_t3, direction_t3,
@@ -211,7 +212,7 @@ master <- function(
   
   
   # RUN IF: binary natural outcome Feasibility
-  if(typeOfEndpoint == "binary" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"){
+  if(typeOfEndpoint == "binary" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"& reconsider == "No"){
     masterOutput <- BinaryOutcomeFunctionFeas(numberOfTreatments, MCsims, P_t1,
                               mu_t2, variance_t2, dist_t2, direction_t2,
                               mu_t3, variance_t3, dist_t3, direction_t3,
@@ -230,7 +231,7 @@ master <- function(
   
   
   # RUN IF: binary QALY Feasibility
-  if(typeOfEndpoint == "binary" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"){
+  if(typeOfEndpoint == "binary" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"& reconsider == "No"){
     masterOutput <- BinaryQALYFunctionFeas(numberOfTreatments, MCsims, P_t1, INBBinaryEvent,
                                            mu_t2, variance_t2, dist_t2, direction_t2,
                                            mu_t3, variance_t3, dist_t3, direction_t3,
@@ -258,7 +259,7 @@ master <- function(
   ########################
   
   # RUN IF: continuous natural outcome RCT
-  if(typeOfEndpoint == "continuous" & typeOfOutcome != "netHealth" & typeOfResearch == "RCT"){
+  if(typeOfEndpoint == "continuous" & typeOfOutcome != "netHealth" & typeOfResearch == "RCT"& reconsider == "No"){
     masterOutput <- ContinuousOutcomeFunction(numberOfTreatments, MCsims,
                                               mu_t2, variance_t2, dist_t2, direction_t2,
                                               mu_t3, variance_t3, dist_t3, direction_t3,
@@ -274,7 +275,7 @@ master <- function(
   }
   
   # RUN IF: continuous QALY RCT
-  if(typeOfEndpoint == "continuous" & typeOfOutcome == "netHealth" & typeOfResearch == "RCT"){
+  if(typeOfEndpoint == "continuous" & typeOfOutcome == "netHealth" & typeOfResearch == "RCT"& reconsider == "No"){
     masterOutput <- ContinuousQALYFunction(numberOfTreatments, MCsims, INBContinEvent,
                                            mu_t2, variance_t2, dist_t2, direction_t2,
                                            mu_t3, variance_t3, dist_t3, direction_t3,
@@ -292,7 +293,7 @@ master <- function(
   
   
   # RUN IF: continuous natural outcome Feasibility
-  if(typeOfEndpoint == "continuous" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"){
+  if(typeOfEndpoint == "continuous" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"& reconsider == "No"){
     masterOutput <- ContinuousOutcomeFunctionFeas(numberOfTreatments, MCsims,
                                                   mu_t2, variance_t2, dist_t2, direction_t2,
                                                   mu_t3, variance_t3, dist_t3, direction_t3,
@@ -314,7 +315,7 @@ master <- function(
   
   
   # RUN IF: continuous QALY Feasibility
-  if(typeOfEndpoint == "continuous" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"){
+  if(typeOfEndpoint == "continuous" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"& reconsider == "No"){
     masterOutput <- ContinuousQALYFunctionFeas(numberOfTreatments, MCsims, INBContinEvent,
                                                mu_t2, variance_t2, dist_t2, direction_t2,
                                                mu_t3, variance_t3, dist_t3, direction_t3,
@@ -340,7 +341,7 @@ master <- function(
   ########################
   
   # RUN IF: survival natural outcome RCT
-  if(typeOfEndpoint == "survival" & typeOfOutcome != "netHealth" & typeOfResearch == "RCT"){
+  if(typeOfEndpoint == "survival" & typeOfOutcome != "netHealth" & typeOfResearch == "RCT"& reconsider == "No"){
     masterOutput <- SurvivalOutcomeFunction(numberOfTreatments, MCsims, 
                                             survivalDist,scaleParameter_t1,shapeParameter_t1,
                                             mu_t2, variance_t2, dist_t2, direction_t2,
@@ -356,7 +357,7 @@ master <- function(
   }
   
   # RUN IF: survival QALY RCT
-  if(typeOfEndpoint == "survival" & typeOfOutcome == "netHealth" & typeOfResearch == "RCT"){
+  if(typeOfEndpoint == "survival" & typeOfOutcome == "netHealth" & typeOfResearch == "RCT"& reconsider == "No"){
     masterOutput <- SurvivalQALYFunction(numberOfTreatments, MCsims, 
                                          survivalDist,scaleParameter_t1,shapeParameter_t1,
                                          INBSurvivalEndpoint,
@@ -376,7 +377,7 @@ master <- function(
   
   
   # RUN IF: survival natural outcome Feasibility
-  if(typeOfEndpoint == "survival" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"){
+  if(typeOfEndpoint == "survival" & typeOfOutcome != "netHealth" & typeOfResearch == "feasibility"& reconsider == "No"){
     masterOutput <- SurvivalOutcomeFunctionFeas(numberOfTreatments, MCsims, 
                                                 survivalDist,scaleParameter_t1,shapeParameter_t1,
                                                 mu_t2, variance_t2, dist_t2, direction_t2,
@@ -396,7 +397,7 @@ master <- function(
   
   
   # RUN IF: survival QALY Feasibility
-  if(typeOfEndpoint == "survival" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"){
+  if(typeOfEndpoint == "survival" & typeOfOutcome == "netHealth" & typeOfResearch == "feasibility"& reconsider == "No"){
     masterOutput <- SurvivalQALYFunctionFeas(numberOfTreatments, MCsims, 
                                              survivalDist,scaleParameter_t1,shapeParameter_t1,
                                              INBSurvivalEndpoint,
