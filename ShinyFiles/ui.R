@@ -13,7 +13,7 @@
 library(shiny)
 
 shinyUI(fluidPage(
-  titlePanel("Open VOI - Demo"),
+  titlePanel("OVID - Open Value of Information Device"),
   
   tabsetPanel(
     
@@ -23,15 +23,17 @@ shinyUI(fluidPage(
     tabPanel("Welcome",
              br(),
              p("Demo release version 0.1"),
+             br(),
              h4("How to use this app"),
-             p("This is an R Shiny App which facilitates value of information calculations to estimate the value of research proposals in a timely manner. 
-               The need for value of information methods in undestanding research value and the intuition behind the methods will be provided below.
-               The inputs required to assess the value of research represent the minimum needed to understand the consequences of uncertainty in the current evidence base and the need for further evaluative research.
-               Full details of the approach used and applied examples using these methods are forthcoming. In the meantime see https://www.york.ac.uk/che/research/teehta/research-prioritisation/ for further details.
+             p("This is an R Shiny App which facilitates calculations of the value of research proposals in a timely manner. 
+               The inputs required in the app represent the minimum needed to understand the consequences of uncertainty and the need for further research.
+               Full details of the approach used and applied examples using these methods are forthcoming. In the meantime click",a("here", href = "https://www.york.ac.uk/che/research/teehta/research-prioritisation/") ,"for further details.
                "),
-             p(strong("Users unfamiliar with value of informaiton methods"), "are encouraged to read the section on 'How to estimate research value'. This section describes the value of information approach and how it applies to research funding in a resource constrainted health care system.
+             p(strong("Users unfamiliar with value of informaiton methods"), "are encouraged to read the information in the 'How to estimate research value' tab. This section describes the value of information approach and how it applies to research funding in a resource constrainted health care system.
                "),
-             p(strong("Those who have not used this app before"), "should read the section on 'How to use this app'. This section describes the types of analysis which are possible with this app and the inputs that are required.
+             p(strong("Those who have not used this app before"), "click the'Inputs and how to use this app' tab. This section describes the types of analysis which are possible with this app and the inputs that are required.
+               "),
+             p(strong("To carry out an analysis"), "click the 'Inputs' tab
                "),
              br(),
              tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007")
@@ -44,6 +46,9 @@ shinyUI(fluidPage(
     # HOW TO ESTIMATE tab
     ##################
     tabPanel("How to estimate research value", 
+             br(),
+             h4("A video introducing value of information"),
+             HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/tbv9E9D2BRQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'),
              br(),
              h4("How can health oucomes be improved?"),
              p("Additional evidence is valuable because it can improve patient outcomes by resolving existing uncertainty about the effectiveness of the interventions available. This helps inform treatment decisions for subsequent patients. 
@@ -66,36 +71,105 @@ shinyUI(fluidPage(
     ##################
     # HOW TO use this app tab
     ##################
-    tabPanel("How to use this app",
+    tabPanel("Inputs and how to use this app",
              br(),
-             p("The evidence requirements for this app (listed below) represent the minimum needed to establish the value of additional research.
-               "),
+             h4("A video on using this app"),
+             br(),
+             p("<INSERT SHORT YOUTUBE VIDEO ON HOW TO USE THIS APP>"),
+             br(),
              h4("Inputs required to estimate research value"),
-             strong("Primary endpoint for the trial"),
-             p("The primary outcome measure or endpoint captures the most important aspects of health outcome. The value of additional research is expressed in terms of ‘benefits gained’ or ‘harms avoided’ depending on whether this outcome is a benefit or harm. Alternative scenarios based on different endpoints can also be used to consider the impact of additional evidence on different aspects of outcome. 
-               Where the analysis is restricted to a primary outcome but there are a number of other important aspects of outcome that are not captured in the analysis, we can specify a minimum clinical difference in effect to implicitly account for these other unquantified aspects of outcome and/or costs (see the MCD section below)
+             br(),
+             
+             wellPanel(
+               h4("Decision problem inputs"),
+               strong("Type of primary endpoint"),
+               p("The primary outcome measure or endpoint captures the most important aspects of health outcome. The value of additional research is expressed in terms of ‘benefits gained’ or ‘harms avoided’ depending on whether this outcome is a benefit or harm. Alternative scenarios based on different endpoints can also be used to consider the impact of additional evidence on different aspects of outcome. 
+                 Where the analysis is restricted to a primary outcome but there are a number of other important aspects of outcome that are not captured in the analysis, we can specify a minimum clinical difference in effect to implicitly account for these other unquantified aspects of outcome and/or costs (see the MCD section below)
+                 "),
+               strong("Type of outcome"),
+               p(""),
+               strong("Number of treatments investigated"),
+               p("
                "),
-             strong("Relative treatment effects"),
-             p("An estimate of the relative effectiveness of the intervention is required for the primary outcome, along with an estimate of its uncertainty. 
-               This information is required in the form of a mean and variance of the log odds ratio (for binary and continuous outcomes) or a mean and variance of the log hazard ratio (for survival outcomes). 
-               This estimate is usually obtained from a standard meta-analysis. However, if the estimate is unavailable or considered inadequate, alternative values can be used to represent different judgements about the uncertain relative treatment effect. 
+               strong("Type of research"),
+               p("This app currently facilitates value of information calculations for randomised controlled trials and feasibility studies.
+                 The inputs required for the analysis will depend on the type of study planned.
+                 "),
+               strong("The value of reconsidering the evidence"),
+               p("
+                 ")
+             ),
+             br(),
+             
+             wellPanel(
+               h4("Health system inputs"),
+               strong("Incidence per annum"),
+               p("An estimate of the number of individuals facing the uncertain choice between alternative interventions is required in order to establish the size of the benefits to the target population. 
                "),
-             strong("Baseline event rate"),
-             p(""),
-             strong("Current level of utilisation of the interventions"),
-             p(""),
-             strong("Incidence per annum"),
-             p(""),
-             strong("Costs of the research"),
-             p(""),
-             strong("Duration of the research"),
-             p(""),
-             strong("Length of time for which the new evidence would be valuable"),
-             p(""),
-             strong("Discount rate"),
-             p(""),
-             strong("Other inputs - Feasibility and Reconsideration of evidence"),
-             p("")
+               strong("Length of time for which the new evidence would be valuable"),
+               p("The information generated by new research will not be valuable indefinitely because other changes occur over time. For example, over time new and more effective interventions become available which will eventually make those currently available obsolete. This means that new information about effectiveness is only relevant for a specific amount of time. A judgement about the length of time that the evidence from the proposed RCT might be valuable is required to estimate the expected benefits over an appropriate time horizon.  
+                 "),
+               strong("Discount rate"),
+               p("When a time horizon greater than one year is considered in the analysis, discounting should be used to reflect the fact that resources committed today could be invested at a real rate of return to free up more resources in the future. 
+                 "),
+               strong("Opportunity cost of health expenditure"),
+               p("
+                 "),
+               strong("Net health effect of survival endpoint (in QALYs)"),
+               p("
+                 "),
+               strong("Name of outcome"),
+               p("
+                 "),
+               strong("Currency used"),
+               p("
+                 ")
+             ),
+             br(),
+             
+             wellPanel(
+               h4("Trial inputs"),
+               strong("Duration of the research"),
+               p("**discuss feasibility durations required here too** Some assessment of the duration of time for the proposed research to be conducted and for the  results of the research to report is required since the value of research declines the longer it takes to report. This might be informed by an assessment of sample size, recruitment rates, or historical experience from conducting similar types of studies. 
+                 "),
+               strong("Costs of the research"),
+               p("**discuss all costs here** Some assessment of the likely costs of the proposed RCT is required to establish whether the expected benefits from the study are sufficient to justify the expected costs. 
+                 "),
+               strong("Liklihood of feasibility research leading to follow-up study"),
+               p("
+                 ")
+             ),
+             br(),
+             
+             wellPanel(
+               h4("Run analysis"),
+               strong("Run analysis button"),
+               p(""),
+               strong("Number of simulations"),
+               p("**talk about reconsider evidence here")
+             ),
+             br(),
+      
+             wellPanel(
+               h4("Treatment inputs"),
+               strong("Baseline event rate"),
+               p(""),
+               strong("Current level of utilisation of the interventions"),
+               p("Health systems can improve health outcomes in two distinct ways: (i) generating additional evidence to reduce uncertainty about which treatment improves health (information value); and (ii) changing clinical practice such that the optimal treatment based on current evidence is implemented (implementation value).
+                 Some estimate of the current level of utilisation of the interventions in clinical practice is required to establish the value of changing practice if the results of new research suggest a change. It can also be used to establish whether there is greater value from encouraging the implementation of what existing evidence suggests is the most effective intervention rather than conducting new research. 
+                 "),
+               strong("Relative treatment effects"),
+               p("An estimate of the relative effectiveness of the intervention is required for the primary outcome, along with an estimate of its uncertainty. 
+                 This information is required in the form of a mean and variance of the log odds ratio (for binary and continuous outcomes) or a mean and variance of the log hazard ratio (for survival outcomes). 
+                 This estimate is usually obtained from a standard meta-analysis. However, if the estimate is unavailable or considered inadequate, alternative values can be used to represent different judgements about the uncertain relative treatment effect. 
+                 "),
+               strong("Distribution of relative effects"),
+               p("")
+              
+             )
+             
+             
+            
       
     ), # end how to use this app tabPanel
     
@@ -114,7 +188,7 @@ shinyUI(fluidPage(
                         # Decision problem inputs
                         ##########
                         wellPanel(
-                          h4("Decision problem inputs"),
+                          h4("Decision problem"),
                           p("This information determines the inputs required for the analysis and so this section",
                             strong("should be completed first.")),
                         
@@ -170,7 +244,7 @@ shinyUI(fluidPage(
                         
                         wellPanel(
                           
-                          h4("Health system inputs"),
+                          h4("Health system"),
           
                           numericInput("incidence", "Incidence per annum",
                                        value = 8800, min = 0, max = NA, step = 20),
@@ -216,7 +290,7 @@ shinyUI(fluidPage(
                         
                         wellPanel(
                           
-                          h4("Trial design inputs"),
+                          h4("Trial"),
                         
                           # RCT trial design inputs
                           conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
