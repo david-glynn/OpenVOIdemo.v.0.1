@@ -304,6 +304,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
   ICER_ResearchWithPerfectImplementation <- expectedCostResearchFunder/valueOfResearchWithPerfectImplementation
   
   valuePer15KResearchSpend <- (valueOfResearchWithPerfectImplementation/expectedCostResearchFunder)*15000
+  valuePerOpCostResearchSpend <- (valueOfResearchWithPerfectImplementation/expectedCostResearchFunder)*k
   
   # expected costs to helath system 
   expectedCostHealthSystem <-   costHealthSystemFeas +  probabilityOfDefinitiveResearch*costHealthSystemDefinitive
@@ -354,6 +355,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
     ICER_ResearchWithCurrentImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithCurrentImplementation, big.mark = ',', format = 'd')),
     ICER_ResearchWithPerfectImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithPerfectImplementation, big.mark = ',', format = 'd')),
     valuePer15KResearchSpend = round(valuePer15KResearchSpend, 2),
+    valuePerOpCostResearchSpend = round(valuePerOpCostResearchSpend, 2),
     expectedCostResearchFunder = paste0(currencySymbol ,formatC(expectedCostResearchFunder, big.mark = ',',format = 'd')), # new output for pilot studies
     absoluteExpectedHealthOutcomesFromResearchProject = formatC(absoluteExpectedHealthOutcomesFromResearchProject, big.mark = ',', format = 'd')  # new output for pilot studies
   )

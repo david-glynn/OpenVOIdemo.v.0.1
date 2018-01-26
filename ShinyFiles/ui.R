@@ -559,16 +559,17 @@ shinyUI(fluidPage(
                                 Since the value of the feasibility trial depends on the follow-up trial, an evaluation of the future follow-up trial is required to value feasibility trial.")),
              br(),
              
-             # heading 2: treatment costs (conditional)
+             
              # if cost + QALY study: (require this extra bit)
              conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
                               h4("Summary of treatment costs"),
                               tableOutput("tableTreatmentCosts"),
                               textOutput("discussTableTreatmentCosts"),
                               br()),
-            
+
              
-             # heading 3
+             
+             # heading 4
              h4("Value of implementing current evidence findings"),
              # table showing expected outcomes with each treatment
              tableOutput("tableEventsPerYear"),
@@ -577,7 +578,7 @@ shinyUI(fluidPage(
              br(),
              
              
-             # heading 4
+             # heading 5
              h4("Value of the proposed research"),
              # CONDITIONAL TEXT and HEADING: if feasibility study: (require this extra bit)
              conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",

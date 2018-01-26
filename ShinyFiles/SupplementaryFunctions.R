@@ -791,6 +791,8 @@ NBtoEVPIResults <- function(NB_t,
 
   valuePer15KResearchSpend <- (valueOfResearchWithPerfectImplementation/costResearchFunder)*15000
   
+  valuePerOpCostResearchSpend <- (valueOfResearchWithPerfectImplementation/costResearchFunder)*k
+  
   # absolute value of proposed research project 
   # ** note this is just equal to the valueOfResearchWithPerfectImplementation for this type of model
   # the health outcomes you get from funding the research project
@@ -834,6 +836,7 @@ NBtoEVPIResults <- function(NB_t,
     ICER_ResearchWithCurrentImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithCurrentImplementation,big.mark = ',', format = 'd')),
     ICER_ResearchWithPerfectImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithPerfectImplementation,big.mark = ',', format = 'd')),
     valuePer15KResearchSpend = round(valuePer15KResearchSpend, 2),
+    valuePerOpCostResearchSpend = round(valuePerOpCostResearchSpend, 2),
     absoluteExpectedHealthOutcomesFromResearchProject = formatC(absoluteExpectedHealthOutcomesFromResearchProject, big.mark = ',', format = 'd')
     
   )
