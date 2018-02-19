@@ -16,17 +16,17 @@ library(shiny)
 library(scales) # required to format tables in renderTable
 library(fdrtool) # required for halfnormal simulations
 
-#C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles
+#W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles
 # absolute paths for use in desktop development
-source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/BinaryOutcomeFunction.R", local = TRUE)
-source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/BinaryQALYFunction.R", local = TRUE)
-source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
-source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/ContinuousOutcomeFunction.R", local = TRUE)
-source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/ContinuousQALYFunction.R", local = TRUE)
-source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SurvivalOutcomeFunction.R", local = TRUE)
-source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SurvivalQALYFunction.R", local = TRUE)
-source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
-source("C:/Users/David/Desktop/CHE home working/ShinyApps/OpenVOIdemo.v.0.1/ShinyFiles/master.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/BinaryOutcomeFunction.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/BinaryQALYFunction.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ContinuousOutcomeFunction.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ContinuousQALYFunction.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SurvivalOutcomeFunction.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SurvivalQALYFunction.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
 
 
 # relative paths for publishing in shinyapps.io
