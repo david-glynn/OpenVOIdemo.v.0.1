@@ -268,19 +268,13 @@ if(input$baselineInput == "singleValue"){
 # there are # methods to input relative effects
 # 1) UCI and LCI for natural odds ratio scale
 # 2) UCI and LCI for natural RR scale
-# 3) 
+# 3) UCI and LCI for risk difference
+# 4) 
+
 
 
 # Binary endpoint: relative effects 1) UCI and LCI for natural odds ratio scale
 ############################################
-
-# required input
-#OR_UCI_t2 = 1.18
-#OR_LCI_t2 = 0.71
-#OR_UCI_t3
-#OR_LCI_t3
-#OR_UCI_t4
-#OR_LCI_t4
 
 # function
 # input: OR_UCI and OR_LCI
@@ -359,8 +353,24 @@ RiskRatioCI <- function(RR_UCI, RR_LCI){
 
 # test function
 RiskRatioCI(RR_UCI, RR_LCI)
+RiskRatioCI(1.02, 0.94 )
 
 
+
+
+
+
+# Binary endpoint: relative effects 3) UCI and LCI for risk difference
+############################################
+
+
+# function
+# input: RD_UCI and RD_LCI
+# very similar to function above
+
+# plot user inputs
+
+# get P_tn
 
 
 

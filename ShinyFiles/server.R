@@ -27,6 +27,8 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SurvivalOutcomeFunction
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SurvivalQALYFunction.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
 
 
 # relative paths for publishing in shinyapps.io
@@ -39,6 +41,8 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE
 #source("SurvivalQALYFunction.R", local = TRUE)
 #source("SupplementaryFunctionsFeas.R", local = TRUE)
 #source("master.R", local = TRUE)
+#source("ReconFunctions.R", local = TRUE)
+#source("EpiInputFunctions.R", local = TRUE)
 
 
 
