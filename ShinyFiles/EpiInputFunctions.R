@@ -151,9 +151,9 @@ exactVectorNormal <- function( mu, sigma){
 # assumes MCsims sufficient to express the distribution
 
 # test data (from Excel model)
-nEvents = 100
-nAtRisk = 210
-MCsims = 100000
+#nEvents = 100
+#nAtRisk = 210
+#MCsims = 100000
 
 # define function
 probEvents <- function(nEvents, nAtRisk, MCsims){
@@ -169,7 +169,7 @@ probEvents <- function(nEvents, nAtRisk, MCsims){
 }
 
 # test function
-probEvents(10, 20, 10000)
+#probEvents(10, 20, 10000)
 
 
 
@@ -210,45 +210,45 @@ probEvents(10, 20, 10000)
 
 
 # test data
-input <- list()
-input$baselineInput ="confidenceBounds"   # "events" # singleValue
-nEvents = 10
-nAtRisk = 30
-prob_UCI = 0.2
-prob_LCI = 0.01
-P_t1 = 0.3
+#input <- list()
+#input$baselineInput ="confidenceBounds"   # "events" # singleValue
+#nEvents = 10
+#nAtRisk = 30
+#prob_UCI = 0.2
+#prob_LCI = 0.01
+#P_t1 = 0.3
 
 # input: mu , sigma or alpha, beta, input$baselineInput
 # output: plot object
 
 # wrap in a function??
 
-if(input$baselineInput == "events"){
-  
-  plotBetaEvents(nEvents, nAtRisk)
-  
-} 
+# if(input$baselineInput == "events"){
+#   
+#   plotBetaEvents(nEvents, nAtRisk)
+#   
+# } 
 
 # also conditional on the confidence bounds not being equal
-if(input$baselineInput == "confidenceBounds"){
-  
-  normalParameters <-  probCI(prob_UCI, prob_LCI)
-  LO_vector <- exactVectorNormal(normalParameters$mu, normalParameters$sigma)
-  Odds_vector <- exp(LO_vector)
-  Prob_vector <- Odds_vector/(1 + Odds_vector)
-  
-  plot(density(Prob_vector), xlim = c(0, 1))
-  
-}
+# if(input$baselineInput == "confidenceBounds"){
+#   
+#   normalParameters <-  probCI(prob_UCI, prob_LCI)
+#   LO_vector <- exactVectorNormal(normalParameters$mu, normalParameters$sigma)
+#   Odds_vector <- exp(LO_vector)
+#   Prob_vector <- Odds_vector/(1 + Odds_vector)
+#   
+#   plot(density(Prob_vector), xlim = c(0, 1))
+#   
+# }
 
 
 # or if confidence bounds are equal
-if(input$baselineInput == "singleValue"){
-  
-  plot(1, type="n", xlab="", ylab="", xlim=c(0, 1), ylim=c(0, 10))
-  abline(v = P_t1)
-  
-}
+# if(input$baselineInput == "singleValue"){
+#   
+#   plot(1, type="n", xlab="", ylab="", xlim=c(0, 1), ylim=c(0, 10))
+#   abline(v = P_t1)
+#   
+# }
 
 
 
@@ -286,8 +286,8 @@ if(input$baselineInput == "singleValue"){
 # include mu_OR, OR_UCI and OR_LCI on this plot
 
 # test data (from Excel model)
-OR_UCI = 1.18
-OR_LCI = 0.71
+# OR_UCI = 1.18
+# OR_LCI = 0.71
 
 # define function
 oddsRatioCI <- function(OR_UCI, OR_LCI){
@@ -305,9 +305,8 @@ oddsRatioCI <- function(OR_UCI, OR_LCI){
 }
 
 # test function
-oddsRatioCI(OR_UCI, OR_LCI)
-
-oddsRatioCI(1.43, 0.05)
+# oddsRatioCI(OR_UCI, OR_LCI)
+# oddsRatioCI(1.43, 0.05)
 
 
 # Binary endpoint: relative effects 2) UCI and LCI for natural RR scale
@@ -332,8 +331,8 @@ oddsRatioCI(1.43, 0.05)
 # similar to above function
 
 # test data (from Excel model)
-RR_UCI = 1.18
-RR_LCI = 0.71
+# RR_UCI = 1.18
+# RR_LCI = 0.71
 
 # define function
 RiskRatioCI <- function(RR_UCI, RR_LCI){
@@ -351,8 +350,8 @@ RiskRatioCI <- function(RR_UCI, RR_LCI){
 }
 
 # test function
-RiskRatioCI(RR_UCI, RR_LCI)
-RiskRatioCI(1.02, 0.94 )
+# RiskRatioCI(RR_UCI, RR_LCI)
+# RiskRatioCI(1.02, 0.94 )
 
 
 
@@ -388,7 +387,7 @@ RiskRatioCI(1.02, 0.94 )
 # outputs: alpha_hat, beta_hat
 
 # test data
-P_tn <- rbeta(10000, 13.5, 10 )
+#P_tn <- rbeta(10000, 13.5, 10 )
 
 # define function
 aproxBetaParams <- function(P_tn){
@@ -410,7 +409,7 @@ aproxBetaParams <- function(P_tn){
 }
 
 # test function
-aproxBetaParams(P_tn)
+#aproxBetaParams(P_tn)
 
 
 
@@ -433,15 +432,14 @@ aproxBetaParams(P_tn)
 # output: 
 
 # test data 
-P_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 50000),
-                       mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-                       mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
-                       mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
-                       )
-
-beta_params_t2 <- aproxBetaParams(P_t[,2])
-beta_params_t3 <- aproxBetaParams(P_t[,3])
-beta_params_t4 <- aproxBetaParams(P_t[,4])
+# P_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 50000),
+#                        mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+#                        mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
+#                        mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
+#                        )
+# beta_params_t2 <- aproxBetaParams(P_t[,2])
+# beta_params_t3 <- aproxBetaParams(P_t[,3])
+# beta_params_t4 <- aproxBetaParams(P_t[,4])
 
 
 # define function
@@ -450,15 +448,12 @@ beta_params_t4 <- aproxBetaParams(P_t[,4])
  
    # function finds alpha and beta parameter estimates from data for a beta function
    # optimising function with initial values
-   fit_beta <- fitdistr(sims,"beta",list(shape1=1,shape2=1)) 
-  
-   alpha_hat <- round(fit_beta$estimate[1],1) 
-   beta_hat <- round(fit_beta$estimate[2],1)
-   
-   x_axis <- seq(0, 1, length.out = 100)
-   
-plot(density(sims))
-lines(x_axis, dbeta(x_axis,alpha_hat, beta_hat ))
+# fit_beta <- fitdistr(sims,"beta",list(shape1=1,shape2=1)) 
+#    alpha_hat <- round(fit_beta$estimate[1],1) 
+#    beta_hat <- round(fit_beta$estimate[2],1)
+#    x_axis <- seq(0, 1, length.out = 100)
+# plot(density(sims))
+# lines(x_axis, dbeta(x_axis,alpha_hat, beta_hat ))
 
 
 

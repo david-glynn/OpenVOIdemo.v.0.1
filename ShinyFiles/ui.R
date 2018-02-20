@@ -185,10 +185,10 @@ shinyUI(fluidPage(
                fluidRow(
                  column(3, 
                         ##########
-                        # Decision problem inputs
+                        # Primary outcome measure inputs
                         ##########
                         wellPanel(
-                          h4("Decision problem"),
+                          h4("Primary outcome measure"),
                           p("This information determines the inputs required for the analysis and so this section",
                             strong("should be completed first.")),
                         

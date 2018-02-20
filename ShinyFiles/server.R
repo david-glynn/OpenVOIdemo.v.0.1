@@ -10,11 +10,12 @@
 
 library(shiny)
 
-########################################################################################
+############################
 # load up required functions
 
 library(scales) # required to format tables in renderTable
 library(fdrtool) # required for halfnormal simulations
+library(MASS) # for use in EpiInputFunctions.R to fit beta distributions to unknown probabilities
 
 #W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles
 # absolute paths for use in desktop development
@@ -29,6 +30,7 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsF
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunction.R", local = TRUE)
 
 
 # relative paths for publishing in shinyapps.io
@@ -43,22 +45,28 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", l
 #source("master.R", local = TRUE)
 #source("ReconFunctions.R", local = TRUE)
 #source("EpiInputFunctions.R", local = TRUE)
-
-
-
-
-# finish loading required functions 
-########################################################################################
+#source("PlottingFunction.R")
 
 
 
 shinyServer(function(input, output) {
   
+  
+  ##############################
+  # Update plots showing user inputs
+  ##############################
+  # plots show what user has inputted
+  
+  
+  
+
+  ##########################
+  # Run VOI analysis with ACTION BUTTON 
+  ##########################
+  
+  # create "managed state variable" - a list which can be repeatedly overwritten by user
   VOIResults <- reactiveValues()
   
-  ##########################
-  # ACTION BUTTON 
-  ##########################
   observeEvent(input$run, {
     
       # a list which holds the results of the appropriate analysis
