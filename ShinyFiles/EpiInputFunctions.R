@@ -65,11 +65,11 @@ library(MASS)
 # assumes normal log odds distribution
 
 # test data (from Excel model)
-prob_UCI = 0.469
-prob_LCI = 0.248
+#prob_UCI = 0.469
+#prob_LCI = 0.248
 
 # define function
-probCI <- function(prob_UCI, prob_LCI){
+probCI <- function(prob_LCI, prob_UCI){
   
   # convert prob CIs to odds CIs
   Odds_UCI <- prob_UCI/(1 - prob_UCI)
@@ -91,7 +91,7 @@ probCI <- function(prob_UCI, prob_LCI){
 }
 
 # test function (from Excel model)
-probCI(0.469, 0.248)
+#probCI(0.248,0.469)
 
 
 
@@ -132,8 +132,8 @@ exactVectorNormal <- function( mu, sigma){
 }
 
 # test function
-exactVector <- exactVectorNormal(10, 2.1)
-plot(density(exactVector))
+#exactVector <- exactVectorNormal(10, 2.1)
+#plot(density(exactVector))
 
 
 
@@ -175,24 +175,23 @@ probEvents(10, 20, 10000)
 
 # Binary endpoint: baseline probability 3) plot function (no randomness)
 ######################
+# used??
 # no randomness: based on exact densities from beta distribution
 # inputs: nEvents, nAtRisk
 # output: plot object
-
-plotBetaEvents <- function(nEvents, nAtRisk){
-  
-  # beta parameter for beta distribution
-  nNonEvents <- nAtRisk - nEvents
-  
-  x_axis <- seq(0, 1, length.out = 100)
-  y_axis <- dbeta(x_axis, nEvents, nNonEvents)
-  
-  plot <- plot(x = x_axis, y = y_axis, type = "l")
-  return(plot)
-}
-
+#plotBetaEvents <- function(nEvents, nAtRisk){
+#  
+#  # beta parameter for beta distribution
+#  nNonEvents <- nAtRisk - nEvents
+#  
+#  x_axis <- seq(0, 1, length.out = 100)
+#  y_axis <- dbeta(x_axis, nEvents, nNonEvents)
+#  
+#  plot <- plot(x = x_axis, y = y_axis, type = "l")
+#  return(plot)
+#}
 # test plot function
-plotBetaEvents(2, 20)
+#plotBetaEvents(2, 20)
 
 
 
