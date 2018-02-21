@@ -13,7 +13,7 @@
 library(shiny)
 
 shinyUI(fluidPage(
-  titlePanel("OVID - Open Value of Information Device"),
+  titlePanel("ADVICE - A Decision tool for Value of Information in Comparative Effectivenss"),
   
   tabsetPanel(
     
@@ -407,17 +407,20 @@ shinyUI(fluidPage(
                         ), # end top fluid row
                
                # LOWER ROW
+               # finish changing names!
+               # need to do something about t1 = t0, t2 = t1,...
+               # treatment 1 = baseline treatment, treatment 2 = intervention 1,...
                fluidRow(
                  column(3, 
                         ##########
-                        # treatment 1 
+                        # Baseline treatment (formerly: treatment 1 )
                         ##########
                         
                         wellPanel(
-                          h4("Treatment 1"),
-                          p("This is considered the baseline treatment. If a no treatment or standard practice option is considered then it should be entered here"),
+                          h4("Baseline treatment"),
+                          #p("If a no treatment or standard practice option is considered then it should be entered here"),
                         
-                          textInput("nameOf_t1", "Name of treatment 1 (optional)", 
+                          textInput("nameOf_t1", "Name of baseline treatment", 
                                   value = "late PTP"),
                         
                           numericInput("utilisation_t1", "Current utilisation of treatment 1 (%)",
@@ -468,12 +471,12 @@ shinyUI(fluidPage(
                  
                  column(3, 
                         ##########
-                        # treatment 2 
+                        # Intervention 1 (formerly: treatment 2 )
                         ##########
                         
                         wellPanel(
-                          h4("Treatment 2"),
-                        textInput("nameOf_t2", "Name of treatment 2 (optional)", 
+                          h4("Intervention 1"),
+                        textInput("nameOf_t2", "Name of intervention 1", 
                                   value = "early PTP"),
                         
                         numericInput("utilisation_t2", "Current utilisation of treatment 2 (%)",
@@ -521,16 +524,16 @@ shinyUI(fluidPage(
                  
                  column(3, 
                         ##########
-                        # treatment 3 
+                        # interverntion 2 (formerly treatment 3 )
                         ##########
                         
                         conditionalPanel(condition = "input.numberOfTreatments >= 3",
                                          
                                          wellPanel(
-                                           h4("Treatment 3"),
+                                           h4("Intervention 2"),
                                            # display if: numberOfTreatments >= 3
-                                           textInput("nameOf_t3", "Name of treatment 3 (optional)", 
-                                                     value = "treatment 3"),
+                                           textInput("nameOf_t3", "Name of intervention 2", 
+                                                     value = "intervention 2"),
                                            
                                            # display if: numberOfTreatments >= 3
                                            numericInput("utilisation_t3", "Current utilisation of treatment 3 (%)",
@@ -582,16 +585,16 @@ shinyUI(fluidPage(
                  
                  column(3,
                         ##########
-                        # treatment 4
+                        # intervention 3 (formerly treatment 4)
                         ##########
                         
                         conditionalPanel(condition = "input.numberOfTreatments >= 4",
                                          
                               wellPanel(
-                                h4("Treatment 4"),
+                                h4("Intervention 3"),
                               # display if: numberOfTreatments >= 4
-                              textInput("nameOf_t4", "Name of treatment 4 (optional)", 
-                                        value = "treatment 4"),
+                              textInput("nameOf_t4", "Name of intervention 3", 
+                                        value = "intervention 3"),
                               # display if: numberOfTreatments >= 4
                               numericInput("utilisation_t4", "Current utilisation of treatment 4 (%)",
                                            value = 0, min = 0, max = 100, step = 0.1),
