@@ -56,6 +56,13 @@ shinyUI(fluidPage(
                                                   "Survival" = "survival"),
                                       selected = "Binary"), 
                           
+                          # new
+                          selectInput(inputId = "outcomeExpression", label = "Express results in natural outcomes or QALYs?", 
+                                      choices = c("Natural outcomes" = "natural", 
+                                                  "QALYs" = "QALYs"),
+                                      selected = "QALYs"), # benefit , harm, net health effect
+                          
+                          
                           selectInput(inputId = "typeOfOutcome", label = "Type of outcome", 
                                       choices = c("Benefit" = "benefit", 
                                                   "Harm" = "harm", 
