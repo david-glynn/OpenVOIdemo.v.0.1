@@ -189,8 +189,8 @@ shinyUI(fluidPage(
                         ##########
                         wellPanel(
                           h4("Primary outcome measure"),
-                          p("This information determines the inputs required for the analysis and so this section",
-                            strong("should be completed first.")),
+                          #p("This information determines the inputs required for the analysis and so this section",
+                          #  strong("should be completed first.")),
                         
                             selectInput(inputId = "typeOfEndpoint", label = "Type of primary endpoint", 
                                         choices = c("Binary" = "binary", 
@@ -226,10 +226,11 @@ shinyUI(fluidPage(
                                                                       "No" = "No"),
                                                           selected = "No")),
                             
-                            # make conditional? display if: outcomeExpression != netHealth. automatically display QALYs if outcomeExpression == netHealth
-                            textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks, QALY)", 
-                                      value = "functional recovery"), 
-                            
+                          
+                            conditionalPanel(condition = "input.outcomeExpression == 'natural'",
+                                             textInput("nameOfOutcome", "Name of outcome in singular (e.g. heart attack)", 
+                                                       value = "functional recovery")),
+
                             textInput("currencySymbol", "Currency used in analysis", 
                                       value = "£")
     
@@ -300,14 +301,6 @@ shinyUI(fluidPage(
                           numericInput("numberOfTreatments", "How many treatments are being investigated?",
                                        value = 2, min = 2, max = 4),
 
-                          conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
-                                           radioButtons(inputId = "reconsider", label = "Calculate the value of reconsidering the evidence?", 
-                                                        choices = c("Yes" = "Yes", 
-                                                                    "No" = "No"),
-                                                        selected = "No"),
-                                           p("Note: the calculation to reconsider the evidence can take between ## and ## minutes to report.")),
-                          
-                          
                           numericInput("timeInformation", "Time over which evidence would be valuable (years)",
                                        value = 15, min = 0, max = NA, step = 0.1)
                           
@@ -329,9 +322,14 @@ shinyUI(fluidPage(
                                        value = 3.5, min = 0, max = 100, step = 0.1),
                           
                           numericInput("incidence", "Incidence per annum",
-                                       value = 8800, min = 0, max = NA, step = 20)
+                                       value = 8800, min = 0, max = NA, step = 20),
                           
-                          
+                          # add warning about time taken to do this calculation?
+                          conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
+                                           radioButtons(inputId = "reconsider", label = "Calculate the value of reconsidering the evidence?", 
+                                                        choices = c("Yes" = "Yes", 
+                                                                    "No" = "No"),
+                                                        selected = "No"))
                           
                
                         ), # end "other inputs" wellpanel 
@@ -374,7 +372,15 @@ shinyUI(fluidPage(
                         
                           br(),
                           actionButton("run", label = "Run analysis"),
-                          br()
+                          br(),
+                          br(),
+                          
+                          conditionalPanel(condition = "input.reconsider != 'Yes'",
+                                          p("Click once, then go to the Results tab. The analysis will complete/update almost immediately ")),
+
+                          conditionalPanel(condition = "input.reconsider == 'Yes'",
+                                           p("Click once, and go to the Results tab. The calculation to reconsider the evidence can take up to 10 minutes to report."))
+                          
                           
                           # do not display MC simulations to user
                           # just inputted 50000 directly into master() input
