@@ -51,6 +51,21 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", l
 
 shinyServer(function(input, output) {
   
+  #############################
+  # fixes to rename variables 
+  ###########################
+  
+  # reproduce the typeOfOutcome input from previous iteration of the app
+  # previously took values of "benefit","harm", "netHealth"
+  newTypeOfOutcome <- reactive(
+    if(input$outcomeExpression == "netHealth"){
+      "netHealth"
+    } else {
+      input$benefitOrHarm # takes values "benefit" or "harm"
+    }
+  )
+  
+  # note MCsims directly changed in master() inputs
   
   ##############################
   # Update plots showing user inputs
@@ -75,12 +90,12 @@ shinyServer(function(input, output) {
         master(
                # type of analysis 
                typeOfEndpoint = input$typeOfEndpoint,
-               typeOfOutcome= input$typeOfOutcome,
+               typeOfOutcome= newTypeOfOutcome(),
                tCostsDependOnEvent= input$tCostsDependOnEvent,
                numberOfTreatments= input$numberOfTreatments,
                typeOfResearch= input$typeOfResearch,
                reconsider = input$reconsider,
-               MCsims= input$MCsims,
+               MCsims= 50000,
                # report writing inputs
                nameOf_t1= input$nameOf_t1,
                nameOf_t2= input$nameOf_t2,
@@ -202,7 +217,7 @@ shinyServer(function(input, output) {
   ####################################################
   # render INPUT and OUTPUT objects and pass to output list
   ####################################################
-  
+  # have to update typeOfOutcome to newTypeOfOutcome
 
   # Create conditional text segments for results section
   ###########################
@@ -232,9 +247,9 @@ shinyServer(function(input, output) {
          ifelse(VOIResults$maxvalueOfResearch > 0,
                 # text if there is value in the research
                 paste("the value of the research is calculated to be approximately", VOIResults$ICER_ResearchWithPerfectImplementation,
-                      "per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm","gained.","avoided."),
+                      "per", input$nameOfOutcome, ifelse(newTypeOfOutcome() != "harm","gained.","avoided."),
                       "This means that the research funder must spend",VOIResults$ICER_ResearchWithPerfectImplementation,
-                      "to", ifelse(input$typeOfOutcome != "harm", "gain", "avoid"), "one", input$nameOfOutcome, ".",
+                      "to", ifelse(newTypeOfOutcome() != "harm", "gain", "avoid"), "one", input$nameOfOutcome, ".",
                       "As the research funder has limited resources, whether this represents good value for money depends on how this compares to other proposals competing for funding."),
                 # text if NO value in research
                 paste(VOIResults$optimalTreatment, "is certainty the optimal treatment and therefore there is no value in any further research.
@@ -368,11 +383,11 @@ shinyServer(function(input, output) {
     ifelse(VOIResults$maxvalueOfResearch > 0,
            paste("However, the proposed trial will not report immediately and the value of additional evidence will decline the longer it takes to report.
            As the trial is expected to take",input$durationOfResearch ,"years to report, 
-           the expected value of the additional evidence is",VOIResults$valueOfResearchWithPerfectImplementation ,paste0(input$nameOfOutcome, "s"),ifelse(input$typeOfOutcome != "harm", "gained", "avoided") ,"over the",input$durationOfResearch, "year period. 
+           the expected value of the additional evidence is",VOIResults$valueOfResearchWithPerfectImplementation ,paste0(input$nameOfOutcome, "s"),ifelse(newTypeOfOutcome() != "harm", "gained", "avoided") ,"over the",input$durationOfResearch, "year period. 
            The trial is expected to cost the research funder",paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd')) ,". 
            Therefore, the maximum value of the trial is (",paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'), "/",VOIResults$valueOfResearchWithPerfectImplementation), "=)",
-           VOIResults$ICER_ResearchWithPerfectImplementation,"per", input$nameOfOutcome, ifelse(input$typeOfOutcome != "harm", "gained.", "avoided."),
-           ifelse(input$typeOfOutcome == "netHealth",
+           VOIResults$ICER_ResearchWithPerfectImplementation,"per", input$nameOfOutcome, ifelse(newTypeOfOutcome() != "harm", "gained.", "avoided."),
+           ifelse(newTypeOfOutcome() == "netHealth",
                   # final text if QALY analysis
                   paste("Funding this research, imposes a cost of",paste0(currencySymbol, formatC(input$costHealthSystem, big.mark = ',',format = 'd')) ,"on the health system.
                   These resources could have been used in direct patient care.
@@ -408,13 +423,13 @@ shinyServer(function(input, output) {
            "chance of leading to the follow-up trial, which would then take an additional",input$durationOfResearchDefinitive ,"years to report. 
            Naturally, the value of the additional evidence will decline the longer it takes the follow-up trial to report. 
            If the follow-up trial was certain to report, it would take (",input$durationOfResearchFeas ,"+",input$durationOfResearchDefinitive ,"=)",input$durationOfResearchFeas + input$durationOfResearchDefinitive ,
-           "years in total and the expected value of the additional evidence would be",VOIResults$valueOfCertainResearchWithPerfectImplementation ,paste0(input$nameOfOutcome,"s"),ifelse(input$typeOfOutcome != "harm", "gained", "avoided"),"over the",input$timeInformation ,"year period. 
-           As there is a",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"chance that the follow-up trial is possible, the value of the project falls to",VOIResults$valueOfResearchWithPerfectImplementation ,paste0(input$nameOfOutcome,"s"),ifelse(input$typeOfOutcome != "harm", "gained.", "avoided."),
+           "years in total and the expected value of the additional evidence would be",VOIResults$valueOfCertainResearchWithPerfectImplementation ,paste0(input$nameOfOutcome,"s"),ifelse(newTypeOfOutcome() != "harm", "gained", "avoided"),"over the",input$timeInformation ,"year period. 
+           As there is a",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"chance that the follow-up trial is possible, the value of the project falls to",VOIResults$valueOfResearchWithPerfectImplementation ,paste0(input$nameOfOutcome,"s"),ifelse(newTypeOfOutcome() != "harm", "gained.", "avoided."),
            "The feasibility trial is expected to cost the research funder",paste0(currencySymbol, formatC(input$costResearchFunderFeas, big.mark = ',',format = 'd')) ,"and the definitive trial is expected to cost",paste0(currencySymbol, formatC(input$costResearchFunderDefinitive, big.mark = ',',format = 'd')),
            ". As the feasibility study costs will always be incurred and there is a",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"chance that the follow-up research will not occur, 
            the total expected cost to the research funder is (",paste0(currencySymbol, formatC(input$costResearchFunderFeas, big.mark = ',',format = 'd')) ,"+",paste0(currencySymbol, formatC(input$costResearchFunderDefinitive, big.mark = ',',format = 'd')) ,"x",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"=)",VOIResults$expectedCostResearchFunder,
-           ". Therefore, the expected value of funding the feasibility trial is (",VOIResults$expectedCostResearchFunder,"/",VOIResults$valueOfResearchWithPerfectImplementation  ,"=)",VOIResults$ICER_ResearchWithPerfectImplementation,"per",input$nameOfOutcome,ifelse(input$typeOfOutcome != "harm", "gained.", "avoided."),
-           ifelse(input$typeOfOutcome == "netHealth",
+           ". Therefore, the expected value of funding the feasibility trial is (",VOIResults$expectedCostResearchFunder,"/",VOIResults$valueOfResearchWithPerfectImplementation  ,"=)",VOIResults$ICER_ResearchWithPerfectImplementation,"per",input$nameOfOutcome,ifelse(newTypeOfOutcome() != "harm", "gained.", "avoided."),
+           ifelse(newTypeOfOutcome() == "netHealth",
                   # final text if QALY analysis
                   paste("Funding this research, imposes an expected cost of",paste0(currencySymbol, formatC(input$costHealthSystemFeas, big.mark = ',',format = 'd')) ,"+",paste0(currencySymbol, formatC(input$costHealthSystemDefinitive, big.mark = ',',format = 'd')) ,"x",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"=)",VOIResults$expectedCostHealthSystem,
                         "on the health system. These resources could have been used in direct patient care.

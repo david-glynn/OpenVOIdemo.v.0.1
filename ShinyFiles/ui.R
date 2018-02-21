@@ -198,39 +198,42 @@ shinyUI(fluidPage(
                                                     "Survival" = "survival"),
                                         selected = "Binary"), 
                             
-                            selectInput(inputId = "typeOfOutcome", label = "Type of outcome", 
-                                        choices = c("Benefit" = "benefit", 
-                                                    "Harm" = "harm", 
-                                                    "Net health effect (QALYs)" = "netHealth"),
-                                        selected = "Net health effect (QALYs)"), # benefit , harm, net health effect
+                            # old
+                            # selectInput(inputId = "typeOfOutcome", label = "Type of outcome", 
+                            #             choices = c("Benefit" = "benefit", 
+                            #                         "Harm" = "harm", 
+                            #                         "Net health effect (QALYs)" = "netHealth"),
+                            #             selected = "Net health effect (QALYs)"), # benefit , harm, net health effect
                             
-                            
-                            numericInput("numberOfTreatments", "How many treatments are being investigated?",
-                                         value = 2, min = 2, max = 4),
-                            
-                            selectInput(inputId = "typeOfResearch", label = "Type of research", 
-                                        choices = c("RCT" = "RCT", 
-                                                    "Feasibility study" = "feasibility"),
-                                        selected = "RCT"),
-                            
-                            conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
-                                             radioButtons(inputId = "reconsider", label = "Calculate the value of reconsidering the evidence?", 
-                                                          choices = c("Yes" = "Yes", 
-                                                                      "No" = "No"),
-                                                          selected = "No"),
-                                             p("Note: the calculation to reconsider the evidence can take between ## and ## minutes to report.")),
+                            # new
+                            selectInput(inputId = "outcomeExpression", label = "Express results in natural outcomes (e.g. heart attacks avoided) or in QALYs?", 
+                                        choices = c("Natural outcomes" = "natural",  
+                                                    "QALYs" = "netHealth"),
+                                        selected = "QALYs"), 
                           
-                            conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.typeOfOutcome == 'netHealth'",
+                            # new
+                            conditionalPanel(condition = "input.outcomeExpression == 'natural'",
+                                             selectInput(inputId = "benefitOrHarm", label = "Is the outcome a benefit (e.g. cures) or a harm (e.g. heart attack)?", 
+                                                        choices = c("Benefit" = "benefit", 
+                                                                    "Harm" = "harm"),
+                                                        selected = "Benefit")),
+                          
+                            
+                            
+                            conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.outcomeExpression == 'netHealth'",
                                              radioButtons(inputId = "tCostsDependOnEvent", label = "Do the treatment costs depend on the primary outcome?", 
                                                           choices = c("Yes" = "Yes", 
                                                                       "No" = "No"),
                                                           selected = "No")),
+                            
+                            # make conditional? display if: outcomeExpression != netHealth. automatically display QALYs if outcomeExpression == netHealth
+                            textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks, QALY)", 
+                                      value = "functional recovery"), 
+                            
+                            textInput("currencySymbol", "Currency used in analysis", 
+                                      value = "£")
     
-                            conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
-                                             selectInput(inputId = "survivalDist", label = "Type of survival distribution", 
-                                                         choices = c("Exponential" = "exponential", 
-                                                                     "Weibull" = "weibull"),
-                                                         selected = "exponential"))
+                            
                             
                             
                         ) # end wellPanel
@@ -244,54 +247,13 @@ shinyUI(fluidPage(
                         
                         wellPanel(
                           
-                          h4("Health system"),
+                          h4("Proposed research study"),
           
-                          numericInput("incidence", "Incidence per annum",
-                                       value = 8800, min = 0, max = NA, step = 20),
+                          selectInput(inputId = "typeOfResearch", label = "Type of research", 
+                                      choices = c("RCT" = "RCT", 
+                                                  "Feasibility study" = "feasibility"),
+                                      selected = "RCT"),
                           
-                          numericInput("timeInformation", "Time over which evidence would be valuable (years)",
-                                       value = 15, min = 0, max = NA, step = 0.1),
-                          
-                          numericInput("discountRate", "Discount rate (%)",
-                                       value = 3.5, min = 0, max = 100, step = 0.1),
-                        
-                          conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
-                                           numericInput("k", "Opportunity cost of health system expenditure (£)",
-                                                        value = 15000, min = 0, max = NA, step = 500)),
-                        
-                          conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.typeOfOutcome == 'netHealth'",
-                                           numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
-                                                        value = 2, min = NA, max = NA, step = 0.05)),
-                            
-                          conditionalPanel(condition = "input.typeOfEndpoint == 'continuous' && input.typeOfOutcome == 'netHealth'",
-                                           numericInput("INBContinEvent", 
-                                                        "Net health effect of unit increase in continuous outcome (in QALYs)",
-                                                        value = 0.05, min = NA, max = NA, step = 0.05)),
-                          
-                          # BUG!! If this has NA value then the app crashes
-                          conditionalPanel(condition = "input.typeOfEndpoint == 'survival' && input.typeOfOutcome == 'netHealth'",
-                                           numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
-                                                        value = 0.5, min = NA, max = NA, step = 0.05)),
-                          
-                          # make conditional? display if: typeOfOutcome != netHealth. automatically display QALYs if typeOfOutcome == netHealth
-                          textInput("nameOfOutcome", "Name of outcome (e.g. heart attacks, QALY)", 
-                                    value = "functional recovery"), 
-                          
-                          textInput("currencySymbol", "Currency used in analysis", 
-                                    value = "£")
-                          
-                        ) # end of wellPanel 
-                        ), # end of second column
-                 
-                 column(3,
-                        ##########
-                        # General inputs (2st panel): trial design
-                        ##########
-                        
-                        wellPanel(
-                          
-                          h4("Trial"),
-                        
                           # RCT trial design inputs
                           conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
                                            
@@ -301,10 +263,10 @@ shinyUI(fluidPage(
                                            numericInput("costResearchFunder", "Cost of research to funder",
                                                         value = 2854000, min = 0, max = NA, step = 100),
                                            
-                                           conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                                           conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                             numericInput("costHealthSystem", "Costs of research imposed on health system",
                                                                          value = 1000000, min = 0, max = NA, step = 100) )
-                                           ), # end RCT trial design conditional panel
+                          ), # end RCT trial design conditional panel
                           
                           
                           # Feasibility trial design inputs
@@ -325,18 +287,82 @@ shinyUI(fluidPage(
                                            numericInput("costResearchFunderDefinitive", "Costs of follow-up research to funder",
                                                         value = 1000000, min = 0, max = NA, step = 100),
                                            
-                                           conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                                           conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                             numericInput("costHealthSystemFeas", "Costs of feasibility research imposed on health system",
                                                                          value = 1000000, min = 0, max = NA, step = 100),
                                                             
-                                                            # display if: typeOfOutcome == "netHealth"
+                                                            # display if: outcomeExpression == "netHealth"
                                                             numericInput("costHealthSystemDefinitive", "Costs of follow-up research imposed on health system",
                                                                          value = 1000000, min = 0, max = NA, step = 100) )
-                                           ) # end Feasibility trial design conditional panel
+                          ), # end Feasibility trial design conditional panel
+                          
+                          
+                          numericInput("numberOfTreatments", "How many treatments are being investigated?",
+                                       value = 2, min = 2, max = 4),
+
+                          conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
+                                           radioButtons(inputId = "reconsider", label = "Calculate the value of reconsidering the evidence?", 
+                                                        choices = c("Yes" = "Yes", 
+                                                                    "No" = "No"),
+                                                        selected = "No"),
+                                           p("Note: the calculation to reconsider the evidence can take between ## and ## minutes to report.")),
+                          
+                          
+                          numericInput("timeInformation", "Time over which evidence would be valuable (years)",
+                                       value = 15, min = 0, max = NA, step = 0.1)
+                          
+                          
+      
+                        ) # end of wellPanel 
+                        ), # end of second column
+                 
+                 column(3,
+                        ##########
+                        # General inputs (2st panel): Other inputs
+                        ##########
+                        
+                        wellPanel( # START "other inputs" well panel
+                          
+                          h4("Other inputs"),
+                        
+                          numericInput("discountRate", "Discount rate (%)",
+                                       value = 3.5, min = 0, max = 100, step = 0.1),
+                          
+                          numericInput("incidence", "Incidence per annum",
+                                       value = 8800, min = 0, max = NA, step = 20)
+                          
                           
                           
                
-                        ) # end wellPanel 
+                        ), # end "other inputs" wellpanel 
+                        
+                        # conditional well panel
+                        conditionalPanel(condition = "input.outcomeExpression == 'netHealth'", # start conditional well panel
+                                         
+                          wellPanel( # START wellPanel
+                          
+                              h4("Comprehensive meausure of health outcome"),
+                          
+                              numericInput("k", "Opportunity cost of health system expenditure (£)",
+                                                        value = 15000, min = 0, max = NA, step = 500),
+                              
+                              conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
+                                           numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
+                                                        value = 2, min = NA, max = NA, step = 0.05)),
+                              
+                              conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
+                                           numericInput("INBContinEvent", 
+                                                        "Net health effect of unit increase in continuous outcome (in QALYs)",
+                                                        value = 0.05, min = NA, max = NA, step = 0.05)),
+                          
+                              # BUG!! If this has NA value then the app crashes
+                              conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
+                                           numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
+                                                        value = 0.5, min = NA, max = NA, step = 0.05))
+                          
+                        ) # end wellPanel
+                        ) # end conditional well panel
+                        
                         ), # end 3rd column inputs
                  
                  column(3, 
@@ -346,23 +372,27 @@ shinyUI(fluidPage(
                         
                         wellPanel(
                         
-                          actionButton("run", label = "Run analysis"),
                           br(),
-                           
-                          # **check maximum number feasible
-                          conditionalPanel(condition = "input.reconsider != 'Yes'",
-                                           numericInput("MCsims", "Number of simulations",
-                                                        value = 50000, min = 0, max = 10000000, step = 500)),
+                          actionButton("run", label = "Run analysis"),
+                          br()
                           
+                          # do not display MC simulations to user
+                          # just inputted 50000 directly into master() input
                           # **check maximum number feasible
-                          conditionalPanel(condition = "input.reconsider == 'Yes'",
-                                           
-                                           p("Note that this analysis will take between ## and ## minutes to report. This is due to the large number of simulations required"),
-                                           numericInput("MCsimsInner", "Number of simulations for inner loop",
-                                                        value = 50000, min = 0, max = 10000000, step = 500),
-                                           
-                                           numericInput("MCsimsOuter", "Number of simulations for outer loop",
-                                                        value = 50000, min = 0, max = 10000000, step = 500))
+                          #conditionalPanel(condition = "input.reconsider != 'Yes'",
+                          #                 numericInput("MCsims", "Number of simulations",
+                          #                              value = 50000, min = 0, max = 10000000, step = 500)),
+                          
+                          # do not display MC simulations to user
+                          # **check maximum number feasible
+                          # conditionalPanel(condition = "input.reconsider == 'Yes'",
+                          #                  
+                          #                  p("Note that this analysis will take between ## and ## minutes to report. This is due to the large number of simulations required"),
+                          #                  numericInput("MCsimsInner", "Number of simulations for inner loop",
+                          #                               value = 50000, min = 0, max = 10000000, step = 500),
+                          #                  
+                          #                  numericInput("MCsimsOuter", "Number of simulations for outer loop",
+                          #                               value = 50000, min = 0, max = 10000000, step = 500))
                           
                           
                         ) # end well panel run button
@@ -393,6 +423,12 @@ shinyUI(fluidPage(
                           
                           # survival inputs for t1
                           conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
+                                           
+                                           selectInput(inputId = "survivalDist", label = "Type of survival distribution", 
+                                                        choices = c("Exponential" = "exponential", 
+                                                                    "Weibull" = "weibull"),
+                                                        selected = "exponential"),
+                                           
                                            numericInput("scaleParameter_t1", "Scale parameter for treatment 1 (natural scale)",
                                                         value = 5, min = 0, max = NA, step = 1),
                                            
@@ -405,7 +441,7 @@ shinyUI(fluidPage(
                                            p("Note that if the primary endpoint is continuous the expected outcome on the continuous scale with the baseline treatment is not required. For further details see ####INSERT REFERENCE")),
                           
                           # Cost inputs for t1
-                          conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                          conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                         
                                            conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
                                                             numericInput("cost_t1", "Lifetime treatment costs associated with treatment 1",
@@ -461,7 +497,7 @@ shinyUI(fluidPage(
                                      value = 0, min = NA, max = NA, step = 0.05),
                         
                         # Cost inputs for t2
-                        conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                        conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                          
                                          conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
                                                           numericInput("cost_t2", "Lifetime treatment costs associated with treatment 2",
@@ -519,7 +555,7 @@ shinyUI(fluidPage(
                                                         value = 0, min = NA, max = NA, step = 0.05),
                                            
                                            # Cost inputs for t3
-                                           conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                                           conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                             
                                                             conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
                                                                              numericInput("cost_t3", "Lifetime treatment costs associated with treatment 3",
@@ -580,7 +616,7 @@ shinyUI(fluidPage(
                                            value = 0, min = NA, max = NA, step = 0.05),
                               
                               # Cost inputs for t4
-                              conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+                              conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                
                                                conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
                                                                 numericInput("cost_t4", "Lifetime treatment costs associated with treatment 4",
@@ -635,7 +671,7 @@ shinyUI(fluidPage(
              
              
              # if cost + QALY study: (require this extra bit)
-             conditionalPanel(condition = "input.typeOfOutcome == 'netHealth'",
+             conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                               h4("Summary of treatment costs"),
                               tableOutput("tableTreatmentCosts"),
                               textOutput("discussTableTreatmentCosts"),
