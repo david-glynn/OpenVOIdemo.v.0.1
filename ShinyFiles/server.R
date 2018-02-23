@@ -34,18 +34,18 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", l
 
 
 # relative paths for publishing in shinyapps.io
-#source("BinaryOutcomeFunction.R", local = TRUE)
-#source("BinaryQALYFunction.R", local = TRUE)
-#source("SupplementaryFunctions.R", local = TRUE)
-#source("ContinuousOutcomeFunction.R", local = TRUE)
-#source("ContinuousQALYFunction.R", local = TRUE)
-#source("SurvivalOutcomeFunction.R", local = TRUE)
-#source("SurvivalQALYFunction.R", local = TRUE)
-#source("SupplementaryFunctionsFeas.R", local = TRUE)
-#source("master.R", local = TRUE)
-#source("ReconFunctions.R", local = TRUE)
-#source("EpiInputFunctions.R", local = TRUE)
-#source("PlottingFunctions.R")
+# source("BinaryOutcomeFunction.R", local = TRUE)
+# source("BinaryQALYFunction.R", local = TRUE)
+# source("SupplementaryFunctions.R", local = TRUE)
+# source("ContinuousOutcomeFunction.R", local = TRUE)
+# source("ContinuousQALYFunction.R", local = TRUE)
+# source("SurvivalOutcomeFunction.R", local = TRUE)
+# source("SurvivalQALYFunction.R", local = TRUE)
+# source("SupplementaryFunctionsFeas.R", local = TRUE)
+# source("master.R", local = TRUE)
+# source("ReconFunctions.R", local = TRUE)
+# source("EpiInputFunctions.R", local = TRUE)
+# source("PlottingFunctions.R")
 
 
 
