@@ -13,7 +13,7 @@
 library(shiny)
 
 shinyUI(fluidPage(
-  titlePanel("ADVICE - A Decision tool for Value of Information in Comparative Effectivenss"),
+  titlePanel("ADVICE - A Decision tool for Value of Information in Comparative Effectiveness"),
   
   tabsetPanel(
     
