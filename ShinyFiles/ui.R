@@ -218,26 +218,51 @@ shinyUI(fluidPage(
                                                                     "Harm" = "harm"),
                                                         selected = "Benefit")),
                           
-                            
-                            
-                            conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.outcomeExpression == 'netHealth'",
-                                             radioButtons(inputId = "tCostsDependOnEvent", label = "Do the treatment costs depend on the primary outcome?", 
-                                                          choices = c("Yes" = "Yes", 
-                                                                      "No" = "No"),
-                                                          selected = "No")),
-                            
-                          
+
                             conditionalPanel(condition = "input.outcomeExpression == 'natural'",
                                              textInput("nameOfOutcome", "Name of outcome e.g. heart attack", 
-                                                       value = "functional recovery")),
+                                                       value = "functional recovery"))
 
-                            textInput("currencySymbol", "Currency used in analysis", 
-                                      value = "£")
-    
+
                             
                             
                             
-                        ) # end wellPanel
+                        ), # end wellPanel
+                        
+                        # conditional well panel
+                        conditionalPanel(condition = "input.outcomeExpression == 'netHealth'", # start conditional well panel
+                                         
+                                         wellPanel( # START wellPanel
+                                           
+                                           h4("Comprehensive meausure of health outcome"),
+                                           
+                                           numericInput("k", "Opportunity cost of health system expenditure (£)",
+                                                        value = 15000, min = 0, max = NA, step = 500),
+                                           
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
+                                                            numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
+                                                                         value = 2, min = NA, max = NA, step = 0.05)),
+                                           
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.outcomeExpression == 'netHealth'",
+                                                            radioButtons(inputId = "tCostsDependOnEvent", label = "Do the treatment costs depend on the primary outcome?", 
+                                                                         choices = c("Yes" = "Yes", 
+                                                                                     "No" = "No"),
+                                                                         selected = "No")),
+                                           
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
+                                                            numericInput("INBContinEvent", 
+                                                                         "Net health effect of unit increase in continuous outcome (in QALYs)",
+                                                                         value = 0.05, min = NA, max = NA, step = 0.05)),
+                                           
+                                           # BUG!! If this has NA value then the app crashes
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
+                                                            numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
+                                                                         value = 0.5, min = NA, max = NA, step = 0.05))
+                                           
+                                         ) # end wellPanel
+                        ) # end conditional well panel
+                        
+                        
                         
                         ), # end decision problem inut column
                  
@@ -324,6 +349,10 @@ shinyUI(fluidPage(
                           numericInput("incidence", "Incidence per annum",
                                        value = 8800, min = 0, max = NA, step = 20),
                           
+                          textInput("currencySymbol", "Currency used in analysis", 
+                                    value = "£"),
+                          
+                          
                           # add warning about time taken to do this calculation?
                           conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
                                            radioButtons(inputId = "reconsider", label = "Calculate the value of reconsidering the evidence?", 
@@ -332,34 +361,9 @@ shinyUI(fluidPage(
                                                         selected = "No"))
                           
                
-                        ), # end "other inputs" wellpanel 
+                        ) # end "other inputs" wellpanel 
                         
-                        # conditional well panel
-                        conditionalPanel(condition = "input.outcomeExpression == 'netHealth'", # start conditional well panel
-                                         
-                          wellPanel( # START wellPanel
-                          
-                              h4("Comprehensive meausure of health outcome"),
-                          
-                              numericInput("k", "Opportunity cost of health system expenditure (£)",
-                                                        value = 15000, min = 0, max = NA, step = 500),
-                              
-                              conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
-                                           numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
-                                                        value = 2, min = NA, max = NA, step = 0.05)),
-                              
-                              conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
-                                           numericInput("INBContinEvent", 
-                                                        "Net health effect of unit increase in continuous outcome (in QALYs)",
-                                                        value = 0.05, min = NA, max = NA, step = 0.05)),
-                          
-                              # BUG!! If this has NA value then the app crashes
-                              conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
-                                           numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
-                                                        value = 0.5, min = NA, max = NA, step = 0.05))
-                          
-                        ) # end wellPanel
-                        ) # end conditional well panel
+
                         
                         ), # end 3rd column inputs
                  
