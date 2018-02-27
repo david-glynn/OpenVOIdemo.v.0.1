@@ -173,7 +173,7 @@ BinaryOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1,
 BinaryOutcomeFunction <- BinaryOutcomeFunction.v.0.1
 
 # test function
-# resultsholder <- BinaryOutcomeFunction(numberOfTreatments =2 , MCsims = 1000, P_t1 =0.5,
+# resultsholder <- BinaryOutcomeFunction(numberOfTreatments =2 , MCsims = 100000, P_t1 =0.1,
 #                                        mu_t2=0, variance_t2=1, dist_t2="norm", direction_t2= NA,
 #                                        mu_t3=NA, variance_t3=NA, dist_t3=NA, direction_t3=NA,
 #                                        mu_t4=NA, variance_t4=NA, dist_t4=NA, direction_t4=NA,
@@ -184,7 +184,7 @@ BinaryOutcomeFunction <- BinaryOutcomeFunction.v.0.1
 #                                        utilisation_t1=100, utilisation_t2=0,
 #                                        utilisation_t3=NA, utilisation_t4=NA,
 #                                        currencySymbol="£")
-
+# resultsholder
 
 
 

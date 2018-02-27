@@ -13,7 +13,7 @@
 library(shiny)
 
 shinyUI(fluidPage(
-  titlePanel("ADVICE - A Decision tool for Value of Information in Comparative Effectiveness"),
+  titlePanel("Rapid value of information (VOI) decision tool"),
   
   tabsetPanel(
     
@@ -228,7 +228,7 @@ shinyUI(fluidPage(
                             
                           
                             conditionalPanel(condition = "input.outcomeExpression == 'natural'",
-                                             textInput("nameOfOutcome", "Name of outcome in singular (e.g. heart attack)", 
+                                             textInput("nameOfOutcome", "Name of outcome e.g. heart attack", 
                                                        value = "functional recovery")),
 
                             textInput("currencySymbol", "Currency used in analysis", 
@@ -273,7 +273,7 @@ shinyUI(fluidPage(
                           # Feasibility trial design inputs
                           conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
                                            
-                                           numericInput("probabilityOfDefinitiveResearch", "Liklihood of feasibility research leading to follow-up study",
+                                           numericInput("probabilityOfDefinitiveResearch", "Probability of feasibility research leading to follow-up study",
                                                         value = 0.5, min = 0, max = 1, step = 0.05),
                                            
                                            numericInput("durationOfResearchFeas", "Expected duration of feasibility research (years)",
@@ -298,7 +298,7 @@ shinyUI(fluidPage(
                           ), # end Feasibility trial design conditional panel
                           
                           
-                          numericInput("numberOfTreatments", "How many treatments are being investigated?",
+                          numericInput("numberOfTreatments", "How many treatment options are under consideration? (Maximum of 4)",
                                        value = 2, min = 2, max = 4),
 
                           numericInput("timeInformation", "Time over which evidence would be valuable (years)",
@@ -376,7 +376,7 @@ shinyUI(fluidPage(
                           br(),
                           
                           conditionalPanel(condition = "input.reconsider != 'Yes'",
-                                          p("Click once, then go to the Results tab. The analysis will complete/update almost immediately ")),
+                                          p("Click once and go to the Results tab")),
 
                           conditionalPanel(condition = "input.reconsider == 'Yes'",
                                            p("Click once, and go to the Results tab. The calculation to reconsider the evidence can take up to 10 minutes to report."))
