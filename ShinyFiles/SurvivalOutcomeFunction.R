@@ -62,6 +62,7 @@ SurvivalOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims,
                                             utilisation_t3, utilisation_t4, currencySymbol){
   
 
+  set.seed(5)
   # no uncertainty in baseline for now
   ExpectedSurvival_t1 <- if(survivalDist == "exponential"){
     rep(scaleParameter_t1, MCsims)

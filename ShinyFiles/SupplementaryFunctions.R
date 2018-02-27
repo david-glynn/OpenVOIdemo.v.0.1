@@ -119,6 +119,7 @@ simProbOfOutcomeMatrixBinary <- function(numberOfTreatments, P_t1,
                                    mu_t3, variance_t3, dist_t3, direction_t3,
                                    mu_t4, variance_t4, dist_t4, direction_t4
                                    ){
+  set.seed(5)
   
   # simulate the probabilities for t2
   P_t2 <- if (dist_t2 == "norm") {
@@ -275,6 +276,7 @@ simDeltaOfOutcomeMatrixContinuous <- function(numberOfTreatments, MCsims,
                                          mu_t3, variance_t3, dist_t3, direction_t3,
                                          mu_t4, variance_t4, dist_t4, direction_t4
 ){
+  set.seed(5)
   
   # simulate the Deltas for t2
   Delta_t2 <- if (dist_t2 == "norm") {
@@ -513,6 +515,7 @@ simDurationMatrixSurvival <- function(numberOfTreatments, ExpectedSurvival_t1, s
                                          mu_t4, variance_t4, dist_t4, direction_t4
 ){
   
+  set.seed(5)
   # simulate the probabilities for t2
   ExpectedSurvival_t2 <- if (dist_t2 == "norm") {
     simDurationNormSurvival(ExpectedSurvival_t1, survivalDist, mu_t2, variance_t2,

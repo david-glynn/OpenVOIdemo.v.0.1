@@ -192,7 +192,7 @@ BinaryQALYFunction.v.0.1 <- function(numberOfTreatments, MCsims, P_t1, INBBinary
   
   # simulate probabilities of event
   #########################
-  
+  set.seed(5)
   # simulate probabilities of event with baseline treatment
   P_t1 <- rep(P_t1, MCsims)
   

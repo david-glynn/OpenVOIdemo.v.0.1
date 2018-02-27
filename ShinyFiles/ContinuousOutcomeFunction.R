@@ -68,7 +68,7 @@ ContinuousOutcomeFunction.v.0.1 <- function(numberOfTreatments, MCsims,
   
   # simulate plausible changes in continuous outcome for each treatment relative to t1 (aka deltas)
   #########################
-  
+  set.seed(5)
   Delta_t <- simDeltaOfOutcomeMatrixContinuous(numberOfTreatments, MCsims,
                                       mu_t2, variance_t2, dist_t2, direction_t2,
                                       mu_t3, variance_t3, dist_t3, direction_t3,
