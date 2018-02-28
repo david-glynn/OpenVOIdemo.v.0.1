@@ -185,7 +185,7 @@ shinyServer(function(input, output) {
     VOIResults$probOptimalTisMax <- resultsHolder()$probOptimalTisMax
     VOIResults$probOptimalTisNotMax <- resultsHolder()$probOptimalTisNotMax
     VOIResults$expectedOutcomesPerYearoptimalTreatment <- resultsHolder()$expectedOutcomesPerYearoptimalTreatment
-    VOIResults$implementationValueExists <- resultsHolder()$ implementationValueExists            # new output
+    VOIResults$implementationValueExists <- resultsHolder()$implementationValueExists            # new output
     VOIResults$uncertaintyInCurrentEvidenceExists <- resultsHolder()$uncertaintyInCurrentEvidenceExists
     VOIResults$popDuringResearch <- resultsHolder()$popDuringResearch
     VOIResults$popAfterResearch <- resultsHolder()$popAfterResearch
@@ -232,7 +232,7 @@ shinyServer(function(input, output) {
   ##############################
   # approach based on : https://shiny.rstudio.com/articles/generating-reports.html
   
-  
+  # NB: when adding objects to params list - must set default value in report.Rmd equal to NA
   output$report <- downloadHandler(
     # For PDF output, change this to "report.pdf"
     filename = "report.doc",
@@ -244,7 +244,49 @@ shinyServer(function(input, output) {
       file.copy("report.Rmd", tempReport, overwrite = TRUE)
       
       # Set up parameters to pass to Rmd document
-      params <- list(n = input$numberOfTreatments)
+      params <- list( 
+                     optimalTreatment = VOIResults$optimalTreatment,
+                     probTreatment1isMax = VOIResults$probTreatment1isMax,
+                     probTreatment2isMax = VOIResults$probTreatment2isMax,
+                     probTreatment3isMax = VOIResults$probTreatment3isMax ,
+                     probTreatment4isMax = VOIResults$probTreatment4isMax ,
+                     probOptimalTisMax = VOIResults$probOptimalTisMax ,
+                     probOptimalTisNotMax = VOIResults$probOptimalTisNotMax, 
+                     expectedOutcomesPerYearoptimalTreatment = VOIResults$expectedOutcomesPerYearoptimalTreatment,
+                     implementationValueExists = VOIResults$implementationValueExists ,
+                     uncertaintyInCurrentEvidenceExists = VOIResults$uncertaintyInCurrentEvidenceExists ,
+                     popDuringResearch = VOIResults$popDuringResearch ,
+                     popAfterResearch = VOIResults$popAfterResearch ,
+                     popTotal = VOIResults$popTotal ,
+                     listForhistVOIYear = VOIResults$listForhistVOIYear ,
+                     valueOfResearchPerYear = VOIResults$valueOfResearchPerYear ,
+                     valueOfImplementationPerYear = VOIResults$valueOfImplementationPerYear ,
+                     tableEventsPerYearDF = VOIResults$tableEventsPerYearDF    ,              
+                     tableProbabilityMaxDF = VOIResults$tableProbabilityMaxDF ,
+                     tableTreatmentCostsDF = VOIResults$tableTreatmentCostsDF,
+                     Cell_A = VOIResults$Cell_A ,
+                     Cell_C = VOIResults$Cell_C ,
+                     Cell_D = VOIResults$Cell_D ,
+                     maxvalueOfImplementation = VOIResults$maxvalueOfImplementation ,
+                     maxvalueOfResearch = VOIResults$maxvalueOfResearch, 
+                     healthOpportunityCostsOfResearch = VOIResults$healthOpportunityCostsOfResearch,
+                     valueOfResearchWithCurrentImplementation = VOIResults$valueOfResearchWithCurrentImplementation ,
+                     valueOfResearchWithPerfectImplementation = VOIResults$valueOfResearchWithPerfectImplementation ,
+                     ICER_ResearchWithCurrentImplementation = VOIResults$ICER_ResearchWithCurrentImplementation ,
+                     ICER_ResearchWithPerfectImplementation = VOIResults$ICER_ResearchWithPerfectImplementation ,
+                     valuePer15KResearchSpend = VOIResults$valuePer15KResearchSpend ,
+                     valuePerOpCostResearchSpend = VOIResults$valuePerOpCostResearchSpend ,
+                     absoluteExpectedHealthOutcomesFromResearchProject = VOIResults$absoluteExpectedHealthOutcomesFromResearchProject ,
+                     # additional feasibility outputs
+                     popDuringFeasResearch = VOIResults$popDuringFeasResearch    ,          
+                     popDuringDefinitiveResearch = VOIResults$popDuringDefinitiveResearch ,
+                     popAfterDefinitiveResearch = VOIResults$popAfterDefinitiveResearch   ,
+                     expectedCostResearchFunder = VOIResults$expectedCostResearchFunder   ,          
+                     expectedCostHealthSystem = VOIResults$expectedCostHealthSystem    ,          
+                     valueOfCertainResearchWithPerfectImplementation = VOIResults$valueOfCertainResearchWithPerfectImplementation
+                     
+                     
+                     ) # end of list of objects saved to params 
       
       # Knit the document, passing in the `params` list, and eval it in a
       # child of the global environment (this isolates the code in the document
