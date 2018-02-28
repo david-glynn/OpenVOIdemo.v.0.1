@@ -31,7 +31,9 @@ shinyUI(fluidPage(
            tabPanel("Navigation",
              
              br(),
-             p("Demo release version 0.1"),
+             h4("A video on using this app"),
+             br(),
+             p("<INSERT SHORT YOUTUBE VIDEO ON HOW TO USE THIS APP>"),
              br(),
              h4("How to use this app"),
              p("This is an R Shiny App which facilitates calculations of the value of research proposals in a timely manner. 
@@ -89,13 +91,10 @@ shinyUI(fluidPage(
        tabsetPanel(
              
              #################
-             # how to use this app subtab
+             # input information subtab
              
-              tabPanel("Inputs and how to use this app",
-                       br(),
-                       h4("A video on using this app"),
-                       br(),
-                       p("<INSERT SHORT YOUTUBE VIDEO ON HOW TO USE THIS APP>"),
+              tabPanel("Input information",
+                       
                        br(),
                        h4("Inputs required to estimate research value"),
                        br(),
@@ -198,7 +197,9 @@ shinyUI(fluidPage(
              # Part 1 inputs subtab
              
              tabPanel("Part 1 inputs",
-                      br()
+                      br(),
+                      h4("Select appropriate values and then proceed to the 'Part 2 inputs' tab"),
+                      strong("If you are unclear about the interpretation of any inputs click the 'Input information' tab")
                       
              ), # end part 1 inputs tabPanel 
              
@@ -208,6 +209,7 @@ shinyUI(fluidPage(
              tabPanel("Part 2 inputs", 
                        
                      br(),
+                     h4("Select appropriate values and then press 'Run analysis'"),
                      fluidPage(
                        
                        # top fluid row (non treatment inputs)
@@ -810,23 +812,10 @@ shinyUI(fluidPage(
                         )
                ) # end 1st Write Report fluidRow 
              ) # end Write Report fluidPage 
-    ), # end write report tabPanel
+    ) # end write report tabPanel
     
-    ##################
-    # ABOUT page
-    ##################
-    tabPanel("About", 
-             fluidPage(
-               fluidRow(
-                 column(4, "<code for about ui>"),
-                 column(4, "next row")
-               ) # end 1st About fluidRow  
-               
-             ) # end About fluidPage 
-    ) # end About tabPanel
     
   ) # end App tabSetPanel
-  
 ) # end App fluid page
 ) # end App shinyUi function
 
