@@ -202,7 +202,8 @@ shinyUI(fluidPage(
                       strong("If you are unclear about the interpretation of any inputs click the 'Input information' tab"),
                       br(),
                       br(),
-                      # top fluid row for high level inputs
+                      
+                      ## top fluid row for high level app inputs
                       fluidRow(
                         column(6,
                                
@@ -271,31 +272,101 @@ shinyUI(fluidPage(
                         ) # end other inputs column
                       ), # end high level inputs fluidRow
                       
-                      # mid level fluid row for "other treatment inputs" width of 3 column for each
+                      ## mid level fluid row for "other treatment inputs" width of 3 column for each
                       fluidRow(
                         
+                        column(3,
+                               
+                               wellPanel(
+                               h4("Baseline treatment"),
+                               #p("If a no treatment or standard practice option is considered then it should be entered here"),
+                               
+                               textInput("nameOf_t1", "Name of baseline treatment", 
+                                         value = "late PTP"),
+                               
+                               numericInput("utilisation_t1", "Current utilisation of baseline treatment (%)",
+                                            value = 100, min = 0, max = 100, step = 0.1),
+                               
+                               # Cost inputs for baseline (t1)
+                               conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
+                                                
+                                                conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                                 numericInput("cost_t1", "Lifetime treatment costs associated with the baseline treatment",
+                                                                              value = 100, min = NA, max = NA, step = 10) ),
+                                                
+                                                conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                                 numericInput("costEvent_t1", "Lifetime treatment costs associated with the baseline treatment if the primary outcome occurs",
+                                                                              value = 100, min = NA, max = NA, step = 10),
+                                                                 
+                                                                 numericInput("costNotEvent_t1", "Lifetime treatment costs associated with the baseline treatment if the primary outcome does not occur",
+                                                                              value = 100, min = NA, max = NA, step = 10) )
+                               ) # end Cost inputs for baseline (t1)
+                               ) # end baseline (t1) wellPanel
+                        ), # end baseline column
                         
+                        # intervention 1 column
+                        column(3,
+                               wellPanel(
+                                 
+                                 h4("Intervention 1"),
+                                 textInput("nameOf_t2", "Name of intervention 1", 
+                                           value = "early PTP"),
+                                 
+                                 numericInput("utilisation_t2", "Current utilisation of intervention 1 (%)",
+                                              value = 0, min = 0, max = 100, step = 0.1),
+                                 
+                                 numericInput("MCD_t2", "MCD for intervention 1",
+                                              value = 0, min = NA, max = NA, step = 0.05),
+                                 
+                                 # Cost inputs for t2
+                                 conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
+                                                  
+                                                  conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                                   numericInput("cost_t2", "Lifetime treatment costs associated with intervention 1",
+                                                                                value = 100, min = NA, max = NA, step = 10) ),
+                                                  
+                                                  conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                                   numericInput("costEvent_t2", "Lifetime treatment costs associated with intervention 1 if the primary outcome occurs",
+                                                                                value = 100, min = NA, max = NA, step = 10),
+                                                                   
+                                                                   numericInput("costNotEvent_t2", "Lifetime treatment costs associated with intervention 1 if the primary outcome does not occur",
+                                                                                value = 100, min = NA, max = NA, step = 10) )
+                                 ) # end Cost inputs for t2
+                                 
+                               ) # end intervention 1 (t2) wellPanel
+                               
+                        ), # end intervention 1 column
+                        
+                        # intervention 2 column
+                        column(3,
+                               wellPanel(
+                                 
+                               ) # end intervention 2 (t3) wellPanel
+                        ), # end intervention 2 column
+                        
+                        # intervention 3 column
+                        column(3,
+                               wellPanel(
+                                 
+                               ) # end intervention 3 (t4) wellPanel
+                        ) # end intervention 3 column
                         
                       ), # end mid level fluid row
                       
-                      # lowest level fluid row for "epi treatment inputs" width of 3 column for each
+                      ## lowest level fluid row for "epi treatment inputs" width of 3 column for each
                       fluidRow(
                         
+                        # finish changing names!
+                        # need to do something about t1 = t0, t2 = t1,...
+                        # treatment 1 = baseline treatment, treatment 2 = intervention 1,...
                         column(3, 
-                               ##########
+                               #
                                # Baseline treatment (formerly: treatment 1 )
-                               ##########
+                               #
                                
                                
                                wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
-                                         h4("Baseline treatment"),
-                                         #p("If a no treatment or standard practice option is considered then it should be entered here"),
                                          
-                                         textInput("nameOf_t1", "Name of baseline treatment", 
-                                                   value = "late PTP"),
-                                         
-                                         numericInput("utilisation_t1", "Current utilisation of baseline treatment (%)",
-                                                      value = 100, min = 0, max = 100, step = 0.1),
                                          
                                          conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
                                                           numericInput("P_t1", "Baseline probability of outcome",
@@ -315,25 +386,12 @@ shinyUI(fluidPage(
                                                           conditionalPanel(condition = "input.survivalDist == 'weibull'",
                                                                            numericInput("shapeParameter_t1", "Shape parameter for baseline treatment (natural scale)",
                                                                                         value = 1.1, min = 0, max = NA, step = 0.1))
-                                         ), # end survival inputs for t1
+                                         ) # end survival inputs for t1
                                          
                                          #conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
                                          #                 p("Note that if the primary endpoint is continuous the expected outcome on the continuous scale with the baseline treatment is not required. For further details see ####INSERT REFERENCE")),
                                          
-                                         # Cost inputs for t1
-                                         conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
-                                                          
-                                                          conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                           numericInput("cost_t1", "Lifetime treatment costs associated with the baseline treatment",
-                                                                                        value = 100, min = NA, max = NA, step = 10) ),
-                                                          
-                                                          conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                           numericInput("costEvent_t1", "Lifetime treatment costs associated with the baseline treatment if the primary outcome occurs",
-                                                                                        value = 100, min = NA, max = NA, step = 10),
-                                                                           
-                                                                           numericInput("costNotEvent_t1", "Lifetime treatment costs associated with the baseline treatment if the primary outcome does not occur",
-                                                                                        value = 100, min = NA, max = NA, step = 10) )
-                                         ) # end Cost inputs for t1
+                                         
                                          
                                          
                                          
@@ -341,17 +399,12 @@ shinyUI(fluidPage(
                         ), # end column t1
                         
                         column(3, 
-                               ##########
+                               #
                                # Intervention 1 (formerly: treatment 2 )
-                               ##########
+                               #
                                
                                wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
-                                         h4("Intervention 1"),
-                                         textInput("nameOf_t2", "Name of intervention 1", 
-                                                   value = "early PTP"),
                                          
-                                         numericInput("utilisation_t2", "Current utilisation of intervention 1 (%)",
-                                                      value = 0, min = 0, max = 100, step = 0.1),
                                          
                                          selectInput("dist_t2", label = "Distribution of intervention 1 relative effects", 
                                                      choices = c("Normal" = "norm", 
@@ -371,32 +424,16 @@ shinyUI(fluidPage(
                                                           selectInput("direction_t2", label = "Direction of distribution for intervention 1", 
                                                                       choices = c("Always positive" = "alwaysPositive", 
                                                                                   "Always negative" = "alwaysNegative"),
-                                                                      selected = "alwaysPositive")),
+                                                                      selected = "alwaysPositive"))
                                          
-                                         numericInput("MCD_t2", "MCD for intervention 1",
-                                                      value = 0, min = NA, max = NA, step = 0.05),
                                          
-                                         # Cost inputs for t2
-                                         conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
-                                                          
-                                                          conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                           numericInput("cost_t2", "Lifetime treatment costs associated with intervention 1",
-                                                                                        value = 100, min = NA, max = NA, step = 10) ),
-                                                          
-                                                          conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                           numericInput("costEvent_t2", "Lifetime treatment costs associated with intervention 1 if the primary outcome occurs",
-                                                                                        value = 100, min = NA, max = NA, step = 10),
-                                                                           
-                                                                           numericInput("costNotEvent_t2", "Lifetime treatment costs associated with intervention 1 if the primary outcome does not occur",
-                                                                                        value = 100, min = NA, max = NA, step = 10) )
-                                         ) # end Cost inputs for t2
                                ) # end wellPanel t2
                         ), # end column t2
                         
                         column(3, 
-                               ##########
+                               #
                                # interverntion 2 (formerly treatment 3 )
-                               ##########
+                               #
                                
                                conditionalPanel(condition = "input.numberOfTreatments >= 3",
                                                 
@@ -455,9 +492,9 @@ shinyUI(fluidPage(
                         ), # end column t3
                         
                         column(3,
-                               ##########
+                               #
                                # intervention 3 (formerly treatment 4)
-                               ##########
+                               #
                                
                                conditionalPanel(condition = "input.numberOfTreatments >= 4",
                                                 
@@ -708,18 +745,11 @@ shinyUI(fluidPage(
                                 ) # end well panel run button
                                 ) # end column 4: run button
                                 
-                                ), # end top fluid row
+                                ) # end top fluid row
                        
-                       # LOWER ROWs
-                       # finish changing names!
-                       # need to do something about t1 = t0, t2 = t1,...
-                       # treatment 1 = baseline treatment, treatment 2 = intervention 1,...
+
                        
-                       
-                       fluidRow(
-        
-                         
-                       ) # end lower fluidRow
+
                      ) # end of inputs fluidPage
               ) # end of part 2 inputs subtab
     
