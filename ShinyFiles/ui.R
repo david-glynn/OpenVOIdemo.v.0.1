@@ -742,51 +742,6 @@ shinyUI(fluidPage(
              br()
             
              
-             # inputs 
-             #textOutput("nameOf_t1"),
-             #textOutput("nameOf_t2"), 
-             #textOutput("nameOf_t3"), # conditional - is this a problem?
-             #textOutput("nameOf_t4"),# conditional - is this a problem?
-             #textOutput("nameOfOutcome"), # conditional - is this a problem?
-             
-             # outputs
-             #textOutput("optimalTreatment" ) ,
-             #textOutput("expectedOutcomesPerYearoptimalTreatment"),
-             #textOutput("implementationValueExists"),        # new output
-             #textOutput("uncertaintyInCurrentEvidenceExists"),
-             #textOutput("probTreatment1isMax" ) ,
-             #textOutput("probTreatment2isMax" ) ,
-             #textOutput("probTreatment3isMax" ) ,
-             #textOutput("probTreatment4isMax" ) ,
-             #textOutput("popDuringResearch" ) ,
-             #textOutput("popAfterResearch" ) ,
-             #textOutput("popTotal" ) ,
-             #textOutput("popDuringFeasResearch" ) ,
-             #textOutput("popDuringDefinitiveResearch" ) ,
-             #textOutput("popAfterDefinitiveResearch" ) ,
-             
-             #textOutput("valueOfResearchPerYear" ),
-             #textOutput("valueOfImplementationPerYear" ) ,
-             #textOutput("Cell_A" ) ,
-             #textOutput("Cell_C" ) ,
-             #textOutput("Cell_D" ) ,
-             #textOutput("maxvalueOfImplementation" ) ,
-             #textOutput("maxvalueOfResearch" ) ,
-             #textOutput("healthOpportunityCostsOfResearch" ) ,
-             #textOutput("expectedCostResearchFunder" ) ,                # unique Feas
-             #textOutput("valueOfResearchWithCurrentImplementation" ) ,
-             #textOutput("valueOfResearchWithPerfectImplementation" ) ,
-             #textOutput("valueOfCertainResearchWithPerfectImplementation" ) ,  # unique feas
-             #textOutput("ICER_ResearchWithCurrentImplementation" ) ,
-             #textOutput("ICER_ResearchWithPerfectImplementation" ) ,
-             #textOutput("valuePer15KResearchSpend"),
-             #textOutput("absoluteExpectedHealthOutcomesFromResearchProject"),
-             #textOutput("costResearchFunderFeas"),
-             #textOutput("costResearchFunderDefinitive"),
-             #textOutput("probabilityOfDefinitiveResearch")
-             #textOutput("test1"),
-             #textOutput("test2"),
-             #textOutput("test3")
              
     ), # end results tabPanel
     
@@ -800,7 +755,9 @@ shinyUI(fluidPage(
              fluidPage(
                fluidRow(
                  column(4, "col 1"),
-                 column(4, "col 2")
+                 column(4, 
+                        downloadButton("down", label = "Download report")
+                        )
                ) # end 1st Write Report fluidRow 
              ) # end Write Report fluidPage 
     ), # end write report tabPanel
@@ -822,3 +779,139 @@ shinyUI(fluidPage(
   
 ) # end App fluid page
 ) # end App shinyUi function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#######################################################################################
+# ZOMBIE CODE 
+#######################################################################################
+
+
+
+
+#textOutput("nameOf_t1"),
+
+#textOutput("nameOf_t2"), 
+
+#textOutput("nameOf_t3"), # conditional - is this a problem?
+
+#textOutput("nameOf_t4"),# conditional - is this a problem?
+
+#textOutput("nameOfOutcome"), # conditional - is this a problem?
+
+# outputs
+
+#textOutput("optimalTreatment" ) ,
+
+#textOutput("expectedOutcomesPerYearoptimalTreatment"),
+
+#textOutput("implementationValueExists"),        # new output
+
+#textOutput("uncertaintyInCurrentEvidenceExists"),
+
+#textOutput("probTreatment1isMax" ) ,
+
+#textOutput("probTreatment2isMax" ) ,
+
+#textOutput("probTreatment3isMax" ) ,
+
+#textOutput("probTreatment4isMax" ) ,
+
+#textOutput("popDuringResearch" ) ,
+
+#textOutput("popAfterResearch" ) ,
+
+#textOutput("popTotal" ) ,
+
+#textOutput("popDuringFeasResearch" ) ,
+
+#textOutput("popDuringDefinitiveResearch" ) ,
+
+#textOutput("popAfterDefinitiveResearch" ) ,
+#textOutput("valueOfResearchPerYear" ),
+
+#textOutput("valueOfImplementationPerYear" ) ,
+
+#textOutput("Cell_A" ) ,
+
+#textOutput("Cell_C" ) ,
+
+#textOutput("Cell_D" ) ,
+
+#textOutput("maxvalueOfImplementation" ) ,
+
+#textOutput("maxvalueOfResearch" ) ,
+
+#textOutput("healthOpportunityCostsOfResearch" ) ,
+
+#textOutput("expectedCostResearchFunder" ) ,                # unique Feas
+
+#textOutput("valueOfResearchWithCurrentImplementation" ) ,
+
+#textOutput("valueOfResearchWithPerfectImplementation" ) ,
+
+#textOutput("valueOfCertainResearchWithPerfectImplementation" ) ,  # unique feas
+
+#textOutput("ICER_ResearchWithCurrentImplementation" ) ,
+
+#textOutput("ICER_ResearchWithPerfectImplementation" ) ,
+
+#textOutput("valuePer15KResearchSpend"),
+
+#textOutput("absoluteExpectedHealthOutcomesFromResearchProject"),
+
+#textOutput("costResearchFunderFeas"),
+
+#textOutput("costResearchFunderDefinitive"),
+
+#textOutput("probabilityOfDefinitiveResearch")
+
+#textOutput("test1"),
+
+#textOutput("test2"),
+
+#textOutput("test3")
+
+
+
+
+

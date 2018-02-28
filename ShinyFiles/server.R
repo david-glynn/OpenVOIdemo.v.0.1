@@ -466,70 +466,115 @@ shinyServer(function(input, output) {
 
   
   
+ 
   
-  
-  
-  
-  
-  
-  
-  # Raw input and output objects
-  #########################
-  
-  # input objects
-  #output$nameOf_t1 <- renderText({
-  #  paste("The name of treatment 1 is", input$nameOf_t1)
-  #})
-  #output$nameOf_t2 <- renderText({input$nameOf_t2})
-  #output$nameOf_t3 <- renderText({input$nameOf_t3})
-  #output$nameOf_t4 <- renderText({input$nameOf_t4})
-  #output$nameOfOutcome <- renderText({newNameOfOutcome()})
-  
-  # output objects
-  output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
-  output$expectedOutcomesPerYearoptimalTreatment <- renderText({VOIResults$expectedOutcomesPerYearoptimalTreatment})
-  output$implementationValueExists <- renderText({VOIResults$implementationValueExists})            # new output
-  output$uncertaintyInCurrentEvidenceExists <- renderText({VOIResults$uncertaintyInCurrentEvidenceExists})
-  #output$probTreatment1isMax <- renderText({VOIResults$probTreatment1isMax })
-  #output$probTreatment2isMax <- renderText({VOIResults$probTreatment2isMax })
-  #output$probTreatment3isMax <- renderText({VOIResults$probTreatment3isMax })
-  #output$probTreatment4isMax <- renderText({VOIResults$probTreatment4isMax})
-  output$popDuringResearch <- renderText({VOIResults$popDuringResearch})
-  output$popAfterResearch <- renderText({VOIResults$popAfterResearch})
-  output$popTotal <- renderText({VOIResults$popTotal })
-  output$popDuringFeasResearch <- renderText({VOIResults$popDuringFeasResearch})       # feas outputs
-  output$popDuringDefinitiveResearch <- renderText({VOIResults$popDuringDefinitiveResearch})       # feas outputs
-  output$popAfterDefinitiveResearch <- renderText({VOIResults$popAfterDefinitiveResearch})        # feas outputs
-  
-  #output$valueOfResearchPerYear <- renderText({paste("value of research per year is",  VOIResults$valueOfResearchPerYear)})
-  output$valueOfImplementationPerYear <- renderText({paste("value of implementation per year is", VOIResults$valueOfImplementationPerYear)})
-  
-  #output$tableProbabilityMax <- renderTable({VOIResults$tableProbabilityMaxDF}, include.rownames = FALSE)
-  
-  #output$Cell_A <- renderText({VOIResults$Cell_A})
-  #output$Cell_C <- renderText({VOIResults$Cell_C})
-  #output$Cell_D <- renderText({VOIResults$Cell_D})
-  output$maxvalueOfImplementation <- renderText({VOIResults$maxvalueOfImplementation})
-  #output$maxvalueOfResearch <- renderText({VOIResults$maxvalueOfResearch})
-  output$healthOpportunityCostsOfResearch <-   renderText({VOIResults$healthOpportunityCostsOfResearch})
-  output$expectedCostResearchFunder <-   renderText({paste("expected costs to research funder" ,VOIResults$expectedCostResearchFunder)})
-  output$valueOfResearchWithCurrentImplementation <- renderText({paste("value of research with current implementation ",VOIResults$valueOfResearchWithCurrentImplementation)})
-  #output$valueOfResearchWithPerfectImplementation <- renderText({paste("Value of research with perfect implementation", VOIResults$valueOfResearchWithPerfectImplementation)})
-  output$valueOfCertainResearchWithPerfectImplementation <- renderText({paste("value of research with certain definitive trial", VOIResults$valueOfCertainResearchWithPerfectImplementation)})
-  output$ICER_ResearchWithCurrentImplementation <- renderText({paste("ICER with current info is",VOIResults$ICER_ResearchWithCurrentImplementation)})
-  #output$ICER_ResearchWithPerfectImplementation <- renderText({paste("ICER with perfect info is",VOIResults$ICER_ResearchWithPerfectImplementation)})
-  output$valuePer15KResearchSpend <- renderText({paste("value per 15K research spend is",VOIResults$valuePer15KResearchSpend)})
-  output$absoluteExpectedHealthOutcomesFromResearchProject <- renderText({paste("absolute expected outcomes from research project",VOIResults$absoluteExpectedHealthOutcomesFromResearchProject)})
-  
-  output$costResearchFunderFeas <- renderText({paste("cost funder feasibility ", input$costResearchFunderFeas)})
-  output$costResearchFunderDefinitive <- renderText({paste("cost funder definitive", input$costResearchFunderDefinitive)})
-  output$probabilityOfDefinitiveResearch <- renderText({paste("prob of definitive research ", input$ProbabilityOfDefinitiveResearch)})
-  #output$test1 <- renderText({VOIResults$test1})
-  #output$test2 <- renderText({VOIResults$test2})
-  #output$test3 <- renderText({VOIResults$test3})
-  
-  
-})
+}) # end server function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#######################################################################################
+# ZOMBIE CODE 
+#######################################################################################
+
+
+
+# Raw input and output objects
+#########################
+
+# input objects
+#output$nameOf_t1 <- renderText({
+#  paste("The name of treatment 1 is", input$nameOf_t1)
+#})
+#output$nameOf_t2 <- renderText({input$nameOf_t2})
+#output$nameOf_t3 <- renderText({input$nameOf_t3})
+#output$nameOf_t4 <- renderText({input$nameOf_t4})
+#output$nameOfOutcome <- renderText({newNameOfOutcome()})
+
+# output objects
+# output$optimalTreatment <- renderText({VOIResults$optimalTreatment})
+# output$expectedOutcomesPerYearoptimalTreatment <- renderText({VOIResults$expectedOutcomesPerYearoptimalTreatment})
+# output$implementationValueExists <- renderText({VOIResults$implementationValueExists})            # new output
+# output$uncertaintyInCurrentEvidenceExists <- renderText({VOIResults$uncertaintyInCurrentEvidenceExists})
+#output$probTreatment1isMax <- renderText({VOIResults$probTreatment1isMax })
+#output$probTreatment2isMax <- renderText({VOIResults$probTreatment2isMax })
+#output$probTreatment3isMax <- renderText({VOIResults$probTreatment3isMax })
+#output$probTreatment4isMax <- renderText({VOIResults$probTreatment4isMax})
+# output$popDuringResearch <- renderText({VOIResults$popDuringResearch})
+# output$popAfterResearch <- renderText({VOIResults$popAfterResearch})
+# output$popTotal <- renderText({VOIResults$popTotal })
+# output$popDuringFeasResearch <- renderText({VOIResults$popDuringFeasResearch})       # feas outputs
+# output$popDuringDefinitiveResearch <- renderText({VOIResults$popDuringDefinitiveResearch})       # feas outputs
+# output$popAfterDefinitiveResearch <- renderText({VOIResults$popAfterDefinitiveResearch})        # feas outputs
+# 
+#output$valueOfResearchPerYear <- renderText({paste("value of research per year is",  VOIResults$valueOfResearchPerYear)})
+# output$valueOfImplementationPerYear <- renderText({paste("value of implementation per year is", VOIResults$valueOfImplementationPerYear)})
+# 
+#output$tableProbabilityMax <- renderTable({VOIResults$tableProbabilityMaxDF}, include.rownames = FALSE)
+
+#output$Cell_A <- renderText({VOIResults$Cell_A})
+#output$Cell_C <- renderText({VOIResults$Cell_C})
+#output$Cell_D <- renderText({VOIResults$Cell_D})
+#output$maxvalueOfImplementation <- renderText({VOIResults$maxvalueOfImplementation})
+#output$maxvalueOfResearch <- renderText({VOIResults$maxvalueOfResearch})
+#output$healthOpportunityCostsOfResearch <-   renderText({VOIResults$healthOpportunityCostsOfResearch})
+#output$expectedCostResearchFunder <-   renderText({paste("expected costs to research funder" ,VOIResults$expectedCostResearchFunder)})
+#output$valueOfResearchWithCurrentImplementation <- renderText({paste("value of research with current implementation ",VOIResults$valueOfResearchWithCurrentImplementation)})
+#output$valueOfResearchWithPerfectImplementation <- renderText({paste("Value of research with perfect implementation", VOIResults$valueOfResearchWithPerfectImplementation)})
+#output$valueOfCertainResearchWithPerfectImplementation <- renderText({paste("value of research with certain definitive trial", VOIResults$valueOfCertainResearchWithPerfectImplementation)})
+#output$ICER_ResearchWithCurrentImplementation <- renderText({paste("ICER with current info is",VOIResults$ICER_ResearchWithCurrentImplementation)})
+#output$ICER_ResearchWithPerfectImplementation <- renderText({paste("ICER with perfect info is",VOIResults$ICER_ResearchWithPerfectImplementation)})
+#output$valuePer15KResearchSpend <- renderText({paste("value per 15K research spend is",VOIResults$valuePer15KResearchSpend)})
+#output$absoluteExpectedHealthOutcomesFromResearchProject <- renderText({paste("absolute expected outcomes from research project",VOIResults$absoluteExpectedHealthOutcomesFromResearchProject)})
+
+#output$costResearchFunderFeas <- renderText({paste("cost funder feasibility ", input$costResearchFunderFeas)})
+#output$costResearchFunderDefinitive <- renderText({paste("cost funder definitive", input$costResearchFunderDefinitive)})
+#output$probabilityOfDefinitiveResearch <- renderText({paste("prob of definitive research ", input$ProbabilityOfDefinitiveResearch)})
+#output$test1 <- renderText({VOIResults$test1})
+#output$test2 <- renderText({VOIResults$test2})
+#output$test3 <- renderText({VOIResults$test3})
+
+
 
 
 
