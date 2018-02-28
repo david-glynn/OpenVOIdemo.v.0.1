@@ -323,8 +323,7 @@ shinyUI(fluidPage(
                           ), # end Feasibility trial design conditional panel
                           
                           
-                          numericInput("numberOfTreatments", "How many treatment options are under consideration? (Maximum of 4)",
-                                       value = 2, min = 2, max = 4),
+                          
 
                           numericInput("timeInformation", "Time over which evidence would be valuable (years)",
                                        value = 15, min = 0, max = NA, step = 0.1)
@@ -410,17 +409,30 @@ shinyUI(fluidPage(
                         
                         ), # end top fluid row
                
-               # LOWER ROW
+               # LOWER ROWs
                # finish changing names!
                # need to do something about t1 = t0, t2 = t1,...
                # treatment 1 = baseline treatment, treatment 2 = intervention 1,...
                fluidRow(
+                 column(3,
+                 wellPanel(style = "background-color:LightSkyBlue;", # add CSS code to change colour of wellPanel
+                 
+                 numericInput("numberOfTreatments", 
+                              HTML("How many treatment options are under consideration? <br/> (Maximum of 4)"),
+                              value = 2, min = 2, max = 4)
+                 )
+                 )
+               ), # end middle fluid row
+               
+               fluidRow(
+
                  column(3, 
                         ##########
                         # Baseline treatment (formerly: treatment 1 )
                         ##########
                         
-                        wellPanel(
+                        
+                        wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
                           h4("Baseline treatment"),
                           #p("If a no treatment or standard practice option is considered then it should be entered here"),
                         
@@ -478,7 +490,7 @@ shinyUI(fluidPage(
                         # Intervention 1 (formerly: treatment 2 )
                         ##########
                         
-                        wellPanel(
+                        wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
                           h4("Intervention 1"),
                         textInput("nameOf_t2", "Name of intervention 1", 
                                   value = "early PTP"),
@@ -533,7 +545,7 @@ shinyUI(fluidPage(
                         
                         conditionalPanel(condition = "input.numberOfTreatments >= 3",
                                          
-                                         wellPanel(
+                                         wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
                                            h4("Intervention 2"),
                                            # display if: numberOfTreatments >= 3
                                            textInput("nameOf_t3", "Name of intervention 2", 
@@ -594,7 +606,7 @@ shinyUI(fluidPage(
                         
                         conditionalPanel(condition = "input.numberOfTreatments >= 4",
                                          
-                              wellPanel(
+                              wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
                                 h4("Intervention 3"),
                               # display if: numberOfTreatments >= 4
                               textInput("nameOf_t4", "Name of intervention 3", 
@@ -757,7 +769,10 @@ shinyUI(fluidPage(
                fluidRow(
                  column(4, "col 1"),
                  column(4, 
-                        downloadButton("report", label = "Download report"),
+                        downloadButton("report", label = "Download report"), # , class = "butt2"),
+                        # change CSS sytle of download button!
+                        # see https://gist.github.com/aagarw30/9c60b87e839db05b8dcc
+                        #tags$head(tags$style(".butt2{background-color:black;} .butt2{color: white;} .butt2{font-style: italic;}")),
                         p("Save file to your computer with a .doc extension")
                         )
                ) # end 1st Write Report fluidRow 

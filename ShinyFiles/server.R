@@ -245,6 +245,9 @@ shinyServer(function(input, output) {
       
       # Set up parameters to pass to Rmd document
       params <- list( 
+                     # need to add inputs to construct table
+        
+                     # outputs 
                      optimalTreatment = VOIResults$optimalTreatment,
                      probTreatment1isMax = VOIResults$probTreatment1isMax,
                      probTreatment2isMax = VOIResults$probTreatment2isMax,
