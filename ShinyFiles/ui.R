@@ -751,12 +751,14 @@ shinyUI(fluidPage(
     # use textAreaInput to provide boxes so that analysts can justify their variable choices
     # 
     
+    
     tabPanel("Write and Download Report",
              fluidPage(
                fluidRow(
                  column(4, "col 1"),
                  column(4, 
-                        downloadButton("down", label = "Download report")
+                        downloadButton("report", label = "Download report"),
+                        p("Save file to your computer with a .doc extension")
                         )
                ) # end 1st Write Report fluidRow 
              ) # end Write Report fluidPage 

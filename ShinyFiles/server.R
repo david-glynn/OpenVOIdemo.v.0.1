@@ -222,7 +222,43 @@ shinyServer(function(input, output) {
   }) # end observe event expression
   
   
+  ########################################################
+  # Results and report writing
+  #########################################################
+  ############################################################
   
+  ##########################
+  # Report writing
+  ##############################
+  # approach based on : https://shiny.rstudio.com/articles/generating-reports.html
+  
+  
+  output$report <- downloadHandler(
+    # For PDF output, change this to "report.pdf"
+    filename = "report.doc",
+    content = function(file) {
+      # Copy the report file to a temporary directory before processing it, in
+      # case we don't have write permissions to the current working dir (which
+      # can happen when deployed).
+      tempReport <- file.path(tempdir(), "report.Rmd")
+      file.copy("report.Rmd", tempReport, overwrite = TRUE)
+      
+      # Set up parameters to pass to Rmd document
+      params <- list(n = input$numberOfTreatments)
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    }
+  )
+  
+  
+  ###########################################################
+  # Results 
   ####################################################
   # render INPUT and OUTPUT objects and pass to output list
   ####################################################
