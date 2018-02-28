@@ -83,6 +83,13 @@ params$expectedCostResearchFunder
 params$expectedCostHealthSystem  
 params$valueOfCertainResearchWithPerfectImplementation
 
+if(params$uncertaintyInCurrentEvidenceExists == TRUE){
+  "There is uncertainty in decision"
+} else {
+  "there is no uncertainty in decision"
+}
+
+
 ```
 
 
