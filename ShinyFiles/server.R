@@ -18,7 +18,7 @@ library(fdrtool) # required for halfnormal simulations
 library(MASS) # for use in EpiInputFunctions.R to fit beta distributions to unknown probabilities
 
 #W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles
-# absolute paths for use in desktop development
+#absolute paths for use in desktop development
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/BinaryOutcomeFunction.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/BinaryQALYFunction.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
