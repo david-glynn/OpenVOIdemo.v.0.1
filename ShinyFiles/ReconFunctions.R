@@ -14,6 +14,7 @@
 # only calculates value of learning about the relative effect parameter
 # continuous and survival outcomes
 # how to maintain correlations??
+# only works on Odds Ratio inputs - could extend to RR and RD, (and contin + survival)
 
 ########################
 # Plan

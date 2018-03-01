@@ -5,20 +5,6 @@
 library(MASS)
 
 
-##############################
-# epi inputs models require
-#############################
-
-# additional for binary
-# P_t1, # NB: this is currently simulated within the functions using rep(P_t1, MCsims)
-# additional for survival
-# survivalDist,scaleParameter_t1,shapeParameter_t1
-# required for all models 
-# mu_t2, variance_t2, dist_t2, direction_t2,
-# mu_t3, variance_t3, dist_t3, direction_t3,
-# mu_t4, variance_t4, dist_t4, direction_t4
-
-
 
 ##########################################
 ##########################################
@@ -30,16 +16,11 @@ library(MASS)
 # Binary endpoint: baseline probability
 #######################################
 
-# there are 3 methods to input baseline probability
-# 1) single value: no uncertainty in baseline
+# there are 2 methods to input baseline probability
 # 2) UCI and LCI for probability: input using slider normalParameters() calculates mu and sigma
 # 3) nEvents, nAtRisk: used to draw a beta distribution
 
 
-# Binary endpoint; baseline probability 1) no uncertainty
-##############################################################
-
-# user input: P_t1
 
 
 # Binary endpoint, baseline probability 2) from LCI and UCI on baseline probability
@@ -57,11 +38,9 @@ library(MASS)
 
 # function
 # input: prob_UCI and prob_LCI
-# output: mu_prob (exact expected probability), sigma (log odds scale), mu  (mean on log odds scale)
-# this output can then be used to calculate P_t1 using:
-# LO <- rnorm(MCsims, mu, sigma)
-# Odds <- exp(LO)
-# P_t1 <- Odds/(1 + Odds)
+# output: mu_prob (exact expected probability), P_t1
+#  
+
 # assumes normal log odds distribution
 
 # test data (from Excel model)
@@ -69,32 +48,53 @@ library(MASS)
 #prob_LCI = 0.248
 
 # define function
-probCI <- function(prob_LCI, prob_UCI){
+BaselineProbCI <- function(MCsims, prob_LCI, prob_UCI){
   
-  # convert prob CIs to odds CIs
-  Odds_UCI <- prob_UCI/(1 - prob_UCI)
-  Odds_LCI <- prob_LCI/(1 - prob_LCI)
+  # if there is no uncertainty in the slider input
+  if(prob_LCI == prob_UCI){
+    
+    mu_prob <- prob_LCI
+    P_t1 <- rep(mu_prob,MCsims)
+    
+    outputs <- list(P_t1 = P_t1, mu_prob = mu_prob)
+    
+  } else {
+    
+    # convert prob CIs to odds CIs
+    Odds_UCI <- prob_UCI/(1 - prob_UCI)
+    Odds_LCI <- prob_LCI/(1 - prob_LCI)
+    
+    # convert to log scale as sigma is symmetrical around the mean on this scale
+    LO_UCI <- log(Odds_UCI)
+    LO_LCI <- log(Odds_LCI)
+    
+    sigma <- abs(LO_UCI - LO_LCI)/(2*1.96)
+    mu <- LO_LCI + 1.96*sigma # mean on log odds scale
+    mu_OR <- exp(mu)
+    mu_prob <- mu_OR/(1 + mu_OR)
+    
+    LO <- rnorm(MCsims, mu, sigma)
+    Odds <- exp(LO)
+    P_t1 <- Odds/(1 + Odds)
+    
+    
+    outputs <- list(P_t1 = P_t1, mu_prob = mu_prob)
+    
+  }
   
-  # convert to log scale as sigma is symmetrical around the mean on this scale
-  LO_UCI <- log(Odds_UCI)
-  LO_LCI <- log(Odds_LCI)
   
-  sigma <- abs(LO_UCI - LO_LCI)/(2*1.96)
-  mu <- LO_LCI + 1.96*sigma # mean on log odds scale
-  mu_OR <- exp(mu)
-  mu_prob <- mu_OR/(1 + mu_OR)
-  
-  
-  outputs <- list(mu_prob = mu_prob, mu = mu, sigma = sigma)
   return(outputs)
   
 }
 
 # test function (from Excel model)
-#probCI(0.248,0.469)
+#BaselineProbCI(10000, 0.248,0.469)
+#BaselineProbCI(10, 0.2, 0.2)
 
-
-
+# consistency test
+#x <- BaselineProbCI(1009999, 0.248,0.469)
+#x$mu_prob
+#mean(x$P_t1)
 
 
 # Binary endpoint, baseline probability 2) Exact sampling: from normal distribution 
