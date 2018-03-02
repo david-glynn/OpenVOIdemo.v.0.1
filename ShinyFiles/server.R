@@ -4,6 +4,10 @@
 # then Binary/Survival Feas NetHealth models crash. Some problem with trying to find popDurationResearch 
 # 
 #
+# bug in writing report:
+# relevant warning?
+# Warning in formatC(ICER_ResearchWithPerfectImplementation, big.mark = ",",  :
+# NAs introduced by coercion to integer range
 
 
 # must load the required functions! SupplementaryFunctions.R
