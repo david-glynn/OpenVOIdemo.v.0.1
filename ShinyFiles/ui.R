@@ -196,10 +196,10 @@ shinyUI(fluidPage(
              #################
              # Part 1 inputs subtab
              
-             tabPanel("Part 1 inputs",
+             tabPanel("1) General Inputs",
                       br(),
-                      h4("Select appropriate values and then proceed to the 'Part 2 inputs' tab"),
-                      strong("If you are unclear about the interpretation of any inputs click the 'Input information' tab"),
+                      h4("Select appropriate values and then proceed to the '2) Treatment Inputs' tab"),
+                      strong("If you are unclear about the interpretation of any inputs check the 'Input information' tab"),
                       br(),
                       br(),
                       
@@ -558,7 +558,32 @@ shinyUI(fluidPage(
              ##################
              # Part 2 inputs subtab
             
-             tabPanel("Part 2 inputs", 
+             
+             tabPanel("2) Treatment Inputs",
+                      br(),
+                      h4("part 2 instructions proceed to '3) Other inputs' tab"),
+                      
+                      fluidPage(
+                        
+                        # top fluid row: non-epi treatment inputs
+                        fluidRow(
+                          
+                        ), # end non-epi treatment inputs fluidRow (top row)
+                        
+                        # lower row: epi treatment inputs
+                        fluidRow(
+                          
+                          
+                        ) # end epi treatment inputs fluidRow (lower row)
+                        
+                      ) # end part 2 treatment inputs fluidPage
+                      
+                      ), # end part 2 treatment inputs tabPanel
+             
+             ###################
+             # Part 3 other inputs
+             
+             tabPanel("3) Other Inputs", 
                        
                      br(),
                      h4("Select appropriate values and then press 'Run analysis'"),
@@ -750,8 +775,8 @@ shinyUI(fluidPage(
 
                        
 
-                     ) # end of inputs fluidPage
-              ) # end of part 2 inputs subtab
+                     ) # end of part 3 inputs fluidPage
+              ) # end of part 3 inputs subtab
     
        )  # end Inputs tabsetPanel   
     ), # end Inputs tabPanel 
