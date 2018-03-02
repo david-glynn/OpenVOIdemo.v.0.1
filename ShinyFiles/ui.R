@@ -10,6 +10,29 @@
 
 
 
+# new inputs
+# 
+# Half normal 
+#################
+#
+# selectInput(inputId = "halfNorm",  "Is it expected that this intervention is either *always* better or *always* worse than the baseline treatment on the primary outcome?", 
+#             choices = c("Yes" = "Yes", 
+#                         "No" = "No"),
+#             selected = "Yes"),
+# # if yes:
+# conditionalPanel(condition = "input.halfNorm == 'Yes'",
+#                  selectInput(inputId = "",  "Compared to the baseline treatment is the the primary outcome always more likely or always less likely with this intervention?", 
+#                              choices = c("" = "moreLikely", 
+#                                          "" = "lessLikely"),
+#                              selected = "moreLikely"))
+
+
+
+
+
+
+
+
 library(shiny)
 
 shinyUI(fluidPage(
