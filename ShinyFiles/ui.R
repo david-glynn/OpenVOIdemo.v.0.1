@@ -270,288 +270,9 @@ shinyUI(fluidPage(
                                  
                                ) # end other inputs wellPanel
                         ) # end other inputs column
-                      ), # end high level inputs fluidRow
+                      ) # end high level inputs fluidRow
                       
-                      ## mid level fluid row for "other treatment inputs" width of 3 column for each
-                      fluidRow(
-                        
-                        column(3,
-                               
-                               wellPanel(
-                               h4("Baseline treatment"),
-                               #p("If a no treatment or standard practice option is considered then it should be entered here"),
-                               
-                               textInput("nameOf_t1", "Name of baseline treatment", 
-                                         value = "late PTP"),
-                               
-                               numericInput("utilisation_t1", "Current utilisation of baseline treatment (%)",
-                                            value = 100, min = 0, max = 100, step = 0.1),
-                               
-                               # Cost inputs for baseline (t1)
-                               conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
-                                                
-                                                conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                 numericInput("cost_t1", "Lifetime treatment costs associated with the baseline treatment",
-                                                                              value = 100, min = NA, max = NA, step = 10) ),
-                                                
-                                                conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                 numericInput("costEvent_t1", "Lifetime treatment costs associated with the baseline treatment if the primary outcome occurs",
-                                                                              value = 100, min = NA, max = NA, step = 10),
-                                                                 
-                                                                 numericInput("costNotEvent_t1", "Lifetime treatment costs associated with the baseline treatment if the primary outcome does not occur",
-                                                                              value = 100, min = NA, max = NA, step = 10) )
-                               ) # end Cost inputs for baseline (t1)
-                               ) # end baseline (t1) wellPanel
-                        ), # end baseline column
-                        
-                        # intervention 1 column
-                        column(3,
-                               wellPanel(
-                                 
-                                 h4("Intervention 1"),
-                                 textInput("nameOf_t2", "Name of intervention 1", 
-                                           value = "early PTP"),
-                                 
-                                 numericInput("utilisation_t2", "Current utilisation of intervention 1 (%)",
-                                              value = 0, min = 0, max = 100, step = 0.1),
-                                 
-                                 numericInput("MCD_t2", "MCD for intervention 1",
-                                              value = 0, min = NA, max = NA, step = 0.05),
-                                 
-                                 # Cost inputs for t2
-                                 conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
-                                                  
-                                                  conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                   numericInput("cost_t2", "Lifetime treatment costs associated with intervention 1",
-                                                                                value = 100, min = NA, max = NA, step = 10) ),
-                                                  
-                                                  conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                   numericInput("costEvent_t2", "Lifetime treatment costs associated with intervention 1 if the primary outcome occurs",
-                                                                                value = 100, min = NA, max = NA, step = 10),
-                                                                   
-                                                                   numericInput("costNotEvent_t2", "Lifetime treatment costs associated with intervention 1 if the primary outcome does not occur",
-                                                                                value = 100, min = NA, max = NA, step = 10) )
-                                 ) # end Cost inputs for t2
-                                 
-                               ) # end intervention 1 (t2) wellPanel
-                               
-                        ), # end intervention 1 column
-                        
-                        # intervention 2 column
-                        column(3,
-                               wellPanel(
-                                 
-                               ) # end intervention 2 (t3) wellPanel
-                        ), # end intervention 2 column
-                        
-                        # intervention 3 column
-                        column(3,
-                               wellPanel(
-                                 
-                               ) # end intervention 3 (t4) wellPanel
-                        ) # end intervention 3 column
-                        
-                      ), # end mid level fluid row
                       
-                      ## lowest level fluid row for "epi treatment inputs" width of 3 column for each
-                      fluidRow(
-                        
-                        # finish changing names!
-                        # need to do something about t1 = t0, t2 = t1,...
-                        # treatment 1 = baseline treatment, treatment 2 = intervention 1,...
-                        column(3, 
-                               #
-                               # Baseline treatment (formerly: treatment 1 )
-                               #
-                               
-                               
-                               wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
-                                         
-                                         
-                                         conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
-                                                          numericInput("P_t1", "Baseline probability of outcome",
-                                                                       value = 0.5, min = 0, max = 1, step = 0.05)),
-                                         
-                                         # survival inputs for t1
-                                         conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
-                                                          
-                                                          selectInput(inputId = "survivalDist", label = "Type of survival distribution", 
-                                                                      choices = c("Exponential" = "exponential", 
-                                                                                  "Weibull" = "weibull"),
-                                                                      selected = "exponential"),
-                                                          
-                                                          numericInput("scaleParameter_t1", "Scale parameter for baseline treatment (natural scale)",
-                                                                       value = 5, min = 0, max = NA, step = 1),
-                                                          
-                                                          conditionalPanel(condition = "input.survivalDist == 'weibull'",
-                                                                           numericInput("shapeParameter_t1", "Shape parameter for baseline treatment (natural scale)",
-                                                                                        value = 1.1, min = 0, max = NA, step = 0.1))
-                                         ) # end survival inputs for t1
-                                         
-                                         #conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
-                                         #                 p("Note that if the primary endpoint is continuous the expected outcome on the continuous scale with the baseline treatment is not required. For further details see ####INSERT REFERENCE")),
-                                         
-                                         
-                                         
-                                         
-                                         
-                               ) # end wellPanel t1
-                        ), # end column t1
-                        
-                        column(3, 
-                               #
-                               # Intervention 1 (formerly: treatment 2 )
-                               #
-                               
-                               wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
-                                         
-                                         
-                                         selectInput("dist_t2", label = "Distribution of intervention 1 relative effects", 
-                                                     choices = c("Normal" = "norm", 
-                                                                 "Half Normal" = "halfNorm"),
-                                                     selected = "Normal"),
-                                         
-                                         # normal dist inputs for t2
-                                         conditionalPanel(condition = "input.dist_t2 == 'norm'",
-                                                          numericInput("mu_t2", "Mean log odds / log hazard ratio for intervention 1",
-                                                                       value = 0, min = NA, max = NA, step = 0.05),
-                                                          
-                                                          numericInput("variance_t2", "Variance of log odds / log hazard ratio for intervention 1",
-                                                                       value = 0.25, min = NA, max = NA, step = 0.05)
-                                         ), # end normal dist inputs for t2
-                                         
-                                         conditionalPanel(condition = "input.dist_t2 == 'halfNorm'",
-                                                          selectInput("direction_t2", label = "Direction of distribution for intervention 1", 
-                                                                      choices = c("Always positive" = "alwaysPositive", 
-                                                                                  "Always negative" = "alwaysNegative"),
-                                                                      selected = "alwaysPositive"))
-                                         
-                                         
-                               ) # end wellPanel t2
-                        ), # end column t2
-                        
-                        column(3, 
-                               #
-                               # interverntion 2 (formerly treatment 3 )
-                               #
-                               
-                               conditionalPanel(condition = "input.numberOfTreatments >= 3",
-                                                
-                                                wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
-                                                          h4("Intervention 2"),
-                                                          # display if: numberOfTreatments >= 3
-                                                          textInput("nameOf_t3", "Name of intervention 2", 
-                                                                    value = "intervention 2"),
-                                                          
-                                                          # display if: numberOfTreatments >= 3
-                                                          numericInput("utilisation_t3", "Current utilisation of intervention 2 (%)",
-                                                                       value = 0, min = 0, max = 100, step = 0.1),
-                                                          
-                                                          # display if: numberOfTreatments >= 3 & typeOfEndpoint != successFail 
-                                                          selectInput("dist_t3", label = "Distribution of intervention 2 relative effects", 
-                                                                      choices = c("Normal" = "norm", 
-                                                                                  "Half Normal" = "halfNorm"),
-                                                                      selected = "Normal"),
-                                                          
-                                                          # normal dist inputs for t3
-                                                          conditionalPanel(condition = "input.dist_t3 == 'norm'",
-                                                                           numericInput("mu_t3", "Mean log odds / log hazard ratio for intervention 2",
-                                                                                        value = 0, min = NA, max = NA, step = 0.05),
-                                                                           
-                                                                           numericInput("variance_t3", "Variance of log odds / log hazard ratio for intervention 2",
-                                                                                        value = 0.25, min = NA, max = NA, step = 0.05)
-                                                          ), # end normal dist inputs for t3
-                                                          
-                                                          conditionalPanel(condition = "input.dist_t3 == 'halfNorm'",
-                                                                           selectInput("direction_t3", label = "Direction of distribution for intervention 2", 
-                                                                                       choices = c("Always positive" = "alwaysPositive", 
-                                                                                                   "Always negative" = "alwaysNegative"),
-                                                                                       selected = "alwaysPositive")),
-                                                          
-                                                          numericInput("MCD_t3", "MCD for intervention 2",
-                                                                       value = 0, min = NA, max = NA, step = 0.05),
-                                                          
-                                                          # Cost inputs for t3
-                                                          conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
-                                                                           
-                                                                           conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                                            numericInput("cost_t3", "Lifetime treatment costs associated with intervention 2",
-                                                                                                         value = 100, min = NA, max = NA, step = 10) ),
-                                                                           
-                                                                           conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                                            numericInput("costEvent_t3", "Lifetime treatment costs associated with intervention 2 if the primary outcome occurs",
-                                                                                                         value = 100, min = NA, max = NA, step = 10),
-                                                                                            
-                                                                                            numericInput("costNotEvent_t3", "Lifetime treatment costs associated with intervention 2 if the primary outcome does not occur",
-                                                                                                         value = 100, min = NA, max = NA, step = 10) )
-                                                          ) # end cost inputs t3
-                                                          
-                                                          
-                                                ) # end wellPanel t3
-                               ) # end conditional panel t3
-                        ), # end column t3
-                        
-                        column(3,
-                               #
-                               # intervention 3 (formerly treatment 4)
-                               #
-                               
-                               conditionalPanel(condition = "input.numberOfTreatments >= 4",
-                                                
-                                                wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
-                                                          h4("Intervention 3"),
-                                                          # display if: numberOfTreatments >= 4
-                                                          textInput("nameOf_t4", "Name of intervention 3", 
-                                                                    value = "intervention 3"),
-                                                          # display if: numberOfTreatments >= 4
-                                                          numericInput("utilisation_t4", "Current utilisation of intervention 3 (%)",
-                                                                       value = 0, min = 0, max = 100, step = 0.1),
-                                                          
-                                                          # display if: numberOfTreatments >= 4 & typeOfEndpoint != successFail 
-                                                          selectInput("dist_t4", label = "Distribution of intervention 3 relative effects", 
-                                                                      choices = c("Normal" = "norm", 
-                                                                                  "Half Normal" = "halfNorm"),
-                                                                      selected = "Normal"),
-                                                          
-                                                          
-                                                          # normal dist inputs for t4
-                                                          conditionalPanel(condition = "input.dist_t4 == 'norm'",
-                                                                           numericInput("mu_t4", "Mean log odds / log hazard ratio for intervention 3",
-                                                                                        value = 0, min = NA, max = NA, step = 0.05),
-                                                                           
-                                                                           numericInput("variance_t4", "Variance of log odds / log hazard ratio for intervention 3",
-                                                                                        value = 0.25, min = NA, max = NA, step = 0.05)
-                                                          ), # end normal dist inputs for t4
-                                                          
-                                                          conditionalPanel(condition = "input.dist_t4 == 'halfNorm'",
-                                                                           selectInput("direction_t4", label = "Direction of distribution for intervention 3", 
-                                                                                       choices = c("Always positive" = "alwaysPositive", 
-                                                                                                   "Always negative" = "alwaysNegative"),
-                                                                                       selected = "alwaysPositive")),
-                                                          
-                                                          numericInput("MCD_t4", "MCD for intervention 3",
-                                                                       value = 0, min = NA, max = NA, step = 0.05),
-                                                          
-                                                          # Cost inputs for t4
-                                                          conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
-                                                                           
-                                                                           conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                                            numericInput("cost_t4", "Lifetime treatment costs associated with intervention 3",
-                                                                                                         value = 100, min = NA, max = NA, step = 10) ),
-                                                                           
-                                                                           conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                                            numericInput("costEvent_t4", "Lifetime treatment costs associated with intervention 3 if the primary outcome occurs",
-                                                                                                         value = 100, min = NA, max = NA, step = 10),
-                                                                                            
-                                                                                            numericInput("costNotEvent_t4", "Lifetime treatment costs associated with intervention 3 if the primary outcome does not occur",
-                                                                                                         value = 100, min = NA, max = NA, step = 10) )
-                                                          ) # end cost inputs t4
-                                                          
-                                                ) # end wellPanel t4
-                               ) # end of conditionalPanel t4
-                        ) # end intervention 3 column
-                        
-                      ) # end lowest level fluid row
                       
              ), # end part 1 inputs tabPanel 
              
@@ -565,16 +286,286 @@ shinyUI(fluidPage(
                       
                       fluidPage(
                         
-                        # top fluid row: non-epi treatment inputs
+                        ## top level fluid row for "non-epi treatment inputs" width of 3 column for each
                         fluidRow(
                           
-                        ), # end non-epi treatment inputs fluidRow (top row)
+                          column(3,
+                                 
+                                 wellPanel(
+                                   h4("Baseline treatment"),
+                                   #p("If a no treatment or standard practice option is considered then it should be entered here"),
+                                   
+                                   textInput("nameOf_t1", "Name of baseline treatment", 
+                                             value = "late PTP"),
+                                   
+                                   numericInput("utilisation_t1", "Current utilisation of baseline treatment (%)",
+                                                value = 100, min = 0, max = 100, step = 0.1),
+                                   
+                                   # Cost inputs for baseline (t1)
+                                   conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
+                                                    
+                                                    conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                                     numericInput("cost_t1", "Lifetime treatment costs associated with the baseline treatment",
+                                                                                  value = 100, min = NA, max = NA, step = 10) ),
+                                                    
+                                                    conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                                     numericInput("costEvent_t1", "Lifetime treatment costs associated with the baseline treatment if the primary outcome occurs",
+                                                                                  value = 100, min = NA, max = NA, step = 10),
+                                                                     
+                                                                     numericInput("costNotEvent_t1", "Lifetime treatment costs associated with the baseline treatment if the primary outcome does not occur",
+                                                                                  value = 100, min = NA, max = NA, step = 10) )
+                                   ) # end Cost inputs for baseline (t1)
+                                 ) # end baseline (t1) wellPanel
+                          ), # end baseline column
+                          
+                          # intervention 1 column
+                          column(3,
+                                 wellPanel(
+                                   
+                                   h4("Intervention 1"),
+                                   textInput("nameOf_t2", "Name of intervention 1", 
+                                             value = "early PTP"),
+                                   
+                                   numericInput("utilisation_t2", "Current utilisation of intervention 1 (%)",
+                                                value = 0, min = 0, max = 100, step = 0.1),
+                                   
+                                   numericInput("MCD_t2", "MCD for intervention 1",
+                                                value = 0, min = NA, max = NA, step = 0.05),
+                                   
+                                   # Cost inputs for t2
+                                   conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
+                                                    
+                                                    conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                                     numericInput("cost_t2", "Lifetime treatment costs associated with intervention 1",
+                                                                                  value = 100, min = NA, max = NA, step = 10) ),
+                                                    
+                                                    conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                                     numericInput("costEvent_t2", "Lifetime treatment costs associated with intervention 1 if the primary outcome occurs",
+                                                                                  value = 100, min = NA, max = NA, step = 10),
+                                                                     
+                                                                     numericInput("costNotEvent_t2", "Lifetime treatment costs associated with intervention 1 if the primary outcome does not occur",
+                                                                                  value = 100, min = NA, max = NA, step = 10) )
+                                   ) # end Cost inputs for t2
+                                   
+                                 ) # end intervention 1 (t2) wellPanel
+                                 
+                          ), # end intervention 1 column
+                          
+                          # intervention 2 column
+                          column(3,
+                                 wellPanel(
+                                   
+                                 ) # end intervention 2 (t3) wellPanel
+                          ), # end intervention 2 column
+                          
+                          # intervention 3 column
+                          column(3,
+                                 wellPanel(
+                                   
+                                 ) # end intervention 3 (t4) wellPanel
+                          ) # end intervention 3 column
+                          
+                        ), # end top level fluid row
                         
-                        # lower row: epi treatment inputs
+                        ## lowest level fluid row for "epi treatment inputs" width of 3 column for each
                         fluidRow(
                           
+                          # finish changing names!
+                          # need to do something about t1 = t0, t2 = t1,...
+                          # treatment 1 = baseline treatment, treatment 2 = intervention 1,...
+                          column(3, 
+                                 #
+                                 # Baseline treatment (formerly: treatment 1 )
+                                 #
+                                 
+                                 
+                                 wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
+                                           
+                                           
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
+                                                            numericInput("P_t1", "Baseline probability of outcome",
+                                                                         value = 0.5, min = 0, max = 1, step = 0.05)),
+                                           
+                                           # survival inputs for t1
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
+                                                            
+                                                            selectInput(inputId = "survivalDist", label = "Type of survival distribution", 
+                                                                        choices = c("Exponential" = "exponential", 
+                                                                                    "Weibull" = "weibull"),
+                                                                        selected = "exponential"),
+                                                            
+                                                            numericInput("scaleParameter_t1", "Scale parameter for baseline treatment (natural scale)",
+                                                                         value = 5, min = 0, max = NA, step = 1),
+                                                            
+                                                            conditionalPanel(condition = "input.survivalDist == 'weibull'",
+                                                                             numericInput("shapeParameter_t1", "Shape parameter for baseline treatment (natural scale)",
+                                                                                          value = 1.1, min = 0, max = NA, step = 0.1))
+                                           ) # end survival inputs for t1
+                                           
+                                           #conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
+                                           #                 p("Note that if the primary endpoint is continuous the expected outcome on the continuous scale with the baseline treatment is not required. For further details see ####INSERT REFERENCE")),
+                                           
+                                           
+                                           
+                                           
+                                           
+                                 ) # end wellPanel t1
+                          ), # end column t1
                           
-                        ) # end epi treatment inputs fluidRow (lower row)
+                          column(3, 
+                                 #
+                                 # Intervention 1 (formerly: treatment 2 )
+                                 #
+                                 
+                                 wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
+                                           
+                                           
+                                           selectInput("dist_t2", label = "Distribution of intervention 1 relative effects", 
+                                                       choices = c("Normal" = "norm", 
+                                                                   "Half Normal" = "halfNorm"),
+                                                       selected = "Normal"),
+                                           
+                                           # normal dist inputs for t2
+                                           conditionalPanel(condition = "input.dist_t2 == 'norm'",
+                                                            numericInput("mu_t2", "Mean log odds / log hazard ratio for intervention 1",
+                                                                         value = 0, min = NA, max = NA, step = 0.05),
+                                                            
+                                                            numericInput("variance_t2", "Variance of log odds / log hazard ratio for intervention 1",
+                                                                         value = 0.25, min = NA, max = NA, step = 0.05)
+                                           ), # end normal dist inputs for t2
+                                           
+                                           conditionalPanel(condition = "input.dist_t2 == 'halfNorm'",
+                                                            selectInput("direction_t2", label = "Direction of distribution for intervention 1", 
+                                                                        choices = c("Always positive" = "alwaysPositive", 
+                                                                                    "Always negative" = "alwaysNegative"),
+                                                                        selected = "alwaysPositive"))
+                                           
+                                           
+                                 ) # end wellPanel t2
+                          ), # end column t2
+                          
+                          column(3, 
+                                 #
+                                 # interverntion 2 (formerly treatment 3 )
+                                 #
+                                 
+                                 conditionalPanel(condition = "input.numberOfTreatments >= 3",
+                                                  
+                                                  wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
+                                                            h4("Intervention 2"),
+                                                            # display if: numberOfTreatments >= 3
+                                                            textInput("nameOf_t3", "Name of intervention 2", 
+                                                                      value = "intervention 2"),
+                                                            
+                                                            # display if: numberOfTreatments >= 3
+                                                            numericInput("utilisation_t3", "Current utilisation of intervention 2 (%)",
+                                                                         value = 0, min = 0, max = 100, step = 0.1),
+                                                            
+                                                            # display if: numberOfTreatments >= 3 & typeOfEndpoint != successFail 
+                                                            selectInput("dist_t3", label = "Distribution of intervention 2 relative effects", 
+                                                                        choices = c("Normal" = "norm", 
+                                                                                    "Half Normal" = "halfNorm"),
+                                                                        selected = "Normal"),
+                                                            
+                                                            # normal dist inputs for t3
+                                                            conditionalPanel(condition = "input.dist_t3 == 'norm'",
+                                                                             numericInput("mu_t3", "Mean log odds / log hazard ratio for intervention 2",
+                                                                                          value = 0, min = NA, max = NA, step = 0.05),
+                                                                             
+                                                                             numericInput("variance_t3", "Variance of log odds / log hazard ratio for intervention 2",
+                                                                                          value = 0.25, min = NA, max = NA, step = 0.05)
+                                                            ), # end normal dist inputs for t3
+                                                            
+                                                            conditionalPanel(condition = "input.dist_t3 == 'halfNorm'",
+                                                                             selectInput("direction_t3", label = "Direction of distribution for intervention 2", 
+                                                                                         choices = c("Always positive" = "alwaysPositive", 
+                                                                                                     "Always negative" = "alwaysNegative"),
+                                                                                         selected = "alwaysPositive")),
+                                                            
+                                                            numericInput("MCD_t3", "MCD for intervention 2",
+                                                                         value = 0, min = NA, max = NA, step = 0.05),
+                                                            
+                                                            # Cost inputs for t3
+                                                            conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
+                                                                             
+                                                                             conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                                                              numericInput("cost_t3", "Lifetime treatment costs associated with intervention 2",
+                                                                                                           value = 100, min = NA, max = NA, step = 10) ),
+                                                                             
+                                                                             conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                                                              numericInput("costEvent_t3", "Lifetime treatment costs associated with intervention 2 if the primary outcome occurs",
+                                                                                                           value = 100, min = NA, max = NA, step = 10),
+                                                                                              
+                                                                                              numericInput("costNotEvent_t3", "Lifetime treatment costs associated with intervention 2 if the primary outcome does not occur",
+                                                                                                           value = 100, min = NA, max = NA, step = 10) )
+                                                            ) # end cost inputs t3
+                                                            
+                                                            
+                                                  ) # end wellPanel t3
+                                 ) # end conditional panel t3
+                          ), # end column t3
+                          
+                          column(3,
+                                 #
+                                 # intervention 3 (formerly treatment 4)
+                                 #
+                                 
+                                 conditionalPanel(condition = "input.numberOfTreatments >= 4",
+                                                  
+                                                  wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
+                                                            h4("Intervention 3"),
+                                                            # display if: numberOfTreatments >= 4
+                                                            textInput("nameOf_t4", "Name of intervention 3", 
+                                                                      value = "intervention 3"),
+                                                            # display if: numberOfTreatments >= 4
+                                                            numericInput("utilisation_t4", "Current utilisation of intervention 3 (%)",
+                                                                         value = 0, min = 0, max = 100, step = 0.1),
+                                                            
+                                                            # display if: numberOfTreatments >= 4 & typeOfEndpoint != successFail 
+                                                            selectInput("dist_t4", label = "Distribution of intervention 3 relative effects", 
+                                                                        choices = c("Normal" = "norm", 
+                                                                                    "Half Normal" = "halfNorm"),
+                                                                        selected = "Normal"),
+                                                            
+                                                            
+                                                            # normal dist inputs for t4
+                                                            conditionalPanel(condition = "input.dist_t4 == 'norm'",
+                                                                             numericInput("mu_t4", "Mean log odds / log hazard ratio for intervention 3",
+                                                                                          value = 0, min = NA, max = NA, step = 0.05),
+                                                                             
+                                                                             numericInput("variance_t4", "Variance of log odds / log hazard ratio for intervention 3",
+                                                                                          value = 0.25, min = NA, max = NA, step = 0.05)
+                                                            ), # end normal dist inputs for t4
+                                                            
+                                                            conditionalPanel(condition = "input.dist_t4 == 'halfNorm'",
+                                                                             selectInput("direction_t4", label = "Direction of distribution for intervention 3", 
+                                                                                         choices = c("Always positive" = "alwaysPositive", 
+                                                                                                     "Always negative" = "alwaysNegative"),
+                                                                                         selected = "alwaysPositive")),
+                                                            
+                                                            numericInput("MCD_t4", "MCD for intervention 3",
+                                                                         value = 0, min = NA, max = NA, step = 0.05),
+                                                            
+                                                            # Cost inputs for t4
+                                                            conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
+                                                                             
+                                                                             conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
+                                                                                              numericInput("cost_t4", "Lifetime treatment costs associated with intervention 3",
+                                                                                                           value = 100, min = NA, max = NA, step = 10) ),
+                                                                             
+                                                                             conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
+                                                                                              numericInput("costEvent_t4", "Lifetime treatment costs associated with intervention 3 if the primary outcome occurs",
+                                                                                                           value = 100, min = NA, max = NA, step = 10),
+                                                                                              
+                                                                                              numericInput("costNotEvent_t4", "Lifetime treatment costs associated with intervention 3 if the primary outcome does not occur",
+                                                                                                           value = 100, min = NA, max = NA, step = 10) )
+                                                            ) # end cost inputs t4
+                                                            
+                                                  ) # end wellPanel t4
+                                 ) # end of conditionalPanel t4
+                          ) # end intervention 3 column
+                          
+                        ) # end lowest level fluid row
                         
                       ) # end part 2 treatment inputs fluidPage
                       
