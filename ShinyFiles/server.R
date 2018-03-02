@@ -473,30 +473,30 @@ shinyServer(function(input, output) {
   
   # ** the op costs of research assume that carrying out research cannot save money in the health system
   # this could be a problem for p3 AND P6**
-  # that weird A formatting problem with paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'))
+  # that weird A formatting problem with paste0(input$currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'))
   # discussion of results Text only for RCT analysis
   output$RCTVOIresults <- renderText({
     ifelse(VOIResults$maxvalueOfResearch > 0,
            paste("However, the proposed trial will not report immediately and the value of additional evidence will decline the longer it takes to report.
            As the trial is expected to take",input$durationOfResearch ,"years to report, 
            the expected value of the additional evidence is",VOIResults$valueOfResearchWithPerfectImplementation ,paste0(newNameOfOutcome(), "s"),ifelse(newTypeOfOutcome() != "harm", "gained", "avoided") ,"over the",input$durationOfResearch, "year period. 
-           The trial is expected to cost the research funder",paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd')) ,". 
-           Therefore, the maximum value of the trial is (",paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'), "/",VOIResults$valueOfResearchWithPerfectImplementation), "=)",
+           The trial is expected to cost the research funder",paste0(input$currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd')) ,". 
+           Therefore, the maximum value of the trial is (",paste0(input$currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'), "/",VOIResults$valueOfResearchWithPerfectImplementation), "=)",
            VOIResults$ICER_ResearchWithPerfectImplementation,"per", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", "gained.", "avoided."),
            ifelse(newTypeOfOutcome() == "netHealth",
                   # final text if QALY analysis
-                  paste("Funding this research, imposes a cost of",paste0(currencySymbol, formatC(input$costHealthSystem, big.mark = ',',format = 'd')) ,"on the health system.
+                  paste("Funding this research, imposes a cost of",paste0(input$currencySymbol, formatC(input$costHealthSystem, big.mark = ',',format = 'd')) ,"on the health system.
                   These resources could have been used in direct patient care.
-                  In order to reflect the health opportunity costs associated with these costs we use the value of",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"per QALY.
-                  This means that for every",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"of health system resources displaced the system can expect to lose one QALY.
-                  The opportunity costs associated with the health system research costs is estimated to be (",paste0(currencySymbol, formatC(input$costHealthSystem, big.mark = ',',format = 'd')),"/",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"=)",VOIResults$healthOpportunityCostsOfResearch ,"QALYs.
+                  In order to reflect the health opportunity costs associated with these costs we use the value of",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"per QALY.
+                  This means that for every",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"of health system resources displaced the system can expect to lose one QALY.
+                  The opportunity costs associated with the health system research costs is estimated to be (",paste0(input$currencySymbol, formatC(input$costHealthSystem, big.mark = ',',format = 'd')),"/",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"=)",VOIResults$healthOpportunityCostsOfResearch ,"QALYs.
                   These opportunity costs have already been subtracted from the trial benefits in calculating the value of the trial.
                   As the value of the trial is expressed in a generic measure of health outcome it can be compared to other candidates competing for funding.
-                  As stated previously, for every",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd'))  ,"spent the health system can expect to produce one QALY. 
+                  As stated previously, for every",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd'))  ,"spent the health system can expect to produce one QALY. 
                   By funding this proposal the funding agency has to spend",VOIResults$ICER_ResearchWithPerfectImplementation ,"to produce one QALY. 
                   This means that the proposal offers",ifelse(VOIResults$valuePerOpCostResearchSpend > 1, "better", "worse") ,"value for money to the health system compared to general service provision.
-                  Every",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"spent on this research project is expected to produce",VOIResults$valuePerOpCostResearchSpend," QALYs.
-                  This can be compared to 1 QALY produced in the general health system from",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"of spending.
+                  Every",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"spent on this research project is expected to produce",VOIResults$valuePerOpCostResearchSpend," QALYs.
+                  This can be compared to 1 QALY produced in the general health system from",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"of spending.
                   However, given a fixed budget for research funding, whether the proposed trial represents good value for research spending depends on how it compares to other proposals competing for funding."),
                   # final text if not QALY analysis
                   paste("The value of the proposed research can now be compared to the other proposals competing for funding. 
@@ -510,7 +510,7 @@ shinyServer(function(input, output) {
   })
   
   # 
-  # that weird A formatting problem with paste0(currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'))
+  # that weird A formatting problem with paste0(input$currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd'))
   # Text only for Feasibility analysis
   output$FeasVOIresults <- renderText({
     ifelse(VOIResults$maxvalueOfResearch > 0,
@@ -521,24 +521,24 @@ shinyServer(function(input, output) {
            If the follow-up trial was certain to report, it would take (",input$durationOfResearchFeas ,"+",input$durationOfResearchDefinitive ,"=)",input$durationOfResearchFeas + input$durationOfResearchDefinitive ,
            "years in total and the expected value of the additional evidence would be",VOIResults$valueOfCertainResearchWithPerfectImplementation ,paste0(newNameOfOutcome(),"s"),ifelse(newTypeOfOutcome() != "harm", "gained", "avoided"),"over the",input$timeInformation ,"year period. 
            As there is a",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"chance that the follow-up trial is possible, the value of the project falls to",VOIResults$valueOfResearchWithPerfectImplementation ,paste0(newNameOfOutcome(),"s"),ifelse(newTypeOfOutcome() != "harm", "gained.", "avoided."),
-           "The feasibility trial is expected to cost the research funder",paste0(currencySymbol, formatC(input$costResearchFunderFeas, big.mark = ',',format = 'd')) ,"and the definitive trial is expected to cost",paste0(currencySymbol, formatC(input$costResearchFunderDefinitive, big.mark = ',',format = 'd')),
+           "The feasibility trial is expected to cost the research funder",paste0(input$currencySymbol, formatC(input$costResearchFunderFeas, big.mark = ',',format = 'd')) ,"and the definitive trial is expected to cost",paste0(input$currencySymbol, formatC(input$costResearchFunderDefinitive, big.mark = ',',format = 'd')),
            ". As the feasibility study costs will always be incurred and there is a",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"chance that the follow-up research will not occur, 
-           the total expected cost to the research funder is (",paste0(currencySymbol, formatC(input$costResearchFunderFeas, big.mark = ',',format = 'd')) ,"+",paste0(currencySymbol, formatC(input$costResearchFunderDefinitive, big.mark = ',',format = 'd')) ,"x",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"=)",VOIResults$expectedCostResearchFunder,
+           the total expected cost to the research funder is (",paste0(input$currencySymbol, formatC(input$costResearchFunderFeas, big.mark = ',',format = 'd')) ,"+",paste0(input$currencySymbol, formatC(input$costResearchFunderDefinitive, big.mark = ',',format = 'd')) ,"x",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"=)",VOIResults$expectedCostResearchFunder,
            ". Therefore, the expected value of funding the feasibility trial is (",VOIResults$expectedCostResearchFunder,"/",VOIResults$valueOfResearchWithPerfectImplementation  ,"=)",VOIResults$ICER_ResearchWithPerfectImplementation,"per",newNameOfOutcome(),ifelse(newTypeOfOutcome() != "harm", "gained.", "avoided."),
            ifelse(newTypeOfOutcome() == "netHealth",
                   # final text if QALY analysis
-                  paste("Funding this research, imposes an expected cost of",paste0(currencySymbol, formatC(input$costHealthSystemFeas, big.mark = ',',format = 'd')) ,"+",paste0(currencySymbol, formatC(input$costHealthSystemDefinitive, big.mark = ',',format = 'd')) ,"x",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"=)",VOIResults$expectedCostHealthSystem,
+                  paste("Funding this research, imposes an expected cost of",paste0(input$currencySymbol, formatC(input$costHealthSystemFeas, big.mark = ',',format = 'd')) ,"+",paste0(input$currencySymbol, formatC(input$costHealthSystemDefinitive, big.mark = ',',format = 'd')) ,"x",paste0(input$probabilityOfDefinitiveResearch*100, "%") ,"=)",VOIResults$expectedCostHealthSystem,
                         "on the health system. These resources could have been used in direct patient care.
-                        In order to reflect the health opportunity costs associated with these costs we use the value of",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"per QALY.
-                        This means that for every",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"of health system resources displaced the system can expect to lose one QALY.
-                        The opportunity costs associated with the health system research costs is estimated to be (",VOIResults$expectedCostHealthSystem,"/",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"=)",VOIResults$healthOpportunityCostsOfResearch ,"QALYs.
+                        In order to reflect the health opportunity costs associated with these costs we use the value of",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"per QALY.
+                        This means that for every",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')) ,"of health system resources displaced the system can expect to lose one QALY.
+                        The opportunity costs associated with the health system research costs is estimated to be (",VOIResults$expectedCostHealthSystem,"/",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"=)",VOIResults$healthOpportunityCostsOfResearch ,"QALYs.
                         These opportunity costs have already been subtracted from the trial benefits in calculating the value of the trial.
                         As the value of the trial is expressed in a generic measure of health outcome it can be compared to other candidates competing for funding.
-                        As stated previously, for every",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd'))  ,"spent the health system can expect to produce one QALY. 
+                        As stated previously, for every",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd'))  ,"spent the health system can expect to produce one QALY. 
                         By funding this proposal the funding agency has to spend",VOIResults$ICER_ResearchWithPerfectImplementation ,"to produce one QALY. 
                         This means that the proposal offers",ifelse(VOIResults$valuePerOpCostResearchSpend > 1, "better", "worse") ,"value for money to the health system compared to general service provision.
-                        Every",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"spent on this research project is expected to produce",VOIResults$valuePerOpCostResearchSpend," QALYs.
-                        This can be compared to 1 QALY produced in the general health system from",paste0(currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"of spending.
+                        Every",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"spent on this research project is expected to produce",VOIResults$valuePerOpCostResearchSpend," QALYs.
+                        This can be compared to 1 QALY produced in the general health system from",paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')),"of spending.
                         However, given a fixed budget for research funding, whether the proposed trial represents good value for research spending depends on how it compares to other proposals competing for funding."),
                   # final text if not QALY analysis
                   paste("The value of the proposed research can now be compared to the other proposals competing for funding. 

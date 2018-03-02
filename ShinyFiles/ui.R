@@ -440,12 +440,16 @@ shinyUI(fluidPage(
                                  
                                  wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
                                            
-                                           
+                                           # binary inputs for baseline (t1)
                                            conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
                                                             numericInput("P_t1", "Baseline probability of outcome",
                                                                          value = 0.5, min = 0, max = 1, step = 0.05)),
                                            
-                                           # survival inputs for t1
+                                           # continuous inputs for baseline (t1)
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
+                                                            p("No baseline input required for continuous outcomes")),
+                                           
+                                           # survival inputs for baseline (t1)
                                            conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
                                                             
                                                             selectInput(inputId = "survivalDist", label = "Type of survival distribution", 
