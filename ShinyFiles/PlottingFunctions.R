@@ -231,3 +231,93 @@ exactVectorNormal <- function( mu, sigma){
 #plotBetaEvents(2, 20)
 
 
+
+
+
+
+
+
+# Binary endpoint: find beta distribtion parameter estimates from vector of probabilitites
+##################################################
+# supplementary function
+# useful to plot inputs neatly by smoothing monte carlo error
+# 
+
+# inputs: P_tn (some probability vector)
+# outputs: alpha_hat, beta_hat
+
+# test data
+#P_tn <- rbeta(10000, 13.5, 10 )
+
+# define function
+aproxBetaParams <- function(P_tn){
+  
+  # stop function if input is an NA
+  
+  # function finds alpha and beta parameter estimates from data for a beta function
+  # optimising function with initial values
+  suppressWarnings( # suppress that NaNs are produced - the function appears to work well
+    fit_beta <- fitdistr(P_tn,"beta",list(shape1=1,shape2=1)) 
+  )
+  
+  # round the result (hopefully should mean that identical inputs will give identical estimates)
+  alpha_hat <- round(fit_beta$estimate[1],1) 
+  beta_hat <- round(fit_beta$estimate[2],1)
+  
+  outputs <- list(alpha_hat = alpha_hat, beta_hat = beta_hat)
+  return(outputs)
+}
+
+# test function
+#aproxBetaParams(P_tn)
+
+
+
+
+# Binary endpoint: individually plot P_t2, P_t3, P_t4 with uncertain baseline and MCD
+############################################
+
+
+
+
+# Binary endpoint: comparative plot of probabilities with uncertain baseline
+############################################
+# requires MASS package
+# put all on one diagram 
+# fit a beta distribution to 
+
+
+# function
+# input: alpha_hat_t1, beta_hat_t1, alpha_hat_t2, beta_hat_t2, alpha_hat_t3, beta_hat_t3, alpha_hat_t4, beta_hat_t4 
+# output: 
+
+# test data 
+# P_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 50000),
+#                        mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+#                        mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
+#                        mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
+#                        )
+# beta_params_t2 <- aproxBetaParams(P_t[,2])
+# beta_params_t3 <- aproxBetaParams(P_t[,3])
+# beta_params_t4 <- aproxBetaParams(P_t[,4])
+
+
+# define function
+# <- function(nEvents, nAtRisk, MCsims){
+
+
+# function finds alpha and beta parameter estimates from data for a beta function
+# optimising function with initial values
+# fit_beta <- fitdistr(sims,"beta",list(shape1=1,shape2=1)) 
+#    alpha_hat <- round(fit_beta$estimate[1],1) 
+#    beta_hat <- round(fit_beta$estimate[2],1)
+#    x_axis <- seq(0, 1, length.out = 100)
+# plot(density(sims))
+# lines(x_axis, dbeta(x_axis,alpha_hat, beta_hat ))
+
+
+
+
+
+
+
