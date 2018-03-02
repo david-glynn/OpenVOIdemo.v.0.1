@@ -11,6 +11,8 @@ options(scipen = 999) # turn off scientific notation
 ##############################
 # Epidemiology for Binary outcomes
 #############################
+# these functions take in P_t1 vectors + mu +
+
 
 # test data
 #P_t0 <- rep(0.3, 10)
@@ -115,7 +117,7 @@ simProbOfOutcomeHalfNormBinary <- function(P_t1, direction, variance){
 # requires simProbOfOutcomeNormBinary and simProbOfOutcomeHalfNormBinary
 
 simProbOfOutcomeMatrixBinary <- function(numberOfTreatments, P_t1,
-                                   mu_t2, variance_t2, dist_t2, direction_t2,
+                                   mu_t2, variance_t2, dist_t2, direction_t2, # 
                                    mu_t3, variance_t3, dist_t3, direction_t3,
                                    mu_t4, variance_t4, dist_t4, direction_t4
                                    ){

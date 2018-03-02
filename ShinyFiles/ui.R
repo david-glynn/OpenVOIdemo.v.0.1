@@ -764,6 +764,7 @@ shinyUI(fluidPage(
              br(),
              wellPanel(
                h4("Headline results and overview"),
+               textOutput("testText"),    # test
                textOutput("introduceResearch"),
                br(),
                textOutput("ICERresult")

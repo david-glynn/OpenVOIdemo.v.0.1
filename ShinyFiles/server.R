@@ -312,6 +312,8 @@ shinyServer(function(input, output) {
   # Create conditional text segments for results section
   ###########################
   
+  output$testText <- renderText({"test"})  # test
+  
   # Headline results and overview
   ########
   
