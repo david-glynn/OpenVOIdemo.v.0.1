@@ -14,18 +14,171 @@
 # 
 # Half normal 
 #################
-#
-# selectInput(inputId = "halfNorm",  "Is it expected that this intervention is either *always* better or *always* worse than the baseline treatment on the primary outcome?", 
-#             choices = c("Yes" = "Yes", 
+# reuse code for contin and survival outcomes?
+# 
+###############
+# start Binary inputs
+#################
+
+#**Wrap in conditional panel for binary outcomes**
+#typeOfEndpoint:   "binary",  "continuous",  "survival"
+
+# #choose input scale
+# conditionalPanel(condition = "input.halfNorm_t2 == 'No'",
+#                  selectInput(inputId = "binaryRelativeScale_t2",  "Scale for relative effects",
+#                              choices = c("Odds ratio" = "OR",
+#                                          "Risk ratio" = "RR",
+#                                          "Risk difference" = "RD"),
+#                              selected = "Odds ratio"),
+# # decide halfnorm / norm distribution
+# selectInput(inputId = "halfNorm_t2",  "Is it expected that this intervention is either *always* better or *always* worse than the baseline treatment on the primary outcome?",
+#             choices = c("Yes" = "Yes",
 #                         "No" = "No"),
 #             selected = "Yes"),
-# # if yes:
-# conditionalPanel(condition = "input.halfNorm == 'Yes'",
-#                  selectInput(inputId = "",  "Compared to the baseline treatment is the the primary outcome always more likely or always less likely with this intervention?", 
-#                              choices = c("" = "moreLikely", 
-#                                          "" = "lessLikely"),
-#                              selected = "moreLikely"))
-
+#                  # if normal dist
+#                  #
+#                  # for OR (norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
+#                                   sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
+#                                               min = 0, max = 10, value = c(0.9, 1.1))),
+#                  # for RR (norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
+#                                   sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
+#                                               min = 0, max = 10, value = c(0.9, 1.1))),
+#                  # for RD (norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
+#                                   sliderInput("RD_t2", "Select a plausible 95% range for the risk difference",
+#                                               min = -100, max = 100, value = c(-5, 5)))
+#                  ), # end normal dist conditional panel
+# # if half Normal dist
+# conditionalPanel(condition = "input.halfNorm_t2 == 'Yes'",
+#                  selectInput(inputId = "direction_t2",  "Compared to the baseline treatment is the the primary outcome always more likely or always less likely with this intervention?",
+#                              choices = c("More likely" = "alwaysPositive",
+#                                          "Less likely" = "alwaysNegative"),
+#                              selected = "More likely"),
+#                  #
+#                  # for OR (half norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
+#                                   # always higher OR of event with intervention
+#                                   conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                    sliderInput("ORHalfNorm_t2", "Select a plausible 95% range for the odds ratio",
+#                                                                min = 1, max = 10, value = 1.5)),
+#                                   # always lower OR of event with intervention
+#                                   conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                    sliderInput("ORHalfNorm_t2", "Select a plausible 95% range for the odds ratio",
+#                                                                min = 0, max = 1, value = 0.5))),
+#                  #
+#                  # for RR (half norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
+#                                  # always higher RR of event with intervention
+#                                  conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                   sliderInput("RRHalfNorm_t2", "Select a plausible 95% range for the risk ratio",
+#                                                               min = 1, max = 10, value = 1.5)),
+#                                  # always lower RR of event with intervention
+#                                  conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                   sliderInput("RRHalfNorm_t2", "Select a plausible 95% range for the risk ratio",
+#                                                               min = 0, max = 1, value = 0.5))),
+#                 #
+#                 # for RD (half norm)
+#                 conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
+#                                 # always higher RD of event with intervention
+#                                 conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                  sliderInput("RDHalfNorm_t2", "Select a plausible 95% range for the risk difference",
+#                                                              min = 0, max = 100, value = 10)),
+#                                 # always lower RD of event with intervention
+#                                 conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                  sliderInput("RDHalfNorm_t2", "Select a plausible 95% range for the risk difference",
+#                                                              min = -100, max = 0, value = 0.5)))
+# #
+# ) # end half normal dist conditional panel
+#
+#
+# ############
+# End of binary inputs
+# ############
+#
+#
+#
+# ###############
+# # start Continuous inputs
+# #################
+#
+# **Wrap in conditional panel for continuous outcomes**
+# typeOfEndpoint:   "binary",  "continuous",  "survival"
+#
+# •	Mean difference slider with UCI LCI
+# •	Also mean difference + standard error
+#
+#
+# # dont choose input scale: always mean difference
+# conditionalPanel(condition = "input.halfNorm_t2 == 'No'",
+# 
+#                  # decide halfnorm / norm distribution
+#                  selectInput(inputId = "halfNorm_t2",  "Is it expected that this intervention is either *always* better or *always* worse than the baseline treatment on the primary outcome?",
+#                              choices = c("Yes" = "Yes",
+#                                          "No" = "No"),
+#                              selected = "Yes"),
+#                  # if normal dist
+#                  #
+#                  # for OR (norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
+#                                   sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
+#                                               min = 0, max = 10, value = c(0.9, 1.1))),
+#                  # for RR (norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
+#                                   sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
+#                                               min = 0, max = 10, value = c(0.9, 1.1))),
+#                  # for RD (norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
+#                                   sliderInput("RD_t2", "Select a plausible 95% range for the risk difference",
+#                                               min = -100, max = 100, value = c(-5, 5)))
+# ), # end normal dist conditional panel
+# # if half Normal dist
+# conditionalPanel(condition = "input.halfNorm_t2 == 'Yes'",
+#                  selectInput(inputId = "direction_t2",  "Compared to the baseline treatment is the the primary outcome always more likely or always less likely with this intervention?",
+#                              choices = c("More likely" = "alwaysPositive",
+#                                          "Less likely" = "alwaysNegative"),
+#                              selected = "More likely"),
+#                  #
+#                  # for OR (half norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
+#                                   # always higher OR of event with intervention
+#                                   conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                    sliderInput("ORHalfNorm_t2", "Select a plausible 95% range for the odds ratio",
+#                                                                min = 1, max = 10, value = 1.5)),
+#                                   # always lower OR of event with intervention
+#                                   conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                    sliderInput("ORHalfNorm_t2", "Select a plausible 95% range for the odds ratio",
+#                                                                min = 0, max = 1, value = 0.5))),
+#                  #
+#                  # for RR (half norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
+#                                   # always higher RR of event with intervention
+#                                   conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                    sliderInput("RRHalfNorm_t2", "Select a plausible 95% range for the risk ratio",
+#                                                                min = 1, max = 10, value = 1.5)),
+#                                   # always lower RR of event with intervention
+#                                   conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                    sliderInput("RRHalfNorm_t2", "Select a plausible 95% range for the risk ratio",
+#                                                                min = 0, max = 1, value = 0.5))),
+#                  #
+#                  # for RD (half norm)
+#                  conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
+#                                   # always higher RD of event with intervention
+#                                   conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                    sliderInput("RDHalfNorm_t2", "Select a plausible 95% range for the risk difference",
+#                                                                min = 0, max = 100, value = 10)),
+#                                   # always lower RD of event with intervention
+#                                   conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+#                                                    sliderInput("RDHalfNorm_t2", "Select a plausible 95% range for the risk difference",
+#                                                                min = -100, max = 0, value = 0.5)))
+#                  #
+# ) # end half normal dist conditional panel
+# #
+# #
+# # ############
+# # End of continuous inputs
+# # ############
 
 
 
@@ -499,13 +652,100 @@ shinyUI(fluidPage(
                           ), # end column t1
                           
                           column(3, 
-                                 #
+                                 # epi inputs 
                                  # Intervention 1 (formerly: treatment 2 )
                                  #
                                  
                                  wellPanel(style = "background-color:LightSkyBlue;",  # add CSS code to change colour of wellPanel
+                                           h3("Intervention 1"),
+                                           # new binary epi inputs for intervention 1
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
+                                                              
+                                                            #choose input scale
+                                                             selectInput(inputId = "binaryRelativeScale_t2",  "Scale for relative effects",
+                                                                         choices = c("Odds ratio" = "OR",
+                                                                                     "Risk ratio" = "RR",
+                                                                                     "Risk difference" = "RD"),
+                                                                         selected = "Odds ratio"),
+                                                             # decide halfnorm / norm distribution
+                                                             selectInput(inputId = "dist_t2",  "Is it expected that this intervention is either *always* better or *always* worse than the baseline treatment on the primary outcome?",
+                                                                         choices = c("The intervention is known to be strictly better/worse" = "halfNorm",
+                                                                                     "There is uncertainty about whether the intervention is better/worse" = "norm"),
+                                                                         selected = "Yes"),
+                                                                             # if normal dist
+                                                                             conditionalPanel(condition = "input.dist_t2 == 'norm'",
+                                                                             #
+                                                                             # for OR (norm)
+                                                                             conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
+                                                                                              sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
+                                                                                                          step = 0.01, min = 0, max = 10, value = c(0.9, 1.1))),
+                                                                             # for RR (norm)
+                                                                             conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
+                                                                                              sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
+                                                                                                          step = 0.01, min = 0, max = 10, value = c(0.9, 1.1))),
+                                                                             # for RD (norm)
+                                                                             conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
+                                                                                              sliderInput("RD_t2", "Select a plausible 95% range for the risk difference",
+                                                                                                          step = 0.01, min = -100, max = 100, value = c(-5, 5)))
+                                                            ), # end normal dist conditional panel
+                                                            # if half Normal dist
+                                                            conditionalPanel(condition = "input.dist_t2 == 'halfNorm'",
+                                                                             selectInput(inputId = "direction_t2",  "Compared to the baseline treatment is the the primary outcome always more likely or always less likely with this intervention?",
+                                                                                         choices = c("More likely" = "alwaysPositive",
+                                                                                                     "Less likely" = "alwaysNegative"),
+                                                                                         selected = "More likely"),
+                                                                             #
+                                                                             # for OR (half norm)
+                                                                             conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
+                                                                                              # always higher OR of event with intervention
+                                                                                              conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+                                                                                                               sliderInput("ORHalfNorm_t2", "Select a plausible 95% range for the odds ratio",
+                                                                                                                           step = 0.01, min = 1, max = 10, value = 1.5)),
+                                                                                              # always lower OR of event with intervention
+                                                                                              conditionalPanel(condition = "input.direction_t2 == 'alwaysNegative'",
+                                                                                                               sliderInput("ORHalfNorm_t2", "Select a plausible 95% range for the odds ratio",
+                                                                                                                           step = 0.01, min = 0, max = 1, value = 0.5))),
+                                                                             #
+                                                                             # for RR (half norm)
+                                                                             conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
+                                                                                              # always higher RR of event with intervention
+                                                                                              conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+                                                                                                               sliderInput("RRHalfNorm_t2", "Select a plausible 95% range for the risk ratio",
+                                                                                                                           step = 0.01, min = 1, max = 10, value = 1.5)),
+                                                                                              # always lower RR of event with intervention
+                                                                                              conditionalPanel(condition = "input.direction_t2 == 'alwaysNegative'",
+                                                                                                               sliderInput("RRHalfNorm_t2", "Select a plausible 95% range for the risk ratio",
+                                                                                                                           step = 0.01, min = 0, max = 1, value = 0.5))),
+                                                                             #
+                                                                             # for RD (half norm)
+                                                                             conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
+                                                                                              # always higher RD of event with intervention
+                                                                                              conditionalPanel(condition = "input.direction_t2 == 'alwaysPositive'",
+                                                                                                               sliderInput("RDHalfNorm_t2", "Select a plausible 95% range for the risk difference",
+                                                                                                                           step = 0.01, min = 0, max = 100, value = 10)),
+                                                                                              # always lower RD of event with intervention
+                                                                                              conditionalPanel(condition = "input.direction_t2 == 'alwaysNegative'",
+                                                                                                               sliderInput("RDHalfNorm_t2", "Select a plausible 95% range for the risk difference",
+                                                                                                                           step = 0.01, min = -100, max = 0, value = 0.5)))
+                                                                             #
+                                                            ) # end half normal dist conditional panel 
+                                                            ), # end binary epi inputs intervention 1
+                                           
+                                           # new continuous epi inputs for intervention 1
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'"
+                                                            
+                                                            
+                                           ), # end continuous epi inputs intervention 1
+                                           
+                                           # new survival epi inputs for intervention 1
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'survival'"
+                                                            
+                                                            
+                                           ), # end survival epi inputs intervention 1
                                            
                                            
+                                           # old epi inputs
+                                           #~~~~~~~~~ delete
                                            selectInput("dist_t2", label = "Distribution of intervention 1 relative effects", 
                                                        choices = c("Normal" = "norm", 
                                                                    "Half Normal" = "halfNorm"),
@@ -527,11 +767,11 @@ shinyUI(fluidPage(
                                                                         selected = "alwaysPositive"))
                                            
                                            
-                                 ) # end wellPanel t2
-                          ), # end column t2
+                                 ) # end epi input intervention 1 wellPanel (t2)
+                          ), # end epi input intervention 1 column (t2)
                           
                           column(3, 
-                                 #
+                                 # epi inputs
                                  # interverntion 2 (formerly treatment 3 )
                                  #
                                  
@@ -564,12 +804,12 @@ shinyUI(fluidPage(
                                                             
                                                             
                                                             
-                                                  ) # end wellPanel t3
-                                 ) # end conditional panel t3
-                          ), # end column t3
+                                                  ) # end  epi input intervention 2 wellPanel (t3)
+                                 ) # end epi input intervention 2 conditional panel (t3)
+                          ), # end epi input intervention 2 column (t3)
                           
                           column(3,
-                                 #
+                                 # epi inputs
                                  # intervention 3 (formerly treatment 4)
                                  #
                                  
@@ -602,11 +842,11 @@ shinyUI(fluidPage(
                                                             
                                                             
                                                             
-                                                  ) # end wellPanel t4
-                                 ) # end of conditionalPanel t4
-                          ) # end intervention 3 column
+                                                  ) # end epi input intervention 3 wellPanel (t4)
+                                 ) # end epi input intervention 3 conditionalPanel (t4)
+                          ) # end epi input intervention 3 column
                           
-                        ) # end lowest level fluid row
+                        ) # end lowest level fluid row (epi inputs)
                         
                       ) # end part 2 treatment inputs fluidPage
                       

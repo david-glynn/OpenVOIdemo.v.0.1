@@ -158,6 +158,9 @@ probEvents <- function(MCsims, nEvents, nAtRisk){
 # input: P_t1 vector (could be uncertain or single valued but must represent the MCsims in its length)
 # output: P_tn
 
+# **** must handle "no uncertainty" from slider range UCI = LCI (vector)
+# and from normal slider => single va
+
 # there are # methods to input relative effects
 # 1) UCI and LCI for natural odds ratio scale
 # 2) UCI and LCI for natural RR scale
@@ -165,6 +168,12 @@ probEvents <- function(MCsims, nEvents, nAtRisk){
 # 4) HalfNormal range odds ratio scale
 # 5) HalfNormal range RR scale
 # 6) HalfNormal range risk difference
+
+
+
+# **** must handle "no uncertainty" from slider range UCI = LCI (vector)
+# and from normal slider => single value
+
 
 
 
@@ -185,6 +194,9 @@ probEvents <- function(MCsims, nEvents, nAtRisk){
 # OR_UCI = 1.18
 # OR_LCI = 0.71
 
+
+# **** must handle "no uncertainty" from slider range UCI = LCI (vector)
+# and from normal slider => single va
 # define function
 oddsRatioCI <- function(OR_UCI, OR_LCI){
   
