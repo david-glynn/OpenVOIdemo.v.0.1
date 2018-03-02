@@ -601,28 +601,28 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
 
 
 # test data for NBtoEVPIResults
-nameOf_t1 <- "late PTP"
-nameOf_t2 <- "early PTP"
-nameOf_t3 <- "treatment 3"
-nameOf_t4 <- "treatment 4"
-typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
-incidence = 8000 # was Incidence
-timeInformation  = 15 # Time_info  = 15
-discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
-costResearchFunder = 882177 #Cost_research_funder =  882177
-durationOfResearch = 3  # Time_research = 3
-utilisation_t1 = 0.5 # check these sum to 1.
-utilisation_t2 = 0.5
-utilisation_t3 = 0
-utilisation_t4 = NA
-NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
-                          mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
-                          mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
-                          mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
-                          )
-costHealthSystem = 100000 # **note this!
-k = 13000 # **note this
-currencySymbol = "£"
+# nameOf_t1 <- "late PTP"
+# nameOf_t2 <- "early PTP"
+# nameOf_t3 <- "treatment 3"
+# nameOf_t4 <- "treatment 4"
+# typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
+# incidence = 8000 # was Incidence
+# timeInformation  = 15 # Time_info  = 15
+# discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
+# costResearchFunder = 882177 #Cost_research_funder =  882177
+# durationOfResearch = 3  # Time_research = 3
+# utilisation_t1 = 0.5 # check these sum to 1.
+# utilisation_t2 = 0.5
+# utilisation_t3 = 0
+# utilisation_t4 = NA
+# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
+#                           mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+#                           mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
+#                           mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
+#                           )
+# costHealthSystem = 100000 # **note this!
+# k = 13000 # **note this
+# currencySymbol = "£"
 
 # takes in a matrix of net benefits and outputs all relevant EVPI metrics
 # Requires: verybasicPop
