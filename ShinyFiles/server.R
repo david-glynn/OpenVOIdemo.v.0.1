@@ -53,7 +53,7 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", l
 
 
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output,clientData, session) {
   
   #############################
   # fixes to rename variables 
@@ -78,6 +78,7 @@ shinyServer(function(input, output) {
       input$nameOfOutcome # 
     }
   )
+  
   
   
   ##############################
