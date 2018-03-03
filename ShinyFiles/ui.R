@@ -791,7 +791,39 @@ shinyUI(fluidPage(
                                            ), # end continuous epi inputs intervention 1
                                            
                                            # new survival epi inputs for intervention 1
-                                           conditionalPanel(condition = "input.typeOfEndpoint == 'survival'"
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
+                                                          
+                                                            # decide halfnorm / norm distribution
+                                                            selectInput(inputId = "survivalDist_t2",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
+                                                                        choices = c("The intervention is known to be strictly better" = "alwaysPositive",
+                                                                                    "The intervention is known to be strictly worse" = "alwaysNegative",
+                                                                                    "There is uncertainty about whether the intervention is better/worse" = "norm"),
+                                                                        selected = "norm"),
+                                                            
+                                                            # if normal dist
+                                                            #
+                                                            conditionalPanel(condition = "input.survivalDist_t2 == 'norm'",
+                                                                             # for HR (norm) # 
+                                                                              sliderInput("HR_t2", "Select a plausible 95% range for the hazard ratio",
+                                                                                          step = 0.01, min = 0, max = 7, value = c(0.71, 1.18))
+                                                            ), # end normal dist conditional panel
+                                                            
+                                                            # if half Normal dist
+                                                            #
+                                                            # if alwaysPositive half normal
+                                                            conditionalPanel(condition = "input.survivalDist_t2 == 'alwaysPositive'",
+                                                                             # HR half normal
+                                                                            sliderInput("HRHalfNorm_t2", "Select a plausible 95% range for the hazard ratio. The lower bound is set to 1",
+                                                                                        step = 0.01, min = 1, max = 7, value = 1.5)
+                                                                             
+                                                            ), # end alwaysPositive half normal
+                                                            
+                                                            # if alwaysNegative half normal
+                                                            conditionalPanel(condition = "input.survivalDist_t2 == 'alwaysNegative'",
+                                                                             # HR half normal
+                                                                            sliderInput("HRHalfNorm_t2", "Select a plausible 95% range for the hazard ratio. The upper bound is set to 1",
+                                                                                        step = 0.01, min = 0, max = 1, value = 0.5)
+                                                            ) # end alwaysNegative half normal
                                                             
                                                             
                                            ), # end survival epi inputs intervention 1
