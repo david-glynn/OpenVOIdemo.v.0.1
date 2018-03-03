@@ -679,10 +679,10 @@ shinyUI(fluidPage(
                                                                              #
                                                                              conditionalPanel(condition = "input.dist_t2 == 'norm'",
                                                                              #
-                                                                             # for OR (norm)
+                                                                             # for OR (norm) # CRASH default inputs
                                                                              conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
                                                                                               sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
-                                                                                                          step = 0.01, min = 0, max = 7, value = c(0.9, 1.1))),
+                                                                                                          step = 0.01, min = 0, max = 7, value = c(0.71, 1.18))),
                                                                              # for RR (norm)
                                                                              conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
                                                                                               sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
@@ -736,7 +736,58 @@ shinyUI(fluidPage(
                                                             ), # end binary epi inputs intervention 1
                                            
                                            # new continuous epi inputs for intervention 1
-                                           conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'"
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
+                                                            
+                                                            # choose method to input results
+                                                            selectInput(inputId = "continuousInput_t2",  "Choose method of entering mean difference",
+                                                                        choices = c("Upper and lower 95% range" = "range",
+                                                                                    "Mean and standard error" = "meanAndSE"),
+                                                                        selected = "range"), 
+                                                            
+                                                            # if normal - mean and se
+                                                            conditionalPanel(condition = "input.continuousInput_t2 == 'meanAndSE'",
+                                                                             numericInput("ContinMean_t2", "Expected mean difference", 
+                                                                                          value = 0, min = NA, max = NA),
+                                                                             numericInput("ContinSE_t2", "Standard error for mean difference", 
+                                                                                          value = 0.5, min = 0, max = NA)
+                                                            ), # end normal mean and se inputs
+                                                            
+                                                            # if range selected
+                                                            conditionalPanel(condition = "input.continuousInput_t2 == 'range'",
+                                                                             # decide halfnorm / norm distribution - only allow this if range selected - otherwise mean and se is ambiguous
+                                                                             selectInput(inputId = "dist_t2",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
+                                                                                          choices = c("The intervention is known to be strictly better" = "alwaysPositive",
+                                                                                                      "The intervention is known to be strictly worse" = "alwaysNegative",
+                                                                                                      "There is uncertainty about whether the intervention is better/worse" = "norm"),
+                                                                                          selected = "norm"),
+                                                                             
+                                                                             # if normal range selected
+                                                                             conditionalPanel(condition = "input.dist_t2 == 'norm'",
+                                                                                                       sliderInput("MDHalfNorm_t2", "Select a plausible 95% range for the mean difference",
+                                                                                                                   step = 0.01, min = -20, max = 20, value = c(-2, 2))
+                                                                                              ), # end normal range
+                                                                             
+                                                                             # if half Normal range selected
+                                                                             #
+                                                                             # if alwaysPositive half normal
+                                                                             conditionalPanel(condition = "input.dist_t2 == 'alwaysPositive'",
+                                                                                              # only range input
+                                                                                              conditionalPanel(condition = "input.continuousInput_t2 == 'range'",
+                                                                                                               sliderInput("MDHalfNorm_t2", "Select a plausible 95% range for the mean difference. The lower bound is set to 0",
+                                                                                                                           step = 0.01, min = 0, max = 20, value = 0.5)
+                                                                                              )), # end alwaysPositive half normal
+                                                                             #
+                                                                             # if alwaysNegative half normal
+                                                                             conditionalPanel(condition = "input.dist_t2 == 'alwaysNegative'",
+                                                                                              # only range input
+                                                                                              conditionalPanel(condition = "input.continuousInput_t2 == 'range'",
+                                                                                                               sliderInput("MDHalfNorm_t2", "Select a plausible 95% range for the mean difference. The upper bound is set to 0",
+                                                                                                                           step = 0.01, min = -20, max = 0, value = 0.5)
+                                                                                              )) # end alwaysNegative half normal
+                                                                              
+                                                                              )
+                                                            
+                                                            
                                                             
                                                             
                                            ), # end continuous epi inputs intervention 1
