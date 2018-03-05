@@ -190,25 +190,42 @@ probEvents <- function(MCsims, nEvents, nAtRisk){
 # take exponent of these draws and plot to get smooth natural scale OR plot
 # include mu_OR, OR_UCI and OR_LCI on this plot
 
-# test data (from Excel model)
-# OR_UCI = 1.18
-# OR_LCI = 0.71
 
 
+# test data
+# OR_tn <- c(0.71, 0.71)
+# P_t1 <- rbeta(10, 10, 40)
+
+# input: OR_tn (range or single value), P_t1
+# output: P_tn
 # **** must handle "no uncertainty" from slider range UCI = LCI (vector)
 # and from normal slider => single va
 # define function
-oddsRatioCI <- function(OR_UCI, OR_LCI){
+oddsRatioCI <- function(OR_tn, P_t1){
   
-  LOR_UCI <- log(OR_UCI) 
-  LOR_LCI <- log(OR_LCI)
-  sigma <- abs(LOR_UCI - LOR_LCI)/(2*1.96)
-  variance <- sigma^2
+  if(length(OR_tn) == 1){
+  # if single value input
+    
+    # finish
+    
+  } else {
+  # if range input (handles the case in which there is no difference between LCI and UCI)
+    LOR_UCI <- log(OR_tn[1]) 
+    LOR_LCI <- log(OR_tn[2])
+    sigma <- abs(LOR_UCI - LOR_LCI)/(2*1.96)
+    mu <- LOR_LCI + 1.96*sigma # mean on log odds scale
   
-  mu <- LOR_LCI + 1.96*sigma # mean on log odds scale
-  mu_OR <- exp(mu)
+    # finish
+    rnorm(length(P_t1),mu, sigma)
+    
+    
+    mu_OR <- exp(mu)
+    
+    outputs <- list(mu = mu, variance = variance, mu_OR = mu_OR)
+  }
   
-  outputs <- list(mu = mu, variance = variance, mu_OR = mu_OR)
+  
+  
   return(outputs)
 }
 
