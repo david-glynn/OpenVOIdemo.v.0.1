@@ -99,29 +99,42 @@ shinyUI(fluidPage(
                                   h4("Inputs required to estimate research value"),
                                   br(),
                                   
+                                  # step 1 input information
                                   wellPanel(
-                                    h4("Decision problem inputs"),
+                                    h4("Step 1 inputs"),
                                     strong("Type of primary endpoint"),
-                                    p("The primary outcome measure or endpoint captures the most important aspects of health outcome. The value of additional research is expressed in terms of ‘benefits gained’ or ‘harms avoided’ depending on whether this outcome is a benefit or harm. Alternative scenarios based on different endpoints can also be used to consider the impact of additional evidence on different aspects of outcome. 
-                                      Where the analysis is restricted to a primary outcome but there are a number of other important aspects of outcome that are not captured in the analysis, we can specify a minimum clinical difference in effect to implicitly account for these other unquantified aspects of outcome and/or costs (see the MCD section below)
-                                      "),
-                                    strong("Type of outcome"),
+                                    p("The primary outcome measure or endpoint captures the most important aspects of health outcome in the research."), 
+                                    
+                                    strong("Express results in natural outcomes (e.g. heart attacks avoided) or in QALYs?"),
                                     p(""),
-                                    strong("Number of treatments investigated"),
-                                    p("
-                                      "),
+                                    
+                                    strong("Is the outcome a benefit (e.g. cures) or a harm (e.g. heart attack)?"),
+                                    p("For natural outcomes, the value of additional research is expressed in terms of ‘benefits gained’ or ‘harms avoided’ depending on whether this outcome is a benefit or harm."),
+                                    
+                                    strong("Name of outcome e.g. heart attack"),
+                                    p("This will be used in reporting results."),
+                                    
                                     strong("Type of research"),
-                                    p("This app currently facilitates value of information calculations for randomised controlled trials and feasibility studies.
-                                      The inputs required for the analysis will depend on the type of study planned.
-                                      "),
-                                    strong("The value of reconsidering the evidence"),
-                                    p("
-                                      ")
+                                    p("The value of research can be calculated for either randomised controlled trials (RCTs) or feasibility studies.
+                                      The inputs required for the analysis will depend on the type of study chosen."),
+                                    tags$ul(
+                                      tags$li("RCTs: compare outcomes across groups."), 
+                                      tags$li("feasibility studies: ")
                                     ),
+                                    
+                                    strong("How many treatment options are under consideration? (Maximum of 4)"),
+                                    p(""),
+                                    
+                                    strong("Do the treatment costs depend on the primary outcome?"),
+                                    p("")
+                                    
+                                  ), # end step 1 input information 
                                   br(),
                                   
+                                  
+                                  # step 2 input information
                                   wellPanel(
-                                    h4("Health system inputs"),
+                                    h4("Step 2 inputs"),
                                     strong("Incidence per annum"),
                                     p("An estimate of the number of individuals facing the uncertain choice between alternative interventions is required in order to establish the size of the benefits to the target population. 
                                       "),
@@ -143,11 +156,30 @@ shinyUI(fluidPage(
                                     strong("Currency used"),
                                     p("
                                       ")
-                                    ),
+                                    ), # end step 2 input information 
+                                  br(),
+                                    
+                                    
+                                    
+                                  
+                                    strong("Type of outcome"),
+                                    p(""),
+                                    strong("Number of treatments investigated"),
+                                    p("
+                                      "),
+                                    strong("Type of research"),
+                                    p("This app currently facilitates value of information calculations for 
+                                      "),
+                                    strong("The value of reconsidering the evidence"),
+                                    p("
+                                      "),
                                   br(),
                                   
+                                  
+                                  
+                                  # step 3 input information
                                   wellPanel(
-                                    h4("Trial inputs"),
+                                    h4("Step 3 inputs"),
                                     strong("Duration of the research"),
                                     p("**discuss feasibility durations required here too** Some assessment of the duration of time for the proposed research to be conducted and for the  results of the research to report is required since the value of research declines the longer it takes to report. This might be informed by an assessment of sample size, recruitment rates, or historical experience from conducting similar types of studies. 
                                       "),
@@ -167,6 +199,7 @@ shinyUI(fluidPage(
                                     strong("Number of simulations"),
                                     p("**talk about reconsider evidence here")
                                   ),
+                                  
                                   br(),
                                   
                                   wellPanel(
@@ -215,10 +248,11 @@ shinyUI(fluidPage(
                                              #p("This information determines the inputs required for the analysis and so this section",
                                              #  strong("should be completed first.")),
                                              
-                                             selectInput(inputId = "typeOfEndpoint",  "Type of primary endpoint", 
-                                                         choices = c("Binary" = "binary", 
-                                                                     "Continuous" = "continuous", 
-                                                                     "Survival" = "survival"),
+                                             selectInput(inputId = "typeOfEndpoint",  HTML('<span title= "This captures the most important aspects of health outcome in the research" >
+                                                                                           Type of primary endpoint </span>'), 
+                                                         choices = c("Binary e.g. heart attacks" = "binary", 
+                                                                     "Continuous e.g. blood pressure" = "continuous", 
+                                                                     "Survival e.g. progression free survival" = "survival"),
                                                          selected = "Binary"), 
                                              
                                              # old
@@ -237,8 +271,8 @@ shinyUI(fluidPage(
                                              # new
                                              conditionalPanel(condition = "input.outcomeExpression == 'natural'",
                                                               selectInput(inputId = "benefitOrHarm", label = "Is the outcome a benefit (e.g. cures) or a harm (e.g. heart attack)?", 
-                                                                          choices = c("Benefit" = "benefit", 
-                                                                                      "Harm" = "harm"),
+                                                                          choices = c("Benefit e.g. cures" = "benefit", 
+                                                                                      "Harm e.g. heart attack" = "harm"),
                                                                           selected = "Benefit")),
                                              
                                              
@@ -290,9 +324,9 @@ shinyUI(fluidPage(
                                   br(),
                                   h4("Select appropriate values and then proceed to the 'Step 3' tab"),
                                   strong("If you are unclear about the interpretation of any inputs check the 'Input information' tab"),
-                                  br(),
+                                  
                                   fluidPage(
-                                    
+                                    br(),
                                     ## top level fluid row for "non-epi treatment inputs" width of 3 column for each
                                     fluidRow(
                                       
@@ -838,39 +872,7 @@ shinyUI(fluidPage(
                                     
                                     # top fluid row (non treatment inputs)
                                     fluidRow(
-                                      column(3, 
-                                             
-                                             
-                                             # conditional well panel
-                                             conditionalPanel(condition = "input.outcomeExpression == 'netHealth'", # start conditional well panel
-                                                              
-                                                              wellPanel( # START wellPanel
-                                                                
-                                                                h4("Comprehensive meausure of health outcome"),
-                                                                
-                                                                numericInput("k", "Opportunity cost of health system expenditure (£)",
-                                                                             value = 15000, min = 0, max = NA, step = 500),
-                                                                
-                                                                conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
-                                                                                 numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
-                                                                                              value = 2, min = NA, max = NA, step = 0.05)),
-                                                                
-                                                                conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
-                                                                                 numericInput("INBContinEvent", 
-                                                                                              "Net health effect of unit increase in continuous outcome (in QALYs)",
-                                                                                              value = 0.05, min = NA, max = NA, step = 0.05)),
-                                                                
-                                                                # BUG!! If this has NA value then the app crashes
-                                                                conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
-                                                                                 numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
-                                                                                              value = 0.5, min = NA, max = NA, step = 0.05))
-                                                                
-                                                              ) # end wellPanel
-                                             ) # end conditional well panel
-                                             
-                                             
-                                             
-                                      ), # end decision problem inut column
+                                      
                                       
                                       column(3, 
                                              ##########
@@ -934,7 +936,7 @@ shinyUI(fluidPage(
                                                
                                                
                                              ) # end of wellPanel 
-                                      ), # end of second column
+                                      ), # end of proposed research study column
                                       
                                       column(3,
                                              ##########
@@ -966,9 +968,42 @@ shinyUI(fluidPage(
                                                
                                              ) # end "other inputs" wellpanel 
                                              
+                                      ), # end other inputs column
+                                      
+                                      
+                                      column(3, 
                                              
+                                             # conditional well panel
+                                             conditionalPanel(condition = "input.outcomeExpression == 'netHealth'", # start conditional well panel
+                                                              
+                                                              wellPanel( # START wellPanel
+                                                                
+                                                                h4("Comprehensive meausure of health outcome"),
+                                                                
+                                                                numericInput("k", "Opportunity cost of health system expenditure (£)",
+                                                                             value = 15000, min = 0, max = NA, step = 500),
+                                                                
+                                                                conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
+                                                                                 numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
+                                                                                              value = 2, min = NA, max = NA, step = 0.05)),
+                                                                
+                                                                conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
+                                                                                 numericInput("INBContinEvent", 
+                                                                                              "Net health effect of unit increase in continuous outcome (in QALYs)",
+                                                                                              value = 0.05, min = NA, max = NA, step = 0.05)),
+                                                                
+                                                                # BUG!! If this has NA value then the app crashes
+                                                                conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
+                                                                                 numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
+                                                                                              value = 0.5, min = NA, max = NA, step = 0.05))
+                                                                
+                                                              ) # end wellPanel
+                                             ) # end conditional well panel
                                              
-                                      ), # end 3rd column inputs
+                                      ), # end net benefit inut column
+                                      
+                                      
+                                      
                                       
                                       column(3, 
                                              ##########
