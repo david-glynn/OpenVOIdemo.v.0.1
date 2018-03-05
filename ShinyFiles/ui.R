@@ -106,7 +106,8 @@ shinyUI(fluidPage(
                                     p("The primary outcome measure or endpoint captures the most important aspects of health outcome in the research."), 
                                     
                                     strong("Express results in natural outcomes (e.g. heart attacks avoided) or in QALYs?"),
-                                    p(""),
+                                    p("The benefits of research can be expressed in either natural outcomes or in Quality Adjusted Life Years (QALYs).
+                                      Using QALYs requires more inputs but enables a comparion of the health benefits of further research and implementation efforts across diverse clinical areas."),
                                     
                                     strong("Is the outcome a benefit (e.g. cures) or a harm (e.g. heart attack)?"),
                                     p("For natural outcomes, the value of additional research is expressed in terms of ‘benefits gained’ or ‘harms avoided’ depending on whether this outcome is a benefit or harm."),
@@ -118,15 +119,18 @@ shinyUI(fluidPage(
                                     p("The value of research can be calculated for either randomised controlled trials (RCTs) or feasibility studies.
                                       The inputs required for the analysis will depend on the type of study chosen."),
                                     tags$ul(
-                                      tags$li("RCTs: compare outcomes across groups."), 
-                                      tags$li("feasibility studies: ")
+                                      tags$li("RCT: In this type of study, individuals are randomised to different treatments and the outcomes are compared accross the groups."), 
+                                      tags$li("Feasibility study: If there are uncertainties about whether a large trial is possible, a short feasibility study can be carried out to assess the possibility of future research.
+                                              If the feasibility study is successful, researchers have the option to carry out the follow up trial.")
                                     ),
                                     
                                     strong("How many treatment options are under consideration? (Maximum of 4)"),
-                                    p(""),
+                                    p("There may be a number of relevant treatment options for a given indication. 
+                                      This app currently allows for up to 4 options to be considered."),
                                     
                                     strong("Do the treatment costs depend on the primary outcome?"),
-                                    p("")
+                                    p("In some cases treatment costs will depend importantly on whether the primary outcome occurs or not.
+                                      For example, if a treatment is used to prevent disease progression then it will cease to be used (and its cost will no longer be incurred) if the individual progresses.")
                                     
                                   ), # end step 1 input information 
                                   br(),
@@ -162,14 +166,7 @@ shinyUI(fluidPage(
                                     
                                     
                                   
-                                    strong("Type of outcome"),
-                                    p(""),
-                                    strong("Number of treatments investigated"),
-                                    p("
-                                      "),
-                                    strong("Type of research"),
-                                    p("This app currently facilitates value of information calculations for 
-                                      "),
+                                   
                                     strong("The value of reconsidering the evidence"),
                                     p("
                                       "),
