@@ -10,10 +10,6 @@
 
 
 
-
-
-
-
 library(shiny)
 
 shinyUI(fluidPage(
