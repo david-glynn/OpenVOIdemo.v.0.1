@@ -620,7 +620,7 @@ shinyUI(fluidPage(
                                                                                          
                                                                                          # if normal range selected
                                                                                          conditionalPanel(condition = "input.continDist_t2 == 'norm'",
-                                                                                                          sliderInput("MDHalfNorm_t2", "Select a plausible 95% range for the mean difference",
+                                                                                                          sliderInput("MD_t2", "Select a plausible 95% range for the mean difference",
                                                                                                                       step = 0.01, min = -20, max = 20, value = c(-2, 2))
                                                                                          ), # end normal range
                                                                                          

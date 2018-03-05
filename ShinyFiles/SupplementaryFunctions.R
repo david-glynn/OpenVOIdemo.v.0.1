@@ -8,6 +8,58 @@ library(fdrtool) # required for halfnormal simulations
 options(scipen = 999) # turn off scientific notation
 
 
+
+# new inputs for binary functions
+# 
+# typeOfEndpoint == 'binary', "continuous''survival"
+#
+# # baseline inputs- binary
+# baselineInput: "range", "eventsNonEvents"
+# "nEvents" "nAtRisk" # single values 
+# range:  c(0.248, 0.469)
+# 
+# # baseline inputs- survival
+# survivalDist: "exponential","weibull"
+# scaleParameter_t1, shapeParameter_t1
+# 
+# # baseline inputs- continuous - none!
+#
+# # relative effect inputs - binary
+# binaryRelativeScale_t2: OR", "RR", "RD"
+# binaryDist_t2: "alwaysPositive", "alwaysNegative", "norm"
+# normal dist
+# OR_t2:  c(0.71, 1.18))),
+# RR_t2: c(0.9, 1.1))),
+# RD_t2:  c(-5, 5)
+# half norm dist
+# ORHalfNorm_t2: single value (bounds depend on whether the half normal is "alwaysPositive" or "alwaysNegative")
+# RRHalfNorm_t2: single value
+# RDHalfNorm_t2: single value
+#
+# # relative effect inputs - continuous
+# continuousInput_t2: "range" "meanAndSE
+# if meanAndSE: ContinMean_t2", "ContinSE_t2"
+# continDist_t2: alwaysPositive", alwaysNegative","norm"
+# norm dist
+# MD_t2: c(-2, 2)
+# half norm dist
+# MDHalfNorm_t2: single value (bounds depend on whether the half normal is "alwaysPositive" or "alwaysNegative")
+#
+# # relative effect inputs - survival
+# survivalDist_t2: alwaysPositive","alwaysNegative", "norm"
+# norm dist 
+# HR_t2:  c(0.71, 1.18)
+# HRHalfNorm_t2: single value (bounds depend on whether the half normal is "alwaysPositive" or "alwaysNegative")
+
+
+
+###################################################################################
+###################################################################################
+###################################################################################
+ # old epi for binary functions 
+###################################################################################
+
+
 ##############################
 # Epidemiology for Binary outcomes
 #############################
