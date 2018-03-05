@@ -21,15 +21,8 @@ shinyUI(fluidPage(
     # welcome tabs
     ##################
     
-    tabPanel("Welcome",
+    tabPanel("How to use this app",
              
-             tabsetPanel(
-               
-               #################
-               # navigation sub tab
-               
-               tabPanel("How to use this app",
-                        
                         br(),
                         h4("A video on using this app"),
                         br(),
@@ -48,39 +41,37 @@ shinyUI(fluidPage(
                           "),
                         br(),
                         tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007")
-                        
-                        
-                        ),  # close navigation subtab
+                
+     ),  # close How to use this app tab
                
-               
-               #################
-               # How to estimate sub tab
-               
-               tabPanel("How to estimate research value", 
-                        br(),
-                        h4("A video introducing value of information"),
-                        HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/tbv9E9D2BRQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'),
-                        br(),
-                        h4("How can health oucomes be improved?"),
-                        p("Additional evidence is valuable because it can improve patient outcomes by resolving existing uncertainty about the effectiveness of the interventions available. This helps inform treatment decisions for subsequent patients. 
-                          A judgement about the level of uncertainty in the existing evidence base can come from a number of sources including a systematic literature review and meta-analysis, expert elicitation, extrapolation, meta-epidemiological study, or a combination of these different sources. 
-                          The expected health benefit provided by reducing uncertainty is called the information value for a research project."
-                        ),
-                        p("In addition to funding research, it is also possible to improve health outcomes by ensuring that the treatment option that is expected to be best based on the findings of existing evidence is implemented into clinical practice.  In fact, the improvements in health outcomes from implementing the findings of the current evidence base (implementation value) may be greater than the potential improvements in health outcomes through conducting further research."
-                        ),
-                        p("Drawing a distinction between the information value and the implementation value is important because conducting further evaluative research is not the only way to change clinical practice. The results of a new research study may influence clinical practice and may contribute to the implementation of research findings but this is not the only, or necessarily the most effective, way to do so. There are other mechanisms (e.g., more effective dissemination of existing evidence) and policies which are within the remit of other bodies (e.g., incentives and sanctions) to affect implementation. Therefore, conducting research to influence implementation rather than because there is real value in acquiring additional evidence itself would seem inappropriate. This is because limited research capacity could have been used elsewhere to conduct research in areas where it would have offered greater potential health benefits
-                          "),
-                        h4("What change in the primary endpoint is required?"),
-                        p("Uncertainty in a decision about alternative treatment options arises from the range of plausible values that the important endpoints can take.  When the range of plausible values for a particular parameter such as the relative treatment effect can support more than one intervention (e.g., the confidence interval for the estimate of relative effect crosses the line of no difference) this uncertainty has consequences for health outcomes.  This is because for any treatment choice there is a chance that an alternative intervention could have improved health outcomes to a greater extent.  The importance of this uncertainty is indicated by the scale of the health consequences of the uncertainty.   The chance that an intervention is not the most effective, how much less effective it is likely to be, and the size of the patient population facing the uncertain treatment choice all contribute to the health consequences of uncertainty.
-                          "),
-                        p("The primary endpoint, which usually captures the most important aspects of health outcome, can be used as a starting point to understand the consequences of current uncertainty. However, in situations where there are a number of other important considerations that are not captured in the primary outcome, we can specify a minimum clinical difference (MCD) in the primary outcome that would need to be detected in future research.  This represents the change in the primary endpoint that would need to be detected for the results of any new research study to be considered clinically significant and have an impact on clinical practice. 
-                          This MCD concept will be explained further in the next section: 'How to use this app'.")
-                        
-                        
-                        ) # end how to estimate subtab
-               
-                        ) # close weclome tabsetPanel
-                        ), # close welcome tabPanel
+
+    ##################
+    # How to estimate research value tab
+    ##################
+    
+     tabPanel("How to estimate research value",
+    
+             br(),
+             h4("A video introducing value of information"),
+             HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/tbv9E9D2BRQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'),
+             br(),
+             h4("How can health oucomes be improved?"),
+             p("Additional evidence is valuable because it can improve patient outcomes by resolving existing uncertainty about the effectiveness of the interventions available. This helps inform treatment decisions for subsequent patients. 
+               A judgement about the level of uncertainty in the existing evidence base can come from a number of sources including a systematic literature review and meta-analysis, expert elicitation, extrapolation, meta-epidemiological study, or a combination of these different sources. 
+               The expected health benefit provided by reducing uncertainty is called the information value for a research project."
+             ),
+             p("In addition to funding research, it is also possible to improve health outcomes by ensuring that the treatment option that is expected to be best based on the findings of existing evidence is implemented into clinical practice.  In fact, the improvements in health outcomes from implementing the findings of the current evidence base (implementation value) may be greater than the potential improvements in health outcomes through conducting further research."
+             ),
+             p("Drawing a distinction between the information value and the implementation value is important because conducting further evaluative research is not the only way to change clinical practice. The results of a new research study may influence clinical practice and may contribute to the implementation of research findings but this is not the only, or necessarily the most effective, way to do so. There are other mechanisms (e.g., more effective dissemination of existing evidence) and policies which are within the remit of other bodies (e.g., incentives and sanctions) to affect implementation. Therefore, conducting research to influence implementation rather than because there is real value in acquiring additional evidence itself would seem inappropriate. This is because limited research capacity could have been used elsewhere to conduct research in areas where it would have offered greater potential health benefits
+               "),
+             h4("What change in the primary endpoint is required?"),
+             p("Uncertainty in a decision about alternative treatment options arises from the range of plausible values that the important endpoints can take.  When the range of plausible values for a particular parameter such as the relative treatment effect can support more than one intervention (e.g., the confidence interval for the estimate of relative effect crosses the line of no difference) this uncertainty has consequences for health outcomes.  This is because for any treatment choice there is a chance that an alternative intervention could have improved health outcomes to a greater extent.  The importance of this uncertainty is indicated by the scale of the health consequences of the uncertainty.   The chance that an intervention is not the most effective, how much less effective it is likely to be, and the size of the patient population facing the uncertain treatment choice all contribute to the health consequences of uncertainty.
+               "),
+             p("The primary endpoint, which usually captures the most important aspects of health outcome, can be used as a starting point to understand the consequences of current uncertainty. However, in situations where there are a number of other important considerations that are not captured in the primary outcome, we can specify a minimum clinical difference (MCD) in the primary outcome that would need to be detected in future research.  This represents the change in the primary endpoint that would need to be detected for the results of any new research study to be considered clinically significant and have an impact on clinical practice. 
+               This MCD concept will be explained further in the next section: 'How to use this app'.")
+
+    ), # end How to estimate research value tab
+    
     
     ##################
     # Inputs tabs
@@ -88,7 +79,7 @@ shinyUI(fluidPage(
     
     tabPanel("Inputs",
              
-             tabsetPanel(selected = "Step 1",
+             tabsetPanel(selected = "Step 1: Primary outcome",
                          
                          #################
                          # input information subtab
@@ -226,10 +217,10 @@ shinyUI(fluidPage(
                          #################
                          # Part 1 inputs subtab
                          
-                         tabPanel("Step 1",
+                         tabPanel("Step 1: Primary outcome",
                                   br(),
                                   h4("Select appropriate values and then proceed to the 'Step 2' tab"),
-                                  strong("If you are unclear about the interpretation of any inputs check the 'Input information' tab"),
+                                  strong("See the 'Input information' tab for detail on how to interpret the inputs"),
                                   br(),
                                   br(),
                                   
@@ -247,57 +238,29 @@ shinyUI(fluidPage(
                                              
                                              selectInput(inputId = "typeOfEndpoint",  HTML('<span title= "This captures the most important aspects of health outcome in the research" >
                                                                                            Type of primary endpoint </span>'), 
-                                                         choices = c("Binary e.g. heart attacks" = "binary", 
-                                                                     "Continuous e.g. blood pressure" = "continuous", 
-                                                                     "Survival e.g. progression free survival" = "survival"),
-                                                         selected = "Binary"), 
+                                                         choices = c("Binary e.g. a heart attack occurs or it does not" = "binary", 
+                                                                     "Continuous e.g. a measure on the blood pressure scale" = "continuous", 
+                                                                     "Survival e.g. months of progression free survival" = "survival"),
+                                                         selected = "binary"), 
                                              
-                                             # old
-                                             # selectInput(inputId = "typeOfOutcome", label = "Type of outcome", 
-                                             #             choices = c("Benefit" = "benefit", 
-                                             #                         "Harm" = "harm", 
-                                             #                         "Net health effect (QALYs)" = "netHealth"),
-                                             #             selected = "Net health effect (QALYs)"), # benefit , harm, net health effect
-                                             
+                                           
                                              # new
-                                             selectInput(inputId = "outcomeExpression", label = "Express results in natural outcomes (e.g. heart attacks avoided) or in QALYs?", 
-                                                         choices = c("Natural outcomes" = "natural",  
+                                             selectInput(inputId = "outcomeExpression", label = "Express results in natural outcomes or in Quality Adjusted Life Years (QALYs)?", 
+                                                         choices = c("Natural outcomes e.g. heart attacks avoided" = "natural",  
                                                                      "QALYs" = "netHealth"),
                                                          selected = "QALYs"), 
                                              
                                              # new
                                              conditionalPanel(condition = "input.outcomeExpression == 'natural'",
-                                                              selectInput(inputId = "benefitOrHarm", label = "Is the outcome a benefit (e.g. cures) or a harm (e.g. heart attack)?", 
-                                                                          choices = c("Benefit e.g. cures" = "benefit", 
+                                                              selectInput(inputId = "benefitOrHarm", label = "Is the outcome a benefit or a harm?", 
+                                                                          choices = c("Benefit e.g. cure" = "benefit", 
                                                                                       "Harm e.g. heart attack" = "harm"),
                                                                           selected = "Benefit")),
                                              
                                              
                                              conditionalPanel(condition = "input.outcomeExpression == 'natural'",
-                                                              textInput("nameOfOutcome", "Name of outcome e.g. heart attack", 
-                                                                        value = "functional recovery"))
-                                             
-                                             
-                                             
-                                             
-                                             
-                                           ) # end primary outcome measure wellPanel
-                                           
-                                           
-                                    ), # end leftmost column "non-treatment related inputs"
-                                    
-                                    column(6,
-                                           wellPanel(
-                                             h4("Other inputs"),
-                                             
-                                             selectInput(inputId = "typeOfResearch", label = "Type of research", 
-                                                         choices = c("RCT" = "RCT", 
-                                                                     "Feasibility study" = "feasibility"),
-                                                         selected = "RCT"),
-                                             
-                                             numericInput("numberOfTreatments", 
-                                                          HTML("How many treatment options are under consideration? <br/> (Maximum of 4)"),
-                                                          value = 2, min = 2, max = 4),
+                                                              textInput("nameOfOutcome", "Name of outcome", 
+                                                                        value = "Functional recovery")),
                                              
                                              conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.outcomeExpression == 'netHealth'",
                                                               radioButtons(inputId = "tCostsDependOnEvent", label = "Do the treatment costs depend on the primary outcome?", 
@@ -305,8 +268,14 @@ shinyUI(fluidPage(
                                                                                        "No" = "No"),
                                                                            selected = "No"))
                                              
-                                           ) # end other inputs wellPanel
-                                    ) # end other inputs column
+                                             
+                                             
+                                           ) # end primary outcome measure wellPanel
+                                           
+                                           
+                                    ) # end leftmost column "non-treatment related inputs"
+                                    
+                                   
                                   ) # end high level inputs fluidRow
                                   
                                   
@@ -317,13 +286,23 @@ shinyUI(fluidPage(
                          # Part 2 treatment inputs subtab
                          
                          
-                         tabPanel("Step 2",
+                         tabPanel("Step 2: Interventions",
                                   br(),
                                   h4("Select appropriate values and then proceed to the 'Step 3' tab"),
-                                  strong("If you are unclear about the interpretation of any inputs check the 'Input information' tab"),
+                                  strong("See the 'Input information' tab for detail on how to interpret the inputs"),
                                   
-                                  fluidPage(
+                                  fluidPage( 
                                     br(),
+                                    ## top top level
+                                    fluidRow(
+                                      column(6,
+                                             wellPanel(
+                                                numericInput("numberOfTreatments", 
+                                                             "How many treatment options are under consideration? (Maximum of 4)",
+                                                             value = 2, min = 2, max = 4)
+                                             ) # end top top well panel
+                                      ) # end column
+                                    ), # end top top fluid row
                                     ## top level fluid row for "non-epi treatment inputs" width of 3 column for each
                                     fluidRow(
                                       
@@ -336,7 +315,7 @@ shinyUI(fluidPage(
                                                textInput("nameOf_t1", "Name of baseline treatment", 
                                                          value = "late PTP"),
                                                
-                                               numericInput("utilisation_t1", "Current utilisation (%)",
+                                               numericInput("utilisation_t1", "Current level of utilisation (%)",
                                                             value = 100, min = 0, max = 100, step = 0.1),
                                                
                                                # Cost inputs for baseline (t1)
@@ -364,11 +343,9 @@ shinyUI(fluidPage(
                                                textInput("nameOf_t2", "Name of intervention", 
                                                          value = "early PTP"),
                                                
-                                               numericInput("utilisation_t2", "Current utilisation (%)",
+                                               numericInput("utilisation_t2", "Current level of utilisation (%)",
                                                             value = 0, min = 0, max = 100, step = 0.1),
                                                
-                                               numericInput("MCD_t2", "MCD",
-                                                            value = 0, min = NA, max = NA, step = 0.05),
                                                
                                                # Cost inputs for t2
                                                conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
@@ -401,7 +378,7 @@ shinyUI(fluidPage(
                                                                           value = "intervention 2"),
                                                                 
                                                                 # display if: numberOfTreatments >= 3
-                                                                numericInput("utilisation_t3", "Current utilisation (%)",
+                                                                numericInput("utilisation_t3", "Current level of utilisation (%)",
                                                                              value = 0, min = 0, max = 100, step = 0.1),
                                                                 
                                                                 numericInput("MCD_t3", "MCD",
@@ -437,7 +414,7 @@ shinyUI(fluidPage(
                                                                 textInput("nameOf_t4", "Name of intervention", 
                                                                           value = "intervention 3"),
                                                                 # display if: numberOfTreatments >= 4
-                                                                numericInput("utilisation_t4", "Current utilisation (%)",
+                                                                numericInput("utilisation_t4", "Current level of utilisation (%)",
                                                                              value = 0, min = 0, max = 100, step = 0.1),
                                                                 
                                                                 numericInput("MCD_t4", "MCD",
@@ -488,9 +465,9 @@ shinyUI(fluidPage(
                                                                         
                                                                         # if eventsNonEvents
                                                                         conditionalPanel(condition = "input.baselineInput == 'eventsNonEvents'",
-                                                                                         numericInput("nEvents", "Number of events in the study", 
+                                                                                         numericInput("nEvents", "Number of events", 
                                                                                                       value = 10, min = 1, max = NA),
-                                                                                         numericInput("nAtRisk", "Number at risk in the study", 
+                                                                                         numericInput("nAtRisk", "Number at risk", 
                                                                                                       value = 40, min = 1, max = NA)
                                                                         ), # end eventsNonEvents inputs
                                                                         
@@ -576,7 +553,7 @@ shinyUI(fluidPage(
                                                        conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
                                                                         
                                                                         #choose input scale
-                                                                        selectInput(inputId = "binaryRelativeScale_t2",  "Scale for relative effects",
+                                                                        selectInput(inputId = "binaryRelativeScale_t2",  "Scale for relative effect",
                                                                                     choices = c("Odds ratio" = "OR",
                                                                                                 "Risk ratio" = "RR",
                                                                                                 "Risk difference" = "RD"),
@@ -595,15 +572,15 @@ shinyUI(fluidPage(
                                                                                          # for OR (norm) # CRASH default inputs
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
                                                                                                           sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
-                                                                                                                      step = 0.01, min = 0, max = 7, value = c(0.71, 1.18))),
+                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))),
                                                                                          # for RR (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
                                                                                                           sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
-                                                                                                                      step = 0.01, min = 0, max = 7, value = c(0.9, 1.1))),
+                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.9, 1.1))),
                                                                                          # for RD (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
                                                                                                           sliderInput("RD_t2", "Select a plausible 95% range for the risk difference",
-                                                                                                                      pre = "%",step = 0.01, min = -70, max = 70, value = c(-5, 5)))
+                                                                                                                      post = "%",step = 0.01, min = -50, max = 50, value = c(-5, 5)))
                                                                         ), # end normal dist conditional panel
                                                                         
                                                                         # if half Normal dist
@@ -614,15 +591,15 @@ shinyUI(fluidPage(
                                                                                          # OR
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
                                                                                                           sliderInput("ORHalfNorm_t2", "Select a plausible 95% range for the odds ratio. The lower bound is set to 1",
-                                                                                                                      step = 0.01, min = 1, max = 7, value = 1.5)),
+                                                                                                                      step = 0.01, min = 1, max = 5, value = 1.5)),
                                                                                          # RR
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
                                                                                                           sliderInput("RRHalfNorm_t2", "Select a plausible 95% range for the risk ratio. The lower bound is set to 1",
-                                                                                                                      step = 0.01, min = 1, max = 7, value = 1.5)),
+                                                                                                                      step = 0.01, min = 1, max = 5, value = 1.5)),
                                                                                          # RD
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
                                                                                                           sliderInput("RDHalfNorm_t2", "Select a plausible 95% range for the risk difference. The lower bound is set to 0",
-                                                                                                                      pre = "%", step = 0.01, min = 0, max = 70, value = 10))
+                                                                                                                      post = "%", step = 0.01, min = 0, max = 50, value = 10))
                                                                                          
                                                                         ), # end alwaysPositive half normal
                                                                         
@@ -639,7 +616,7 @@ shinyUI(fluidPage(
                                                                                          # RD
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
                                                                                                           sliderInput("RDHalfNorm_t2", "Select a plausible 95% range for the risk difference. The upper bound is set to 0%",
-                                                                                                                      pre = "%", step = 0.01, min = -70, max = 0, value = 0.5))
+                                                                                                                      post = "%", step = 0.01, min = -50, max = 0, value = 0.5))
                                                                         ) # end alwaysNegative half normal
                                                                         
                                                                         
@@ -718,7 +695,7 @@ shinyUI(fluidPage(
                                                                         conditionalPanel(condition = "input.survivalDist_t2 == 'norm'",
                                                                                          # for HR (norm) # 
                                                                                          sliderInput("HR_t2", "Select a plausible 95% range for the hazard ratio",
-                                                                                                     step = 0.01, min = 0, max = 7, value = c(0.71, 1.18))
+                                                                                                     step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))
                                                                         ), # end normal dist conditional panel
                                                                         
                                                                         # if half Normal dist
@@ -727,7 +704,7 @@ shinyUI(fluidPage(
                                                                         conditionalPanel(condition = "input.survivalDist_t2 == 'alwaysPositive'",
                                                                                          # HR half normal
                                                                                          sliderInput("HRHalfNorm_t2", "Select a plausible 95% range for the hazard ratio. The lower bound is set to 1",
-                                                                                                     step = 0.01, min = 1, max = 7, value = 1.5)
+                                                                                                     step = 0.01, min = 1, max = 5, value = 1.5)
                                                                                          
                                                                         ), # end alwaysPositive half normal
                                                                         
@@ -740,6 +717,12 @@ shinyUI(fluidPage(
                                                                         
                                                                         
                                                        ), # end survival epi inputs intervention 1
+                                                       
+                                                       
+                                                       numericInput("MCD_t2", "MCD",
+                                                                    value = 0, min = NA, max = NA, step = 0.05),
+                                                       
+                                                       
                                                        
                                                        
                                                        # old epi inputs
@@ -861,12 +844,13 @@ shinyUI(fluidPage(
                          ###################
                          # Part 3 other inputs
                          
-                         tabPanel("Step 3", 
+                         tabPanel("Step 3: Proposed research", 
                                   
                                   br(),
                                   h4("Select appropriate values and then press 'Run analysis'"),
+                                  strong("See the 'Input information' tab for detail on how to interpret the inputs"),
                                   fluidPage(
-                                    
+                                    br(),
                                     # top fluid row (non treatment inputs)
                                     fluidRow(
                                       
@@ -880,13 +864,16 @@ shinyUI(fluidPage(
                                                
                                                h4("Proposed research study"),
                                                
-                                               
+                                               selectInput(inputId = "typeOfResearch", label = "Type of research", 
+                                                           choices = c("RCT" = "RCT", 
+                                                                       "Feasibility study" = "feasibility"),
+                                                           selected = "RCT"),
                                                
                                                # RCT trial design inputs
                                                conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
                                                                 
-                                                                numericInput("durationOfResearch", "Expected duration of research (years)",
-                                                                             value = 5, min = 0, max = NA, step = 0.1),
+                                                                sliderInput("durationOfResearch", "Expected duration of research (years)",
+                                                                            min = 0, max = 25, step = 0.25, value = 5),
                                                                 
                                                                 numericInput("costResearchFunder", "Cost of research to funder",
                                                                              value = 2854000, min = 0, max = NA, step = 100),
@@ -903,11 +890,12 @@ shinyUI(fluidPage(
                                                                 numericInput("probabilityOfDefinitiveResearch", "Probability of feasibility research leading to follow-up study",
                                                                              value = 0.5, min = 0, max = 1, step = 0.05),
                                                                 
-                                                                numericInput("durationOfResearchFeas", "Expected duration of feasibility research (years)",
-                                                                             value = 2, min = 0, max = NA, step = 0.1),
                                                                 
-                                                                numericInput("durationOfResearchDefinitive", "Expected duration of follow-up research (years)",
-                                                                             value = 5, min = 0, max = NA, step = 0.1),
+                                                                sliderInput("durationOfResearchFeas", "Expected duration of feasibility research (years)",
+                                                                            min = 0, max = 10, step = 0.25, value = 2),
+                                                                
+                                                                sliderInput("durationOfResearchDefinitive", "Expected duration of follow-up research (years)",
+                                                                            min = 0, max = 25, step = 0.25, value = 5),
                                                                 
                                                                 numericInput("costResearchFunderFeas", "Costs of feasibility research to funder",
                                                                              value = 1000000, min = 0, max = NA, step = 100),
@@ -925,12 +913,8 @@ shinyUI(fluidPage(
                                                ), # end Feasibility trial design conditional panel
                                                
                                                
-                                               
-                                               
-                                               numericInput("timeInformation", "Time over which evidence would be valuable (years)",
-                                                            value = 15, min = 0, max = NA, step = 0.1)
-                                               
-                                               
+                                               sliderInput("timeInformation", "Time over which evidence would be valuable (years)",
+                                                           min = 0, max = 30, step = 1, value = 15)
                                                
                                              ) # end of wellPanel 
                                       ), # end of proposed research study column
@@ -977,7 +961,7 @@ shinyUI(fluidPage(
                                                                 
                                                                 h4("Comprehensive meausure of health outcome"),
                                                                 
-                                                                numericInput("k", "Opportunity cost of health system expenditure (£)",
+                                                                numericInput("k", "Opportunity cost of health system expenditure",
                                                                              value = 15000, min = 0, max = NA, step = 500),
                                                                 
                                                                 conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
