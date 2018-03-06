@@ -23,34 +23,34 @@ shinyUI(fluidPage(
     
     tabPanel("How to use this app",
              
-                        br(),
-                        h4("A video on using this app"),
-                        br(),
-                        p("<INSERT SHORT YOUTUBE VIDEO ON HOW TO USE THIS APP>"),
-                        br(),
-                        h4("How to use this app"),
-                        p("This is an R Shiny App which facilitates calculations of the value of research proposals in a timely manner. 
-                          The inputs required in the app represent the minimum needed to understand the consequences of uncertainty and the need for further research.
-                          Full details of the approach used and applied examples using these methods are forthcoming. In the meantime click",a("here", href = "https://www.york.ac.uk/che/research/teehta/research-prioritisation/") ,"for further details.
-                          "),
-                        p(strong("Users unfamiliar with value of informaiton methods"), "are encouraged to read the information in the 'How to estimate research value' tab. This section describes the value of information approach and how it applies to research funding in a resource constrainted health care system.
-                          "),
-                        p(strong("Those who have not used this app before"), "click the'Inputs and how to use this app' tab. This section describes the types of analysis which are possible with this app and the inputs that are required.
-                          "),
-                        p(strong("To carry out an analysis"), "click the 'Inputs' tab
-                          "),
-                        br(),
-                        tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007")
-                
-     ),  # close How to use this app tab
-               
-
+             br(),
+             h4("A video on using this app"),
+             br(),
+             p("<INSERT SHORT YOUTUBE VIDEO ON HOW TO USE THIS APP>"),
+             br(),
+             h4("How to use this app"),
+             p("This is an R Shiny App which facilitates calculations of the value of research proposals in a timely manner. 
+               The inputs required in the app represent the minimum needed to understand the consequences of uncertainty and the need for further research.
+               Full details of the approach used and applied examples using these methods are forthcoming. In the meantime click",a("here", href = "https://www.york.ac.uk/che/research/teehta/research-prioritisation/") ,"for further details.
+               "),
+             p(strong("Users unfamiliar with value of informaiton methods"), "are encouraged to read the information in the 'How to estimate research value' tab. This section describes the value of information approach and how it applies to research funding in a resource constrainted health care system.
+               "),
+             p(strong("Those who have not used this app before"), "click the'Inputs and how to use this app' tab. This section describes the types of analysis which are possible with this app and the inputs that are required.
+               "),
+             p(strong("To carry out an analysis"), "click the 'Inputs' tab
+               "),
+             br(),
+             tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007")
+             
+             ),  # close How to use this app tab
+    
+    
     ##################
     # How to estimate research value tab
     ##################
     
-     tabPanel("How to estimate research value",
-    
+    tabPanel("How to estimate research value",
+             
              br(),
              h4("A video introducing value of information"),
              HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/tbv9E9D2BRQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'),
@@ -69,8 +69,8 @@ shinyUI(fluidPage(
                "),
              p("The primary endpoint, which usually captures the most important aspects of health outcome, can be used as a starting point to understand the consequences of current uncertainty. However, in situations where there are a number of other important considerations that are not captured in the primary outcome, we can specify a minimum clinical difference (MCD) in the primary outcome that would need to be detected in future research.  This represents the change in the primary endpoint that would need to be detected for the results of any new research study to be considered clinically significant and have an impact on clinical practice. 
                This MCD concept will be explained further in the next section: 'How to use this app'.")
-
-    ), # end How to estimate research value tab
+             
+             ), # end How to estimate research value tab
     
     
     ##################
@@ -113,7 +113,7 @@ shinyUI(fluidPage(
                                       tags$li("RCT: In this type of study, individuals are randomised to different treatments and the outcomes are compared accross the groups."), 
                                       tags$li("Feasibility study: If there are uncertainties about whether a large trial is possible, a short feasibility study can be carried out to assess the possibility of future research.
                                               If the feasibility study is successful, researchers have the option to carry out the follow up trial.")
-                                    ),
+                                      ),
                                     
                                     strong("How many treatment options are under consideration? (Maximum of 4)"),
                                     p("There may be a number of relevant treatment options for a given indication. 
@@ -123,7 +123,7 @@ shinyUI(fluidPage(
                                     p("In some cases treatment costs will depend importantly on whether the primary outcome occurs or not.
                                       For example, if a treatment is used to prevent disease progression then it will cease to be used (and its cost will no longer be incurred) if the individual progresses.")
                                     
-                                  ), # end step 1 input information 
+                                    ), # end step 1 input information 
                                   br(),
                                   
                                   
@@ -153,14 +153,14 @@ shinyUI(fluidPage(
                                       ")
                                     ), # end step 2 input information 
                                   br(),
-                                    
-                                    
-                                    
                                   
-                                   
-                                    strong("The value of reconsidering the evidence"),
-                                    p("
-                                      "),
+                                  
+                                  
+                                  
+                                  
+                                  strong("The value of reconsidering the evidence"),
+                                  p("
+                                    "),
                                   br(),
                                   
                                   
@@ -243,7 +243,7 @@ shinyUI(fluidPage(
                                                                      "Survival e.g. months of progression free survival" = "survival"),
                                                          selected = "binary"), 
                                              
-                                           
+                                             
                                              # new
                                              selectInput(inputId = "outcomeExpression", label = "Express results in natural outcomes or in Quality Adjusted Life Years (QALYs)?", 
                                                          choices = c("Natural outcomes e.g. heart attacks avoided" = "natural",  
@@ -270,17 +270,17 @@ shinyUI(fluidPage(
                                              
                                              
                                              
-                                           ) # end primary outcome measure wellPanel
+                                             ) # end primary outcome measure wellPanel
                                            
                                            
-                                    ) # end leftmost column "non-treatment related inputs"
-                                    
-                                   
+                                  ) # end leftmost column "non-treatment related inputs"
+                                  
+                                  
                                   ) # end high level inputs fluidRow
                                   
                                   
                                   
-                         ), # end part 1 inputs tabPanel 
+                                  ), # end part 1 inputs tabPanel 
                          
                          ##################
                          # Part 2 treatment inputs subtab
@@ -297,9 +297,9 @@ shinyUI(fluidPage(
                                     fluidRow(
                                       column(6,
                                              wellPanel(
-                                                numericInput("numberOfTreatments", 
-                                                             "How many treatment options are under consideration? (Maximum of 4)",
-                                                             value = 2, min = 2, max = 4)
+                                               numericInput("numberOfTreatments", 
+                                                            "How many treatment options are under consideration? (Maximum of 4)",
+                                                            value = 2, min = 2, max = 4)
                                              ) # end top top well panel
                                       ) # end column
                                     ), # end top top fluid row
@@ -502,7 +502,7 @@ shinyUI(fluidPage(
                                                        ), # end survival inputs for t1
                                                        
                                                        
-                                                     
+                                                       
                                                        
                                                        # old epi inputs
                                                        #~~~~~~~~~ 
@@ -1035,7 +1035,7 @@ shinyUI(fluidPage(
                                   ) # end of part 3 inputs fluidPage
                          ) # end of part 3 inputs subtab
                          
-                                  )  # end Inputs tabsetPanel   
+                         )  # end Inputs tabsetPanel   
                                     ), # end Inputs tabPanel 
     
     ##################
