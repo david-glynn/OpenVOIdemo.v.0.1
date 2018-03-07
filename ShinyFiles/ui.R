@@ -636,9 +636,9 @@ shinyUI(fluidPage(
                                                                         
                                                                         # if normal - mean and se
                                                                         conditionalPanel(condition = "input.continuousInput_t2 == 'meanAndSE'",
-                                                                                         numericInput("ContinMean_t2", "Expected mean difference", 
+                                                                                         numericInput("continMean_t2", "Expected mean difference", 
                                                                                                       value = 0, min = NA, max = NA),
-                                                                                         numericInput("ContinSE_t2", "Standard error for mean difference", 
+                                                                                         numericInput("continSE_t2", "Standard error for mean difference", 
                                                                                                       value = 0.5, min = 0, max = NA)
                                                                         ), # end normal mean and se inputs
                                                                         

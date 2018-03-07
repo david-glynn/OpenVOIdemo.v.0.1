@@ -319,5 +319,8 @@ aproxBetaParams <- function(P_tn){
 
 
 
-
+# plot user inputs
+# use exactVectorNormal with sigma_LRR, mu_LRR to take exact samples from normal on LRR scale
+# take exponent of these draws and plot to get smooth RR plot
+# include mu_RR, RR_UCI and RR_LCI on this plot
 
