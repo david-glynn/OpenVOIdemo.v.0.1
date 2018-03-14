@@ -9,8 +9,8 @@
 
 # test data
 
-outcomeToNB_t <- function(outcome_t, ){
-  
-  
-}
+#outcomeToNB_t <- function(outcome_t, ){
+#  
+#  
+#}
 

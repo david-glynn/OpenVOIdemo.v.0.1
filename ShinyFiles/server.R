@@ -35,6 +35,8 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
 
 
 # relative paths for publishing in shinyapps.io
@@ -49,7 +51,9 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", l
 # source("master.R", local = TRUE)
 # source("ReconFunctions.R", local = TRUE)
 # source("EpiInputFunctions.R", local = TRUE)
-# source("PlottingFunctions.R")
+# source("PlottingFunctions.R", local = TRUE)
+# source("EpiCalcFunctions.R", local = TRUE)
+# source("NBCalcFunctions.R", local = TRUE)
 
 
 
