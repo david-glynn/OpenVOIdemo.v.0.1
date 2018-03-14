@@ -520,7 +520,7 @@ simOutcomeMatrix <- function(numberOfTreatments,
 #                               continDist_t2="alwaysPositive", #  "alwaysNegative"  "norm",
 #                               continDist_t3="alwaysPositive", #  "alwaysNegative"  "norm",
 #                               continDist_t4="alwaysPositive", #  "alwaysNegative"  "norm",
-#                               # contin normal mean difference 
+#                               # contin normal mean difference
 #                               MD_t2=c(-2, 2),
 #                               MD_t3=c(-2, 2),
 #                               MD_t4=c(-2, 2),
@@ -535,7 +535,7 @@ simOutcomeMatrix <- function(numberOfTreatments,
 #                               survivalDist_t4="alwaysPositive", #  "alwaysNegative"  "norm",,
 #                               lambda_t1=10,
 #                               gamma_t1=1,
-#                               # survival norm dist 
+#                               # survival norm dist
 #                               HR_t2=c(0.71, 1.18),
 #                               HR_t3=c(0.71, 1.18),
 #                               HR_t4=c(0.71, 1.18),
