@@ -381,9 +381,6 @@ shinyUI(fluidPage(
                                                                 numericInput("utilisation_t3", "Current level of utilisation (%)",
                                                                              value = 0, min = 0, max = 100, step = 0.1),
                                                                 
-                                                                numericInput("MCD_t3", "MCD",
-                                                                             value = 0, min = NA, max = NA, step = 0.05),
-                                                                
                                                                 # Cost inputs for t3
                                                                 conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                                                  
@@ -416,9 +413,6 @@ shinyUI(fluidPage(
                                                                 # display if: numberOfTreatments >= 4
                                                                 numericInput("utilisation_t4", "Current level of utilisation (%)",
                                                                              value = 0, min = 0, max = 100, step = 0.1),
-                                                                
-                                                                numericInput("MCD_t4", "MCD",
-                                                                             value = 0, min = NA, max = NA, step = 0.05),
                                                                 
                                                                 # Cost inputs for t4
                                                                 conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
@@ -488,16 +482,16 @@ shinyUI(fluidPage(
                                                        # new survival inputs for baseline (t1) - same as old ones!
                                                        conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
                                                                         
-                                                                        selectInput(inputId = "survivalDist", label = "Type of survival distribution", 
+                                                                        selectInput(inputId = "survivalType", label = "Type of survival distribution", 
                                                                                     choices = c("Exponential" = "exponential", 
                                                                                                 "Weibull" = "weibull"),
                                                                                     selected = "exponential"),
                                                                         
-                                                                        numericInput("scaleParameter_t1", "Scale parameter for baseline treatment (natural scale)",
+                                                                        numericInput("lambda_t1", "Lambda (scale) parameter for baseline treatment (natural scale)",
                                                                                      value = 5, min = 0, max = NA, step = 1),
                                                                         
-                                                                        conditionalPanel(condition = "input.survivalDist == 'weibull'",
-                                                                                         numericInput("shapeParameter_t1", "Shape parameter for baseline treatment (natural scale)",
+                                                                        conditionalPanel(condition = "input.survivalType == 'weibull'",
+                                                                                         numericInput("gamma_t1", "Gamma (shape) parameter for baseline treatment (natural scale)",
                                                                                                       value = 1.1, min = 0, max = NA, step = 0.1))
                                                        ), # end survival inputs for t1
                                                        
