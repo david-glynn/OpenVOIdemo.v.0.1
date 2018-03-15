@@ -516,11 +516,11 @@ shinyUI(fluidPage(
                                                        br(),
                                                        br(),
                                                        p("old inputs"),
-                                                       br(),
+                                                       br()
                                                        # binary inputs for baseline (t1)
-                                                       conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
-                                                                        numericInput("P_t1", "Baseline probability of outcome",
-                                                                                     value = 0.5, min = 0, max = 1, step = 0.05))
+                                                       #conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
+                                                      #                  numericInput("P_t1", "Baseline probability of outcome",
+                                                      #                               value = 0.5, min = 0, max = 1, step = 0.05))
                                                        
                                                        
                                                        
@@ -727,26 +727,26 @@ shinyUI(fluidPage(
                                                        br(),
                                                        br(),
                                                        p("old inputs"),
-                                                       br(),
-                                                       selectInput("dist_t2", label = "Distribution of intervention 1 relative effects", 
-                                                                   choices = c("Normal" = "norm", 
-                                                                               "Half Normal" = "halfNorm"),
-                                                                   selected = "Normal"),
+                                                       br()
+                                                       #selectInput("dist_t2", label = "Distribution of intervention 1 relative effects", 
+                                                      #             choices = c("Normal" = "norm", 
+                                                      #                         "Half Normal" = "halfNorm"),
+                                                      #             selected = "Normal"),
                                                        
                                                        # normal dist inputs for t2
-                                                       conditionalPanel(condition = "input.dist_t2 == 'norm'",
-                                                                        numericInput("mu_t2", "Mean log odds / log hazard ratio for intervention 1",
-                                                                                     value = 0, min = NA, max = NA, step = 0.05),
-                                                                        
-                                                                        numericInput("variance_t2", "Variance of log odds / log hazard ratio for intervention 1",
-                                                                                     value = 0.25, min = NA, max = NA, step = 0.05)
-                                                       ), # end normal dist inputs for t2
+                                                       #conditionalPanel(condition = "input.dist_t2 == 'norm'",
+                                                      #                  numericInput("mu_t2", "Mean log odds / log hazard ratio for intervention 1",
+                                                      #                               value = 0, min = NA, max = NA, step = 0.05),
+                                                      #                  
+                                                      #                  numericInput("variance_t2", "Variance of log odds / log hazard ratio for intervention 1",
+                                                      #                               value = 0.25, min = NA, max = NA, step = 0.05)
+                                                      # ), # end normal dist inputs for t2
                                                        
-                                                       conditionalPanel(condition = "input.dist_t2 == 'halfNorm'",
-                                                                        selectInput("direction_t2", label = "Direction of distribution for intervention 1", 
-                                                                                    choices = c("Always positive" = "alwaysPositive", 
-                                                                                                "Always negative" = "alwaysNegative"),
-                                                                                    selected = "alwaysPositive"))
+                                                       #conditionalPanel(condition = "input.dist_t2 == 'halfNorm'",
+                                                      #                  selectInput("direction_t2", label = "Direction of distribution for intervention 1", 
+                                                      #                              choices = c("Always positive" = "alwaysPositive", 
+                                                      #                                          "Always negative" = "alwaysNegative"),
+                                                      #                              selected = "alwaysPositive"))
                                                        # old epi inputs
                                                        #~~~~~~~~~ delete above
                                                        
@@ -948,26 +948,24 @@ shinyUI(fluidPage(
                                                        br(),
                                                        br(),
                                                        p("old inputs"),
-                                                       br(),
-                                                       selectInput("dist_t3", label = "Distribution of intervention 2 relative effects", 
-                                                                   choices = c("Normal" = "norm", 
-                                                                               "Half Normal" = "halfNorm"),
-                                                                   selected = "Normal"),
-                                                       
+                                                       br()
+                                                       #selectInput("dist_t3", label = "Distribution of intervention 2 relative effects", 
+                                                      #             choices = c("Normal" = "norm", 
+                                                      #                         "Half Normal" = "halfNorm"),
+                                                       #            selected = "Normal"),
                                                        # normal dist inputs for t3
-                                                       conditionalPanel(condition = "input.dist_t3 == 'norm'",
-                                                                        numericInput("mu_t3", "Mean log odds / log hazard ratio for intervention 1",
-                                                                                     value = 0, min = NA, max = NA, step = 0.05),
-                                                                        
-                                                                        numericInput("variance_t3", "Variance of log odds / log hazard ratio for intervention 1",
-                                                                                     value = 0.25, min = NA, max = NA, step = 0.05)
-                                                       ), # end normal dist inputs for t3
-                                                       
-                                                       conditionalPanel(condition = "input.dist_t3 == 'halfNorm'",
-                                                                        selectInput("direction_t3", label = "Direction of distribution for intervention 1", 
-                                                                                    choices = c("Always positive" = "alwaysPositive", 
-                                                                                                "Always negative" = "alwaysNegative"),
-                                                                                    selected = "alwaysPositive"))
+                                                       #conditionalPanel(condition = "input.dist_t3 == 'norm'",
+                                                      #                  numericInput("mu_t3", "Mean log odds / log hazard ratio for intervention 1",
+                                                      #                               value = 0, min = NA, max = NA, step = 0.05),
+                                                      #                  
+                                                      #                  numericInput("variance_t3", "Variance of log odds / log hazard ratio for intervention 1",
+                                                      #                               value = 0.25, min = NA, max = NA, step = 0.05)
+                                                      # ), # end normal dist inputs for t3
+                                                      # conditionalPanel(condition = "input.dist_t3 == 'halfNorm'",
+                                                      #                  selectInput("direction_t3", label = "Direction of distribution for intervention 1", 
+                                                      #                              choices = c("Always positive" = "alwaysPositive", 
+                                                      #                                          "Always negative" = "alwaysNegative"),
+                                                      #                              selected = "alwaysPositive"))
                                                        # old epi inputs
                                                        #~~~~~~~~~ delete above
                                                        
@@ -1170,26 +1168,24 @@ shinyUI(fluidPage(
                                                                         br(),
                                                                         br(),
                                                                         p("old inputs"),
-                                                                        br(),
-                                                                        selectInput("dist_t4", label = "Distribution of intervention 3 relative effects", 
-                                                                                    choices = c("Normal" = "norm", 
-                                                                                                "Half Normal" = "halfNorm"),
-                                                                                    selected = "Normal"),
-                                                                        
+                                                                        br()
+                                                                        #selectInput("dist_t4", label = "Distribution of intervention 3 relative effects", 
+                                                                        #            choices = c("Normal" = "norm", 
+                                                                        #                        "Half Normal" = "halfNorm"),
+                                                                        #            selected = "Normal"),
                                                                         # normal dist inputs for t4
-                                                                        conditionalPanel(condition = "input.dist_t4 == 'norm'",
-                                                                                         numericInput("mu_t4", "Mean log odds / log hazard ratio for intervention 1",
-                                                                                                      value = 0, min = NA, max = NA, step = 0.05),
-                                                                                         
-                                                                                         numericInput("variance_t4", "Variance of log odds / log hazard ratio for intervention 1",
-                                                                                                      value = 0.25, min = NA, max = NA, step = 0.05)
-                                                                        ), # end normal dist inputs for t4
-                                                                        
-                                                                        conditionalPanel(condition = "input.dist_t4 == 'halfNorm'",
-                                                                                         selectInput("direction_t4", label = "Direction of distribution for intervention 1", 
-                                                                                                     choices = c("Always positive" = "alwaysPositive", 
-                                                                                                                 "Always negative" = "alwaysNegative"),
-                                                                                                     selected = "alwaysPositive"))
+                                                                        #conditionalPanel(condition = "input.dist_t4 == 'norm'",
+                                                                        #                 numericInput("mu_t4", "Mean log odds / log hazard ratio for intervention 1",
+                                                                        #                              value = 0, min = NA, max = NA, step = 0.05),
+                                                                        #                 
+                                                                        #                 numericInput("variance_t4", "Variance of log odds / log hazard ratio for intervention 1",
+                                                                        #                              value = 0.25, min = NA, max = NA, step = 0.05)
+                                                                        #), # end normal dist inputs for t4
+                                                                        #conditionalPanel(condition = "input.dist_t4 == 'halfNorm'",
+                                                                        #                 selectInput("direction_t4", label = "Direction of distribution for intervention 1", 
+                                                                        #                             choices = c("Always positive" = "alwaysPositive", 
+                                                                        #                                         "Always negative" = "alwaysNegative"),
+                                                                        #                             selected = "alwaysPositive"))
                                                                         # old epi inputs
                                                                         #~~~~~~~~~ delete above
                                                                         

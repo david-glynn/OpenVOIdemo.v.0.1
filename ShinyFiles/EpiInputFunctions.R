@@ -102,9 +102,6 @@ BaselineProbCI <- function(MCsims, prob_LCI, prob_UCI){
 
 
 
-
-
-
 # Binary endpoint: baseline probability 2) from events vs number at risk
 ############################################
 
