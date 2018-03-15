@@ -493,45 +493,9 @@ shinyUI(fluidPage(
                                                                         conditionalPanel(condition = "input.survivalType == 'weibull'",
                                                                                          numericInput("gamma_t1", "Gamma (shape) parameter for baseline treatment (natural scale)",
                                                                                                       value = 1.1, min = 0, max = NA, step = 0.1))
-                                                       ), # end survival inputs for t1
+                                                       ) # end survival inputs for t1
                                                        
-                                                       
-                                                       
-                                                       
-                                                       # old epi inputs
-                                                       #~~~~~~~~~ 
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       p("old inputs"),
-                                                       br()
-                                                       # binary inputs for baseline (t1)
-                                                       #conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
-                                                      #                  numericInput("P_t1", "Baseline probability of outcome",
-                                                      #                               value = 0.5, min = 0, max = 1, step = 0.05))
-                                                       
-                                                       
-                                                       
-                                                       #conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
-                                                       #                 p("Note that if the primary endpoint is continuous the expected outcome on the continuous scale with the baseline treatment is not required. For further details see ####INSERT REFERENCE")),
-                                                       
-                                                       # old epi inputs
-                                                       #~~~~~~~~~ 
-                                                       
-                                                       
-                                                       
+                                                     
                                              ) # end wellPanel t1
                                       ), # end column t1
                                       
@@ -714,41 +678,9 @@ shinyUI(fluidPage(
                                                        
                                                        
                                                        numericInput("MCD_t2", "MCD",
-                                                                    value = 0, min = NA, max = NA, step = 0.05),
+                                                                    value = 0, min = NA, max = NA, step = 0.05)
                                                        
                                                        
-                                                       
-                                                       
-                                                       # old epi inputs
-                                                       #~~~~~~~~~ delete below
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       p("old inputs"),
-                                                       br()
-                                                       #selectInput("dist_t2", label = "Distribution of intervention 1 relative effects", 
-                                                      #             choices = c("Normal" = "norm", 
-                                                      #                         "Half Normal" = "halfNorm"),
-                                                      #             selected = "Normal"),
-                                                       
-                                                       # normal dist inputs for t2
-                                                       #conditionalPanel(condition = "input.dist_t2 == 'norm'",
-                                                      #                  numericInput("mu_t2", "Mean log odds / log hazard ratio for intervention 1",
-                                                      #                               value = 0, min = NA, max = NA, step = 0.05),
-                                                      #                  
-                                                      #                  numericInput("variance_t2", "Variance of log odds / log hazard ratio for intervention 1",
-                                                      #                               value = 0.25, min = NA, max = NA, step = 0.05)
-                                                      # ), # end normal dist inputs for t2
-                                                       
-                                                       #conditionalPanel(condition = "input.dist_t2 == 'halfNorm'",
-                                                      #                  selectInput("direction_t2", label = "Direction of distribution for intervention 1", 
-                                                      #                              choices = c("Always positive" = "alwaysPositive", 
-                                                      #                                          "Always negative" = "alwaysNegative"),
-                                                      #                              selected = "alwaysPositive"))
-                                                       # old epi inputs
-                                                       #~~~~~~~~~ delete above
                                                        
                                              ) # end epi input intervention 1 wellPanel (t2)
                                       ), # end epi input intervention 1 column (t2)
@@ -935,39 +867,9 @@ shinyUI(fluidPage(
                                                        
                                                        
                                                        numericInput("MCD_t3", "MCD",
-                                                                    value = 0, min = NA, max = NA, step = 0.05),
+                                                                    value = 0, min = NA, max = NA, step = 0.05)
                                                        
                                                        
-                                                       
-                                                       
-                                                       # old epi inputs
-                                                       #~~~~~~~~~ delete below
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       br(),
-                                                       p("old inputs"),
-                                                       br()
-                                                       #selectInput("dist_t3", label = "Distribution of intervention 2 relative effects", 
-                                                      #             choices = c("Normal" = "norm", 
-                                                      #                         "Half Normal" = "halfNorm"),
-                                                       #            selected = "Normal"),
-                                                       # normal dist inputs for t3
-                                                       #conditionalPanel(condition = "input.dist_t3 == 'norm'",
-                                                      #                  numericInput("mu_t3", "Mean log odds / log hazard ratio for intervention 1",
-                                                      #                               value = 0, min = NA, max = NA, step = 0.05),
-                                                      #                  
-                                                      #                  numericInput("variance_t3", "Variance of log odds / log hazard ratio for intervention 1",
-                                                      #                               value = 0.25, min = NA, max = NA, step = 0.05)
-                                                      # ), # end normal dist inputs for t3
-                                                      # conditionalPanel(condition = "input.dist_t3 == 'halfNorm'",
-                                                      #                  selectInput("direction_t3", label = "Direction of distribution for intervention 1", 
-                                                      #                              choices = c("Always positive" = "alwaysPositive", 
-                                                      #                                          "Always negative" = "alwaysNegative"),
-                                                      #                              selected = "alwaysPositive"))
-                                                       # old epi inputs
-                                                       #~~~~~~~~~ delete above
                                                        
                                              ) # end epi input intervention 2 wellPanel (t3)
                                       ) # end epi input intervention 2 conditionalPanel (t3)
@@ -1155,39 +1057,9 @@ shinyUI(fluidPage(
                                                                         
                                                                         
                                                                         numericInput("MCD_t4", "MCD",
-                                                                                     value = 0, min = NA, max = NA, step = 0.05),
+                                                                                     value = 0, min = NA, max = NA, step = 0.05)
                                                                         
                                                                         
-                                                                        
-                                                                        
-                                                                        # old epi inputs
-                                                                        #~~~~~~~~~ delete below
-                                                                        br(),
-                                                                        br(),
-                                                                        br(),
-                                                                        br(),
-                                                                        br(),
-                                                                        p("old inputs"),
-                                                                        br()
-                                                                        #selectInput("dist_t4", label = "Distribution of intervention 3 relative effects", 
-                                                                        #            choices = c("Normal" = "norm", 
-                                                                        #                        "Half Normal" = "halfNorm"),
-                                                                        #            selected = "Normal"),
-                                                                        # normal dist inputs for t4
-                                                                        #conditionalPanel(condition = "input.dist_t4 == 'norm'",
-                                                                        #                 numericInput("mu_t4", "Mean log odds / log hazard ratio for intervention 1",
-                                                                        #                              value = 0, min = NA, max = NA, step = 0.05),
-                                                                        #                 
-                                                                        #                 numericInput("variance_t4", "Variance of log odds / log hazard ratio for intervention 1",
-                                                                        #                              value = 0.25, min = NA, max = NA, step = 0.05)
-                                                                        #), # end normal dist inputs for t4
-                                                                        #conditionalPanel(condition = "input.dist_t4 == 'halfNorm'",
-                                                                        #                 selectInput("direction_t4", label = "Direction of distribution for intervention 1", 
-                                                                        #                             choices = c("Always positive" = "alwaysPositive", 
-                                                                        #                                         "Always negative" = "alwaysNegative"),
-                                                                        #                             selected = "alwaysPositive"))
-                                                                        # old epi inputs
-                                                                        #~~~~~~~~~ delete above
                                                                         
                                                               ) # end epi input intervention 3 wellPanel (t4)
                                              ) # end epi input intervention 3 conditionalPanel (t4)

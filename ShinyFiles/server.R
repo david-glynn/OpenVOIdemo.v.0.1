@@ -32,7 +32,7 @@ library(MASS) # for use in EpiInputFunctions.R to fit beta distributions to unkn
 #source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SurvivalQALYFunction.R", local = TRUE)
 
 
-# new source files
+# new absolute path source files
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
@@ -42,15 +42,17 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", l
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
 
-
-# relative paths for publishing in shinyapps.io
+# zombie old relative path
 # source("BinaryOutcomeFunction.R", local = TRUE)
 # source("BinaryQALYFunction.R", local = TRUE)
-# source("SupplementaryFunctions.R", local = TRUE)
 # source("ContinuousOutcomeFunction.R", local = TRUE)
 # source("ContinuousQALYFunction.R", local = TRUE)
 # source("SurvivalOutcomeFunction.R", local = TRUE)
 # source("SurvivalQALYFunction.R", local = TRUE)
+
+# new relative path source
+# relative paths for publishing in shinyapps.io
+# source("SupplementaryFunctions.R", local = TRUE)
 # source("SupplementaryFunctionsFeas.R", local = TRUE)
 # source("master.R", local = TRUE)
 # source("ReconFunctions.R", local = TRUE)
