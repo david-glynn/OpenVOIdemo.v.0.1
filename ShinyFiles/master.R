@@ -344,12 +344,23 @@ master <- function(
 } # end master function
 
 
+
+
+
 # test function
-# master(
+# load required functions
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
+# master <- master(
 #     typeOfEndpoint = "binary", # 'binary', "continuous''survival"
 #     baselineInput = "range",
 #     MCsims = 100000,
-#     baselineRange = c(0.475, 0.475) , 
+#     baselineRange = c(0.475, 0.475) ,
 #     nEvents = 10,
 #     nAtRisk = 20,
 #     numberOfTreatments = 3,
@@ -452,9 +463,7 @@ master <- function(
 #     costHealthSystemFeas = 150000,
 #     costHealthSystemDefinitive = 490000
 # )
-
-
-
+# master$listForhistVOIYear
 
 
 

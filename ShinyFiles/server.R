@@ -548,10 +548,12 @@ shinyServer(function(input, output,clientData, session) {
   # must display this even if there is value in the research
   # (common to both RCT and Feas)
   output$histVOIYear <- renderPlot({
-        plot(VOIResults$listForhistVOIYear, freq = FALSE,
-                                         main = "Consequences of uncertainty (per year)",
-                                         xlab = "Primary outcomes",
-                                         ylab = "Probability (%)")
+    barplot(VOIResults$listForhistVOIYear$prob_bin, 
+            names.arg = VOIResults$listForhistVOIYear$bin_value, 
+            ylim = c(0,1), 
+            main = "Consequences of uncertainty (per year)",
+            xlab = "Primary outcomes",
+            ylab = "Probability")
     })
 
   # discuss the histogram of VOI results
