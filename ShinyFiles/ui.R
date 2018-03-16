@@ -322,14 +322,14 @@ shinyUI(fluidPage(
                                                conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                                 
                                                                 conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                                 numericInput("cost_t1", "Lifetime treatment costs",
+                                                                                 numericInput("cost_t1", "Treatment costs over patient time horizon",
                                                                                               value = 100, min = NA, max = NA, step = 10) ),
                                                                 
                                                                 conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                                 numericInput("costEvent_t1", "Lifetime treatment costs if the primary outcome occurs",
+                                                                                 numericInput("costEvent_t1", "Treatment costs over patient time horizon if the primary outcome occurs",
                                                                                               value = 100, min = NA, max = NA, step = 10),
                                                                                  
-                                                                                 numericInput("costNotEvent_t1", "Lifetime treatment costs if the primary outcome does not occur",
+                                                                                 numericInput("costNotEvent_t1", "Treatment costs over patient time horizon if the primary outcome does not occur",
                                                                                               value = 100, min = NA, max = NA, step = 10) )
                                                ) # end Cost inputs for baseline (t1)
                                              ) # end baseline (t1) wellPanel
@@ -351,14 +351,14 @@ shinyUI(fluidPage(
                                                conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                                 
                                                                 conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                                 numericInput("cost_t2", "Lifetime treatment costs",
+                                                                                 numericInput("cost_t2", "Treatment costs over patient time horizon",
                                                                                               value = 100, min = NA, max = NA, step = 10) ),
                                                                 
                                                                 conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                                 numericInput("costEvent_t2", "Lifetime treatment costs if the primary outcome occurs",
+                                                                                 numericInput("costEvent_t2", "Treatment costs over patient time horizon if the primary outcome occurs",
                                                                                               value = 100, min = NA, max = NA, step = 10),
                                                                                  
-                                                                                 numericInput("costNotEvent_t2", "Lifetime treatment costs if the primary outcome does not occur",
+                                                                                 numericInput("costNotEvent_t2", "Treatment costs over patient time horizon if the primary outcome does not occur",
                                                                                               value = 100, min = NA, max = NA, step = 10) )
                                                ) # end Cost inputs for t2
                                                
@@ -385,14 +385,14 @@ shinyUI(fluidPage(
                                                                 conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                                                  
                                                                                  conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                                                  numericInput("cost_t3", "Lifetime treatment costs",
+                                                                                                  numericInput("cost_t3", "Treatment costs over patient time horizon",
                                                                                                                value = 100, min = NA, max = NA, step = 10) ),
                                                                                  
                                                                                  conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                                                  numericInput("costEvent_t3", "Lifetime treatment costs if the primary outcome occurs",
+                                                                                                  numericInput("costEvent_t3", "Treatment costs over patient time horizon if the primary outcome occurs",
                                                                                                                value = 100, min = NA, max = NA, step = 10),
                                                                                                   
-                                                                                                  numericInput("costNotEvent_t3", "Lifetime treatment costs if the primary outcome does not occur",
+                                                                                                  numericInput("costNotEvent_t3", "Treatment costs over patient time horizon if the primary outcome does not occur",
                                                                                                                value = 100, min = NA, max = NA, step = 10) )
                                                                 ) # end cost inputs t3
                                                                 
@@ -418,14 +418,14 @@ shinyUI(fluidPage(
                                                                 conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                                                  
                                                                                  conditionalPanel(condition = "input.tCostsDependOnEvent == 'No'",
-                                                                                                  numericInput("cost_t4", "Lifetime treatment costs",
+                                                                                                  numericInput("cost_t4", "Treatment costs over patient time horizon",
                                                                                                                value = 100, min = NA, max = NA, step = 10) ),
                                                                                  
                                                                                  conditionalPanel(condition = "input.tCostsDependOnEvent == 'Yes'",
-                                                                                                  numericInput("costEvent_t4", "Lifetime treatment costs if the primary outcome occurs",
+                                                                                                  numericInput("costEvent_t4", "Treatment costs over patient time horizon if the primary outcome occurs",
                                                                                                                value = 100, min = NA, max = NA, step = 10),
                                                                                                   
-                                                                                                  numericInput("costNotEvent_t4", "Lifetime treatment costs if the primary outcome does not occur",
+                                                                                                  numericInput("costNotEvent_t4", "Treatment costs over patient time horizon if the primary outcome does not occur",
                                                                                                                value = 100, min = NA, max = NA, step = 10) )
                                                                 ) # end cost inputs t4
                                                                 

@@ -549,6 +549,7 @@ shinyServer(function(input, output,clientData, session) {
   # (common to both RCT and Feas)
   output$histVOIYear <- renderPlot({
     barplot(VOIResults$listForhistVOIYear$prob_bin, 
+            width = 0.5,
             names.arg = VOIResults$listForhistVOIYear$bin_value, 
             ylim = c(0,1), 
             main = "Consequences of uncertainty (per year)",
