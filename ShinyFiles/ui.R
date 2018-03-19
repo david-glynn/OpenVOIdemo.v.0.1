@@ -1277,19 +1277,19 @@ shinyUI(fluidPage(
     ##################
     tabPanel("Results", 
              
-            
              
-             # br(),
-             # wellPanel(
-             #   h4("Headline results"),
-             #   tags$ul(tags$li(textOutput("bullet1"))),
-             #   tags$ul(tags$li(textOutput("bullet1"))),
-             #   conditionalPanel(condition = "input.typeOfResearch != 'feasibility'",
-             #                    tags$ul(tags$li(textOutput("bullet4")))     
-             #   ),
-             #   tags$ul(tags$li(textOutput("bullet1")))
-             # ),
-             # br(),
+             
+             br(),
+             wellPanel(
+               h4("Headline results"),
+               
+               # best treatment
+               tags$ul(tags$li(textOutput("headlineBestTreatment"))),
+               # implementation outcomes (both when imp value exists and does not)
+               uiOutput('headlineImpOutcomes')
+
+             ),
+             br(),
              
              
              br(),

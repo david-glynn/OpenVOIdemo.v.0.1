@@ -46,6 +46,36 @@ params:
   
 ---
 
+<!---
+Each code chunk either evaluates or it does not, depending on whehter eval = TRUE
+To evaluate a chunk if a result is FALSE use eval = !params$nameofobject
+**the space after eval = is very important otherwise it confuses markdown.
+-->
+
+
+```{r conditional_block, echo=FALSE, results='asis', eval=TRUE}
+cat("* Given what we currently know about the treatments, the option with the highest expected health benefit is", params$optimalTreatment, "with 3,101 functional recoverys per year.
+    
+    ")
+```
+
+
+
+```{r conditional_block2, echo=FALSE, results='asis', eval= params$implementationValueExists}
+cat("will display if params$implementationValueExist = TRUE
+    ")
+```
+
+
+```{r conditional_block3, echo=FALSE, results='asis', eval= !params$implementationValueExists}
+cat("will display if params$implementationValueExist = FALSE (turns a false into true)
+    ")
+```
+
+
+
+
+
 ```{r}
 # The `params` object is available in the document.
 # NB: when adding objects to params list - must set default value in report.Rmd equal to NA
@@ -58,7 +88,27 @@ params:
 #plot(rnorm(params$n), rnorm(params$n))
 ```
 
+`r if(params$implementationValueExists){"there is imp value"}`
 
+`r if(!params$implementationValueExists){"there is NO imp value"}`
+
+`r if(TRUE){"#Header\nIs this under the header\n\n##subheader\nis this undersub?"}`
+
+
+
+```{r}
+
+if(params$implementationValueExists){
+  "there is imp value"
+  
+  }
+
+if(!params$implementationValueExists){
+  "there is NO imp value"
+  
+  }
+
+```
 
 
 ```{r}
