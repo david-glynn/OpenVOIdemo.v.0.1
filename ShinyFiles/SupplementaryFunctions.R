@@ -840,7 +840,7 @@ NBtoEVPIResults <- function(NB_t,
   ###########################
   NBtoEVPIResults <- list(
     optimalTreatment = optimalTreatment,
-    expectedOutcomesPerYearoptimalTreatment = formatC(expectedOutcomesPerYearoptimalTreatment, big.mark = ',', format = 'd'),
+    expectedOutcomesPerYearoptimalTreatment = expectedOutcomesPerYearoptimalTreatment,
     implementationValueExists = implementationValueExists,            # new output
     uncertaintyInCurrentEvidenceExists = uncertaintyInCurrentEvidenceExists, # new
     probTreatment1isMax = probTreatment1isMax, 
@@ -849,28 +849,28 @@ NBtoEVPIResults <- function(NB_t,
     probTreatment4isMax = probTreatment4isMax,
     probOptimalTisMax = probOptimalTisMax,                 # note: already formatted
     probOptimalTisNotMax = probOptimalTisNotMax,           # note: already formatted
-    popDuringResearch = formatC(popDuringResearch, big.mark = ',', format = 'd'),
-    popAfterResearch = formatC(popAfterResearch, big.mark = ',', format = 'd'),
-    popTotal = formatC(popTotal, big.mark = ',', format = 'd'),
+    popDuringResearch = popDuringResearch,
+    popAfterResearch = popAfterResearch,
+    popTotal = popTotal,
     #histVOIYear = histVOIYear, 
     listForhistVOIYear = listForhistVOIYear,
-    valueOfResearchPerYear = formatC(valueOfResearchPerYear, big.mark = ',', format = 'd'),
-    valueOfImplementationPerYear = formatC(valueOfImplementationPerYear, big.mark = ',', format = 'd'),
+    valueOfResearchPerYear = valueOfResearchPerYear,
+    valueOfImplementationPerYear = valueOfImplementationPerYear,
     tableEventsPerYearDF = tableEventsPerYearDF,                         # new
     tableProbabilityMaxDF = tableProbabilityMaxDF,                      # new
     Cell_A = Cell_A,
     Cell_C = Cell_C,
     Cell_D = Cell_D,
-    maxvalueOfImplementation = formatC(maxvalueOfImplementation,big.mark = ',',format = 'd'),
-    maxvalueOfResearch = formatC(maxvalueOfResearch,big.mark = ',',format = 'd'),
-    healthOpportunityCostsOfResearch = formatC(round(healthOpportunityCostsOfResearch,2), big.mark = ','),
-    valueOfResearchWithCurrentImplementation = formatC(valueOfResearchWithCurrentImplementation,big.mark = ',',format = 'd'),
-    valueOfResearchWithPerfectImplementation = formatC(valueOfResearchWithPerfectImplementation,big.mark = ',',format = 'd'),
-    ICER_ResearchWithCurrentImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithCurrentImplementation,big.mark = ',', format = 'd')),
-    ICER_ResearchWithPerfectImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithPerfectImplementation,big.mark = ',', format = 'd')),
-    valuePer15KResearchSpend = round(valuePer15KResearchSpend, 2),
-    valuePerOpCostResearchSpend = round(valuePerOpCostResearchSpend, 2),
-    absoluteExpectedHealthOutcomesFromResearchProject = formatC(absoluteExpectedHealthOutcomesFromResearchProject, big.mark = ',', format = 'd')
+    maxvalueOfImplementation = maxvalueOfImplementation,
+    maxvalueOfResearch = maxvalueOfResearch,
+    healthOpportunityCostsOfResearch = healthOpportunityCostsOfResearch,
+    valueOfResearchWithCurrentImplementation = valueOfResearchWithCurrentImplementation,
+    valueOfResearchWithPerfectImplementation = valueOfResearchWithPerfectImplementation,
+    ICER_ResearchWithCurrentImplementation = ICER_ResearchWithCurrentImplementation,
+    ICER_ResearchWithPerfectImplementation = ICER_ResearchWithPerfectImplementation,
+    valuePer15KResearchSpend = valuePer15KResearchSpend,
+    valuePerOpCostResearchSpend = valuePerOpCostResearchSpend,
+    absoluteExpectedHealthOutcomesFromResearchProject = absoluteExpectedHealthOutcomesFromResearchProject
     
   )
   

@@ -434,6 +434,30 @@ shinyServer(function(input, output,clientData, session) {
   ####################################################
   # have to update typeOfOutcome to newTypeOfOutcome
 
+ 
+  output$bullet1 <- renderText({
+    paste("Given what we currently know about the treatments, 
+    the option with the highest expected health benefit is", 
+    VOIResults$optimalTreatment,
+    "with 3,101 functional recovery’s per year.")
+    })
+  
+  output$bullet2 <- renderText({
+    paste(
+      "The health consequences the remaining uncertainty are estimated to be 42 functional recovery’s per year."
+    )
+  })
+  
+  # bullet 3
+  
+  # conditional (RCT)
+  output$bullet4 <- renderText({
+    paste("The proposed research is expected to cost the research funder", 
+          "£2,854,000, meaning the maximum value of the proposed research is 
+           (£2,854,000/299 =) £9,533 
+          per Functional recovery gained.[or QALY gained if RCT QALY]")
+  })
+  
   # Create conditional text segments for results section
   ###########################
   

@@ -344,7 +344,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
   ###########################
   NBtoEVPIResults <- list(
     optimalTreatment = optimalTreatment,
-    expectedOutcomesPerYearoptimalTreatment = formatC(expectedOutcomesPerYearoptimalTreatment, big.mark = ',', format = 'd'),
+    expectedOutcomesPerYearoptimalTreatment = expectedOutcomesPerYearoptimalTreatment,
     implementationValueExists = implementationValueExists,            # new output
     uncertaintyInCurrentEvidenceExists = uncertaintyInCurrentEvidenceExists, # new
     probTreatment1isMax = probTreatment1isMax, 
@@ -355,31 +355,31 @@ NBtoEVPIResultsFeas <- function(NB_t,
     probOptimalTisNotMax = probOptimalTisNotMax,           # note: already formatted
     #popDuringResearch = popDuringResearch, # removed
     #popAfterResearch = popAfterResearch,   # removed
-    popDuringFeasResearch = formatC(popDuringFeasResearch, big.mark = ',', format = 'd'),                      # new output
-    popDuringDefinitiveResearch = formatC(popDuringDefinitiveResearch, big.mark = ',', format = 'd'),          #new output
-    popAfterDefinitiveResearch = formatC(popAfterDefinitiveResearch, big.mark = ',', format = 'd'),            # new output
-    popTotal = formatC(popTotal, big.mark = ',', format = 'd'), 
+    popDuringFeasResearch = popDuringFeasResearch,                      # new output
+    popDuringDefinitiveResearch = popDuringDefinitiveResearch,          #new output
+    popAfterDefinitiveResearch = popAfterDefinitiveResearch,            # new output
+    popTotal = popTotal, 
     listForhistVOIYear = listForhistVOIYear,
-    valueOfResearchPerYear = formatC(valueOfResearchPerYear, big.mark = ',', format = 'd'),
-    valueOfImplementationPerYear = formatC(valueOfImplementationPerYear, big.mark = ',', format = 'd'),
+    valueOfResearchPerYear = valueOfResearchPerYear,
+    valueOfImplementationPerYear = valueOfImplementationPerYear,
     tableEventsPerYearDF = tableEventsPerYearDF,                         # new
     tableProbabilityMaxDF = tableProbabilityMaxDF,                      # new
     Cell_A = Cell_A,
     Cell_C = Cell_C,
     Cell_D = Cell_D,
-    maxvalueOfImplementation = formatC(maxvalueOfImplementation, big.mark = ',',format = 'd'),
-    maxvalueOfResearch = formatC(maxvalueOfResearch, big.mark = ',',format = 'd'),
-    expectedCostHealthSystem = paste0(currencySymbol, formatC(expectedCostHealthSystem, big.mark = ',',format = 'd')),                  # new output
-    healthOpportunityCostsOfResearch = formatC(round(healthOpportunityCostsOfResearch, 2), big.mark = ','),
-    valueOfResearchWithCurrentImplementation = formatC(valueOfResearchWithCurrentImplementation, big.mark = ',',format = 'd'),
-    valueOfResearchWithPerfectImplementation = formatC(valueOfResearchWithPerfectImplementation, big.mark = ',',format = 'd'),
-    valueOfCertainResearchWithPerfectImplementation = formatC(valueOfCertainResearchWithPerfectImplementation, big.mark = ',',format = 'd'),   # new output
-    ICER_ResearchWithCurrentImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithCurrentImplementation, big.mark = ',', format = 'd')),
-    ICER_ResearchWithPerfectImplementation = paste0(currencySymbol, formatC(ICER_ResearchWithPerfectImplementation, big.mark = ',', format = 'd')),
-    valuePer15KResearchSpend = round(valuePer15KResearchSpend, 2),
-    valuePerOpCostResearchSpend = round(valuePerOpCostResearchSpend, 2),
-    expectedCostResearchFunder = paste0(currencySymbol ,formatC(expectedCostResearchFunder, big.mark = ',',format = 'd')), # new output for pilot studies
-    absoluteExpectedHealthOutcomesFromResearchProject = formatC(absoluteExpectedHealthOutcomesFromResearchProject, big.mark = ',', format = 'd')  # new output for pilot studies
+    maxvalueOfImplementation = maxvalueOfImplementation,
+    maxvalueOfResearch = maxvalueOfResearch,
+    expectedCostHealthSystem = expectedCostHealthSystem,                  # new output
+    healthOpportunityCostsOfResearch = healthOpportunityCostsOfResearch,
+    valueOfResearchWithCurrentImplementation = valueOfResearchWithCurrentImplementation,
+    valueOfResearchWithPerfectImplementation = valueOfResearchWithPerfectImplementation,
+    valueOfCertainResearchWithPerfectImplementation = valueOfCertainResearchWithPerfectImplementation,   # new output
+    ICER_ResearchWithCurrentImplementation = ICER_ResearchWithCurrentImplementation,
+    ICER_ResearchWithPerfectImplementation = ICER_ResearchWithPerfectImplementation,
+    valuePer15KResearchSpend = valuePer15KResearchSpend,
+    valuePerOpCostResearchSpend = valuePerOpCostResearchSpend,
+    expectedCostResearchFunder = expectedCostResearchFunder, # new output for pilot studies
+    absoluteExpectedHealthOutcomesFromResearchProject = absoluteExpectedHealthOutcomesFromResearchProject  # new output for pilot studies
   )
   
   # return this list from the function
