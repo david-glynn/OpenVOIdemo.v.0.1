@@ -620,8 +620,8 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
 # utilisation_t2 = 0.5
 # utilisation_t3 = 0
 # utilisation_t4 = NA
-# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10000),
-#                           mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 2, P_t1 = rep(0.3, 10000),
+#                           mu_t2 = 10, variance_t2 = 0.25, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
 #                           mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
 #                           mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
 #                           )
@@ -688,8 +688,8 @@ NBtoEVPIResults <- function(NB_t,
   # what is the probability that the best treatment is optimal
   # first calculate it unformatted - for use to calculate its opposite
   probOptimalTisMaxUnFormat <- Probability_t_is_max[which(ENB_t  == max(ENB_t , na.rm = TRUE))]
-  probOptimalTisMax <- paste0(round(probOptimalTisMaxUnFormat*100) , '%')
-  probOptimalTisNotMax <- paste0(round((1 - probOptimalTisMaxUnFormat)*100) , '%')
+  probOptimalTisMax <- probOptimalTisMaxUnFormat
+  probOptimalTisNotMax <- 1 - probOptimalTisMaxUnFormat
   
   # table of probability each treatmentis best - needs to be outputted as a data frame
   Probability_of_being_best_treatment <- paste0(round(Probability_t_is_max*100) , '%')
@@ -717,50 +717,39 @@ NBtoEVPIResults <- function(NB_t,
   valueOfResearchPerYear <- NB_EVTPI *incidence - NB_EVTCI *incidence
   valueOfImplementationPerYear <- incidence*NB_EVTCI  - sum(ENB_t * Utilisation_t*incidence, na.rm = TRUE)
   
-  # histogram of effects per year
-  #################################
-  #               # NB per simulation with max(ENB_t ) - max NB per simulation
-  #                 # best treament with current evidence - max NB per simulation
-  # calculate loss from not having perfect information each year
-  NB_loss_maxt <- NB_t[,which(ENB_t  == max(ENB_t , na.rm = TRUE))] - NB_VTPI 
+  # if valueOfResearchPerYear is zero then it breaks the app
+  if(valueOfResearchPerYear > 0){
+    # histogram of effects per year
+    #################################
+    #               # NB per simulation with max(ENB_t ) - max NB per simulation
+    #                 # best treament with current evidence - max NB per simulation
+    # calculate loss from not having perfect information each year
+    NB_loss_maxt <- NB_t[,which(ENB_t  == max(ENB_t , na.rm = TRUE))] - NB_VTPI 
+    
+    # data from analysis
+    dataForBarChart <- -NB_loss_maxt*incidence
+    # height of zero bar
+    probZero <- sum(dataForBarChart ==0)/length(dataForBarChart)
+    # remove the zeros from the dataset
+    dataNoZero <- dataForBarChart[dataForBarChart !=0]
+    # set it that R chooses a histogram with about 6 more columns
+    # for the remaining columns in the dataset
+    histinfo <- hist(dataNoZero, breaks = 8)
+    # extract the midpoints (which should be rounded)
+    # and use these as the new bin values
+    bin_value <- c(0, c(histinfo$mids))
+    # the counts represent the number of observations in each of the bins
+    # so just need to be divided by the number of observations in the full dataset
+    # 
+    prob_bin <- c(probZero, c(histinfo$counts/length(dataForBarChart)))
+    # return results in a list
+    listForhistVOIYear <-  list(bin_value = bin_value, prob_bin = prob_bin)
+    #plot (in server function)
+    
+  } else {
+    listForhistVOIYear <- list(bin_value = NA, prob_bin = NA)
+  }
   
-  # data from analysis
-  dataForBarChart <- -NB_loss_maxt*incidence
-  # height of zero bar
-  probZero <- sum(dataForBarChart ==0)/length(dataForBarChart)
-  # remove the zeros from the dataset
-  dataNoZero <- dataForBarChart[dataForBarChart !=0]
-  # set it that R chooses a histogram with about 6 more columns
-  # for the remaining columns in the dataset
-  histinfo <- hist(dataNoZero, breaks = 8)
-  # extract the midpoints (which should be rounded)
-  # and use these as the new bin values
-  bin_value <- c(0, c(histinfo$mids))
-  # the counts represent the number of observations in each of the bins
-  # so just need to be divided by the number of observations in the full dataset
-  # 
-  prob_bin <- c(probZero, c(histinfo$counts/length(dataForBarChart)))
-  # return results in a list
-  listForhistVOIYear <-  list(bin_value = bin_value, prob_bin = prob_bin)
-  #plot (in server function)
-
-  
-  # old histogram approach - zombie code
-  #Hist_value_of_trial_per_year <- hist(-NB_loss_maxt*incidence)
-  # convert to probability plot, not density
-  #Hist_value_of_trial_per_year$density = Hist_value_of_trial_per_year$counts/sum(Hist_value_of_trial_per_year$counts)*100
-  #plot(Hist_value_of_trial_per_year,freq=FALSE,
-  #     main = "Consequences of uncertainty (per year)",
-  #     xlab = "Primary outcomes",
-  #     ylab = "Probability (%)")
-  # output the list which is required to produce the VOI histogram - the plot will be constructed with
-  # this output so that it can be publised in shinyapps.io
-  #listForhistVOIYear <-  Hist_value_of_trial_per_year
-  
-  # this was a previous failed attempt, would not publish on shinyapps.io
-  # base graphics draw directly on a device.
-  #histVOIYear <- recordPlot() #record the histogram from the device
-  #plot.new() ## clean up device
   
   # FULL TIME OUTCOMES #
   
@@ -882,8 +871,8 @@ NBtoEVPIResults <- function(NB_t,
 
 # test the function:
 # # costruct input matrix
-# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 3, P_t1 = rep(0.1, 10),
-#                                       mu_t2 = 0, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 2, P_t1 = rep(0.1, 10),
+#                                       mu_t2 = 100, variance_t2 = 0.1, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
 #                                       mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
 #                                       mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
 # )

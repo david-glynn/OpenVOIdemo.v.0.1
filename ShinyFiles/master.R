@@ -363,7 +363,7 @@ master <- function(
 #     baselineRange = c(0.475, 0.475) ,
 #     nEvents = 10,
 #     nAtRisk = 20,
-#     numberOfTreatments = 3,
+#     numberOfTreatments = 2,
 #     binaryRelativeScale_t2 = "OR",
 #     binaryRelativeScale_t3 = "OR",
 #     binaryRelativeScale_t4 = "OR",
@@ -418,9 +418,9 @@ master <- function(
 #     HRHalfNorm_t2=1.4,
 #     HRHalfNorm_t3=1.4,
 #     HRHalfNorm_t4=1.4,
-#     typeOfOutcome= "netHealth",
+#     typeOfOutcome= "benefit", # "benefit" or "harm" "netHealth"
 #     tCostsDependOnEvent= "No",
-#     MCD_t2 = 0.0,
+#     MCD_t2 = 1110.0,
 #     MCD_t3 = 0.0,
 #     MCD_t4 = 0.3,
 #     INBBinaryEvent = -0.7409,
@@ -447,7 +447,7 @@ master <- function(
 #     costNotEvent_t4 = 80,
 #     INBContinEvent = 0.5,
 #     INBSurvivalEndpoint = 0.5,
-#     typeOfResearch = "feasibility",
+#     typeOfResearch = "RCT",  # "feasibility"
 #     durationOfResearch = 4,
 #     costResearchFunder = 2200000,
 #     utilisation_t1 = 100,
@@ -463,7 +463,7 @@ master <- function(
 #     costHealthSystemFeas = 150000,
 #     costHealthSystemDefinitive = 490000
 # )
-# master$listForhistVOIYear
+# master
 
 
 

@@ -7,8 +7,9 @@
 # 
 # tests:
 # need to see how it works with NAs as defaults for everything!
-
-
+# odds range set both range to max - 
+#Warning in min(x) : no non-missing arguments to min; returning Inf
+#Warning in max(x) : no non-missing arguments to max; returning -Inf
 
 library(shiny)
 
@@ -1278,7 +1279,8 @@ shinyUI(fluidPage(
     tabPanel("Results", 
              
              
-             
+             # Headline
+             ############
              br(),
              wellPanel(
                h4("Headline results"),
@@ -1302,7 +1304,48 @@ shinyUI(fluidPage(
                
 
              ),
+             
+             
+             # The value of changing practice
+             ##########################
              br(),
+             h4("What is the value of changing practice based on what we currently know about the treatments?"),
+             br(),
+             # reuse headline text: the best treatment...
+             textOutput("changePracticeBestTreatment"),
+             br(),
+             # reuse headline text: implementation outcomes (both when imp value exists and does not)
+             uiOutput('changePracticeImpOutcomes'),
+             br(),
+             p("The table below displays the expected health benefits of each treatment:"),
+             br(),
+             tableOutput("tableEventsPerYear"),
+             
+             
+             # Remaining uncertainty
+             ##########################
+             br(),
+             h4("What are the expected health consequences of the remaining uncertainty?"),
+             br(),
+             # if there is no uncertainty at all
+             uiOutput('uncertaintyNone1'),
+             uiOutput('uncertaintySome1'),
+             br(),
+             uiOutput('uncertaintyNone2'),
+             uiOutput('uncertaintySome2'),
+             br(),
+             uiOutput('uncertaintySome3'),
+             verbatimTextOutput("implementationValueExists"),
+             conditionalPanel(condition = "VOIResults.implementationValueExists",
+                              h3("imp value exists")
+                              ),
+             
+             
+             
+             
+             
+             
+             
              
              
              
@@ -1351,7 +1394,7 @@ shinyUI(fluidPage(
              # heading 4
              h4("Value of implementing current evidence findings"),
              # table showing expected outcomes with each treatment
-             tableOutput("tableEventsPerYear"),
+             #tableOutput("tableEventsPerYear"),
              # text for general discussion about current information (common accross all models and endpoints?)
              textOutput("resultsCurrenInformation"),
              br(),

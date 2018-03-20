@@ -360,6 +360,15 @@ shinyServer(function(input, output,clientData, session) {
   # format ouputs for use in reusults (and report??)
   # MUST CALL THESE AS FUNCTIONS!! e.g. FormatValueOfResearchWithPerfectImplementation()
   
+  FormatProbOptimalTisNotMax <- reactive(
+    paste0(round(VOIResults$probOptimalTisNotMax*100,0), "%"))
+  
+  FormatValueOfResearchPerYear <- reactive( 
+    formatC(round(VOIResults$valueOfResearchPerYear, 0), big.mark = ',', format = 'd'))
+  
+  FormatValueOfImplementationPerYear <- reactive(
+    formatC(round(VOIResults$valueOfImplementationPerYear,0), big.mark = ',',format = 'd'))
+  
   FormatValueOfResearchWithPerfectImplementation <- reactive( 
     formatC(round(VOIResults$valueOfResearchWithPerfectImplementation, 0), big.mark = ',', format = 'd'))
   
@@ -402,7 +411,7 @@ shinyServer(function(input, output,clientData, session) {
             VOIResults$optimalTreatment,
             " and so outcomes can be improved by encouraging its use in the health system.
              The benefits of switching practice are expected to be ",
-            VOIResults$valueOfImplementationPerYear,
+            FormatValueOfImplementationPerYear(),
             " ", paste0(newNameOfOutcome(),"s") ,
             ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
             " per year.")
@@ -448,7 +457,7 @@ shinyServer(function(input, output,clientData, session) {
       # if RCT (and there is value in research)
       paste0("The proposed research is expected to cost the research funder ",
              FormatCostResearchFunder(),
-             " , meaning the maximum value of the proposed research is (",
+             " meaning the maximum value of the proposed research is estimated to be (",
              FormatCostResearchFunder(), "/", FormatValueOfResearchWithPerfectImplementation(),
              " =) ", FormatICER_ResearchWithPerfectImplementation(), 
              " per ", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", " gained.", "avoided."))
@@ -479,6 +488,119 @@ shinyServer(function(input, output,clientData, session) {
   })
   
 
+  
+  
+  # What is the value of changing practice?
+  ###########################################
+  
+  # reuse text from headline
+  # change practice: best treatment with current evidence
+  output$changePracticeBestTreatment <- renderText({
+    paste0("Given what we currently know about the treatments, 
+    the option with the highest expected health benefit is ", 
+           VOIResults$optimalTreatment,".")
+  })
+  
+  # reuse text from headline
+  # change practice: value of implementation
+  output$changePracticeImpOutcomes <- renderUI({
+    if (VOIResults$implementationValueExists){
+      # if there is implementation value
+      paste0("Not all individuals currently receive ",
+             VOIResults$optimalTreatment,
+             " and so outcomes can be improved by encouraging its use in the health system.
+             The benefits of switching practice are expected to be ",
+             FormatValueOfImplementationPerYear(),
+             " ", paste0(newNameOfOutcome(),"s") ,
+             ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
+             " per year.")
+      
+    } else {
+      # if there is not implementation value
+      paste0("As ", VOIResults$optimalTreatment,
+             " is current practice in the health system,
+            outcomes cannot be improved by changing practice.")
+      
+    }
+    
+  })
+  
+  
+  # consequences of remaining uncertainty 
+  #######################################
+  
+  # uncertainty: if no uncertainty - bullet 1
+  output$uncertaintyNone1 <- renderUI({
+    if(VOIResults$maxvalueOfResearch <= 0){
+      # if there is zero VOI
+      paste("The evidence suggests that there is no uncertainty about the treatment which provides the highest expected health benefit.
+            As there is no uncertainty, there is no value in further research.")
+    }
+    })
+
+  # uncertainty: if no uncertainty - bullet 2
+  output$uncertaintyNone2 <- renderUI({
+    if(VOIResults$maxvalueOfResearch <= 0){
+      # if there is zero VOI
+      paste("As there is no uncertainty, there can be no value in further research.
+             To improve health outcomes, research funding should address other uncertainties in the health system.")
+    }
+    })
+  
+  
+  # uncertainty: IS uncertainty - bullet 1
+  output$uncertaintySome1 <- renderUI({
+    if(VOIResults$maxvalueOfResearch > 0){
+      # if there is some VOI
+      paste0("Due to uncertainty in the evidence there is a ", 
+             FormatProbOptimalTisNotMax(),
+             " chance that ", 
+             VOIResults$optimalTreatment
+             ," does not provide the largest health benefit.")
+    }
+    })
+  
+  # uncertainty: IS uncertainty - bullet 2
+  output$uncertaintySome2 <- renderUI({
+    if(VOIResults$maxvalueOfResearch > 0){
+      # if there is some VOI
+      paste0("This uncertainty translates into consequences for patient outcomes, i.e. health consequences due to uncertainty about the best treatment.")
+    }
+  })
+  
+  # uncertainty: IS uncertainty - bullet 3
+  output$uncertaintySome3 <- renderUI({
+    if(VOIResults$maxvalueOfResearch > 0){
+      # if there is some VOI
+      paste0("The health consequences this uncertainty are estimated to be ",
+             FormatValueOfResearchPerYear(),
+             ifelse(newTypeOfOutcome() != "harm"," "," additional "),
+             paste0(newNameOfOutcome(),"s") ,
+             ifelse(newTypeOfOutcome() != "harm"," lost",""),
+             " per year. How this figure is arrived at is illustrated in the graph below:")
+    }
+  })
+  
+  # uncertainty: IS uncertainty - bullet 3
+  # output$uncertaintySome4 <- renderUI({
+  #   if(VOIResults$maxvalueOfResearch > 0){
+  #     # if there is some VOI
+  #     
+  #   }
+  # })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
