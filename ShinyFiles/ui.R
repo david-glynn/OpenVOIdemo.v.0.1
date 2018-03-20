@@ -1283,13 +1283,31 @@ shinyUI(fluidPage(
              wellPanel(
                h4("Headline results"),
                
+               br(),
                # best treatment
-               tags$ul(tags$li(textOutput("headlineBestTreatment"))),
+               textOutput("headlineBestTreatment"),
+               br(),
                # implementation outcomes (both when imp value exists and does not)
-               uiOutput('headlineImpOutcomes')
+               uiOutput('headlineImpOutcomes'),
+               br(),
+               # health benefits of research
+               textOutput('headlineHealthBenefitResearch'),
+               br(),
+                    # RCT value of research (cost/OUTCOME)
+               uiOutput('headlineValueOfResearchRCT'),
+                    # Feasibilty value of research (cost/OUTCOME)
+               uiOutput('headlineValueOfResearchFeas1'),
+               br(),
+               uiOutput('headlineValueOfResearchFeas2')
+               
 
              ),
              br(),
+             
+             
+             
+             
+             #################### old results ###############################
              
              
              br(),
