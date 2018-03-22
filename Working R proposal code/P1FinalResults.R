@@ -119,37 +119,37 @@ Cost_research_pilot_NETSCC * 222/basic$E_Cost_NETSCC
 # QALY analysis 
 ########################################################################
 
-
-# no MCD at first
-MCD_t1 <- 0.0
-MCD_t2 <- 0.0
-
-MCouter <- 900000
-Benefit<- TRUE
-INB_Event <- 0.7409
-C_t0 <- mean(57.23 ,14.35 ,85.13 ,108.89 ,156.34 ,67.52 ,63.03 ,6.7)*12 # for 1 year of durgs
-C_t1 <- 97*18  
-C_t2 <- 97*18  + mean(57.23 ,14.35 ,85.13 ,108.89 ,156.34 ,67.52 ,63.03 ,6.7)*12
-P_t0_U <- 0.525
-mu_t1_U <- 0
-sigma_t1_U <- 0.5
-mu_t2_U <- 0
-sigma_t2_U <- 0.5
-MCD_t1 <- 0.02
-MCD_t2 <- 0.0
-Incidence<- 1563
-Time_info <- 15
-Utilisation_t0 <- 1
-Utilisation_t1 <- 0
-Utilisation_t2 <- 0
-D_rate <- 0.035
-Time_research_pilot <- 2
-Time_research_definitive <- 6
-Probability_of_definitive_research <- 0.5
-Cost_research_pilot_NETSCC <- 601480
-Cost_research_pilot_NHS  <- 150000
-Cost_research_definitive_NETSCC <- 2522710
-Cost_research_definitive_NHS<- 450000
+# 
+# # no MCD at first
+# MCD_t1 <- 0.0
+# MCD_t2 <- 0.0
+# 
+# MCouter <- 900000
+# Benefit<- TRUE
+# INB_Event <- 0.7409
+# C_t0 <- mean(57.23 ,14.35 ,85.13 ,108.89 ,156.34 ,67.52 ,63.03 ,6.7)*12 # for 1 year of durgs
+# C_t1 <- 97*18  
+# C_t2 <- 97*18  + mean(57.23 ,14.35 ,85.13 ,108.89 ,156.34 ,67.52 ,63.03 ,6.7)*12
+# P_t0_U <- 0.525
+# mu_t1_U <- 0
+# sigma_t1_U <- 0.5
+# mu_t2_U <- 0
+# sigma_t2_U <- 0.5
+# MCD_t1 <- 0.02
+# MCD_t2 <- 0.0
+# Incidence<- 1563
+# Time_info <- 15
+# Utilisation_t0 <- 1
+# Utilisation_t1 <- 0
+# Utilisation_t2 <- 0
+# D_rate <- 0.035
+# Time_research_pilot <- 2
+# Time_research_definitive <- 6
+# Probability_of_definitive_research <- 0.5
+# Cost_research_pilot_NETSCC <- 601480
+# Cost_research_pilot_NHS  <- 150000
+# Cost_research_definitive_NETSCC <- 2522710
+# Cost_research_definitive_NHS<- 450000
 
 
 baseInputsQALY <- list(MCouter ,Benefit,INB_Event, C_t0, C_t1, C_t2, P_t0_U ,mu_t1_U ,sigma_t1_U ,mu_t2_U ,sigma_t2_U ,MCD_t1 ,MCD_t2 , Incidence, 

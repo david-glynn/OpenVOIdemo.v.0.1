@@ -113,6 +113,116 @@
 
 
 
+
+# TEST DATA P1
+# typeOfEndpoint = "binary"  # 'binary', "continuous''survival"
+# baselineInput = "range"
+# MCsims = 100000
+# baselineRange = c(0.525, 0.525)
+# nEvents = 10
+# nAtRisk = 20
+# numberOfTreatments = 3
+# binaryRelativeScale_t2 = "OR"
+# binaryRelativeScale_t3 = "OR"
+# binaryRelativeScale_t4 = "OR"
+# binaryDist_t2 = "norm"
+# binaryDist_t3 ="norm"
+# binaryDist_t4 = "alwaysPositive"
+# OR_t2= c(0.375, 2.66)
+# OR_t3 = c(0.375, 2.66)
+# OR_t4= c(0.71, 1.18)
+# RR_t2 =c(0.9, 1.1)
+# RR_t3 =c(0.9, 1.1)
+# RR_t4 =c(0.9, 1.1)
+# RD_t2 =c(-5, 5)
+# RD_t3=c(-5, 5)
+# RD_t4=c(-5, 5)
+# ORHalfNorm_t2=2
+# ORHalfNorm_t3=2
+# ORHalfNorm_t4=2
+# RRHalfNorm_t2=2
+# RRHalfNorm_t3=2
+# RRHalfNorm_t4=2
+# RDHalfNorm_t2=2
+# RDHalfNorm_t3=2
+# RDHalfNorm_t4=2
+# continuousInput_t2="meanAndSE"  # "range", # "meanAndSE",
+# continuousInput_t3="range"  # "meanAndSE",
+# continuousInput_t4="range"  # "meanAndSE",
+# continMean_t2=1
+# continMean_t3=1
+# continMean_t4=1
+# continSE_t2=.5
+# continSE_t3=.5
+# continSE_t4=.5
+# continDist_t2="alwaysPositive"  #  "alwaysNegative"  "norm",
+# continDist_t3="alwaysPositive"  #  "alwaysNegative"  "norm",
+# continDist_t4="alwaysPositive"  #  "alwaysNegative"  "norm",
+# MD_t2=c(-2, 2)
+# MD_t3=c(-2, 2)
+# MD_t4=c(-2, 2)
+# MDHalfNorm_t2=2
+# MDHalfNorm_t3=2
+# MDHalfNorm_t4=2
+# survivalType = "weibull"  # "exponential", # "weibull",
+# survivalDist_t2="alwaysPositive"  #  "alwaysNegative"  "norm",,
+# survivalDist_t3="alwaysPositive"  #  "alwaysNegative"  "norm",,
+# survivalDist_t4="alwaysPositive"  #  "alwaysNegative"  "norm",,
+# lambda_t1=10
+# gamma_t1=1
+# HR_t2=c(0.71, 1.18)
+# HR_t3=c(0.71, 1.18)
+# HR_t4=c(0.71, 1.18)
+# HRHalfNorm_t2=1.4
+# HRHalfNorm_t3=1.4
+# HRHalfNorm_t4=1.4
+# typeOfOutcome= "netHealth"  # "benefit" or "harm" "netHealth"
+# tCostsDependOnEvent= "No"
+# MCD_t2 = 0.0
+# MCD_t3 = 0.0
+# MCD_t4 = 0.3
+# INBBinaryEvent = 0.7409
+# cost_t1 = 687
+# cost_t2= 1746
+# cost_t3 = 2433
+# cost_t4 = 60
+# k = 15000
+# currencySymbol = "£"
+# incidence = 1563
+# discountRate = 3.5 # NB this is how the discount is added
+# timeInformation = 15
+# nameOf_t1 = "APs"
+# nameOf_t2 = "PI"
+# nameOf_t3 = "APs + PI"
+# nameOf_t4 = "4"
+# costEvent_t1 = 10
+# costEvent_t2 = 20
+# costEvent_t3 = 3
+# costEvent_t4 = 40
+# costNotEvent_t1 = 50
+# costNotEvent_t2 = 60
+# costNotEvent_t3 = 70
+# costNotEvent_t4 = 80
+# INBContinEvent = 0.5
+# INBSurvivalEndpoint = 0.5
+# typeOfResearch = "feasibility"  # "RCT"   # "feasibility"
+# durationOfResearch = 4
+# costResearchFunder = 2200000
+# utilisation_t1 = 100
+# utilisation_t2 = 0
+# utilisation_t3 = 0
+# utilisation_t4 = 0
+# costHealthSystem = 60000
+# durationOfResearchDefinitive = 6
+# durationOfResearchFeas = 2
+# costResearchFunderFeas = 601481
+# costResearchFunderDefinitive =  2522710
+# probabilityOfDefinitiveResearch = 0.5
+# costHealthSystemFeas = 150000
+# costHealthSystemDefinitive = 490000
+
+
+
 # takes all inputs from ui.R (except the action button)
 master <- function(
   typeOfEndpoint ,
@@ -359,11 +469,11 @@ master <- function(
 # master <- master(
 #     typeOfEndpoint = "binary", # 'binary', "continuous''survival"
 #     baselineInput = "range",
-#     MCsims = 100000,
-#     baselineRange = c(0.475, 0.475) ,
+#     MCsims = 900000,
+#     baselineRange = c(0.525, 0.525) ,
 #     nEvents = 10,
 #     nAtRisk = 20,
-#     numberOfTreatments = 2,
+#     numberOfTreatments = 3,
 #     binaryRelativeScale_t2 = "OR",
 #     binaryRelativeScale_t3 = "OR",
 #     binaryRelativeScale_t4 = "OR",
@@ -418,20 +528,20 @@ master <- function(
 #     HRHalfNorm_t2=1.4,
 #     HRHalfNorm_t3=1.4,
 #     HRHalfNorm_t4=1.4,
-#     typeOfOutcome= "benefit", # "benefit" or "harm" "netHealth"
+#     typeOfOutcome= "netHealth", # "benefit" or "harm" "netHealth"
 #     tCostsDependOnEvent= "No",
-#     MCD_t2 = 1110.0,
+#     MCD_t2 = 0.0,
 #     MCD_t3 = 0.0,
 #     MCD_t4 = 0.3,
-#     INBBinaryEvent = -0.7409,
+#     INBBinaryEvent = 0.7409,
 #     cost_t1 = 687,
 #     cost_t2= 1746,
 #     cost_t3 = 2433,
 #     cost_t4 = 60,
-#     k = 13000,
+#     k = 15000,
 #     currencySymbol = "£",
 #     incidence = 1563,
-#     discountRate = 0.035 ,
+#     discountRate = 3.5 , # NB - this is how ui provides the discount rate!
 #     timeInformation = 15,
 #     nameOf_t1 = "APs",
 #     nameOf_t2 = "PI",
@@ -447,7 +557,7 @@ master <- function(
 #     costNotEvent_t4 = 80,
 #     INBContinEvent = 0.5,
 #     INBSurvivalEndpoint = 0.5,
-#     typeOfResearch = "RCT",  # "feasibility"
+#     typeOfResearch = "feasibility", # "RCT",  # "feasibility",
 #     durationOfResearch = 4,
 #     costResearchFunder = 2200000,
 #     utilisation_t1 = 100,
@@ -455,7 +565,7 @@ master <- function(
 #     utilisation_t3 = 0,
 #     utilisation_t4 = 0,
 #     costHealthSystem = 60000,
-#     durationOfResearchDefinitive = 5,
+#     durationOfResearchDefinitive = 6,
 #     durationOfResearchFeas = 2,
 #     costResearchFunderFeas = 601481,
 #     costResearchFunderDefinitive =  2522710,
@@ -464,9 +574,9 @@ master <- function(
 #     costHealthSystemDefinitive = 490000
 # )
 # master
-
-
-
+# 
+# 
+# 
 
 
 

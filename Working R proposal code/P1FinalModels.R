@@ -2,8 +2,29 @@
 # P1 - tornado and all results
 ###########################
 
-
-
+# P1 test data
+# MCouter <- 900000
+# Benefit<- TRUE
+# P_t0_U <- 0.525 # prob of non-relapse = 1 - 0.475
+# mu_t1_U <- 0
+# sigma_t1_U <- 0.5
+# mu_t2_U <- 0
+# sigma_t2_U <- 0.5
+# MCD_t1 <- 0
+# MCD_t2 <- 0
+# Incidence<- 1563
+# Time_info <- 15
+# Utilisation_t0 <- 1
+# Utilisation_t1 <- 0
+# Utilisation_t2 <- 0
+# D_rate <- 0.035
+# Time_research_pilot <- 2
+# Time_research_definitive <- 6
+# Probability_of_definitive_research <- 0.5
+# Cost_research_pilot_NETSCC <- 601480
+# Cost_research_pilot_NHS  <- 150000
+# Cost_research_definitive_NETSCC <- 2522710
+# Cost_research_definitive_NHS<- 490000
 
 
 # Natural outcome function for pilot studies (only does 3 treatments) 
