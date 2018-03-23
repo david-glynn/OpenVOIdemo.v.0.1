@@ -363,12 +363,18 @@ shinyServer(function(input, output,clientData, session) {
   FormatProbOptimalTisNotMax <- reactive(
     paste0(round(VOIResults$probOptimalTisNotMax*100,0), "%"))
   
+  FormatProbOptimalTisMax <- reactive(
+    paste0(round(VOIResults$probOptimalTisMax*100,0), "%"))
+  
   FormatValueOfResearchPerYear <- reactive( 
     formatC(round(VOIResults$valueOfResearchPerYear, 0), big.mark = ',', format = 'd'))
   
   FormatValueOfImplementationPerYear <- reactive(
     formatC(round(VOIResults$valueOfImplementationPerYear,0), big.mark = ',',format = 'd'))
   
+  FormatMaxvalueOfResearch <- reactive( 
+    formatC(round(VOIResults$maxvalueOfResearch, 0), big.mark = ',', format = 'd'))
+ 
   FormatValueOfResearchWithPerfectImplementation <- reactive( 
     formatC(round(VOIResults$valueOfResearchWithPerfectImplementation, 0), big.mark = ',', format = 'd'))
   
@@ -480,9 +486,7 @@ shinyServer(function(input, output,clientData, session) {
   })
   
   
-  
 
-  
   
   # What is the value of changing practice?
   ###########################################
@@ -495,93 +499,98 @@ shinyServer(function(input, output,clientData, session) {
            VOIResults$optimalTreatment,".")
   })
   
-  # reuse text from headline
-  # change practice: value of implementation
-  output$changePracticeImpOutcomes <- renderUI({
-    if (VOIResults$implementationValueExists){
-      # if there is implementation value
-      paste0("Not all individuals currently receive ",
-             VOIResults$optimalTreatment,
-             " and so outcomes can be improved by encouraging its use in the health system.
-             The benefits of switching practice are expected to be ",
-             FormatValueOfImplementationPerYear(),
-             " ", paste0(newNameOfOutcome(),"s") ,
-             ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
-             " per year.")
-      
-    } else {
-      # if there is not implementation value
-      paste0("As ", VOIResults$optimalTreatment,
-             " is current practice in the health system,
-            outcomes cannot be improved by changing practice.")
-      
-    }
-    
+  # if there is implementation value
+  output$changePracticeImpOutcomesExist <- renderText({
+    paste0("Not all individuals currently receive ",
+           VOIResults$optimalTreatment,
+           " and so outcomes can be improved by encouraging its use in the health system.
+           The benefits of switching practice are expected to be ",
+           FormatValueOfImplementationPerYear(),
+           " ", paste0(newNameOfOutcome(),"s") ,
+           ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
+           " per year.")
   })
-  
+  # if there is not implementation value
+  output$changePracticeImpOutcomesNotExist <- renderText({
+    paste0("As ", VOIResults$optimalTreatment,
+           " is current practice in the health system,
+           outcomes cannot be improved by changing practice.")
+  })
   
   # consequences of remaining uncertainty 
   #######################################
   
   # uncertainty: if no uncertainty - bullet 1
-  output$uncertaintyNone1 <- renderUI({
-    if(VOIResults$maxvalueOfResearch <= 0){
+  output$uncertaintyNone1 <- renderText({
       # if there is zero VOI
       paste("The evidence suggests that there is no uncertainty about the treatment which provides the highest expected health benefit.
             As there is no uncertainty, there is no value in further research.")
-    }
     })
-
   # uncertainty: if no uncertainty - bullet 2
-  output$uncertaintyNone2 <- renderUI({
-    if(VOIResults$maxvalueOfResearch <= 0){
+  output$uncertaintyNone2 <- renderText({
       # if there is zero VOI
       paste("As there is no uncertainty, there can be no value in further research.
-             To improve health outcomes, research funding should address other uncertainties in the health system.")
-    }
+            To improve health outcomes, research funding should address other uncertainties in the health system.")
     })
   
   
   # uncertainty: IS uncertainty - bullet 1
-  output$uncertaintySome1 <- renderUI({
-    if(VOIResults$maxvalueOfResearch > 0){
-      # if there is some VOI
+  output$uncertaintySome1 <- renderText({
       paste0("Due to uncertainty in the evidence there is a ", 
              FormatProbOptimalTisNotMax(),
              " chance that ", 
              VOIResults$optimalTreatment
              ," does not provide the largest health benefit.")
-    }
-    })
-  
-  # uncertainty: IS uncertainty - bullet 2
-  output$uncertaintySome2 <- renderUI({
-    if(VOIResults$maxvalueOfResearch > 0){
-      # if there is some VOI
-      paste0("This uncertainty translates into consequences for patient outcomes, i.e. health consequences due to uncertainty about the best treatment.")
-    }
   })
-  
+  # uncertainty: IS uncertainty - bullet 2
+  output$uncertaintySome2 <- renderText({
+      paste0("This uncertainty translates into consequences for patient outcomes, i.e. health consequences due to uncertainty about the best treatment.")
+  })
   # uncertainty: IS uncertainty - bullet 3
-  output$uncertaintySome3 <- renderUI({
-    if(VOIResults$maxvalueOfResearch > 0){
-      # if there is some VOI
+  output$uncertaintySome3 <- renderText({
       paste0("The health consequences this uncertainty are estimated to be ",
              FormatValueOfResearchPerYear(),
              ifelse(newTypeOfOutcome() != "harm"," "," additional "),
              paste0(newNameOfOutcome(),"s") ,
              ifelse(newTypeOfOutcome() != "harm"," lost",""),
              " per year. How this figure is arrived at is illustrated in the graph below:")
-    }
+  })
+  # uncertainty: IS uncertainty - explain hist - bullet 1
+  output$discussHistVOIYear1 <- renderText({
+           paste0("The tall left hand bar in the diagram shows that there is a ",
+                  FormatProbOptimalTisMax(), " chance that ",
+                  VOIResults$optimalTreatment, 
+                  " provides the largest health benefit. If this is the case then there are zero health consequences of uncertainty.")
+  })
+  # uncertainty: IS uncertainty - explain hist - bullet 2
+  output$discussHistVOIYear2 <- renderText({
+    paste0("However, there is a ",
+           FormatProbOptimalTisNotMax(),
+           " chance that optimalTreatment does not provide the largest health benefit. These health consequences are not uniform. 
+           There is a greater chance of more limited consequences compared to a smaller chance of greater adverse consequences.")
+  })
+
+  
+  # Proposed research - requires some uncertainty
+  ##########################
+  output$proposedResearchMaxValueOfResearch <- renderText({
+    paste0("Extending the yearly consequences of uncertainty over the ",
+           input$timeInformation, 
+           " year time horizon, the maximum value of research is estimated to be ",
+           FormatMaxvalueOfResearch(),
+           " ", paste0(newNameOfOutcome(),"s") ,
+           ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
+           " over the full time horizon.")
   })
   
-  # uncertainty: IS uncertainty - bullet 3
-  # output$uncertaintySome4 <- renderUI({
-  #   if(VOIResults$maxvalueOfResearch > 0){
-  #     # if there is some VOI
-  #     
-  #   }
-  # })
+  
+  
+  ######### old stuff
+  
+
+  
+  
+
   
   
   
@@ -589,18 +598,16 @@ shinyServer(function(input, output,clientData, session) {
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  # "From the tall left hand bar in the diagram, it can be seen that there is over a ",VOIResults$probOptimalTisMax ,
+  # "chance that there will be zero or very small consequences if the optimal treatment with current evidence (",                                                                                                          VOIResults$optimalTreatment, ") is used. 
+  # However, there is a small chance of larger consequnces, which are illustrated by the reamaining bars in the graph.
+  # The average over this distribution provides an estimate of the expected consequences of uncertainty, 
+  # which is",VOIResults$valueOfResearchPerYear ,paste0(newNameOfOutcome(),"s"), 
+  # "per year due to uncertainty.
+  # These expected consequences can be interpreted as an estimate of the health benefits that could potentially be gained each year 
+  # if the uncertainty in the decision could be resolved, i.e., 
+  # it indicates an expected upper bound on the health benefits of further research which would confirm which treatment is optimal.
+  # These expected benefits will increase with the size of the patient population whose treatment choice can be informed by additional evidence and the time over which the evidence is expected to be useful.
   
   
   
@@ -759,28 +766,7 @@ shinyServer(function(input, output,clientData, session) {
             ylab = "Probability")
     })
 
-  # discuss the histogram of VOI results
-  # if there is no value in research - there is no commentary on the diagram.
-  # (common text for RCT and Feas)
-  output$discussHistVOIYear <- renderText({
-    ifelse(VOIResults$maxvalueOfResearch > 0,
-           paste("From the tall left hand bar in the diagram, it can be seen that there is over a ",VOIResults$probOptimalTisMax ,
-                 "chance that there will be zero or very small consequences if the optimal treatment with current evidence (", 
-                 VOIResults$optimalTreatment, ") is used. 
-                 However, there is a small chance of larger consequnces, which are illustrated by the reamaining bars in the graph.
-                 The average over this distribution provides an estimate of the expected consequences of uncertainty, 
-                 which is",VOIResults$valueOfResearchPerYear ,paste0(newNameOfOutcome(),"s"), 
-                 "per year due to uncertainty.
-                 These expected consequences can be interpreted as an estimate of the health benefits that could potentially be gained each year 
-                 if the uncertainty in the decision could be resolved, i.e., 
-                 it indicates an expected upper bound on the health benefits of further research which would confirm which treatment is optimal.
-                 These expected benefits will increase with the size of the patient population whose treatment choice can be informed by additional evidence and the time over which the evidence is expected to be useful.
-                 
-                 "),
-           
-           ""
-           )
-  })
+ 
   
   
   # discussion of results : common to both RCT and Feas

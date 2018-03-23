@@ -1329,51 +1329,84 @@ shinyUI(fluidPage(
              h4("What is the value of changing practice based on what we currently know about the treatments?"),
              br(),
              
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             # must render these commands for them to work as in java script contional panel
-             # find somewhere out of the way to put these
-             textOutput("PositiveValueOfInformation"),
-             textOutput("specificResearchWorthwhile"),
-  
-             ##### old stuff
-             
-             
              # reuse headline text: the best treatment...
-             textOutput("changePracticeBestTreatment"),
-             br(),
-             # reuse headline text: implementation outcomes (both when imp value exists and does not)
-             uiOutput('changePracticeImpOutcomes'),
-             br(),
-             p("The table below displays the expected health benefits of each treatment:"),
+             tags$ul(tags$li(textOutput("changePracticeBestTreatment"))),
+             
+             # imp value exists
+             conditionalPanel(condition = "output.implementationValueExists == 'TRUE'  ",
+                              tags$ul(tags$li(textOutput("changePracticeImpOutcomesExist")))
+             ),
+             # imp value does not exist
+             conditionalPanel(condition = "output.implementationValueExists == 'FALSE' ",
+                              tags$ul(tags$li(textOutput("changePracticeImpOutcomesNotExist")))
+             ),
+             
+             # unconditionally: show table of events per year
+             tags$ul(tags$li("The table below displays the expected health benefits of each treatment:")),
              br(),
              tableOutput("tableEventsPerYear"),
-             
              
              # Remaining uncertainty
              ##########################
              br(),
              h4("What are the expected health consequences of the remaining uncertainty?"),
              br(),
-             # if there is no uncertainty at all
-             uiOutput('uncertaintyNone1'),
-             uiOutput('uncertaintySome1'),
+             
+             # if VOI = 0 (no uncertainty)
+             conditionalPanel(condition = "output.PositiveValueOfInformation == 'FALSE' ",
+                              tags$ul(tags$li(textOutput("uncertaintyNone1")),
+                                      tags$li(textOutput("uncertaintyNone2")))
+             ),
+             
+             # if VOI > 0 (some uncertainty)
+             conditionalPanel(condition = "output.PositiveValueOfInformation == 'TRUE' ",
+                              tags$ul(tags$li(textOutput("uncertaintySome1")),
+                                      tags$li(textOutput("uncertaintySome2")),
+                                      tags$li(textOutput("uncertaintySome3"))),
+                              # histogram
+                              plotOutput("histVOIYear"),
+                              # explain hist
+                              tags$ul(tags$li(textOutput("discussHistVOIYear1")),
+                                      tags$li(textOutput("discussHistVOIYear2")),
+                                      tags$li("The average over this range of outcomes provides an estimate of the health benefits that could potentially be gained each year if the uncertainty in the decision could be resolved."))
+             ),
+             
+             # Proposed research
+             ##########################
+             
+             # if VOI > 0 (some uncertainty)
+             conditionalPanel(condition = "output.PositiveValueOfInformation == 'TRUE' ",
+                              br(),
+                              h4("What is the value of the proposed research?"),
+                              br(),
+                              tags$ul(tags$li(textOutput("proposedResearchMaxValueOfResearch"))),
+                              
+                              
+                              
+                              
+                              
+                              
+                              # final line
+                              tags$ul(tags$li("Whether this research represents good value to the health system depends on the value of the other potential uses of these resources."))
+             ),
              br(),
-             uiOutput('uncertaintyNone2'),
-             uiOutput('uncertaintySome2'),
              br(),
-             uiOutput('uncertaintySome3'),
-             verbatimTextOutput("implementationValueExists"),
-             conditionalPanel(condition = "VOIResults.implementationValueExists",
-                              h3("imp value exists")
-                              ),
+             br(),
+             br(),
+             br(),
+             br(),
+             br(),
+             br(),
+             br(),
+             br(),
+             br(),
+             
+             # must render these commands for them to work as in java script contional panel
+             # find somewhere out of the way to put these
+             textOutput("PositiveValueOfInformation"),
+             textOutput("specificResearchWorthwhile"),
+             
+             ##### old stuff
              
              
              
@@ -1388,33 +1421,21 @@ shinyUI(fluidPage(
              #################### old results ###############################
              
              
-             br(),
-             wellPanel(
-               h4("Headline results and overview"),
-               textOutput("testText"),    # test
-               textOutput("introduceResearch"),
-               br(),
-               textOutput("ICERresult")
-             ),
-             br(),
              
-             # heading 1
-             h4("Type of analysis"),
-             # if it is an RCT: 
-             conditionalPanel(condition = "input.typeOfResearch != 'feasibility'",
-                              p("This proposal is for a randomised controlled trial (RCT).
-                                In this type of study, individuals are randomised to different treatments and the outcomes are compared accross the groups.")),
-             # if it is a feasibility study:
-             conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
-                              p("This proposal is for a feasibility study. 
-                                There are challenges and uncertainties associated with running a full trial. 
-                                Due to these uncertainties it is unclear whether the larger follow-up trial is possible.
-                                Research only impacts health in so far as it changes clinical practice. 
-                                This feasibility trial is unlikely to generate enough evidence to justifying changing practice on its own. 
-                                Therefore the impact of this feasibility trial on population health is through the potential future follow-up trial . 
-                                If the follow-up trial is not possible the cost of funding it will not result in health benefit. 
-                                Since the value of the feasibility trial depends on the follow-up trial, an evaluation of the future follow-up trial is required to value feasibility trial.")),
-             br(),
+             # conditionalPanel(condition = "input.typeOfResearch != 'feasibility'",
+             #                  p("This proposal is for a randomised controlled trial (RCT).
+             #                    In this type of study, individuals are randomised to different treatments and the outcomes are compared accross the groups.")),
+             # # if it is a feasibility study:
+             # conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
+             #                  p("This proposal is for a feasibility study. 
+             #                    There are challenges and uncertainties associated with running a full trial. 
+             #                    Due to these uncertainties it is unclear whether the larger follow-up trial is possible.
+             #                    Research only impacts health in so far as it changes clinical practice. 
+             #                    This feasibility trial is unlikely to generate enough evidence to justifying changing practice on its own. 
+             #                    Therefore the impact of this feasibility trial on population health is through the potential future follow-up trial . 
+             #                    If the follow-up trial is not possible the cost of funding it will not result in health benefit. 
+             #                    Since the value of the feasibility trial depends on the follow-up trial, an evaluation of the future follow-up trial is required to value feasibility trial.")),
+             # br(),
              
              
              # if cost + QALY study: (require this extra bit)
@@ -1426,17 +1447,17 @@ shinyUI(fluidPage(
              
              
              
-             # heading 4
-             h4("Value of implementing current evidence findings"),
-             # table showing expected outcomes with each treatment
-             #tableOutput("tableEventsPerYear"),
-             # text for general discussion about current information (common accross all models and endpoints?)
-             textOutput("resultsCurrenInformation"),
-             br(),
-             
-             
-             # heading 5
-             h4("Value of the proposed research"),
+             # # heading 4
+             # h4("Value of implementing current evidence findings"),
+             # # table showing expected outcomes with each treatment
+             # #tableOutput("tableEventsPerYear"),
+             # # text for general discussion about current information (common accross all models and endpoints?)
+             # textOutput("resultsCurrenInformation"),
+             # br(),
+             # 
+             # 
+             # # heading 5
+             # h4("Value of the proposed research"),
              # CONDITIONAL TEXT and HEADING: if feasibility study: (require this extra bit)
              conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
                               p("Understanding the value of a feasibility trial requires two steps.
@@ -1451,7 +1472,7 @@ shinyUI(fluidPage(
              # problem in ui.R conditional planel
              # cannot make javaScript condition depend on results of VOI calcluation
              # must display this even if there is value in the research
-             plotOutput("histVOIYear"),
+             #plotOutput("histVOIYear"),
              # **problem**
              # the probabilies do not match between the histogram output and the analysis
              # the histogram is probably wrong and needs to be changed.
