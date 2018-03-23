@@ -396,6 +396,7 @@ shinyServer(function(input, output,clientData, session) {
   # Headline
   ##############
   
+  
   # headline: best treatment with current evidence
   output$headlineBestTreatment <- renderText({
     paste0("Given what we currently know about the treatments, 
@@ -403,89 +404,82 @@ shinyServer(function(input, output,clientData, session) {
     VOIResults$optimalTreatment,".")
     })
   
-  # headline: value of implementation
-  output$headlineImpOutcomes <- renderUI({
-    if (VOIResults$implementationValueExists){
-      # if there is implementation value
-      paste0("Not all individuals currently receive ",
-            VOIResults$optimalTreatment,
-            " and so outcomes can be improved by encouraging its use in the health system.
-             The benefits of switching practice are expected to be ",
-            FormatValueOfImplementationPerYear(),
-            " ", paste0(newNameOfOutcome(),"s") ,
-            ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
-            " per year.")
-      
-    } else {
-      # if there is not implementation value
-      paste0("As ", VOIResults$optimalTreatment,
-            " is current practice in the health system,
-            outcomes cannot be improved by changing practice.")
-      
-    }
-      
+  # implementation value condition == 'TRUE' if imp value exists, 'FALSE' if not
+  output$implementationValueExists <- renderText({
+    VOIResults$implementationValueExists
+  })
+  # if there is implementation value
+  output$headlineImpOutcomesExist <- renderText({
+    paste0("Not all individuals currently receive ",
+           VOIResults$optimalTreatment,
+           " and so outcomes can be improved by encouraging its use in the health system.
+           The benefits of switching practice are expected to be ",
+           FormatValueOfImplementationPerYear(),
+           " ", paste0(newNameOfOutcome(),"s") ,
+           ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
+           " per year.")
+  })
+  # if there is not implementation value
+  output$headlineImpOutcomesNotExist <- renderText({
+    paste0("As ", VOIResults$optimalTreatment,
+           " is current practice in the health system,
+           outcomes cannot be improved by changing practice.")
   })
   
-  # headline: value of research
-  output$headlineHealthBenefitResearch <- renderText({
-    if(VOIResults$maxvalueOfResearch <= 0){
-      # if there is zero VOI
-      paste("The evidence suggests that there is no uncertainty about the treatment which provides the highest expected health benefit.
+  # == TRUE if some value of information,  FASE otherwise
+  output$PositiveValueOfInformation <- renderText({
+    VOIResults$maxvalueOfResearch > 0
+  })
+  # if there is no value of informaiton
+  output$headlineNoVOI <- renderText({
+    paste("The evidence suggests that there is no uncertainty about the treatment which provides the highest expected health benefit.
              As there is no uncertainty, there is no value in further research.")
-    } else 
-    
-    if(VOIResults$maxvalueOfResearch > 0 & VOIResults$valueOfResearchWithPerfectImplementation <= 0){
-      # if VOI > 0 but this research is not worthwhile
-      paste0("The evidence suggests that there is some uncertainty about whether ", 
-             VOIResults$optimalTreatment,
-             " provides the highest expected health benefit but the proposed research is inadequate to address this uncertainty.")
-    } else 
-    
-    if(VOIResults$valueOfResearchWithPerfectImplementation > 0){
-      # if there is value in the proposed research
-      paste0("The upper bound for the health benefit of the proposed research is estimated to be ",
-             FormatValueOfResearchWithPerfectImplementation(),
-             " ", paste0(newNameOfOutcome(),"s") ,
-             ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
-             " over the full time horizon.")
-    }
   })
+  # == TRUE if the specific research is worthwhile
+  output$specificResearchWorthwhile <- renderText({
+    VOIResults$valueOfResearchWithPerfectImplementation > 0
+  })
+  # if VOI > 0 but this research is not worthwhile
+  output$headlineSomeVOIButBadResearch <- renderText({
+    paste0("The evidence suggests that there is some uncertainty about whether ", 
+           VOIResults$optimalTreatment,
+           " provides the highest expected health benefit but the proposed research is inadequate to address this uncertainty.")
+  })
+  # if there is value in the proposed research
+  output$headlineSomeVOIAndGoodResearch <- renderText({
+    paste0("The upper bound for the health benefit of the proposed research is estimated to be ",
+         FormatValueOfResearchWithPerfectImplementation(),
+         " ", paste0(newNameOfOutcome(),"s") ,
+         ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
+         " over the full time horizon.")
+    })
   
-  # headline: RCT value of research
-  output$headlineValueOfResearchRCT <- renderUI({
-    if(input$typeOfResearch == "RCT" & VOIResults$valueOfResearchWithPerfectImplementation > 0 ){
-      # if RCT (and there is value in research)
+  # headline: is RCT and there is value in research
+  output$headlineValueOfResearchRCT <- renderText({
       paste0("The proposed research is expected to cost the research funder ",
              FormatCostResearchFunder(),
              " meaning the maximum value of the proposed research is estimated to be (",
              FormatCostResearchFunder(), "/", FormatValueOfResearchWithPerfectImplementation(),
              " =) ", FormatICER_ResearchWithPerfectImplementation(), 
              " per ", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", " gained.", "avoided."))
-    } 
-    })
- 
-
+  })
   
-  # headline: Feasibility value of research 
+  # headline: Feasibility and there is value in research
   # bullet 1
-  output$headlineValueOfResearchFeas1 <- renderUI({
-    if(input$typeOfResearch == "feasibility" & VOIResults$valueOfResearchWithPerfectImplementation > 0 ){
-      # if feasibility (and there is value in research)
+  output$headlineValueOfResearchFeas1 <- renderText({
       paste0("The total expected cost to the research funder of both the feasibility study and the follow up research is (",
              FormatCostResearchFunderFeas(), " + ", FormatCostResearchFunderDefinitive(), " x ", 
              FormatProbabilityOfDefinitiveResearch(), " =) ", FormatExpectedCostResearchFunder())
-    } 
   })
   # bullet 2
-  output$headlineValueOfResearchFeas2 <- renderUI({
-    if(input$typeOfResearch == "feasibility" & VOIResults$valueOfResearchWithPerfectImplementation > 0 ){
-      # if feasibility (and there is value in research)
+  output$headlineValueOfResearchFeas2 <- renderText({
       paste0("Therefore, the expected upper bound on the value of funding the feasibility trial is (",
              FormatExpectedCostResearchFunder(), "/", FormatValueOfResearchWithPerfectImplementation(),
              " =) ", FormatICER_ResearchWithPerfectImplementation(), 
              " per ", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", " gained.", "avoided."))
-    } 
   })
+  
+  
   
 
   

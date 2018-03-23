@@ -1285,24 +1285,41 @@ shinyUI(fluidPage(
              wellPanel(
                h4("Headline results"),
                
-               br(),
-               # best treatment
-               textOutput("headlineBestTreatment"),
-               br(),
-               # implementation outcomes (both when imp value exists and does not)
-               uiOutput('headlineImpOutcomes'),
-               br(),
-               # health benefits of research
-               textOutput('headlineHealthBenefitResearch'),
-               br(),
-                    # RCT value of research (cost/OUTCOME)
-               uiOutput('headlineValueOfResearchRCT'),
-                    # Feasibilty value of research (cost/OUTCOME)
-               uiOutput('headlineValueOfResearchFeas1'),
-               br(),
-               uiOutput('headlineValueOfResearchFeas2')
-               
+               tags$ul(tags$li(textOutput("headlineBestTreatment"))),
 
+               # imp value exists
+               conditionalPanel(condition = "output.implementationValueExists == 'TRUE'  ",
+                                tags$ul(tags$li(textOutput("headlineImpOutcomesExist")))
+               ),
+               # imp value does not exist
+               conditionalPanel(condition = "output.implementationValueExists == 'FALSE' ",
+                                tags$ul(tags$li(textOutput("headlineImpOutcomesNotExist")))
+               ),
+               
+               # if no value of information at all
+               conditionalPanel(condition = "output.PositiveValueOfInformation == 'FALSE' ",
+                                tags$ul(tags$li(textOutput("headlineNoVOI")))
+               ),
+               # if VOI > 0 but Bad research
+               conditionalPanel(condition = "output.PositiveValueOfInformation == 'TRUE' && output.specificResearchWorthwhile == 'FALSE' ",
+                                tags$ul(tags$li(textOutput("headlineSomeVOIButBadResearch")))
+               ),
+               # if VOI > 0 and good research (VOI must be > 0 if research is good)
+               conditionalPanel(condition = "output.specificResearchWorthwhile == 'TRUE' ",
+                                tags$ul(tags$li(textOutput("headlineSomeVOIAndGoodResearch")))
+               ),
+               
+               # if its an RCT and Research is worthwhile 
+               conditionalPanel(condition = "input.typeOfResearch == 'RCT' && output.specificResearchWorthwhile == 'TRUE' ",
+                                tags$ul(tags$li(textOutput("headlineValueOfResearchRCT")))
+               ),
+               # if its a feasibility and Research is worthwhile 
+               conditionalPanel(condition = "input.typeOfResearch == 'feasibility' && output.specificResearchWorthwhile == 'TRUE' ",
+                                tags$ul(tags$li(textOutput("headlineValueOfResearchFeas1")),
+                                        tags$li(textOutput("headlineValueOfResearchFeas2")))
+               )
+               
+               
              ),
              
              
@@ -1311,6 +1328,24 @@ shinyUI(fluidPage(
              br(),
              h4("What is the value of changing practice based on what we currently know about the treatments?"),
              br(),
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             # must render these commands for them to work as in java script contional panel
+             # find somewhere out of the way to put these
+             textOutput("PositiveValueOfInformation"),
+             textOutput("specificResearchWorthwhile"),
+  
+             ##### old stuff
+             
+             
              # reuse headline text: the best treatment...
              textOutput("changePracticeBestTreatment"),
              br(),
