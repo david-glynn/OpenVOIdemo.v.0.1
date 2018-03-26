@@ -311,7 +311,7 @@ outcomeToNB_t <- function(outcome_t, MCsims,
 # test data
 # outcome_t <- matrix(rnorm(40, 1, 1), ncol = 4)
 # MCsims = 10
-# typeOfEndpoint= "binary"
+# typeOfEndpoint= "continuous"
 # typeOfOutcome= "netHealth"
 # tCostsDependOnEvent= "No"
 # MCD_t2 = 0.1
@@ -343,7 +343,7 @@ outcomeToNB_t <- function(outcome_t, MCsims,
 # # new inputs
 # 
 # numberS0States = 4
-# numberS1States = 4 
+# numberS1States = 4
 # utility_s01 = 0
 # utility_s02 = 0.11
 # utility_s03 = 0.41
@@ -388,14 +388,14 @@ outcomeToNB_t <- function(outcome_t, MCsims,
 # treatmentCostsMonthly_t4 = 400# used in survival too
 # # survival NB
 # utilityPreTransition = 0.5 # Q What is the health utility associated with the pre-progression health state?
-# monthlyCostPreTransition = 2000 # Q What are the expected monthly disease related costs associated with the pre-transition health state? 
+# monthlyCostPreTransition = 2000 # Q What are the expected monthly disease related costs associated with the pre-transition health state?
 # treatUntilProgression_t1 = "Yes" # "No"  Q Are individuals always treated until progression under the baseline treatment?
 # maxDurationOfTreatmentMonths_t1 = NA # Q what is the maximum number of months that the baseline treatment will be given?
-# treatUntilProgression_t2 = "No" # "No" "Yes" 
+# treatUntilProgression_t2 = "No" # "No" "Yes"
 # maxDurationOfTreatmentMonths_t2 = 12
-# treatUntilProgression_t3 = "No" # "No" "Yes" 
+# treatUntilProgression_t3 = "No" # "No" "Yes"
 # maxDurationOfTreatmentMonths_t3 = 24
-# treatUntilProgression_t4 = "No" # "No" "Yes" 
+# treatUntilProgression_t4 = "No" # "No" "Yes"
 # maxDurationOfTreatmentMonths_t4 = 24
 
 
@@ -600,12 +600,20 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     
     # each column now represents simulations of the NB of each treatment
     # generate and format costs table (assuming treatment costs do not depend on continuous event)
-    cost_t <- c(cost_t1, cost_t2, cost_t3, cost_t4)
-    Cost_per_individual <- paste0(currencySymbol,formatC(cost_t, big.mark = ',', format = 'd'))
-    Yearly_costs <- paste0(currencySymbol,formatC(cost_t*incidence, big.mark = ',', format = 'd'))
-    Additional_cost_per_year <- paste0(currencySymbol,formatC((cost_t - cost_t1)*incidence, big.mark = ',', format = 'd'))
+    cost_t <- c(treatmentCostsMonthly_t1*treatmentDurationMonths, 
+                treatmentCostsMonthly_t2*treatmentDurationMonths, 
+                treatmentCostsMonthly_t3*treatmentDurationMonths, 
+                treatmentCostsMonthly_t4*treatmentDurationMonths)
+    # Cost_per_individual <- paste0(currencySymbol,formatC(cost_t, big.mark = ',', format = 'd'))
+    # Yearly_costs <- paste0(currencySymbol,formatC(cost_t*incidence, big.mark = ',', format = 'd'))
+    # Additional_cost_per_year <- paste0(currencySymbol,formatC((cost_t - cost_t[1])*incidence, big.mark = ',', format = 'd'))
+    Cost_per_individual <- cost_t
+    Yearly_costs <- cost_t*incidence
+    Additional_cost_per_year <- (cost_t - cost_t[1])*incidence
     popTotal <- (incidence/-discountRate) * (exp(-discountRate*timeInformation) - exp(-discountRate*0))
-    Total_Costs <- paste0(currencySymbol,formatC(cost_t*popTotal, big.mark = ',', format = 'd'))
+    # Total_Costs <- paste0(currencySymbol,formatC(cost_t*popTotal, big.mark = ',', format = 'd'))
+    Total_Costs <- cost_t*popTotal
+    
     Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
     tableTreatmentCostsDF <- as.data.frame(cbind(Treatment_name, Cost_per_individual, Yearly_costs, Additional_cost_per_year, Total_Costs))
     tableTreatmentCostsDF <- tableTreatmentCostsDF[1:numberOfTreatments,]
@@ -705,7 +713,7 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
 # test function
 # outcomeToNB2_t(outcome_t <- matrix(rnorm(40, 1, 1), ncol = 4),
 #               MCsims = 10,
-#               typeOfEndpoint= "survival", # "survival", # "binary", "continuous"
+#               typeOfEndpoint= "continuous", # "survival", # "binary", "continuous"
 #               typeOfOutcome= "netHealth",
 #               tCostsDependOnEvent= "No", # "Yes", "No"
 #               MCD_t2 = 0.1,
@@ -733,7 +741,7 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
 #               costNotEvent_t2 = 60,
 #               costNotEvent_t3 = 70,
 #               costNotEvent_t4 = 80,
-#               
+# 
 #               numberS0States = 4,
 #               numberS1States = 4 ,
 #               utility_s01 = 0,
@@ -780,14 +788,14 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
 #               treatmentCostsMonthly_t4 = 400,# used in survival too
 #               # survival NB
 #               utilityPreTransition = 0.5, # Q What is the health utility associated with the pre-progression health state?
-#               monthlyCostPreTransition = 2000, # Q What are the expected monthly disease related costs associated with the pre-transition health state? 
+#               monthlyCostPreTransition = 2000, # Q What are the expected monthly disease related costs associated with the pre-transition health state?
 #               treatUntilProgression_t1 = "Yes", # "No"  Q Are individuals always treated until progression under the baseline treatment?
 #               maxDurationOfTreatmentMonths_t1 = NA, # Q what is the maximum number of months that the baseline treatment will be given?
-#               treatUntilProgression_t2 = "No", # "No" "Yes" 
+#               treatUntilProgression_t2 = "No", # "No" "Yes"
 #               maxDurationOfTreatmentMonths_t2 = 12,
-#               treatUntilProgression_t3 = "No", # "No" "Yes" 
+#               treatUntilProgression_t3 = "No", # "No" "Yes"
 #               maxDurationOfTreatmentMonths_t3 = 24,
-#               treatUntilProgression_t4 = "No", # "No" "Yes" 
+#               treatUntilProgression_t4 = "No", # "No" "Yes"
 #               maxDurationOfTreatmentMonths_t4 = 24
 #               )
 

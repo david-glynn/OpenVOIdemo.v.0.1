@@ -191,7 +191,6 @@ shinyServer(function(input, output,clientData, session) {
           MCD_t2 = input$MCD_t2,
           MCD_t3 = input$MCD_t3 ,
           MCD_t4 = input$MCD_t4,
-          INBBinaryEvent = input$INBBinaryEvent,
           cost_t1 = input$cost_t1,
           cost_t2 = input$cost_t2 ,
           cost_t3 = input$cost_t3 ,
@@ -213,8 +212,63 @@ shinyServer(function(input, output,clientData, session) {
           costNotEvent_t2 = input$costNotEvent_t2,
           costNotEvent_t3 = input$costNotEvent_t3,
           costNotEvent_t4 = input$costNotEvent_t4,
-          INBContinEvent = input$INBContinEvent,
-          INBSurvivalEndpoint = input$INBSurvivalEndpoint,
+          
+          numberS0States = input$numberS0States,
+          numberS1States = input$numberS1States ,
+          utility_s01 = input$utility_s01,
+          utility_s02 = input$utility_s02,
+          utility_s03 = input$utility_s03,
+          utility_s04 = input$utility_s04,
+          utility_s11 = input$utility_s11,
+          utility_s12 = input$utility_s12,
+          utility_s13 = input$utility_s13,
+          utility_s14 = input$utility_s14,
+          lifeDuration_s01 = input$lifeDuration_s01,
+          lifeDuration_s02 = input$lifeDuration_s02,
+          lifeDuration_s03 = input$lifeDuration_s03,
+          lifeDuration_s04 = input$lifeDuration_s04,
+          lifeDuration_s11 = input$lifeDuration_s11,
+          lifeDuration_s12 = input$lifeDuration_s12,
+          lifeDuration_s13 = input$lifeDuration_s13,
+          lifeDuration_s14 = input$lifeDuration_s14,
+          cost_s01 = input$cost_s01,
+          cost_s02 = input$cost_s02,
+          cost_s03 = input$cost_s03,
+          cost_s04 = input$cost_s04,
+          cost_s11 = input$cost_s11,
+          cost_s12 = input$cost_s12,
+          cost_s13 = input$cost_s13,
+          cost_s14 = input$cost_s14,
+          probability_s01 = input$probability_s01,
+          probability_s02 = input$probability_s02,
+          probability_s03 = input$probability_s03,
+          probability_s04 = input$probability_s04,
+          probability_s11 = input$probability_s11,
+          probability_s12 = input$probability_s12,
+          probability_s13 = input$probability_s13,
+          probability_s14 = input$probability_s14,
+          # continuous NB
+          deltaUnitUtilityDirection = input$deltaUnitUtilityDirection, # "increase" # Q Is an increase in the primary outcome expected to be associated with an increase or decrease in health state utility?
+          deltaUnitUtilitySize = input$deltaUnitUtilitySize, # Q By how much is a one unit increase in the primary outcome expected to increase/decrease the health state utility?
+          treatmentDurationMonths = input$treatmentDurationMonths, # Q how long is the treatment effect expected to last
+          deltaUnitCostsDirection = input$deltaUnitCostsDirection, # "increase" # Q Is an increase in the primary outcome expected to be associated with disease related cost increases or decreases?
+          deltaUnitCostsSize = input$deltaUnitCostsSize, # Q By how much is a one unit increase in the primary outcome expected to increase/decrease disease related costs?
+          treatmentCostsMonthly_t1 = input$treatmentCostsMonthly_t1, # used in survival too
+          treatmentCostsMonthly_t2 = input$treatmentCostsMonthly_t2,# used in survival too
+          treatmentCostsMonthly_t3 = input$treatmentCostsMonthly_t3,# used in survival too
+          treatmentCostsMonthly_t4 = input$treatmentCostsMonthly_t4,# used in survival too
+          # survival NB
+          utilityPreTransition = input$utilityPreTransition, # Q What is the health utility associated with the pre-progression health state?
+          monthlyCostPreTransition = input$monthlyCostPreTransition, # Q What are the expected monthly disease related costs associated with the pre-transition health state?
+          treatUntilProgression_t1 = input$treatUntilProgression_t1, # "No"  Q Are individuals always treated until progression under the baseline treatment?
+          maxDurationOfTreatmentMonths_t1 = input$maxDurationOfTreatmentMonths_t1, # Q what is the maximum number of months that the baseline treatment will be given?
+          treatUntilProgression_t2 = input$treatUntilProgression_t2, # "No" "Yes"
+          maxDurationOfTreatmentMonths_t2 = input$maxDurationOfTreatmentMonths_t2,
+          treatUntilProgression_t3 = input$treatUntilProgression_t3, # "No" "Yes"
+          maxDurationOfTreatmentMonths_t3 = input$maxDurationOfTreatmentMonths_t3,
+          treatUntilProgression_t4 = input$treatUntilProgression_t4, # "No" "Yes"
+          maxDurationOfTreatmentMonths_t4 = input$maxDurationOfTreatmentMonths_t4,
+          
           typeOfResearch = input$typeOfResearch,
           durationOfResearch = input$durationOfResearch,
           costResearchFunder = input$costResearchFunder,
@@ -232,80 +286,6 @@ shinyServer(function(input, output,clientData, session) {
           costHealthSystemDefinitive = input$costHealthSystemDefinitive 
           
           
-               # old master inputs
-               # # type of analysis 
-               # typeOfEndpoint = input$typeOfEndpoint,
-               # #typeOfOutcome= 
-               # tCostsDependOnEvent= input$tCostsDependOnEvent,
-               # numberOfTreatments= input$numberOfTreatments,
-               # typeOfResearch= input$typeOfResearch,
-               # reconsider = input$reconsider,
-               # MCsims= , # change
-               # # report writing inputs
-               # nameOf_t1= input$nameOf_t1,
-               # nameOf_t2= input$nameOf_t2,
-               # nameOf_t3= input$nameOf_t3,
-               # nameOf_t4= input$nameOf_t4,
-               # #nameOfOutcome= newNameOfOutcome(), # not used in new master
-               # currencySymbol= input$currencySymbol,
-               # # basic health system info
-               # incidence= input$incidence,
-               # timeInformation= input$timeInformation,
-               # discountRate= input$discountRate,
-               # utilisation_t1= input$utilisation_t1,
-               # utilisation_t2= input$utilisation_t2,
-               # utilisation_t3= input$utilisation_t3,
-               # utilisation_t4= input$utilisation_t4,
-               # MCD_t2= input$MCD_t2,
-               # MCD_t3= input$MCD_t3,
-               # MCD_t4= input$MCD_t4,
-               # # epidemiology: binary + generic
-               # P_t1= input$P_t1,
-               # dist_t2= input$dist_t2,
-               # mu_t2= input$mu_t2,
-               # variance_t2= input$variance_t2,
-               # direction_t2= input$direction_t2,
-               # dist_t3= input$dist_t3,
-               # mu_t3= input$mu_t3,
-               # variance_t3= input$variance_t3,
-               # direction_t3= input$direction_t3,
-               # dist_t4= input$dist_t4,
-               # mu_t4= input$mu_t4,
-               # variance_t4= input$variance_t4,
-               # direction_t4= input$direction_t4,
-               # # epidemiology: survival
-               # survivalDist= input$survivalDist,
-               # scaleParameter_t1= input$scaleParameter_t1,
-               # shapeParameter_t1= input$shapeParameter_t1,
-               # # trial info: RCT
-               # durationOfResearch= input$durationOfResearch,
-               # costResearchFunder= input$costResearchFunder,
-               # costHealthSystem= input$costHealthSystem,
-               # # trial info: feasibility
-               # probabilityOfDefinitiveResearch= input$probabilityOfDefinitiveResearch,
-               # durationOfResearchFeas= input$durationOfResearchFeas,
-               # durationOfResearchDefinitive= input$durationOfResearchDefinitive,
-               # costResearchFunderFeas = input$costResearchFunderFeas,
-               # costResearchFunderDefinitive= input$costResearchFunderDefinitive,
-               # costHealthSystemFeas= input$costHealthSystemFeas,
-               # costHealthSystemDefinitive= input$costHealthSystemDefinitive,
-               # # cost and QALY inputs
-               # k= input$k,
-               # INBBinaryEvent= input$INBBinaryEvent,
-               # INBContinEvent= input$INBContinEvent,
-               # INBSurvivalEndpoint= input$INBSurvivalEndpoint,
-               # cost_t1= input$cost_t1,
-               # costEvent_t1= input$costEvent_t1,
-               # costNotEvent_t1= input$costNotEvent_t1,
-               # cost_t2= input$cost_t2,
-               # costEvent_t2= input$costEvent_t2,
-               # costNotEvent_t2= input$costNotEvent_t2,
-               # cost_t3= input$cost_t3,
-               # costEvent_t3= input$costEvent_t3,
-               # costNotEvent_t3= input$costNotEvent_t3,
-               # cost_t4= input$cost_t4,
-               # costEvent_t4= input$costEvent_t4,
-               # costNotEvent_t4= input$costNotEvent_t4
                
               )
         })
