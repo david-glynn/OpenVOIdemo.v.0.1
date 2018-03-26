@@ -381,7 +381,7 @@ shinyUI(fluidPage(
                                                                           choices = c("Increase" = "increase",
                                                                                       "Decrease" = "decrease"),
                                                                           selected = "increase"),
-                                                              numericInput("deltaUnitCostsSize", "By how much is a one unit increase in the primary outcome expected to increase/decrease disease related costs?",
+                                                              numericInput("deltaUnitCostsSize", "By how much is a one unit increase in the primary outcome expected to increase/decrease monthly disease related costs?",
                                                                            value = 200, min = 0)
                                                               
                                                             )),
@@ -1653,7 +1653,6 @@ shinyUI(fluidPage(
              ##########################
              br(),
              h4("What is the value of changing practice based on what we currently know about the treatments?"),
-             br(),
              
              # reuse headline text: the best treatment...
              tags$ul(tags$li(textOutput("changePracticeBestTreatment"))),
@@ -1676,7 +1675,6 @@ shinyUI(fluidPage(
              ##########################
              br(),
              h4("What are the expected health consequences of the remaining uncertainty?"),
-             br(),
              
              # if VOI = 0 (no uncertainty)
              conditionalPanel(condition = "output.PositiveValueOfInformation == 'FALSE' ",
@@ -1704,8 +1702,36 @@ shinyUI(fluidPage(
              conditionalPanel(condition = "output.PositiveValueOfInformation == 'TRUE' ",
                               br(),
                               h4("What is the value of the proposed research?"),
-                              br(),
-                              tags$ul(tags$li(textOutput("proposedResearchMaxValueOfResearch"))),
+                              
+                              # RCT value of proposed research
+                              ###
+                              conditionalPanel(condition = "input.typeOfResearch == 'RCT' ",
+                                               tags$ul(tags$li(textOutput("proposedResearchMaxValueOfResearchRCT")))
+                              ),
+                              
+                              # Feasibility value of proposed research
+                              ###
+                              conditionalPanel(condition = "input.typeOfResearch == 'feasibility' ",
+                                               tags$ul(tags$li("The value of the feasibility trial depends on the health effect of the full trial and the likelihood that the full trial will be commissioned and report.")),
+                                               strong("Health impact of full trial"),
+                                               tags$ul(tags$li(textOutput("proposedResearchMaxValueOfResearchFeas"))),
+                                               tags$ul(tags$li(textOutput("fullTrialMaxValueOfResearchFeas"))),
+                                               
+                                               # if there is there NO potential value in the full trial
+                                               conditionalPanel(condition = "output.PositiveValueOfFullTrialFeas == 'FALSE' ",
+                                                                tags$ul(tags$li("As the potential full trial is expected to have no health impact, there is no value in the proposed feasibility trial."))
+                                               
+                                               ),
+                                               # if there is there IS potential value in the full trial
+                                               conditionalPanel(condition = "output.PositiveValueOfFullTrialFeas == 'TRUE' ",
+                                                                strong("Value of feasibility research"),
+                                                                tags$ul(tags$li(textOutput("fullTrialNotCertainFeas")))
+                                                                
+                                               )
+                                               
+                              ),
+                              
+                              
                               
                               
                               
@@ -1731,7 +1757,7 @@ shinyUI(fluidPage(
              # find somewhere out of the way to put these
              textOutput("PositiveValueOfInformation"),
              textOutput("specificResearchWorthwhile"),
-             
+             textOutput("PositiveValueOfFullTrialFeas"),
              ##### old stuff
              
              
