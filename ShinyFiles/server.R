@@ -32,15 +32,26 @@ library(MASS) # for use in EpiInputFunctions.R to fit beta distributions to unkn
 #source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SurvivalQALYFunction.R", local = TRUE)
 
 
-# new absolute path source files
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
+# WORK new absolute path source files
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
+
+# HOME new absolute path source files
+source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
+source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
+source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/master.R", local = TRUE)
+source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/ReconFunctions.R", local = TRUE)
+source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/EpiInputFunctions.R", local = TRUE)
+source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/PlottingFunctions.R", local = TRUE)
+source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
+source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/NBCalcFunctions.R", local = TRUE)
+
 
 # zombie old relative path
 # source("BinaryOutcomeFunction.R", local = TRUE)

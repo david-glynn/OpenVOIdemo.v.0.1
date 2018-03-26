@@ -261,24 +261,119 @@ shinyUI(fluidPage(
                                              
                                              conditionalPanel(condition = "input.outcomeExpression == 'natural'",
                                                               textInput("nameOfOutcome", "Name of outcome", 
-                                                                        value = "Functional recovery")),
-                                             
-                                             conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.outcomeExpression == 'netHealth'",
-                                                              radioButtons(inputId = "tCostsDependOnEvent", label = "Do the treatment costs depend on the primary outcome?", 
-                                                                           choices = c("Yes" = "Yes", 
-                                                                                       "No" = "No"),
-                                                                           selected = "No"))
+                                                                        value = "Functional recovery"))
                                              
                                              
                                              
                                              ) # end primary outcome measure wellPanel
                                            
                                            
-                                  ) # end leftmost column "non-treatment related inputs"
+                                  ), # end leftmost column step 1, top level
+                                  column(6,
+                                         conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.outcomeExpression == 'netHealth'",
+                                         wellPanel(
+                                           
+                                           radioButtons(inputId = "tCostsDependOnEvent", label = "Do the treatment costs depend on the primary outcome?", 
+                                                                       choices = c("Yes" = "Yes", 
+                                                                                   "No" = "No"),
+                                                                       selected = "No"))
+                                         )
+                                         ) # end rightmost column step 1, top level
                                   
+                                  ), # end step 1 top level fluidRow
                                   
-                                  ) # end high level inputs fluidRow
+                                  # binary conditional headings
+                                  conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.outcomeExpression == 'netHealth'",
+                                                   fluidRow(
+                                                     h4("Outcomes if primary endpoint occurs")
+                                                   )),
                                   
+                                  # setp 1 mid level fluid row
+                                  # binary states for when event does occur
+                                  # continuous and survial inputs
+                                  fluidRow(
+                                    # binary: s11
+                                    # continous: utility increase/decrease + how much
+                                    # survival: utility pre transition
+                                    column(3,
+                                           
+                                           # binary s11
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.outcomeExpression == 'netHealth'",
+                                                            wellPanel(
+                                                              
+                                                              numericInput("probability_s11", "What is the probability of ending up in this state if the primary outcome occurs?",
+                                                                           value = 0.42, min = 0, max = 1, step = 0.05),
+                                                              numericInput("lifeDuration_s11", "What is the life expectancy of an individual in this state (years)?",
+                                                                           value = 16.73, min = 0, max = 100, step = 0.5)
+                                                              
+                                                              
+                                                            )),
+                                           
+                                           # continous: utility increase decrease + how much
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'continuous' && input.outcomeExpression == 'netHealth'",
+                                                            wellPanel(
+                                                              
+                                                            )),
+                                           
+                                           # survival: utility pre transition
+                                           conditionalPanel(condition = "input.typeOfEndpoint == 'survival' && input.outcomeExpression == 'netHealth'",
+                                                            wellPanel(
+                                                              
+                                                            ))
+                                           
+                                           ), # column 1 mid level
+                                    
+                                    # binary: s12
+                                    # continous: costs increase/decrease + how much
+                                    # survival: monthly costs pre transition
+                                    column(3
+                                           
+                                           ),
+                                    # binary: s13
+                                    # continuous: treat effect duration
+                                    column(3
+                                           
+                                           ),
+                                    
+                                    # binary: s14
+                                    column(3
+                                           
+                                           )
+                                    
+                                  ), # end step 1 mid level fluid row
+                                  
+                                  # binary conditional headings
+                                  conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.outcomeExpression == 'netHealth'",
+                                                   fluidRow(
+                                                     h4("Outcomes if primary endpoint does not occur")
+                                                   )),
+                                  
+                                  # step 1 bottom level fluid row
+                                  # binary states for when event does not occur
+                                  fluidRow(
+                                    
+                                    #binary: s01
+                                    column(3
+                                           
+                                           
+                                    ),
+                                    
+                                    #binary: s02
+                                    column(3
+                                           
+                                    ),
+                                    # binary: s03
+                                    column(3
+                                           
+                                    ),
+                                    
+                                    # binary: s04
+                                    column(3
+                                           
+                                    )
+                                    
+                                    
+                                  ) # end step 1 bottom level fluid row
                                   
                                   
                                   ), # end part 1 inputs tabPanel 
@@ -677,10 +772,9 @@ shinyUI(fluidPage(
                                                                         
                                                        ), # end survival epi inputs intervention 1
                                                        
-                                                       
-                                                       numericInput("MCD_t2", "MCD",
-                                                                    value = 0, min = NA, max = NA, step = 0.05)
-                                                       
+                                                       conditionalPanel(condition = "input.outcomeExpression != 'netHealth'",
+                                                                        numericInput("MCD_t2", "MCD",
+                                                                                     value = 0, min = NA, max = NA, step = 0.05))
                                                        
                                                        
                                              ) # end epi input intervention 1 wellPanel (t2)
@@ -866,9 +960,9 @@ shinyUI(fluidPage(
                                                                         
                                                        ), # end survival epi inputs intervention 2
                                                        
-                                                       
+                                                       conditionalPanel(condition = "input.outcomeExpression != 'netHealth'",
                                                        numericInput("MCD_t3", "MCD",
-                                                                    value = 0, min = NA, max = NA, step = 0.05)
+                                                                    value = 0, min = NA, max = NA, step = 0.05))
                                                        
                                                        
                                                        
@@ -1056,9 +1150,9 @@ shinyUI(fluidPage(
                                                                                          
                                                                         ), # end survival epi inputs intervention 3
                                                                         
-                                                                        
+                                                                        conditionalPanel(condition = "input.outcomeExpression != 'netHealth'",
                                                                         numericInput("MCD_t4", "MCD",
-                                                                                     value = 0, min = NA, max = NA, step = 0.05)
+                                                                                     value = 0, min = NA, max = NA, step = 0.05))
                                                                         
                                                                         
                                                                         
