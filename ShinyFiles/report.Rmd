@@ -1,49 +1,47 @@
 ---
-title: "Dynamic report"
-output: word_document
+title: "Health effects of research and implementation decisions"
 params:
-   optimalTreatment: NA
-   probTreatment1isMax: NA
-   probTreatment2isMax: NA
-   probTreatment3isMax : NA
-   probTreatment4isMax : NA
-   probOptimalTisMax : NA
-   probOptimalTisNotMax : NA
-   expectedOutcomesPerYearoptimalTreatment : NA
-   implementationValueExists : NA
-   uncertaintyInCurrentEvidenceExists : NA
-   popDuringResearch : NA
-   popAfterResearch : NA
-   popTotal : NA
-   listForhistVOIYear : NA
-   valueOfResearchPerYear : NA
-   valueOfImplementationPerYear : NA
-   tableEventsPerYearDF     : NA       
-   tableProbabilityMaxDF : NA
-   tableTreatmentCostsDF : NA
-   Cell_A : NA
-   Cell_C : NA
-   Cell_D : NA
-   maxvalueOfImplementation : NA
-   maxvalueOfResearch : NA
-   healthOpportunityCostsOfResearch : NA
-   valueOfResearchWithCurrentImplementation : NA
-   valueOfResearchWithPerfectImplementation : NA
-   ICER_ResearchWithCurrentImplementation : NA
-   ICER_ResearchWithPerfectImplementation : NA
-   valuePer15KResearchSpend: NA
-   valuePerOpCostResearchSpend : NA
-   absoluteExpectedHealthOutcomesFromResearchProject : NA
-   popDuringFeasResearch       : NA
-   popDuringDefinitiveResearch : NA
-   popAfterDefinitiveResearch : NA
-   expectedCostResearchFunder  : NA      
-   expectedCostHealthSystem   : NA    
-   valueOfCertainResearchWithPerfectImplementation : NA
-  
-  
-  
-  
+  Cell_A: NA
+  Cell_C: NA
+  Cell_D: NA
+  ICER_ResearchWithCurrentImplementation: NA
+  ICER_ResearchWithPerfectImplementation: NA
+  absoluteExpectedHealthOutcomesFromResearchProject: NA
+  expectedCostHealthSystem: NA
+  expectedCostResearchFunder: NA
+  expectedOutcomesPerYearoptimalTreatment: NA
+  healthOpportunityCostsOfResearch: NA
+  implementationValueExists: NA
+  listForhistVOIYear: NA
+  maxvalueOfImplementation: NA
+  maxvalueOfResearch: NA
+  optimalTreatment: NA
+  popAfterDefinitiveResearch: NA
+  popAfterResearch: NA
+  popDuringDefinitiveResearch: NA
+  popDuringFeasResearch: NA
+  popDuringResearch: NA
+  popTotal: NA
+  probOptimalTisMax: NA
+  probOptimalTisNotMax: NA
+  probTreatment1isMax: NA
+  probTreatment2isMax: NA
+  probTreatment3isMax: NA
+  probTreatment4isMax: NA
+  tableEventsPerYearDF: NA
+  tableProbabilityMaxDF: NA
+  tableTreatmentCostsDF: NA
+  uncertaintyInCurrentEvidenceExists: NA
+  valueOfCertainResearchWithPerfectImplementation: NA
+  valueOfImplementationPerYear: NA
+  valueOfResearchPerYear: NA
+  valueOfResearchWithCurrentImplementation: NA
+  valueOfResearchWithPerfectImplementation: NA
+  valuePer15KResearchSpend: NA
+  valuePerOpCostResearchSpend: NA
+output:
+  html_document: default
+  word_document: default
 ---
 
 <!---
@@ -55,6 +53,23 @@ To evaluate a chunk if a result is FALSE use eval = !params$nameofobject
 FormatExpectedCostResearchFunder : NA
 -->
 
+<!-- # ```{r results='hide',message=FALSE   } -->
+<!-- #  -->
+<!-- # PositiveValueOfInformation <- params$maxvalueOfResearch > 0 -->
+<!-- #  -->
+<!-- # ``` -->
+
+See code below - can do boolean phrases directly in eval argument - easier than in Shiny
+
+```{r conditional_blockn, echo=FALSE, results='asis', eval= params$maxvalueOfResearch > 0}
+cat("* There is value in research!
+    
+    ")
+```
+
+
+
+## Headline Results
 
 ```{r conditional_block, echo=FALSE, results='asis', eval=TRUE}
 cat("* Given what we currently know about the treatments, the option with the highest expected health benefit is", params$optimalTreatment, "with 3,101 functional recoverys per year.

@@ -33,6 +33,9 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", l
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
 
+#source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/masterExtra.R", local = TRUE)
+
+
 # HOME new absolute path source files
 # source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
 # source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
@@ -330,7 +333,27 @@ shinyServer(function(input, output,clientData, session) {
   
   
   
+  ##########################
+  # Run EXTRA ANALYSIS 
+  ##########################
   
+  # # create "managed state variable" - a list which can be repeatedly overwritten by user
+  # VOIExtraAnalysis <- reactiveValues()
+  # 
+  # observeEvent(input$run, {
+  #   
+  #   # a list which holds the results of the appropriate analysis
+  #   resultsHolder2 <- reactive({
+  #     # the master function takes all inputs, runs the appropriate model and returns a list of the results
+  #     # master()
+  #     list(one = mean(1), two = mean(2))
+  #     
+  #   })
+  #   
+  #   # assign results for all models
+  #   VOIExtraAnalysis$one <- resultsHolder2()$one
+  #   
+  # }) # end EXTRA ANALYSIS observe event expression
   
   
   ###########################################################
