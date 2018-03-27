@@ -670,17 +670,17 @@ master <- function(
 
 # 
 # master(
-#     typeOfEndpoint = "continuous", # 'binary', "continuous''survival"
+#     typeOfEndpoint = "binary", # 'binary', "continuous''survival"
 #     baselineInput = "range",
 #     MCsims = 900000,
 #     baselineRange = c(0.525, 0.525) ,
 #     nEvents = 10,
 #     nAtRisk = 20,
-#     numberOfTreatments = 3,
+#     numberOfTreatments = 2,
 #     binaryRelativeScale_t2 = "OR",
 #     binaryRelativeScale_t3 = "OR",
 #     binaryRelativeScale_t4 = "OR",
-#     binaryDist_t2 = "norm",
+#     binaryDist_t2 = "alwaysPositive", # "alwaysPositive" "alwaysNegative" "norm"
 #     binaryDist_t3 ="norm" ,
 #     binaryDist_t4 = "alwaysPositive",
 #     OR_t2= c(0.375, 2.66),
@@ -731,7 +731,7 @@ master <- function(
 #     HRHalfNorm_t2=1.4,
 #     HRHalfNorm_t3=1.4,
 #     HRHalfNorm_t4=1.4,
-#     typeOfOutcome= "netHealth", # "benefit" or "harm" "netHealth"
+#     typeOfOutcome= "benefit", # "benefit" or "harm" "netHealth"
 #     tCostsDependOnEvent= "No",
 #     MCD_t2 = 0.0,
 #     MCD_t3 = 0.0,

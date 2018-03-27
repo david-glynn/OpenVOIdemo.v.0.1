@@ -844,31 +844,15 @@ shinyUI(fluidPage(
                                                                                                 "Risk ratio" = "RR",
                                                                                                 "Risk difference" = "RD"),
                                                                                     selected = "Odds ratio"),
+                                                                        
+                                                                        # remove halfnormal option!
+                                                                        conditionalPanel(condition = "input.typeOfEndpoint != 'binary'",
                                                                         # decide halfnorm / norm distribution
                                                                         selectInput(inputId = "binaryDist_t2",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
                                                                                     choices = c("The intervention is known to be strictly better" = "alwaysPositive",
                                                                                                 "The intervention is known to be strictly worse" = "alwaysNegative",
                                                                                                 "There is uncertainty about whether the intervention is better/worse" = "norm"),
                                                                                     selected = "norm"),
-                                                                        
-                                                                        # if normal dist
-                                                                        #
-                                                                        conditionalPanel(condition = "input.binaryDist_t2 == 'norm'",
-                                                                                         #
-                                                                                         # for OR (norm) # CRASH default inputs
-                                                                                         conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
-                                                                                                          sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
-                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))),
-                                                                                         # for RR (norm)
-                                                                                         conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
-                                                                                                          sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
-                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.9, 1.1))),
-                                                                                         # for RD (norm)
-                                                                                         conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
-                                                                                                          sliderInput("RD_t2", "Select a plausible 95% range for the risk difference",
-                                                                                                                      post = "%",step = 0.01, min = -50, max = 50, value = c(-5, 5)))
-                                                                        ), # end normal dist conditional panel
-                                                                        
                                                                         # if half Normal dist
                                                                         #
                                                                         # if alwaysPositive half normal
@@ -904,6 +888,27 @@ shinyUI(fluidPage(
                                                                                                           sliderInput("RDHalfNorm_t2", "Select a plausible 95% range for the risk difference. The upper bound is set to 0%",
                                                                                                                       post = "%", step = 0.01, min = -50, max = 0, value = 0.5))
                                                                         ) # end alwaysNegative half normal
+                                                                        ),
+                                                                        
+                                                                        # if normal dist
+                                                                        #
+                                                                        conditionalPanel(condition = "input.binaryDist_t2 == 'norm'",
+                                                                                         #
+                                                                                         # for OR (norm) # CRASH default inputs
+                                                                                         conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
+                                                                                                          sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
+                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))),
+                                                                                         # for RR (norm)
+                                                                                         conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
+                                                                                                          sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
+                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.9, 1.1))),
+                                                                                         # for RD (norm)
+                                                                                         conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
+                                                                                                          sliderInput("RD_t2", "Select a plausible 95% range for the risk difference",
+                                                                                                                      post = "%",step = 0.01, min = -50, max = 50, value = c(-5, 5)))
+                                                                        ) # end normal dist conditional panel
+                                                                        
+                                                                        
                                                                         
                                                                         
                                                                         
@@ -930,6 +935,15 @@ shinyUI(fluidPage(
                                                                         
                                                                         # if range selected
                                                                         conditionalPanel(condition = "input.continuousInput_t2 == 'range'",
+                                                                                         
+                                                                                         # if normal range selected
+                                                                                         conditionalPanel(condition = "input.continDist_t2 == 'norm'",
+                                                                                                          sliderInput("MD_t2", "Select a plausible 95% range for the mean difference",
+                                                                                                                      step = 0.01, min = -20, max = 20, value = c(-2, 2))
+                                                                                         ), # end normal range
+                                                                                         
+                                                                                         # remove half normal option!
+                                                                                         conditionalPanel(condition = "input.typeOfEndpoint != 'continuous'",
                                                                                          # decide halfnorm / norm distribution - only allow this if range selected - otherwise mean and se is ambiguous
                                                                                          selectInput(inputId = "continDist_t2",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
                                                                                                      choices = c("The intervention is known to be strictly better" = "alwaysPositive",
@@ -937,11 +951,7 @@ shinyUI(fluidPage(
                                                                                                                  "There is uncertainty about whether the intervention is better/worse" = "norm"),
                                                                                                      selected = "norm"),
                                                                                          
-                                                                                         # if normal range selected
-                                                                                         conditionalPanel(condition = "input.continDist_t2 == 'norm'",
-                                                                                                          sliderInput("MD_t2", "Select a plausible 95% range for the mean difference",
-                                                                                                                      step = 0.01, min = -20, max = 20, value = c(-2, 2))
-                                                                                         ), # end normal range
+                                                                                         
                                                                                          
                                                                                          # if half Normal range selected
                                                                                          #
@@ -959,7 +969,9 @@ shinyUI(fluidPage(
                                                                                                                       step = 0.01, min = -20, max = 0, value = 0.5)
                                                                                          ) # end alwaysNegative half normal
                                                                                          
-                                                                        )
+                                                                                         ) # end conditional panel to hide half normal inputs
+                                                                                         
+                                                                        ) # end range input
                                                                         
                                                                         
                                                                         
@@ -969,13 +981,6 @@ shinyUI(fluidPage(
                                                        # new survival epi inputs for intervention 1
                                                        conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
                                                                         
-                                                                        # decide halfnorm / norm distribution
-                                                                        selectInput(inputId = "survivalDist_t2",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
-                                                                                    choices = c("The intervention is known to be strictly better" = "alwaysPositive",
-                                                                                                "The intervention is known to be strictly worse" = "alwaysNegative",
-                                                                                                "There is uncertainty about whether the intervention is better/worse" = "norm"),
-                                                                                    selected = "norm"),
-                                                                        
                                                                         # if normal dist
                                                                         #
                                                                         conditionalPanel(condition = "input.survivalDist_t2 == 'norm'",
@@ -983,6 +988,16 @@ shinyUI(fluidPage(
                                                                                          sliderInput("HR_t2", "Select a plausible 95% range for the hazard ratio",
                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))
                                                                         ), # end normal dist conditional panel
+                                                                        
+                                                                        
+                                                                        # hide half normal inputs
+                                                                        conditionalPanel(condition = "input.typeOfEndpoint != 'survival'",
+                                                                        # decide halfnorm / norm distribution
+                                                                        selectInput(inputId = "survivalDist_t2",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
+                                                                                    choices = c("The intervention is known to be strictly better" = "alwaysPositive",
+                                                                                                "The intervention is known to be strictly worse" = "alwaysNegative",
+                                                                                                "There is uncertainty about whether the intervention is better/worse" = "norm"),
+                                                                                    selected = "norm"),
                                                                         
                                                                         # if half Normal dist
                                                                         #
@@ -1000,7 +1015,7 @@ shinyUI(fluidPage(
                                                                                          sliderInput("HRHalfNorm_t2", "Select a plausible 95% range for the hazard ratio. The upper bound is set to 1",
                                                                                                      step = 0.01, min = 0, max = 1, value = 0.5)
                                                                         ) # end alwaysNegative half normal
-                                                                        
+                                                                        ) # end hide survival half normal inputs
                                                                         
                                                        ), # end survival epi inputs intervention 1
                                                        
@@ -1032,12 +1047,6 @@ shinyUI(fluidPage(
                                                                                                 "Risk ratio" = "RR",
                                                                                                 "Risk difference" = "RD"),
                                                                                     selected = "Odds ratio"),
-                                                                        # decide halfnorm / norm distribution
-                                                                        selectInput(inputId = "binaryDist_t3",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
-                                                                                    choices = c("The intervention is known to be strictly better" = "alwaysPositive",
-                                                                                                "The intervention is known to be strictly worse" = "alwaysNegative",
-                                                                                                "There is uncertainty about whether the intervention is better/worse" = "norm"),
-                                                                                    selected = "norm"),
                                                                         
                                                                         # if normal dist
                                                                         #
@@ -1056,6 +1065,18 @@ shinyUI(fluidPage(
                                                                                                           sliderInput("RD_t3", "Select a plausible 95% range for the risk difference",
                                                                                                                       post = "%",step = 0.01, min = -50, max = 50, value = c(-5, 5)))
                                                                         ), # end normal dist conditional panel
+                                                                        
+                                                                        
+                                                                        # hide half normal inputs
+                                                                        conditionalPanel(condition = "input.typeOfEndpoint != 'binary'",
+                                                                        # decide halfnorm / norm distribution
+                                                                        selectInput(inputId = "binaryDist_t3",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
+                                                                                    choices = c("The intervention is known to be strictly better" = "alwaysPositive",
+                                                                                                "The intervention is known to be strictly worse" = "alwaysNegative",
+                                                                                                "There is uncertainty about whether the intervention is better/worse" = "norm"),
+                                                                                    selected = "norm"),
+                                                                        
+                                                                        
                                                                         
                                                                         # if half Normal dist
                                                                         #
@@ -1092,7 +1113,7 @@ shinyUI(fluidPage(
                                                                                                           sliderInput("RDHalfNorm_t3", "Select a plausible 95% range for the risk difference. The upper bound is set to 0%",
                                                                                                                       post = "%", step = 0.01, min = -50, max = 0, value = 0.5))
                                                                         ) # end alwaysNegative half normal
-                                                                        
+                                                                        ) # end hide half normal binary inputs
                                                                         
                                                                         
                                                                         
@@ -1118,6 +1139,15 @@ shinyUI(fluidPage(
                                                                         
                                                                         # if range selected
                                                                         conditionalPanel(condition = "input.continuousInput_t3 == 'range'",
+                                                                                         
+                                                                                         # if normal range selected
+                                                                                         conditionalPanel(condition = "input.continDist_t3 == 'norm'",
+                                                                                                          sliderInput("MD_t3", "Select a plausible 95% range for the mean difference",
+                                                                                                                      step = 0.01, min = -20, max = 20, value = c(-2, 2))
+                                                                                         ), # end normal range
+                                                                                         
+                                                                                         
+                                                                                         conditionalPanel(condition = "input.typeOfEndpoint != 'continuous'",
                                                                                          # decide halfnorm / norm distribution - only allow this if range selected - otherwise mean and se is ambiguous
                                                                                          selectInput(inputId = "continDist_t3",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
                                                                                                      choices = c("The intervention is known to be strictly better" = "alwaysPositive",
@@ -1125,11 +1155,6 @@ shinyUI(fluidPage(
                                                                                                                  "There is uncertainty about whether the intervention is better/worse" = "norm"),
                                                                                                      selected = "norm"),
                                                                                          
-                                                                                         # if normal range selected
-                                                                                         conditionalPanel(condition = "input.continDist_t3 == 'norm'",
-                                                                                                          sliderInput("MD_t3", "Select a plausible 95% range for the mean difference",
-                                                                                                                      step = 0.01, min = -20, max = 20, value = c(-2, 2))
-                                                                                         ), # end normal range
                                                                                          
                                                                                          # if half Normal range selected
                                                                                          #
@@ -1146,8 +1171,9 @@ shinyUI(fluidPage(
                                                                                                           sliderInput("MDHalfNorm_t3", "Select a plausible 95% range for the mean difference. The upper bound is set to 0",
                                                                                                                       step = 0.01, min = -20, max = 0, value = 0.5)
                                                                                          ) # end alwaysNegative half normal
+                                                                                         ) # end hide half normal
                                                                                          
-                                                                        )
+                                                                        ) # end range inputs
                                                                         
                                                                         
                                                                         
@@ -1157,13 +1183,6 @@ shinyUI(fluidPage(
                                                        # new survival epi inputs for intervention 2
                                                        conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
                                                                         
-                                                                        # decide halfnorm / norm distribution
-                                                                        selectInput(inputId = "survivalDist_t3",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
-                                                                                    choices = c("The intervention is known to be strictly better" = "alwaysPositive",
-                                                                                                "The intervention is known to be strictly worse" = "alwaysNegative",
-                                                                                                "There is uncertainty about whether the intervention is better/worse" = "norm"),
-                                                                                    selected = "norm"),
-                                                                        
                                                                         # if normal dist
                                                                         #
                                                                         conditionalPanel(condition = "input.survivalDist_t3 == 'norm'",
@@ -1172,6 +1191,16 @@ shinyUI(fluidPage(
                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))
                                                                         ), # end normal dist conditional panel
                                                                         
+                                                                        
+                                                                        conditionalPanel(condition = "input.typeOfEndpoint != 'survival'",
+                                                                        # decide halfnorm / norm distribution
+                                                                        selectInput(inputId = "survivalDist_t3",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
+                                                                                    choices = c("The intervention is known to be strictly better" = "alwaysPositive",
+                                                                                                "The intervention is known to be strictly worse" = "alwaysNegative",
+                                                                                                "There is uncertainty about whether the intervention is better/worse" = "norm"),
+                                                                                    selected = "norm"),
+                                                                        
+                                                                       
                                                                         # if half Normal dist
                                                                         #
                                                                         # if alwaysPositive half normal
@@ -1188,7 +1217,7 @@ shinyUI(fluidPage(
                                                                                          sliderInput("HRHalfNorm_t3", "Select a plausible 95% range for the hazard ratio. The upper bound is set to 1",
                                                                                                      step = 0.01, min = 0, max = 1, value = 0.5)
                                                                         ) # end alwaysNegative half normal
-                                                                        
+                                                                        ) # end hide half normal
                                                                         
                                                        ), # end survival epi inputs intervention 2
                                                        
@@ -1222,12 +1251,6 @@ shinyUI(fluidPage(
                                                                                                                  "Risk ratio" = "RR",
                                                                                                                  "Risk difference" = "RD"),
                                                                                                      selected = "Odds ratio"),
-                                                                                         # decide halfnorm / norm distribution
-                                                                                         selectInput(inputId = "binaryDist_t4",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
-                                                                                                     choices = c("The intervention is known to be strictly better" = "alwaysPositive",
-                                                                                                                 "The intervention is known to be strictly worse" = "alwaysNegative",
-                                                                                                                 "There is uncertainty about whether the intervention is better/worse" = "norm"),
-                                                                                                     selected = "norm"),
                                                                                          
                                                                                          # if normal dist
                                                                                          #
@@ -1246,6 +1269,18 @@ shinyUI(fluidPage(
                                                                                                                            sliderInput("RD_t4", "Select a plausible 95% range for the risk difference",
                                                                                                                                        post = "%",step = 0.01, min = -50, max = 50, value = c(-5, 5)))
                                                                                          ), # end normal dist conditional panel
+                                                                                         
+                                                                                         
+                                                                                         # hide half normal
+                                                                                         conditionalPanel(condition = "input.typeOfEndpoint != 'binary'",
+                                                                                         # decide halfnorm / norm distribution
+                                                                                         selectInput(inputId = "binaryDist_t4",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
+                                                                                                     choices = c("The intervention is known to be strictly better" = "alwaysPositive",
+                                                                                                                 "The intervention is known to be strictly worse" = "alwaysNegative",
+                                                                                                                 "There is uncertainty about whether the intervention is better/worse" = "norm"),
+                                                                                                     selected = "norm"),
+                                                                                         
+                                                                                         
                                                                                          
                                                                                          # if half Normal dist
                                                                                          #
@@ -1282,7 +1317,7 @@ shinyUI(fluidPage(
                                                                                                                            sliderInput("RDHalfNorm_t4", "Select a plausible 95% range for the risk difference. The upper bound is set to 0%",
                                                                                                                                        post = "%", step = 0.01, min = -50, max = 0, value = 0.5))
                                                                                          ) # end alwaysNegative half normal
-                                                                                         
+                                                                                         ) # end conditional panel to hide half normal  
                                                                                          
                                                                                          
                                                                                          
@@ -1308,6 +1343,15 @@ shinyUI(fluidPage(
                                                                                          
                                                                                          # if range selected
                                                                                          conditionalPanel(condition = "input.continuousInput_t4 == 'range'",
+                                                                                                          
+                                                                                                          # if normal range selected
+                                                                                                          conditionalPanel(condition = "input.continDist_t4 == 'norm'",
+                                                                                                                           sliderInput("MD_t4", "Select a plausible 95% range for the mean difference",
+                                                                                                                                       step = 0.01, min = -20, max = 20, value = c(-2, 2))
+                                                                                                          ), # end normal range
+                                                                                                          
+                                                                                                          
+                                                                                                          conditionalPanel(condition = "input.typeOfEndpoint != 'continuous'",
                                                                                                           # decide halfnorm / norm distribution - only allow this if range selected - otherwise mean and se is ambiguous
                                                                                                           selectInput(inputId = "continDist_t4",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
                                                                                                                       choices = c("The intervention is known to be strictly better" = "alwaysPositive",
@@ -1315,11 +1359,7 @@ shinyUI(fluidPage(
                                                                                                                                   "There is uncertainty about whether the intervention is better/worse" = "norm"),
                                                                                                                       selected = "norm"),
                                                                                                           
-                                                                                                          # if normal range selected
-                                                                                                          conditionalPanel(condition = "input.continDist_t4 == 'norm'",
-                                                                                                                           sliderInput("MD_t4", "Select a plausible 95% range for the mean difference",
-                                                                                                                                       step = 0.01, min = -20, max = 20, value = c(-2, 2))
-                                                                                                          ), # end normal range
+                                                                                                          
                                                                                                           
                                                                                                           # if half Normal range selected
                                                                                                           #
@@ -1336,8 +1376,9 @@ shinyUI(fluidPage(
                                                                                                                            sliderInput("MDHalfNorm_t4", "Select a plausible 95% range for the mean difference. The upper bound is set to 0",
                                                                                                                                        step = 0.01, min = -20, max = 0, value = 0.5)
                                                                                                           ) # end alwaysNegative half normal
+                                                                                                          ) # end hide half normal 
                                                                                                           
-                                                                                         )
+                                                                                         ) # end range inputs
                                                                                          
                                                                                          
                                                                                          
@@ -1347,13 +1388,6 @@ shinyUI(fluidPage(
                                                                         # new survival epi inputs for intervention 3
                                                                         conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
                                                                                          
-                                                                                         # decide halfnorm / norm distribution
-                                                                                         selectInput(inputId = "survivalDist_t4",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
-                                                                                                     choices = c("The intervention is known to be strictly better" = "alwaysPositive",
-                                                                                                                 "The intervention is known to be strictly worse" = "alwaysNegative",
-                                                                                                                 "There is uncertainty about whether the intervention is better/worse" = "norm"),
-                                                                                                     selected = "norm"),
-                                                                                         
                                                                                          # if normal dist
                                                                                          #
                                                                                          conditionalPanel(condition = "input.survivalDist_t4 == 'norm'",
@@ -1361,6 +1395,15 @@ shinyUI(fluidPage(
                                                                                                           sliderInput("HR_t4", "Select a plausible 95% range for the hazard ratio",
                                                                                                                       step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))
                                                                                          ), # end normal dist conditional panel
+                                                                                         
+                                                                                         
+                                                                                         conditionalPanel(condition = "input.typeOfEndpoint != 'survival'",
+                                                                                         # decide halfnorm / norm distribution
+                                                                                         selectInput(inputId = "survivalDist_t4",  "Compared to the baseline, is it expected that this intervention is either always better, always worse, or is there uncertainty about which is better on the primary outcome?",
+                                                                                                     choices = c("The intervention is known to be strictly better" = "alwaysPositive",
+                                                                                                                 "The intervention is known to be strictly worse" = "alwaysNegative",
+                                                                                                                 "There is uncertainty about whether the intervention is better/worse" = "norm"),
+                                                                                                     selected = "norm"),
                                                                                          
                                                                                          # if half Normal dist
                                                                                          #
@@ -1378,7 +1421,7 @@ shinyUI(fluidPage(
                                                                                                           sliderInput("HRHalfNorm_t4", "Select a plausible 95% range for the hazard ratio. The upper bound is set to 1",
                                                                                                                       step = 0.01, min = 0, max = 1, value = 0.5)
                                                                                          ) # end alwaysNegative half normal
-                                                                                         
+                                                                                         ) # end hide half normal
                                                                                          
                                                                         ), # end survival epi inputs intervention 3
                                                                         
@@ -1523,21 +1566,21 @@ shinyUI(fluidPage(
                                                                 h4("Comprehensive meausure of health outcome"),
                                                                 
                                                                 numericInput("k", "Opportunity cost of health system expenditure",
-                                                                             value = 15000, min = 0, max = NA, step = 500),
+                                                                             value = 15000, min = 0, max = NA, step = 500)
                                                                 
-                                                                conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
-                                                                                 numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
-                                                                                              value = 2, min = NA, max = NA, step = 0.05)),
-                                                                
-                                                                conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
-                                                                                 numericInput("INBContinEvent", 
-                                                                                              "Net health effect of unit increase in continuous outcome (in QALYs)",
-                                                                                              value = 0.05, min = NA, max = NA, step = 0.05)),
-                                                                
-                                                                # BUG!! If this has NA value then the app crashes
-                                                                conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
-                                                                                 numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
-                                                                                              value = 0.5, min = NA, max = NA, step = 0.05))
+                                                                # conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
+                                                                #                  numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
+                                                                #                               value = 2, min = NA, max = NA, step = 0.05)),
+                                                                # 
+                                                                # conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
+                                                                #                  numericInput("INBContinEvent", 
+                                                                #                               "Net health effect of unit increase in continuous outcome (in QALYs)",
+                                                                #                               value = 0.05, min = NA, max = NA, step = 0.05)),
+                                                                # 
+                                                                # # BUG!! If this has NA value then the app crashes
+                                                                # conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
+                                                                #                  numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
+                                                                #                               value = 0.5, min = NA, max = NA, step = 0.05))
                                                                 
                                                               ) # end wellPanel
                                              ) # end conditional well panel

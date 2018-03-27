@@ -735,7 +735,7 @@ hazardRatioCIToExpectedSurvival_tn <- function(survivalType, lambda_t1,gamma_t1,
 # weibull with gamma = 1 = exponential 
 # higher hazard ratio => shorter expected survival
 # ExpectedSurvival_tn <- hazardRatioCIToExpectedSurvival_tn(survivalType = "exponential",
-#                                                           lambda_t1 = 7,
+#                                                           lambda_t1 = 0.02,
 #                                                           gamma_t1 = NA,
 #                                                           HR_tn = c(0.9, 1.1), MCsims = 1000)
 # mean(ExpectedSurvival_tn) # ExpectedSurvival_t1 = 1/lambda_t1 = 1/7 = 0.143

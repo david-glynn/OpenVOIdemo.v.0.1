@@ -332,6 +332,7 @@ shinyServer(function(input, output,clientData, session) {
   
   
   
+  
   ###########################################################
   # Results 
   ####################################################
@@ -552,7 +553,8 @@ shinyServer(function(input, output,clientData, session) {
   output$discussHistVOIYear2 <- renderText({
     paste0("However, there is a ",
            FormatProbOptimalTisNotMax(),
-           " chance that optimalTreatment does not provide the largest health benefit. These health consequences are not uniform. 
+           " chance that ", VOIResults$optimalTreatment,
+           " does not provide the largest health benefit. These health consequences are not uniform. 
            There is a greater chance of more limited consequences compared to a smaller chance of greater adverse consequences.")
   })
 
