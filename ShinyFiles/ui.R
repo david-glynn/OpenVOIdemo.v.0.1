@@ -315,8 +315,9 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               strong("State 1.1"),
-                                                              numericInput("probability_s11", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
-                                                                           value = 0.42, min = 0, max = 1, step = 0.05),
+                                                              conditionalPanel(condition = "input.numberS1States >= 2 ",
+                                                                  numericInput("probability_s11", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                                               value = 0.42, min = 0, max = 1, step = 0.05)),
                                                               numericInput("lifeDuration_s11", "What is the life expectancy of an individual in this state (years)?",
                                                                            value = 16.73, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s11", "What is the health utility associated with this state?",
@@ -468,8 +469,9 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               strong("State 2.1"),
-                                                              numericInput("probability_s01", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
-                                                                           value = 0.29, min = 0, max = 1, step = 0.05),
+                                                              conditionalPanel(condition = "input.numberS0States >= 2 ",
+                                                                    numericInput("probability_s01", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                                                 value = 0.29, min = 0, max = 1, step = 0.05)),
                                                               numericInput("lifeDuration_s01", "What is the life expectancy of an individual in this state (years)?",
                                                                            value = 0, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s01", "What is the health utility associated with this state?",

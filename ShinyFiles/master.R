@@ -2,6 +2,25 @@
 # master function
 
 
+# epi stuff
+# # from meta analysis of HTA results in Djulbegovic Cochrane article:
+# #  -0.089 mean on log scale i.e. outcomes favour the new treatment
+# exp(-0.089) # outcome harm
+# exp(+0.089) # outcome benefit (assuming symmetry)
+# 
+# # from visual inspection of HTA results
+# sigma = 0.8 # an approximation
+# 
+# # CALCULATE CIs
+# # outcome is a harm:
+# exp(-0.089 + sigma*1.96) # = 0.19 to 4.39
+# exp(-0.089 - sigma*1.96) # = 
+# # outcome is a benefit:
+# exp(0.089 + sigma*1.96) # = 
+# exp(0.089 - sigma*1.96) # = 0.23 to 5.24
+
+
+
 
 # test data
 # typeOfEndpoint = "binary" # 'binary', "continuous''survival"
