@@ -48,7 +48,12 @@ feasibilityPop <- function(incidence, discountRate, durationOfResearchDefinitive
 # pops$popTotal - pops$popDuringFeasResearch - pops$popDuringDefinitiveResearch - pops$popAfterDefinitiveResearch
 
 
-
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
 
 
 # # test data for NBtoEVPIResultsFeas
@@ -229,6 +234,14 @@ NBtoEVPIResultsFeas <- function(NB_t,
   maxvalueOfResearch <- Cell_D - Cell_C 
   
   
+  # does not take account of op costs of expenditure or anything
+  #only the effect of delay
+  maxvalueOfResearchAfterDefinitiveTrial <- 
+    (popDuringFeasResearch + popDuringDefinitiveResearch)*NB_EVTCI +
+    popAfterDefinitiveResearch*NB_EVTPI - Cell_C
+  
+  
+  
   # calculating the benefits of research (under differnt assumptions)
   ########################################
   # perfect info and perfect implementation (includes that it is instant)
@@ -246,6 +259,8 @@ NBtoEVPIResultsFeas <- function(NB_t,
   # --- return to this -----
   #NB_maxt_perfect_info_imp <- popDuringResearch*NB_EVTCI  + popAfterResearch*NB_EVTPI 
   
+  # typeOfOutcome <- "benefit"
+  # typeOfOutcome <- "netHealth"
   # gross net benefit with perfect implementation during the trial
   NB_E_maxt_trial <- 
     # if its a net benefit analysis the NHS cost of pilot is always subtracted
@@ -357,6 +372,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
     Cell_D = Cell_D,
     maxvalueOfImplementation = maxvalueOfImplementation,
     maxvalueOfResearch = maxvalueOfResearch,
+    maxvalueOfResearchAfterDefinitiveTrial = maxvalueOfResearchAfterDefinitiveTrial,
     expectedCostHealthSystem = expectedCostHealthSystem,                  # new output
     healthOpportunityCostsOfResearch = healthOpportunityCostsOfResearch,
     valueOfResearchWithCurrentImplementation = valueOfResearchWithCurrentImplementation,

@@ -717,6 +717,8 @@ NBtoEVPIResults <- function(NB_t,
   valueOfResearchPerYear <- NB_EVTPI *incidence - NB_EVTCI *incidence
   valueOfImplementationPerYear <- incidence*NB_EVTCI  - sum(ENB_t * Utilisation_t*incidence, na.rm = TRUE)
   
+  
+  
   # if valueOfResearchPerYear is zero then it breaks the app
   if(valueOfResearchPerYear > 0){
     # histogram of effects per year
@@ -772,6 +774,11 @@ NBtoEVPIResults <- function(NB_t,
   maxvalueOfImplementation <- Cell_C - Cell_A # max value of early access
   maxvalueOfResearch <- Cell_D - Cell_C 
   
+  # does not take account of op costs of expenditure or anything
+  #only the effect of delay
+  maxvalueOfResearchDesign <- 
+    popDuringResearch*NB_EVTCI +
+    popAfterResearch*NB_EVTPI - Cell_C
   
   # calculating the benefits of research (under differnt assumptions)
   ########################################
@@ -852,6 +859,7 @@ NBtoEVPIResults <- function(NB_t,
     Cell_D = Cell_D,
     maxvalueOfImplementation = maxvalueOfImplementation,
     maxvalueOfResearch = maxvalueOfResearch,
+    maxvalueOfResearchDesign = maxvalueOfResearchDesign,
     healthOpportunityCostsOfResearch = healthOpportunityCostsOfResearch,
     valueOfResearchWithCurrentImplementation = valueOfResearchWithCurrentImplementation,
     valueOfResearchWithPerfectImplementation = valueOfResearchWithPerfectImplementation,

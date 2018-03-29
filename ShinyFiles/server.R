@@ -311,6 +311,8 @@ shinyServer(function(input, output,clientData, session) {
     VOIResults$Cell_D <- resultsHolder()$Cell_D
     VOIResults$maxvalueOfImplementation <- resultsHolder()$maxvalueOfImplementation
     VOIResults$maxvalueOfResearch <- resultsHolder()$maxvalueOfResearch
+    VOIResults$maxvalueOfResearchDesign <- resultsHolder()$maxvalueOfResearchDesign
+    VOIResults$maxvalueOfResearchAfterDefinitiveTrial <- resultsHolder()$maxvalueOfResearchAfterDefinitiveTrial
     VOIResults$healthOpportunityCostsOfResearch <- resultsHolder()$healthOpportunityCostsOfResearch
     VOIResults$valueOfResearchWithCurrentImplementation <- resultsHolder()$valueOfResearchWithCurrentImplementation
     VOIResults$valueOfResearchWithPerfectImplementation <- resultsHolder()$valueOfResearchWithPerfectImplementation
@@ -366,12 +368,10 @@ shinyServer(function(input, output,clientData, session) {
   # format ouputs for use in reusults (and report??)
   # MUST CALL THESE AS FUNCTIONS!! e.g. FormatValueOfResearchWithPerfectImplementation()
   
-  FormatProbOptimalTisNotMax <- reactive(
-    paste0(round(VOIResults$probOptimalTisNotMax*100,0), "%"))
   
-  FormatProbOptimalTisMax <- reactive(
-    paste0(round(VOIResults$probOptimalTisMax*100,0), "%"))
   
+  
+  # value of research / implementation
   FormatValueOfResearchPerYear <- reactive( 
     formatC(round(VOIResults$valueOfResearchPerYear, 0), big.mark = ',', format = 'd'))
   
@@ -380,33 +380,85 @@ shinyServer(function(input, output,clientData, session) {
   
   FormatMaxvalueOfResearch <- reactive( 
     formatC(round(VOIResults$maxvalueOfResearch, 0), big.mark = ',', format = 'd'))
- 
+  
+  FormatMaxvalueOfResearchDesign <- reactive( 
+    formatC(round(VOIResults$maxvalueOfResearchDesign, 0), big.mark = ',', format = 'd'))
+  
+  
+  FormatMaxvalueOfResearchAfterDefinitiveTrial <- reactive( 
+    formatC(round(VOIResults$maxvalueOfResearchAfterDefinitiveTrial, 0), big.mark = ',', format = 'd'))
+
+  
   FormatValueOfResearchWithPerfectImplementation <- reactive( 
     formatC(round(VOIResults$valueOfResearchWithPerfectImplementation, 0), big.mark = ',', format = 'd'))
   
-  FormatCostResearchFunder <- reactive(
-    paste0(input$currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd')))
- 
+  FormatValueOfCertainResearchWithPerfectImplementation  <- reactive( 
+    formatC(round(VOIResults$valueOfCertainResearchWithPerfectImplementation, 0), big.mark = ',', format = 'd'))
+  
+  FormatMaxValueOfUncertainResearchWithPerfectImplementation  <- reactive( 
+    formatC(round(VOIResults$maxvalueOfResearchAfterDefinitiveTrial* input$probabilityOfDefinitiveResearch, 0), big.mark = ',', format = 'd'))
+  
+  
+  
+  # probabilities
+  FormatProbOptimalTisNotMax <- reactive(
+    paste0(round(VOIResults$probOptimalTisNotMax*100,0), "%"))
+  
+  FormatProbOptimalTisMax <- reactive(
+    paste0(round(VOIResults$probOptimalTisMax*100,0), "%"))
+  
+  FormatProbabilityOfDefinitiveResearch <- reactive(
+    paste0(input$probabilityOfDefinitiveResearch*100, "%"))
+  
+  
+  
+  
+  # ICERs
+
   FormatICER_ResearchWithPerfectImplementation <- reactive(
     paste0(input$currencySymbol, formatC(round(VOIResults$ICER_ResearchWithPerfectImplementation,0), big.mark = ',',format = 'd')))
   
+
+
+
+
+  # costs
+  
+  FormatK <- reactive(
+    paste0(input$currencySymbol, formatC(input$k, big.mark = ',',format = 'd')))
+  
+  FormatHealthOpportunityCostsOfResearch <- reactive( 
+    formatC(round(VOIResults$healthOpportunityCostsOfResearch, 0), big.mark = ',', format = 'd'))
+  
+
+  # costs: RCT
+  FormatCostResearchFunder <- reactive(
+    paste0(input$currencySymbol, formatC(input$costResearchFunder, big.mark = ',',format = 'd')))
+  
+  FormatCostHealthSystem <- reactive(
+    paste0(input$currencySymbol, formatC(input$costHealthSystem, big.mark = ',',format = 'd')))
+  
+  # costs: feasibiltiy
   FormatCostResearchFunderFeas <- reactive(
     paste0(input$currencySymbol, formatC(input$costResearchFunderFeas, big.mark = ',',format = 'd')))
   
   FormatCostResearchFunderDefinitive <- reactive(
     paste0(input$currencySymbol, formatC(input$costResearchFunderDefinitive, big.mark = ',',format = 'd')))
   
-  FormatProbabilityOfDefinitiveResearch <- reactive(
-    paste0(input$probabilityOfDefinitiveResearch*100, "%"))
+  FormatCostHealthSystemFeas <- reactive(
+    paste0(input$currencySymbol, formatC(input$costHealthSystemFeas, big.mark = ',',format = 'd')))
+  
+  FormatCostHealthSystemDefinitive <- reactive(
+    paste0(input$currencySymbol, formatC(input$costHealthSystemDefinitive, big.mark = ',',format = 'd')))
+
   
   FormatExpectedCostResearchFunder <- reactive(
     paste0(input$currencySymbol, formatC(round(VOIResults$expectedCostResearchFunder,0), big.mark = ',',format = 'd')))
   
-  FormatValueOfCertainResearchWithPerfectImplementation  <- reactive( 
-    formatC(round(VOIResults$valueOfCertainResearchWithPerfectImplementation, 0), big.mark = ',', format = 'd'))
+  FormatExpectedCostHealthSystem <- reactive(
+    paste0(input$currencySymbol, formatC(round(VOIResults$expectedCostHealthSystem,0), big.mark = ',',format = 'd')))
   
-  FormatValueOfUncertainResearchWithPerfectImplementation  <- reactive( 
-    formatC(round(VOIResults$valueOfCertainResearchWithPerfectImplementation*probabilityOfDefinitiveResearch, 0), big.mark = ',', format = 'd'))
+  
   
   
   # Headline
@@ -599,6 +651,45 @@ shinyServer(function(input, output,clientData, session) {
            " over the full time horizon.")
   })
   
+  # max value of full trial 
+  output$fullTrialMaxValueOfResearchRCT <- renderText({
+    paste0("It is expected that it will take ", 
+           input$durationOfResearch
+           ," years for the research to report and so the upper bound on the value of this research is expected to fall to ",
+           FormatMaxvalueOfResearchDesign() ,
+           " ", paste0(newNameOfOutcome(),"s"),ifelse(newTypeOfOutcome() != "harm", " gained.", " avoided."))
+  })
+  
+  # test 
+  # == TRUE if max value of the proposed research is positive,  FALSE otherwise
+  output$PositiveValueOfResearchDesignRCT <- renderText({
+    VOIResults$maxvalueOfResearchDesign > 0
+  })
+  
+  output$researchTakesTooLong <- renderText({
+    paste0("As the value of this research is zero this suggests that the proposed research takes too long to report. By the time the research reports the population who can potentially benefit is expected to fall to zero.")
+  })
+  
+  output$expectedRCTNHSOpportunityCost <- renderText({
+    paste0("Funding this research imposes an expected cost of ",
+           FormatCostHealthSystem(),
+           " on additional health system support and treatment budgets. The estimated opportunity cost of these resources is (",
+           FormatCostHealthSystem(), "/", FormatK(), " =) ",
+           FormatHealthOpportunityCostsOfResearch(), 
+           " QALYs. After these costs have been subtracted the maximum value of this research falls from  ",
+           FormatMaxvalueOfResearchDesign(), " to ",
+           FormatValueOfResearchWithPerfectImplementation(), "."
+           )
+  })
+  
+  output$ValueOfResearchRCT <- renderText({
+    paste0("The proposed research is expected to cost the research funder ",
+           FormatCostResearchFunder(), 
+           ", meaning the maximum value of the proposed research is estimated to be (",
+           FormatCostResearchFunder(), "/", FormatValueOfResearchWithPerfectImplementation(),
+           " =) ", FormatICER_ResearchWithPerfectImplementation(), 
+           " per ", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", " gained.", "avoided."))
+  })
   
   
   # Proposed research: feasibiltiy
@@ -624,29 +715,90 @@ shinyServer(function(input, output,clientData, session) {
            " years for potential follow up research to report. After (",
            input$durationOfResearchFeas ," + ",input$durationOfResearchDefinitive ," =) ",input$durationOfResearchFeas + input$durationOfResearchDefinitive ,
            " years, the upper bound on the value of this research is expected to be ",
-           FormatValueOfCertainResearchWithPerfectImplementation() ,
+           FormatMaxvalueOfResearchAfterDefinitiveTrial() ,
            " ", paste0(newNameOfOutcome(),"s"),ifelse(newTypeOfOutcome() != "harm", " gained.", " avoided."))
   })
   
   # test 
   # == TRUE if value of full trial in feasibility studies,  FASE otherwise
   output$PositiveValueOfFullTrialFeas <- renderText({
-    VOIResults$valueOfCertainResearchWithPerfectImplementation > 0
+    VOIResults$maxvalueOfResearchAfterDefinitiveTrial > 0
   })
   
   # reduce max value by prob of feasibilty research
   output$fullTrialNotCertainFeas <- renderText({
-    paste0("As there is a", 
-           paste0(input$probabilityOfDefinitiveResearch*100, "%"),
-           "chance that the full trial is not possible, the upper bound on the value of this project falls to",
-           FormatValueOfUncertainResearchWithPerfectImplementation(),
-           " ", paste0(newNameOfOutcome(),"s"),ifelse(newTypeOfOutcome() != "harm", " gained.", " avoided."))
+    paste0("As there is a ", 
+           FormatProbabilityOfDefinitiveResearch(),
+           " chance that the full trial is not possible, the upper bound on the value of this project falls to ",
+           FormatMaxValueOfUncertainResearchWithPerfectImplementation(),
+           " ", paste0(newNameOfOutcome(),"s"),ifelse(newTypeOfOutcome() != "harm", " gained", " avoided"),
+           " over the full time horizon.")
   })
   
   
+  output$expectedFullTrialFunderCost <- renderText({
+    paste0("The feasibility trial is expected to cost the research funder ",
+           FormatCostResearchFunderFeas(),
+           " and the definitive trial is expected to cost ", 
+           FormatCostResearchFunderDefinitive(),
+           ". As the feasibility study costs will always be incurred and there is a ",
+           FormatProbabilityOfDefinitiveResearch(),
+           " chance that the follow-up research will not occur, the total expected cost to the research funder is",
+           FormatCostResearchFunderFeas(), " + ", FormatCostResearchFunderDefinitive(), " x ", 
+           FormatProbabilityOfDefinitiveResearch(), " =) ", FormatExpectedCostResearchFunder(), ".")
+  })
+  
+  output$valueFeasNatural <- renderText({
+    paste0("Therefore, the expected upper bound on the value of funding the feasibility trial is (",
+           FormatExpectedCostResearchFunder(), "/", FormatValueOfResearchWithPerfectImplementation(),
+           " =) ", FormatICER_ResearchWithPerfectImplementation(), 
+           " per ", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", " gained.", "avoided."))
+    })
   
   
+  output$expectedFullTrialNHSCost <- renderText({
+    paste0("The feasibility trial is expected to cost the health system ",
+           FormatCostHealthSystemFeas(),
+           " and the definitive trial is expected to cost ",
+           FormatCostHealthSystemDefinitive(),
+           ". In the same manner as above, the expected cost to the health system is (", 
+           FormatCostHealthSystemFeas(), " + ", FormatCostHealthSystemDefinitive(), " x ", 
+           FormatProbabilityOfDefinitiveResearch(), " =) ", FormatExpectedCostHealthSystem(), ".")
+    })
   
+  output$expectedFullTrialNHSOpportunityCost <- renderText({
+    paste0("The opportunity costs associated with the above health system resources are estimated to be (",
+           FormatExpectedCostHealthSystem(), "/", FormatK(), " =) ",
+           FormatHealthOpportunityCostsOfResearch(), 
+           " QALYs. After these costs have been subtracted the maximum value of this research falls from  ",
+           FormatMaxValueOfUncertainResearchWithPerfectImplementation(),
+           " to ", FormatValueOfResearchWithPerfectImplementation(), ".")
+  })
+  
+  # test 
+  # == TRUE if value in feasibilty trial after subtracting op costs
+  output$PositiveValueOfFeas <- renderText({
+    VOIResults$valueOfResearchWithPerfectImplementation > 0
+  })
+  
+  
+  output$ValueOfResearchFeasQALY <- renderText({
+    paste0("Therefore, the expected upper bound on the value of funding the feasibility trial is (",
+           FormatExpectedCostResearchFunder(), "/", FormatValueOfResearchWithPerfectImplementation(),
+           " =) ", FormatICER_ResearchWithPerfectImplementation(), 
+           " per ", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", " gained.", "avoided."))
+  })
+  
+  
+  # paste0("The total expected cost to the research funder of both the feasibility study and the follow up research is (",
+  #        FormatCostResearchFunderFeas(), " + ", FormatCostResearchFunderDefinitive(), " x ", 
+  #        FormatProbabilityOfDefinitiveResearch(), " =) ", FormatExpectedCostResearchFunder())
+  # 
+  # paste0("Therefore, the expected upper bound on the value of funding the feasibility trial is (",
+  #        FormatExpectedCostResearchFunder(), "/", FormatValueOfResearchWithPerfectImplementation(),
+  #        " =) ", FormatICER_ResearchWithPerfectImplementation(), 
+  #        " per ", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", " gained.", "avoided."))
+  # 
   
   
   output$FeasVOIresults <- renderText({
@@ -702,6 +854,38 @@ shinyServer(function(input, output,clientData, session) {
   
   
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   

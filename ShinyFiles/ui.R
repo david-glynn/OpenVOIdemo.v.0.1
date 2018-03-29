@@ -1749,7 +1749,25 @@ shinyUI(fluidPage(
                               # RCT value of proposed research
                               ###
                               conditionalPanel(condition = "input.typeOfResearch == 'RCT' ",
-                                               tags$ul(tags$li(textOutput("proposedResearchMaxValueOfResearchRCT")))
+                                               tags$ul(tags$li(textOutput("proposedResearchMaxValueOfResearchRCT"))),
+                                               tags$ul(tags$li(textOutput("fullTrialMaxValueOfResearchRCT"))),
+                                               
+                                               # if there is NO value in the RCT (after taking account of research time)
+                                               conditionalPanel(condition = "output.PositiveValueOfResearchDesignRCT == 'FALSE'",
+                                                                tags$ul(tags$li(textOutput("researchTakesTooLong")))
+                                                                
+                                               ),
+                                               # if there is potential value in the RCT (after taking account of research time)
+                                               conditionalPanel(condition = "output.PositiveValueOfResearchDesignRCT == 'TRUE'",
+                                                                # if the outcome is QALY add in this
+                                                                conditionalPanel(condition = "input.outcomeExpression != 'natural'",
+                                                                                 tags$ul(tags$li(textOutput("expectedRCTNHSOpportunityCost")))
+                                                                                 
+                                                                                 ),
+                                                                # final ICER calculation bit
+                                                                tags$ul(tags$li(textOutput("ValueOfResearchRCT")))
+                                                                
+                                               )
                               ),
                               
                               # Feasibility value of proposed research
@@ -1768,11 +1786,31 @@ shinyUI(fluidPage(
                                                # if there is there IS potential value in the full trial
                                                conditionalPanel(condition = "output.PositiveValueOfFullTrialFeas == 'TRUE' ",
                                                                 strong("Value of feasibility research"),
-                                                                tags$ul(tags$li(textOutput("fullTrialNotCertainFeas")))
+                                                                tags$ul(tags$li(textOutput("fullTrialNotCertainFeas"))),
+                                                                tags$ul(tags$li(textOutput("expectedFullTrialFunderCost")))
                                                                 
-                                               )
+                                               ),
+                                               # if natural outcome feasibitliy study
+                                               conditionalPanel(condition = "input.outcomeExpression == 'natural'",
+                                                                tags$ul(tags$li(textOutput("valueFeasNatural")))),
                                                
-                              ),
+                                               # if QALY feasibiilty study
+                                               conditionalPanel(condition = "input.outcomeExpression != 'natural'",
+                                                                tags$ul(tags$li(textOutput("expectedFullTrialNHSCost"))),
+                                                                tags$ul(tags$li(textOutput("expectedFullTrialNHSOpportunityCost"))),
+                                                                # if there is still value in the research after subtracting op costs
+                                                                conditionalPanel(condition = "output.PositiveValueOfFeas == 'TRUE' ",
+                                                                                 tags$ul(tags$li(textOutput("ValueOfResearchFeasQALY"))),
+                                                                                 tags$ul(tags$li("Whether this research represents good value to the health system depends on the value of the other potential uses of these resources."))
+                                                                                 ),
+                                                                # if there is not still value in the research
+                                                                conditionalPanel(condition = "output.PositiveValueOfFeas == 'FALSE' ",
+                                                                                 tags$ul(tags$li("Due to the opportunity costs imposed on the health system by this research, this research design is expected to have negative net health consequences."))
+                                                                                 )
+                                                                
+                                                                )
+                                               
+                              ) # end feasibility value of proposed research
                               
                               
                               
@@ -1781,8 +1819,6 @@ shinyUI(fluidPage(
                               
                               
                               
-                              # final line
-                              tags$ul(tags$li("Whether this research represents good value to the health system depends on the value of the other potential uses of these resources."))
              ),
              br(),
              br(),
@@ -1800,7 +1836,10 @@ shinyUI(fluidPage(
              # find somewhere out of the way to put these
              textOutput("PositiveValueOfInformation"),
              textOutput("specificResearchWorthwhile"),
+             textOutput("PositiveValueOfResearchDesignRCT"),
              textOutput("PositiveValueOfFullTrialFeas"),
+             textOutput("PositiveValueOfFeas"),
+             
              ##### old stuff
              
              
