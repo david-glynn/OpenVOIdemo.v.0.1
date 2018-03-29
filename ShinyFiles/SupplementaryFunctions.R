@@ -641,11 +641,11 @@ NBtoEVPIResults <- function(NB_t,
                             utilisation_t1, utilisation_t2,
                             utilisation_t3, utilisation_t4,
                             costHealthSystem = NA, k = NA,
-                            currencySymbol="£", numberOfTreatments= 2){
+                            currencySymbol="£"){
   
   # define variables required
   MCsims <- nrow(NB_t) # impled number of simulations
-  numberOfTreatments <- numberOfTreatments
+  numberOfTreatments <- sum(!is.na(NB_t[1,]))
   Utilisation_t <- c(utilisation_t1/100, utilisation_t2/100, utilisation_t3/100, utilisation_t4/100)
   
   # expected outcome with each treatment (uninformed prior)

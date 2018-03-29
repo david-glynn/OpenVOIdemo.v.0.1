@@ -616,7 +616,7 @@ master <- function(
                                   MCD_t2, MCD_t3, MCD_t4,
                                   utilisation_t1, utilisation_t2,
                                   utilisation_t3, utilisation_t4,
-                                  costHealthSystem, k, numberOfTreatments)
+                                  costHealthSystem, k)
     VOIoutputs$tableTreatmentCostsDF <- NBOutput$tableTreatmentCostsDF # add the expected cost table to the input list
     
   }

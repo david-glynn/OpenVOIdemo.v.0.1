@@ -897,11 +897,11 @@ shinyUI(fluidPage(
                                                                                          # for OR (norm) # CRASH default inputs
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
                                                                                                           sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
-                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))),
+                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))),
                                                                                          # for RR (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
                                                                                                           sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
-                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.9, 1.1))),
+                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.9, 1.1))),
                                                                                          # for RD (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
                                                                                                           sliderInput("RD_t2", "Select a plausible 95% range for the risk difference",
@@ -986,7 +986,7 @@ shinyUI(fluidPage(
                                                                         conditionalPanel(condition = "input.survivalDist_t2 == 'norm'",
                                                                                          # for HR (norm) # 
                                                                                          sliderInput("HR_t2", "Select a plausible 95% range for the hazard ratio",
-                                                                                                     step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))
+                                                                                                     step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))
                                                                         ), # end normal dist conditional panel
                                                                         
                                                                         
@@ -1055,11 +1055,11 @@ shinyUI(fluidPage(
                                                                                          # for OR (norm) # CRASH default inputs
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t3 == 'OR'",
                                                                                                           sliderInput("OR_t3", "Select a plausible 95% range for the odds ratio",
-                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))),
+                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))),
                                                                                          # for RR (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t3 == 'RR'",
                                                                                                           sliderInput("RR_t3", "Select a plausible 95% range for the risk ratio",
-                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.9, 1.1))),
+                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.9, 1.1))),
                                                                                          # for RD (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t3 == 'RD'",
                                                                                                           sliderInput("RD_t3", "Select a plausible 95% range for the risk difference",
@@ -1188,7 +1188,7 @@ shinyUI(fluidPage(
                                                                         conditionalPanel(condition = "input.survivalDist_t3 == 'norm'",
                                                                                          # for HR (norm) # 
                                                                                          sliderInput("HR_t3", "Select a plausible 95% range for the hazard ratio",
-                                                                                                     step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))
+                                                                                                     step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))
                                                                         ), # end normal dist conditional panel
                                                                         
                                                                         
@@ -1259,11 +1259,11 @@ shinyUI(fluidPage(
                                                                                                           # for OR (norm) # CRASH default inputs
                                                                                                           conditionalPanel(condition = "input.binaryRelativeScale_t4 == 'OR'",
                                                                                                                            sliderInput("OR_t4", "Select a plausible 95% range for the odds ratio",
-                                                                                                                                       step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))),
+                                                                                                                                       step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))),
                                                                                                           # for RR (norm)
                                                                                                           conditionalPanel(condition = "input.binaryRelativeScale_t4 == 'RR'",
                                                                                                                            sliderInput("RR_t4", "Select a plausible 95% range for the risk ratio",
-                                                                                                                                       step = 0.01, min = 0, max = 5, value = c(0.9, 1.1))),
+                                                                                                                                       step = 0.01, min = 0.01, max = 5, value = c(0.9, 1.1))),
                                                                                                           # for RD (norm)
                                                                                                           conditionalPanel(condition = "input.binaryRelativeScale_t4 == 'RD'",
                                                                                                                            sliderInput("RD_t4", "Select a plausible 95% range for the risk difference",
@@ -1393,7 +1393,7 @@ shinyUI(fluidPage(
                                                                                          conditionalPanel(condition = "input.survivalDist_t4 == 'norm'",
                                                                                                           # for HR (norm) # 
                                                                                                           sliderInput("HR_t4", "Select a plausible 95% range for the hazard ratio",
-                                                                                                                      step = 0.01, min = 0, max = 5, value = c(0.71, 1.18))
+                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))
                                                                                          ), # end normal dist conditional panel
                                                                                          
                                                                                          
@@ -1711,8 +1711,14 @@ shinyUI(fluidPage(
              
              # unconditionally: show table of events per year
              tags$ul(tags$li("The table below displays the expected health benefits of each treatment:")),
-             br(),
              tableOutput("tableEventsPerYear"),
+             
+             # conditional on cost and qaly analysis show table of costs
+             conditionalPanel(condition = "input.outcomeExpression != 'natural'",
+                              tags$ul(tags$li("The table below displays the expected treatment costs associated with each treatment option:")),
+                              tableOutput("tableTreatmentCosts")
+                              ),
+             
              
              # Remaining uncertainty
              ##########################
@@ -1819,7 +1825,7 @@ shinyUI(fluidPage(
                               
                               
                               
-             ),
+             ), # end of positive uncertainty conditional panel
              br(),
              br(),
              br(),
@@ -1834,14 +1840,16 @@ shinyUI(fluidPage(
              
              # must render these commands for them to work as in java script contional panel
              # find somewhere out of the way to put these
+             textOutput("implementationValueExists"),
              textOutput("PositiveValueOfInformation"),
              textOutput("specificResearchWorthwhile"),
              textOutput("PositiveValueOfResearchDesignRCT"),
              textOutput("PositiveValueOfFullTrialFeas"),
-             textOutput("PositiveValueOfFeas"),
+             textOutput("PositiveValueOfFeas")
              
              ##### old stuff
              
+             #tableOutput("tableProbabilityMax"),
              
              
              
@@ -1850,10 +1858,9 @@ shinyUI(fluidPage(
              
              
              
-             
-             
+             # zombie code 
              #################### old results ###############################
-             
+             #
              
              
              # conditionalPanel(condition = "input.typeOfResearch != 'feasibility'",
@@ -1873,12 +1880,12 @@ shinyUI(fluidPage(
              
              
              # if cost + QALY study: (require this extra bit)
-             conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
-                              h4("Summary of treatment costs"),
-                              tableOutput("tableTreatmentCosts"),
-                              textOutput("discussTableTreatmentCosts"),
-                              br()),
-             
+             # conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
+             #                  h4("Summary of treatment costs"),
+             #                  tableOutput("tableTreatmentCosts"),
+             #                  textOutput("discussTableTreatmentCosts"),
+             #                  br()),
+             # 
              
              
              # # heading 4
@@ -1893,15 +1900,15 @@ shinyUI(fluidPage(
              # # heading 5
              # h4("Value of the proposed research"),
              # CONDITIONAL TEXT and HEADING: if feasibility study: (require this extra bit)
-             conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
-                              p("Understanding the value of a feasibility trial requires two steps.
-                                First the value of the follow-up trial must be estimated. 
-                                Second, this value must be adjusted for the fact that the follow-up trial may not take place."),
-                              strong("Value of potential follow-up trial"),
-                              br()),
-             tableOutput("tableProbabilityMax"),
-             # text for discussion about value of research (common accross all models and endpoints?)
-             textOutput("resultsValueOfResearch"),
+             # conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
+             #                  p("Understanding the value of a feasibility trial requires two steps.
+             #                    First the value of the follow-up trial must be estimated. 
+             #                    Second, this value must be adjusted for the fact that the follow-up trial may not take place."),
+             #                  strong("Value of potential follow-up trial"),
+             #                  br()),
+             # tableOutput("tableProbabilityMax"),
+             # # text for discussion about value of research (common accross all models and endpoints?)
+             # textOutput("resultsValueOfResearch"),
              # bug
              # problem in ui.R conditional planel
              # cannot make javaScript condition depend on results of VOI calcluation
@@ -1910,25 +1917,19 @@ shinyUI(fluidPage(
              # **problem**
              # the probabilies do not match between the histogram output and the analysis
              # the histogram is probably wrong and needs to be changed.
-             textOutput("discussHistVOIYear"),
-             br(),
-             textOutput("VOIresultsPart1"), # this section of the results is common to both RCT and Feas
-             br(),
-             # extra text for RCT results and interpretation
-             conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
-                              textOutput("RCTVOIresults")),
+             # textOutput("discussHistVOIYear"),
+             # br(),
+             # textOutput("VOIresultsPart1"), # this section of the results is common to both RCT and Feas
+             # br(),
+             # # extra text for RCT results and interpretation
+             # conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
+             #                  textOutput("RCTVOIresults")),
+             # 
+             # # extra text for Feasibility results and interpretation
+             # conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
+             #                  strong("Adjust value of potential follow up trial to value the feasibility study"),
+             #                  textOutput("FeasVOIresults")),
              
-             # extra text for Feasibility results and interpretation
-             conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
-                              strong("Adjust value of potential follow up trial to value the feasibility study"),
-                              textOutput("FeasVOIresults")),
-             
-             # leave some space at the end of the page
-             br(),
-             br(),
-             br(),
-             br(),
-             br()
              
              
              
