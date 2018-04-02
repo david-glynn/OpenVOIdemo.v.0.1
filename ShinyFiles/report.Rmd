@@ -1,6 +1,9 @@
 ---
 title: "Health effects of research and implementation decisions"
 params:
+  timeInformation: NA
+  newNameOfOutcome: NA
+  headlineBestTreatment: NA
   Cell_A: NA
   Cell_C: NA
   Cell_D: NA
@@ -15,6 +18,8 @@ params:
   listForhistVOIYear: NA
   maxvalueOfImplementation: NA
   maxvalueOfResearch: NA
+  maxvalueOfResearchDesign: NA
+  maxvalueOfResearchAfterDefinitiveTrial: NA
   optimalTreatment: NA
   popAfterDefinitiveResearch: NA
   popAfterResearch: NA
@@ -58,6 +63,31 @@ FormatExpectedCostResearchFunder : NA
 <!-- # PositiveValueOfInformation <- params$maxvalueOfResearch > 0 -->
 <!-- #  -->
 <!-- # ``` -->
+
+
+### What is the value of changing practice based on what we currently know about the treatments?
+             
+       
+* Given what we currently know about the treatments, the option with the highest expected health benefit is `r params$optimalTreatment`.
+
+```{r changePracticeImpOutcomesExist, echo=FALSE, results='asis', eval= params$implementationValueExists}
+
+tags$ul(tags$li(textOutput("changePracticeImpOutcomesExist")))
+paste0("Not all individuals currently receive ",
+           params$optimalTreatment,
+           " and so outcomes can be improved by encouraging its use in the health system.
+           The benefits of switching practice are expected to be ",
+           FormatValueOfImplementationPerYear(),
+           " ", paste0(newNameOfOutcome(),"s") ,
+           ifelse(newTypeOfOutcome() != "harm"," gained"," avoided"),
+           " per year and ",
+           FormatMaxvalueOfImplementation(), 
+           " over the ", params$timeInformation, " year time horizon."
+           )
+
+```
+
+
 
 See code below - can do boolean phrases directly in eval argument - easier than in Shiny
 
@@ -131,7 +161,9 @@ if(!params$implementationValueExists){
 
 ```{r}
 
-
+params$headlineBestTreatment
+params$maxvalueOfResearchDesign 
+params$maxvalueOfResearchAfterDefinitiveTrial
 params$FormatExpectedCostResearchFunder
 params$optimalTreatment
 params$probTreatment1isMax

@@ -12,6 +12,18 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", l
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
 
+# home WD
+setwd("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles")
+source("SupplementaryFunctions.R", local = TRUE)
+source("SupplementaryFunctionsFeas.R", local = TRUE)
+source("master.R", local = TRUE)
+source("ReconFunctions.R", local = TRUE)
+source("EpiInputFunctions.R", local = TRUE)
+source("PlottingFunctions.R", local = TRUE)
+source("EpiCalcFunctions.R", local = TRUE)
+source("NBCalcFunctions.R", local = TRUE)
+
+
 
 # need to put in proper values
 
@@ -20,25 +32,19 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", loc
 ####################################
 master(
   typeOfEndpoint = "binary", # 'binary', "continuous''survival"
-  baselineInput = "eventsNonEvents", # "eventsNonEvents" "range"
+  baselineInput = "range", # "eventsNonEvents" "range"
   MCsims = 900000,
-  
-  baselineRange = NA ,
-  
-  nEvents = 162,
-  nAtRisk = 294,
+  baselineRange = c(0.05, 0.06) ,
+  nEvents = NA,
+  nAtRisk = NA,
   numberOfTreatments = 2,
   binaryRelativeScale_t2 = "OR",
-  
   binaryRelativeScale_t3 = NA,
   binaryRelativeScale_t4 = NA,
-  
   binaryDist_t2 = "norm",
   binaryDist_t3 = NA ,
   binaryDist_t4 = NA,
-  
-  OR_t2= c(0.23, 5.24),
-  
+  OR_t2= c(0.19 , 4.39),
   OR_t3 = NA,
   OR_t4= NA,
   RR_t2 =NA,
@@ -86,30 +92,22 @@ master(
   HRHalfNorm_t2=NA,
   HRHalfNorm_t3=NA,
   HRHalfNorm_t4=NA,
-  
-  typeOfOutcome= "benefit", # "benefit" or "harm" "netHealth"
-  
-  tCostsDependOnEvent= "No",
-  
+  typeOfOutcome= "harm", # "benefit" or "harm" "netHealth"
+  tCostsDependOnEvent= NA,
   MCD_t2 = 0.0,
-  
   MCD_t3 = NA,
   MCD_t4 = NA,
   cost_t1 = NA ,
   cost_t2= NA,
   cost_t3 = NA,
   cost_t4 = NA,
-  
   k = NA,
   currencySymbol = "£",
-  
-  incidence = 8800 ,
+  incidence = 26.3 ,
   discountRate = 3.5 , # NB - this is how ui provides the discount rate!
-  timeInformation = 15,
-  
-  nameOf_t1 = "Late PTP",
-  nameOf_t2 = "Early PTP",
-  
+  timeInformation = 10,
+  nameOf_t1 = "Continuous treatment",
+  nameOf_t2 = "Withdrawal",
   nameOf_t3 = NA,
   nameOf_t4 = NA,
   costEvent_t1 = NA,
@@ -173,18 +171,14 @@ master(
   maxDurationOfTreatmentMonths_t3 = NA,
   treatUntilProgression_t4 = NA, # "No" "Yes"
   maxDurationOfTreatmentMonths_t4 = NA,
-  
   typeOfResearch = "RCT", # "RCT",  # "feasibility",
-  
-  durationOfResearch = 5,
-  costResearchFunder = 2854000,
+  durationOfResearch = 4,
+  costResearchFunder = 855403,
   utilisation_t1 = 100,
   utilisation_t2 = 0,
-  
   utilisation_t3 = NA,
   utilisation_t4 = NA,
   costHealthSystem = NA,
-  
   durationOfResearchDefinitive = NA,
   durationOfResearchFeas = NA,
   costResearchFunderFeas = NA,
@@ -205,25 +199,19 @@ master(
 ####################################
 master(
   typeOfEndpoint = "binary", # 'binary', "continuous''survival"
-  baselineInput = "eventsNonEvents", # "eventsNonEvents" "range"
+  baselineInput = "range", # "eventsNonEvents" "range"
   MCsims = 900000,
-  
-  baselineRange = NA ,
-  
-  nEvents = 162,
-  nAtRisk = 294,
+  baselineRange = c(0.05, 0.06) ,
+  nEvents = NA,
+  nAtRisk = NA,
   numberOfTreatments = 2,
   binaryRelativeScale_t2 = "OR",
-  
   binaryRelativeScale_t3 = NA,
   binaryRelativeScale_t4 = NA,
-  
   binaryDist_t2 = "norm",
   binaryDist_t3 = NA ,
   binaryDist_t4 = NA,
-  
-  OR_t2= c(0.23, 5.24),
-  
+  OR_t2= c(0.19 , 4.39),
   OR_t3 = NA,
   OR_t4= NA,
   RR_t2 =NA,
@@ -271,77 +259,66 @@ master(
   HRHalfNorm_t2=NA,
   HRHalfNorm_t3=NA,
   HRHalfNorm_t4=NA,
-  
   typeOfOutcome= "netHealth", # "benefit" or "harm" "netHealth"
-  
-  tCostsDependOnEvent= "No",
-  
+  tCostsDependOnEvent= "Yes",
   MCD_t2 = 0.0,
-  
   MCD_t3 = NA,
   MCD_t4 = NA,
-  
-  cost_t1 = 0 ,
-  cost_t2= 14.10 ,
-  
+  cost_t1 = NA ,
+  cost_t2= NA,
   cost_t3 = NA,
   cost_t4 = NA,
-  
   k = 15000,
   currencySymbol = "£",
-  
-  incidence = 8800 ,
+  incidence = 26.3 ,
   discountRate = 3.5 , # NB - this is how ui provides the discount rate!
-  timeInformation = 15,
-  
-  nameOf_t1 = "Late PTP",
-  nameOf_t2 = "Early PTP",
-  
+  timeInformation = 10,
+  nameOf_t1 = "Continuous treatment",
+  nameOf_t2 = "Withdrawal",
   nameOf_t3 = NA,
   nameOf_t4 = NA,
-  costEvent_t1 = NA,
-  costEvent_t2 = NA,
+  costEvent_t1 = , # relapse occurs
+  costEvent_t2 = ,
   costEvent_t3 = NA,
   costEvent_t4 = NA,
-  costNotEvent_t1 = NA,
-  costNotEvent_t2 = NA,
+  costNotEvent_t1 = , # relapse does not occur
+  costNotEvent_t2 = ,
   costNotEvent_t3 = NA,
   costNotEvent_t4 = NA,
-  numberS0States = 4, # if event does not occur
-  numberS1States = 4 , # if event occurs
-  utility_s01 = 0, # if recovery does not occur
-  utility_s02 = 0.11,
-  utility_s03 = 0.41,
-  utility_s04 = 0.58,
-  utility_s11 = 0.70, # recovery does occur
-  utility_s12 = 0.81,
-  utility_s13 = 0.96,
-  utility_s14 = 1,
-  lifeDuration_s01 = 0, #if recovery does not occur
-  lifeDuration_s02 = 7.11,
-  lifeDuration_s03 = 12.52,
-  lifeDuration_s04 = 12.52,
-  lifeDuration_s11 = 16.73, # recovery does occur
-  lifeDuration_s12 = 16.73,
-  lifeDuration_s13 = 19.23,
-  lifeDuration_s14 = 19.23,
-  cost_s01 = 0,   #if recovery does not occur
-  cost_s02 = 45450,
-  cost_s03 = 154324,
-  cost_s04 = 154324,
-  cost_s11 = 27047, # recovery does occur
-  cost_s12 = 27047,
-  cost_s13 = 19575,
-  cost_s14 = 19575,
-  probability_s01 = 0.29, #if recovery does not occur
-  probability_s02 = 0.07,
-  probability_s03 = 0.41,
-  probability_s04 = 0.23,
-  probability_s11 = 0.42, # recovery does occur
-  probability_s12 = 0.24,
-  probability_s13 = 0.20,
-  probability_s14 = 0.14,
-  
+  numberS0States = 1, # if event does not occur
+  numberS1States = 3 , # if event occurs
+  utility_s01 = NA, # if recovery does not occur
+  utility_s02 = NA,
+  utility_s03 = NA,
+  utility_s04 = NA,
+  utility_s11 = NA, # recovery does occur
+  utility_s12 = NA,
+  utility_s13 = NA,
+  utility_s14 = NA,
+  lifeDuration_s01 = NA, #if recovery does not occur
+  lifeDuration_s02 = NA,
+  lifeDuration_s03 = NA,
+  lifeDuration_s04 = NA,
+  lifeDuration_s11 = NA, # recovery does occur
+  lifeDuration_s12 = NA,
+  lifeDuration_s13 = NA,
+  lifeDuration_s14 = NA,
+  cost_s01 = NA,   #if recovery does not occur
+  cost_s02 = NA,
+  cost_s03 = NA,
+  cost_s04 = NA,
+  cost_s11 = NA, # recovery does occur
+  cost_s12 = NA,
+  cost_s13 = NA,
+  cost_s14 = NA,
+  probability_s01 = NA, #if recovery does not occur
+  probability_s02 = NA,
+  probability_s03 = NA,
+  probability_s04 = NA,
+  probability_s11 = NA, # recovery does occur
+  probability_s12 = NA,
+  probability_s13 = NA,
+  probability_s14 = NA,
   deltaUnitUtilityDirection = NA, # "increase" # Q Is an increase in the primary outcome expected to be associated with an increase or decrease in health state utility?
   deltaUnitUtilitySize = NA, # Q By how much is a one unit increase in the primary outcome expected to increase/decrease the health state utility?
   treatmentDurationMonths = NA, # Q how long is the treatment effect expected to last
@@ -361,18 +338,14 @@ master(
   maxDurationOfTreatmentMonths_t3 = NA,
   treatUntilProgression_t4 = NA, # "No" "Yes"
   maxDurationOfTreatmentMonths_t4 = NA,
-  
   typeOfResearch = "RCT", # "RCT",  # "feasibility",
-  
-  durationOfResearch = 5,
-  costResearchFunder = 2854000,
+  durationOfResearch = 4,
+  costResearchFunder = 855403,
   utilisation_t1 = 100,
   utilisation_t2 = 0,
-  
   utilisation_t3 = NA,
   utilisation_t4 = NA,
-  costHealthSystem = 490000,
-  
+  costHealthSystem = NA,
   durationOfResearchDefinitive = NA,
   durationOfResearchFeas = NA,
   costResearchFunderFeas = NA,
@@ -381,3 +354,4 @@ master(
   costHealthSystemFeas = NA,
   costHealthSystemDefinitive = NA
 )
+
