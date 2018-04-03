@@ -317,12 +317,12 @@ shinyUI(fluidPage(
                                                               strong("State 1.1"),
                                                               conditionalPanel(condition = "input.numberS1States >= 2 ",
                                                                   numericInput("probability_s11", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
-                                                                               value = 0.42, min = 0, max = 1, step = 0.05)),
-                                                              numericInput("lifeDuration_s11", "What is the life expectancy of an individual in this state (years)?",
+                                                                               value = 1, min = 0, max = 1, step = 0.05)),
+                                                              numericInput("lifeDuration_s11", "Time in this state (years)?",
                                                                            value = 16.73, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s11", "What is the health utility associated with this state?",
                                                                            value = 0.7, min = -2, max = 1, step = 0.05),
-                                                              numericInput("cost_s11", "What are the lifetime disease related costs associated with this state?",
+                                                              numericInput("cost_s11", "What are the disease related costs associated with this state?",
                                                                            value = 27047, min = 0, step = 100)
                                                               
                                                               
@@ -364,11 +364,11 @@ shinyUI(fluidPage(
                                                               strong("State 1.2"),
                                                               numericInput("probability_s12", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
                                                                            value = 0.24, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s12", "What is the life expectancy of an individual in this state (years)?",
+                                                              numericInput("lifeDuration_s12", "Time in this state (years)?",
                                                                            value = 16.73, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s12", "What is the health utility associated with this state?",
                                                                            value = 0.81, min = -2, max = 1, step = 0.05),
-                                                              numericInput("cost_s12", "What are the lifetime disease related costs associated with this state?",
+                                                              numericInput("cost_s12", "What are the disease related costs associated with this state?",
                                                                            value = 27047, min = 0, step = 100)
                                                               
                                                               
@@ -411,11 +411,11 @@ shinyUI(fluidPage(
                                                               strong("State 1.3"),
                                                               numericInput("probability_s13", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
                                                                            value = 0.2, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s13", "What is the life expectancy of an individual in this state (years)?",
+                                                              numericInput("lifeDuration_s13", "Time in this state (years)?",
                                                                            value = 19.23, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s13", "What is the health utility associated with this state?",
                                                                            value = 0.96, min = -2, max = 1, step = 0.05),
-                                                              numericInput("cost_s13", "What are the lifetime disease related costs associated with this state?",
+                                                              numericInput("cost_s13", "What are the disease related costs associated with this state?",
                                                                            value = 19575, min = 0, step = 100)
                                                             )),
                                            
@@ -441,11 +441,11 @@ shinyUI(fluidPage(
                                                               strong("State 1.4"),
                                                               numericInput("probability_s14", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
                                                                            value = 0.14, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s14", "What is the life expectancy of an individual in this state (years)?",
+                                                              numericInput("lifeDuration_s14", "Time in this state (years)?",
                                                                            value = 19.23, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s14", "What is the health utility associated with this state?",
                                                                            value = 1, min = -2, max = 1, step = 0.05),
-                                                              numericInput("cost_s14", "What are the lifetime disease related costs associated with this state?",
+                                                              numericInput("cost_s14", "What are the disease related costs associated with this state?",
                                                                            value = 19575, min = 0, step = 100)
                                                             ))
                                            
@@ -471,12 +471,12 @@ shinyUI(fluidPage(
                                                               strong("State 2.1"),
                                                               conditionalPanel(condition = "input.numberS0States >= 2 ",
                                                                     numericInput("probability_s01", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
-                                                                                 value = 0.29, min = 0, max = 1, step = 0.05)),
-                                                              numericInput("lifeDuration_s01", "What is the life expectancy of an individual in this state (years)?",
+                                                                                 value = 1, min = 0, max = 1, step = 0.05)),
+                                                              numericInput("lifeDuration_s01", "Time in this state (years)?",
                                                                            value = 0, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s01", "What is the health utility associated with this state?",
                                                                            value = 0, min = -2, max = 1, step = 0.05),
-                                                              numericInput("cost_s01", "What are the lifetime disease related costs associated with this state?",
+                                                              numericInput("cost_s01", "What are the disease related costs associated with this state?",
                                                                            value = 0, min = 0, step = 100)
                                                             ))
                                            
@@ -492,11 +492,11 @@ shinyUI(fluidPage(
                                                               strong("State 2.2"),
                                                               numericInput("probability_s02", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
                                                                            value = 0.07, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s02", "What is the life expectancy of an individual in this state (years)?",
+                                                              numericInput("lifeDuration_s02", "Time in this state (years)?",
                                                                            value = 7.11, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s02", "What is the health utility associated with this state?",
                                                                            value = 0.11, min = -2, max = 1, step = 0.05),
-                                                              numericInput("cost_s02", "What are the lifetime disease related costs associated with this state?",
+                                                              numericInput("cost_s02", "What are the disease related costs associated with this state?",
                                                                            value = 45450, min = 0, step = 100)
                                                             ))
                                            
@@ -510,11 +510,11 @@ shinyUI(fluidPage(
                                                               strong("State 2.3"),
                                                               numericInput("probability_s03", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
                                                                            value = 0.41, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s03", "What is the life expectancy of an individual in this state (years)?",
+                                                              numericInput("lifeDuration_s03", "Time in this state (years)?",
                                                                            value = 12.52, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s03", "What is the health utility associated with this state?",
                                                                            value = 0.41, min = -2, max = 1, step = 0.05),
-                                                              numericInput("cost_s03", "What are the lifetime disease related costs associated with this state?",
+                                                              numericInput("cost_s03", "What are the disease related costs associated with this state?",
                                                                            value = 154324, min = 0, step = 100)
                                                             ))
                                            
@@ -528,11 +528,11 @@ shinyUI(fluidPage(
                                                               strong("State 2.4"),
                                                               numericInput("probability_s04", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
                                                                            value = 0.23, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s04", "What is the life expectancy of an individual in this state (years)?",
+                                                              numericInput("lifeDuration_s04", "Time in this state (years)?",
                                                                            value = 12.52, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s04", "What is the health utility associated with this state?",
                                                                            value = 0.58, min = -2, max = 1, step = 0.05),
-                                                              numericInput("cost_s04", "What are the lifetime disease related costs associated with this state?",
+                                                              numericInput("cost_s04", "What are the disease related costs associated with this state?",
                                                                            value = 154324, min = 0, step = 100)
                                                             ))     
                                     )
