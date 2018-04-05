@@ -899,11 +899,11 @@ shinyUI(fluidPage(
                                                                                          # for OR (norm) # CRASH default inputs
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
                                                                                                           sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))),
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.71, 1.18))),
                                                                                          # for RR (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
                                                                                                           sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.9, 1.1))),
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.9, 1.1))),
                                                                                          # for RD (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
                                                                                                           sliderInput("RD_t2", "Select a plausible 95% range for the risk difference",
@@ -988,7 +988,7 @@ shinyUI(fluidPage(
                                                                         conditionalPanel(condition = "input.survivalDist_t2 == 'norm'",
                                                                                          # for HR (norm) # 
                                                                                          sliderInput("HR_t2", "Select a plausible 95% range for the hazard ratio",
-                                                                                                     step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))
+                                                                                                     step = 0.01, min = 0.01, max = 7, value = c(1.05, 5.24))
                                                                         ), # end normal dist conditional panel
                                                                         
                                                                         
@@ -1057,11 +1057,11 @@ shinyUI(fluidPage(
                                                                                          # for OR (norm) # CRASH default inputs
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t3 == 'OR'",
                                                                                                           sliderInput("OR_t3", "Select a plausible 95% range for the odds ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))),
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.71, 1.18))),
                                                                                          # for RR (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t3 == 'RR'",
                                                                                                           sliderInput("RR_t3", "Select a plausible 95% range for the risk ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.9, 1.1))),
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.9, 1.1))),
                                                                                          # for RD (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t3 == 'RD'",
                                                                                                           sliderInput("RD_t3", "Select a plausible 95% range for the risk difference",
@@ -1190,7 +1190,7 @@ shinyUI(fluidPage(
                                                                         conditionalPanel(condition = "input.survivalDist_t3 == 'norm'",
                                                                                          # for HR (norm) # 
                                                                                          sliderInput("HR_t3", "Select a plausible 95% range for the hazard ratio",
-                                                                                                     step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))
+                                                                                                     step = 0.01, min = 0.01, max = 7, value = c(1.05, 5.24))
                                                                         ), # end normal dist conditional panel
                                                                         
                                                                         
@@ -1261,11 +1261,11 @@ shinyUI(fluidPage(
                                                                                                           # for OR (norm) # CRASH default inputs
                                                                                                           conditionalPanel(condition = "input.binaryRelativeScale_t4 == 'OR'",
                                                                                                                            sliderInput("OR_t4", "Select a plausible 95% range for the odds ratio",
-                                                                                                                                       step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))),
+                                                                                                                                       step = 0.01, min = 0.01, max = 7, value = c(0.71, 1.18))),
                                                                                                           # for RR (norm)
                                                                                                           conditionalPanel(condition = "input.binaryRelativeScale_t4 == 'RR'",
                                                                                                                            sliderInput("RR_t4", "Select a plausible 95% range for the risk ratio",
-                                                                                                                                       step = 0.01, min = 0.01, max = 5, value = c(0.9, 1.1))),
+                                                                                                                                       step = 0.01, min = 0.01, max = 7, value = c(0.9, 1.1))),
                                                                                                           # for RD (norm)
                                                                                                           conditionalPanel(condition = "input.binaryRelativeScale_t4 == 'RD'",
                                                                                                                            sliderInput("RD_t4", "Select a plausible 95% range for the risk difference",
@@ -1395,7 +1395,7 @@ shinyUI(fluidPage(
                                                                                          conditionalPanel(condition = "input.survivalDist_t4 == 'norm'",
                                                                                                           # for HR (norm) # 
                                                                                                           sliderInput("HR_t4", "Select a plausible 95% range for the hazard ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 5, value = c(0.71, 1.18))
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(1.05, 5.24))
                                                                                          ), # end normal dist conditional panel
                                                                                          
                                                                                          
@@ -1935,7 +1935,7 @@ shinyUI(fluidPage(
              
              
              
-             ), # end results tabPanel
+             ) # end results tabPanel
     
     ##################
     # Write report page
@@ -1944,20 +1944,20 @@ shinyUI(fluidPage(
     # 
     
     
-    tabPanel("Write and Download Report",
-             fluidPage(
-               fluidRow(
-                 column(4, "col 1"),
-                 column(4, 
-                        downloadButton("report", label = "Download report"), # , class = "butt2"),
-                        # change CSS sytle of download button!
-                        # see https://gist.github.com/aagarw30/9c60b87e839db05b8dcc
-                        #tags$head(tags$style(".butt2{background-color:black;} .butt2{color: white;} .butt2{font-style: italic;}")),
-                        p("Save file to your computer with a .doc extension")
-                 )
-               ) # end 1st Write Report fluidRow 
-             ) # end Write Report fluidPage 
-    ) # end write report tabPanel
+    #tabPanel("Write and Download Report",
+    #         fluidPage(
+    #           fluidRow(
+    #             column(4, "col 1"),
+    #             column(4, 
+    #                    downloadButton("report", label = "Download report"), # , class = "butt2"),
+    #                    # change CSS sytle of download button!
+    #                    # see https://gist.github.com/aagarw30/9c60b87e839db05b8dcc
+    #                    #tags$head(tags$style(".butt2{background-color:black;} .butt2{color: white;} .butt2{font-style: italic;}")),
+    #                    p("Save file to your computer with a .doc extension")
+    #             )
+    #           ) # end 1st Write Report fluidRow 
+    #         ) # end Write Report fluidPage 
+    #) # end write report tabPanel
     
     
                               ) # end App tabSetPanel

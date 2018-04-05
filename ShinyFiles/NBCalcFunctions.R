@@ -180,8 +180,8 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     INBBinaryEvent <- as.numeric(ENB_s1 - ENB_s0)
     
     NB_t  <- outcome_t*INBBinaryEvent # multiply every element by INBBinaryEvent (1st step in converting to NB)
-    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     # subtract the costs from each column in the vector.
     addCost_t <- c(-cost_t1/k ,-cost_t2/k, -cost_t3/k, -cost_t4/k) 
     NB_t  <- NB_t  + rep(addCost_t, each = MCsims) # each column now represents simulations of the NB of each treatment
@@ -237,8 +237,8 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     outputNB <- apply(outcome_t, 1, function(x)
       x*INBBinaryEvent + (x*-costEvent_t/k) + ((1-x)*-costNotEvent_t/k))
     NB_t <- t(outputNB) # need to transpose output to get in correct NB_t matrix form
-    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the matrix
-    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the matrix
+    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     
     # generate and format costs table (assuming treatment costs DO depend on event)
     EP_t <- apply(outcome_t, 2, mean) # expected probability of outcomes
@@ -291,8 +291,8 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     INBContinEvent <- deltaUnitUtility*(treatmentDurationMonths/12) - (deltaUnitCostsMonthly*treatmentDurationMonths)/k
     
     NB_t  <- outcome_t*INBContinEvent # multiply every element by net benefit (1st step in converting to NB)
-    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     
     # costs depend on the duration of treatment effect - treat while it is effective
     addCost_t <- c(-(treatmentCostsMonthly_t1*treatmentDurationMonths)/k ,
@@ -354,8 +354,8 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     INBSurvivalEndpoint <- utilityPreTransition/12 - monthlyCostPreTransition/k
     
     NB_t  <- outcome_t*INBSurvivalEndpoint # multiply every element by INBSurvivalEndpoint (1st step in converting to NB)
-    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     
     # treatment cost may depend on duration of treatment
     # test data

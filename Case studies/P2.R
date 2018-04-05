@@ -12,6 +12,27 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", lo
 source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
 
 
+
+# From this we can assign a distribution of continuous effect on the natural MMSE scale 
+# which reflects a 0.5% probability of treatment success i.e. 
+# there will be a 0.5% chance of a reduction in decline of 1.4 points or more. 
+# By fitting a distribution to this probability of success the uncertain effect 
+# of each treatment on decline can be described by a 
+# normal distribution with mean zero and standard error of 0.54. 
+# This means that on average we expect each treatment not to have any effect on 
+# decline but there is a chance that each treatment could either slow down or speed up decline. 
+# Small reductions in decline are more likely than large reductions and there is 
+# only a 0.5% chance of reduction in decline larger than 1.4 points. 
+# We use this estimate for each treatment. 
+# This assumes that the effects of each monotherapy and their combination are independent of each other i.e., it is possible for each monotherapy to have positive effects but for the combination to have negative effects. Further research is required to use the empirical evidence base to better inform this judgement.
+
+
+# **NB just mean difference!
+# LCI and UCI 
+0 - 1.96*0.54
+0 + 1.96*0.54
+
+
 # natural outcome
 ########################
 
@@ -34,15 +55,15 @@ master(
   binaryDist_t2 = "norm",
   binaryDist_t3 ="norm" ,
   binaryDist_t4 = "alwaysPositive",
-  OR_t2= c(0.375, 2.66),
-  OR_t3 = c(0.375, 2.66),
-  OR_t4= c(0.71, 1.18),
-  RR_t2 =c(0.9, 1.1),
-  RR_t3 =c(0.9, 1.1),
-  RR_t4 =c(0.9, 1.1),
-  RD_t2 =c(-5, 5),
-  RD_t3=c(-5, 5),
-  RD_t4=c(-5, 5),
+  OR_t2= NA,
+  OR_t3 = NA,
+  OR_t4= NA,
+  RR_t2 =NA,
+  RR_t3 =NA,
+  RR_t4 =NA,
+  RD_t2 =NA,
+  RD_t3=NA,
+  RD_t4=NA,
   ORHalfNorm_t2=2,
   ORHalfNorm_t3=2,
   ORHalfNorm_t4=2,
