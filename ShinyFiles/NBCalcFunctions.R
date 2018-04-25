@@ -142,8 +142,8 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     
     INB_Event <- ifelse(typeOfOutcome== "benefit", 1, -1)
     NB_t  <- outcome_t*INB_Event # multiply every element by INB_Event (1st step in converting to NB)
-    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     # each column now represents simulations of the NB of each treatment
     
     # return list
@@ -269,8 +269,10 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     
     INB_Event <- ifelse(typeOfOutcome== "benefit", 1, -1)
     NB_t  <- outcome_t*INB_Event # multiply every element by INB_Event (1st step in converting to NB)
-    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    
+    # use MCD to choose which 
+    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     
     # return list
     NBOutput <- list(NB_t = NB_t, tableTreatmentCostsDF = NA)
@@ -337,8 +339,8 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     
     INB_Event <- ifelse(typeOfOutcome== "benefit", 1, -1)
     NB_t  <- outcome_t*INB_Event # multiply every element by INB_Event (1st step in converting to NB)
-    addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     
     # return list
     NBOutput <- list(NB_t = NB_t, tableTreatmentCostsDF = NA)

@@ -128,8 +128,15 @@ NBtoEVPIResultsFeas <- function(NB_t,
   tableEventsPerYearDF <- as.data.frame(cbind(Treatment_name, Expected_outcomes_per_year, Current_utilisation))
   tableEventsPerYearDF <- tableEventsPerYearDF[1:numberOfTreatments,]   # only output the number of rows = to the number of treatments considered
   
+  # MCD implemetation rule!- function defined in supplemenatryFunctions.R
+  # MCDpass_t2 : 1 if it passes the MCD threshold, NA if it does not
+  # this is used to construct a NB_t matrix (NB_MCD_t) for use in EVPI calculation to adjust 
+  # for the fact that benefits are not realised if MCD threshold not met
+  MCDpass_t <- MCDpass(typeOfOutcome, NB_t, MCD_t2, MCD_t3, MCD_t4, typeOfEndpoint)
+  NB_MCD_t <- cbind(NB_t[,1], NB_t[,2:4]*MCDpass_t)
+  
   # Expected value of treating with perfect information
-  NB_VTPI  <- apply(NB_t , 1, max, na.rm = TRUE) #so I can check convergence - COULD ADD THIS CHECK
+  NB_VTPI  <- apply(NB_MCD_t , 1, max, na.rm = TRUE) #so I can check convergence - COULD ADD THIS CHECK
   NB_EVTPI  <- mean(NB_VTPI )
   NB_EVPI  <-  NB_EVTPI  - NB_EVTCI 
   

@@ -1021,9 +1021,9 @@ shinyUI(fluidPage(
                                                                         
                                                        ), # end survival epi inputs intervention 1
                                                        
-                                                       conditionalPanel(condition = "input.outcomeExpression != 'netHealth'",
+                                                       
                                                                         numericInput("MCD_t2", "MCD",
-                                                                                     value = 0, min = NA, max = NA, step = 0.05))
+                                                                                     value = 0, min = 0, max = NA, step = 0.05)
                                                        
                                                        
                                              ) # end epi input intervention 1 wellPanel (t2)
@@ -1223,9 +1223,9 @@ shinyUI(fluidPage(
                                                                         
                                                        ), # end survival epi inputs intervention 2
                                                        
-                                                       conditionalPanel(condition = "input.outcomeExpression != 'netHealth'",
+                                                       
                                                        numericInput("MCD_t3", "MCD",
-                                                                    value = 0, min = NA, max = NA, step = 0.05))
+                                                                    value = 0, min = 0, max = NA, step = 0.05)
                                                        
                                                        
                                                        
@@ -1427,9 +1427,9 @@ shinyUI(fluidPage(
                                                                                          
                                                                         ), # end survival epi inputs intervention 3
                                                                         
-                                                                        conditionalPanel(condition = "input.outcomeExpression != 'netHealth'",
+                                                                        
                                                                         numericInput("MCD_t4", "MCD",
-                                                                                     value = 0, min = NA, max = NA, step = 0.05))
+                                                                                     value = 0, min = 0, max = NA, step = 0.05)
                                                                         
                                                                         
                                                                         

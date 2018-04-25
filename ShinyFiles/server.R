@@ -635,7 +635,7 @@ shinyServer(function(input, output,clientData, session) {
   })
   # uncertainty: IS uncertainty - explain hist - bullet 1
   output$discussHistVOIYear1 <- renderText({
-           paste0("The tall left hand bar in the diagram shows that there is a ",
+           paste0("The left hand bar in the diagram shows that there is a ",
                   FormatProbOptimalTisMax(), " chance that ",
                   VOIResults$optimalTreatment, 
                   " provides the largest health benefit. If this is the case then there are zero health consequences of uncertainty.")

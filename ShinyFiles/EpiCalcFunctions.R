@@ -260,17 +260,25 @@ simOutcome_tn <- function(
 
 
 
-# test data 
+
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
+# # test data 
 # numberOfTreatments = 3
 # MCsims = 100 # required for continuous functions
-# typeOfEndpoint = "survival" #"binary"
+# typeOfEndpoint = "binary" #"binary" "survival"
 # ### binary
 # binaryRelativeScale_t2 = "OR"
 # binaryRelativeScale_t3 = "OR"
 # binaryRelativeScale_t4 = "OR"
 # P_t1 = rbeta(100, 10, 40)
 # binaryDist_t2 = "alwaysPositive"
-# binaryDist_t3 ="alwaysPositive" 
+# binaryDist_t3 ="alwaysPositive"
 # binaryDist_t4 = "alwaysPositive"
 # # norm dist
 # OR_t2= c(0.71, 1.18)
@@ -306,7 +314,7 @@ simOutcome_tn <- function(
 # continDist_t2="alwaysPositive" #  "alwaysNegative"  "norm",
 # continDist_t3="alwaysPositive" #  "alwaysNegative"  "norm",
 # continDist_t4="alwaysPositive"#  "alwaysNegative"  "norm",
-# # contin normal mean difference 
+# # contin normal mean difference
 # MD_t2=c(-2, 2)
 # MD_t3=c(-2, 2)
 # MD_t4=c(-2, 2)
@@ -321,13 +329,23 @@ simOutcome_tn <- function(
 # survivalDist_t4="alwaysPositive" #  "alwaysNegative"  "norm",,
 # lambda_t1=10
 # gamma_t1=1
-# # survival norm dist 
+# # survival norm dist
 # HR_t2=c(0.71, 1.18)
 # HR_t3=c(0.71, 1.18)
 # HR_t4=c(0.71, 1.18)
 # HRHalfNorm_t2=1.4
 # HRHalfNorm_t3=1.4
 # HRHalfNorm_t4=1.4
+# RR_MCD_t2 = 0.5
+# RR_MCD_t3 = 0.5
+# RR_MCD_t4 = 0.5
+# OR_MCD_t2 = 0.5
+# OR_MCD_t3 = 0.5
+# OR_MCD_t4 = 0.5
+# RD_MCD_t2 = 0.5
+# RD_MCD_t3 = 0.5
+# RD_MCD_t4 = 0.5
+
 
 
 
@@ -468,6 +486,60 @@ simOutcomeMatrix <- function(numberOfTreatments,
   # and return this
   outcome_t <- matrix(c(outcome_t1, outcome_t2, outcome_t3, outcome_t4), ncol = 4)
 
+  # add MCD
+  ##############
+  # binary 
+  # if(typeOfEndpoint == "binary"){
+  #   
+  #   # relative risk
+  #   ##
+  #   if(binaryRelativeScale_t2 == "RR"){
+  #     outcome_t[,2] <- outcome_t[,2] + (outcome_t[,1]*RR_MCD_t2 - outcome_t[,1])
+  #   }
+  #   if(binaryRelativeScale_t3 == "RR"){
+  #     outcome_t[,3] <- outcome_t[,3] + (outcome_t[,1]*RR_MCD_t3 - outcome_t[,1])
+  #   }
+  #   if(binaryRelativeScale_t4 == "RR"){
+  #     outcome_t[,4] <- outcome_t[,4] + (outcome_t[,1]*RR_MCD_t4 - outcome_t[,1])
+  #   }
+  #   
+  #   # odds ratio
+  #   ##
+  #   if(binaryRelativeScale_t2 == "OR"){
+  #     outcome_t[,2] <- outcome_t[,2] + ( ( -OR_MCD_t2*(outcome_t[,1]^2) + 2*OR_MCD_t2*outcome_t[,1] - OR_MCD_t2 + outcome_t[,1]^2 )/(OR_MCD_t2*(outcome_t[,1]^2) - OR_MCD_t2 - outcome_t[,1]) )
+  #   }
+  #   if(binaryRelativeScale_t3 == "OR"){
+  #     outcome_t[,3] <- outcome_t[,3] + (outcome_t[,1]*OR_MCD_t3 - outcome_t[,1])
+  #   }
+  #   if(binaryRelativeScale_t4 == "OR"){
+  #     outcome_t[,4] <- outcome_t[,4] + (outcome_t[,1]*OR_MCD_t4 - outcome_t[,1])
+  #   }
+  #   
+  #   # Risk difference
+  #   ##
+  #   if(binaryRelativeScale_t2 == "RD"){
+  #     outcome_t[,2] <- outcome_t[,2] + (RD_MCD_t2)
+  #   }
+  #   if(binaryRelativeScale_t3 == "RD"){
+  #     outcome_t[,3] <- outcome_t[,3] + (RD_MCD_t3)
+  #   }
+  #   if(binaryRelativeScale_t4 == "RD"){
+  #     outcome_t[,4] <- outcome_t[,4] + (RD_MCD_t4)
+  #   }
+  #   
+  #   # replace values greater than 1 or less than zero with legal probabilities
+  #   outcome_t[,2][outcome_t[,2] > 1] <- 1
+  #   outcome_t[,2][outcome_t[,2] < 0] <- 0
+  #   outcome_t[,3][outcome_t[,3] > 1] <- 1
+  #   outcome_t[,3][outcome_t[,3] < 0] <- 0
+  #   outcome_t[,4][outcome_t[,4] > 1] <- 1
+  #   outcome_t[,4][outcome_t[,4] < 0] <- 0
+  # } # end binary
+  
+  
+  
+  
+  
   return(outcome_t)
 
 }

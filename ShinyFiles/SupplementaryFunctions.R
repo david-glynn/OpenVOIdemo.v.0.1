@@ -604,13 +604,115 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
 }
 
 
+# MCD implemetation rule!
+# MCDpass_t2 : 1 if it passes the MCD threshold, NA if it does not
+# this is used in EVPI calculation to adjust for the fact that benefits are not realised if MCD threshold not met
+# test data
+# typeOfOutcome <- "harm" #"benefit" "harm" "netHealth"
+# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 4, P_t1 = rep(0.3, 100),
+#                                       mu_t2 = 10, variance_t2 = 0.25, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
+#                                       mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "norm", direction_t3 = "alwaysPositive",
+#                                       mu_t4 = 0, variance_t4 = .2, dist_t4 = "norm", direction_t4 = NA
+# )
+# MCD_t2 = 0.2
+# MCD_t3  = 2
+# MCD_t4 = 0.02
+# # test function
+# MCD_TEST <- MCDpass(typeOfOutcome = "netHealth", NB_t = NB_t, MCD_t2 = 0.0, MCD_t3 = 0, MCD_t4 = 0.00, typeOfEndpoint = "binary")
+# head(MCD_TEST)
+# head(NB_t)
 
-# test data for NBtoEVPIResults
+
+MCDpass <- function(typeOfOutcome, NB_t, MCD_t2, MCD_t3, MCD_t4, typeOfEndpoint){
+  
+  ## QALY outcome
+  if(typeOfOutcome == "netHealth"){
+    # implement if % increase in QALYs from baseline greater than MCD
+    MCDpass_t2 <- ifelse( (NB_t[,2] - NB_t[,1])/NB_t[,1] > MCD_t2, 1, NA)
+    MCDpass_t3 <- ifelse( (NB_t[,3] - NB_t[,1])/NB_t[,1] > MCD_t3, 1, NA)
+    MCDpass_t4 <- ifelse( (NB_t[,4] - NB_t[,1])/NB_t[,1] > MCD_t4, 1, NA)
+  }
+  
+  
+  ## natural outcome
+  if(typeOfOutcome != "netHealth"){
+    
+    # binary outcome
+    if(typeOfEndpoint == "binary"){
+      
+      if(typeOfOutcome == "benefit"){
+        # implement if increase in probabiltiy of outcome with new treatment greater than MCD
+        MCDpass_t2 <- ifelse( NB_t[,2] - NB_t[,1] > MCD_t2, 1, NA)
+        MCDpass_t3 <- ifelse( NB_t[,3] - NB_t[,1] > MCD_t3, 1, NA)
+        MCDpass_t4 <- ifelse( NB_t[,4] - NB_t[,1] > MCD_t4, 1, NA)
+      }
+      if(typeOfOutcome == "harm"){
+        # return to outcome scale for interpretation (represents probabilty of bad outcome)
+        outcome2_t <- - NB_t
+        # implement if reduction in probability of bad outcomes (want negative change) more negative than MCD
+        MCDpass_t2 <- ifelse( outcome2_t[,2]- outcome2_t[,1] < -MCD_t2, 1, NA)
+        MCDpass_t3 <- ifelse( outcome2_t[,3]- outcome2_t[,1] < -MCD_t3, 1, NA)
+        MCDpass_t4 <- ifelse( outcome2_t[,4]- outcome2_t[,1] < -MCD_t4, 1, NA)
+      }
+    } # end binary 
+    
+    # continuous outcome
+    if(typeOfEndpoint == "continuous"){
+      
+      if(typeOfOutcome == "benefit"){
+        # implement if increase in outcome greater than MCD
+        MCDpass_t2 <- ifelse( NB_t[,2]  > MCD_t2, 1, NA)
+        MCDpass_t3 <- ifelse( NB_t[,3]  > MCD_t3, 1, NA)
+        MCDpass_t4 <- ifelse( NB_t[,4]  > MCD_t4, 1, NA)
+      }
+      if(typeOfOutcome == "harm"){
+        # implement if decrease in outcome more neagative than MCD
+        MCDpass_t2 <- ifelse( NB_t[,2]  > - MCD_t2, 1, NA)
+        MCDpass_t3 <- ifelse( NB_t[,3]  > - MCD_t3, 1, NA)
+        MCDpass_t4 <- ifelse( NB_t[,4]  > - MCD_t4, 1, NA)
+      }
+      
+    } # end continuous
+    
+    # survival outcome
+    if(typeOfEndpoint == "survival"){
+      
+      if(typeOfOutcome == "benefit"){
+        # implement if increase with new treatment greater than MCD
+        MCDpass_t2 <- ifelse( NB_t[,2] - NB_t[,1] > MCD_t2, 1, NA)
+        MCDpass_t3 <- ifelse( NB_t[,3] - NB_t[,1] > MCD_t3, 1, NA)
+        MCDpass_t4 <- ifelse( NB_t[,4] - NB_t[,1] > MCD_t4, 1, NA)
+      }
+      if(typeOfOutcome == "harm"){
+        # implement if decrease with new greater than MCD
+        MCDpass_t2 <- ifelse(NB_t[,1] - NB_t[,2]  >  MCD_t2, 1, NA)
+        MCDpass_t3 <- ifelse(NB_t[,1] - NB_t[,3]  >  MCD_t3, 1, NA)
+        MCDpass_t4 <- ifelse(NB_t[,1] - NB_t[,4]  >  MCD_t4, 1, NA)
+      }
+      
+    } # end continuous
+    
+  } # end natural outcomes
+
+  MCDpass_t <- cbind(MCDpass_t2, MCDpass_t3, MCDpass_t4)
+  
+  return(MCDpass_t)
+}
+
+
+
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
+# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
+# # test data for NBtoEVPIResults
 # nameOf_t1 <- "late PTP"
 # nameOf_t2 <- "early PTP"
 # nameOf_t3 <- "treatment 3"
 # nameOf_t4 <- "treatment 4"
-# typeOfOutcome <- "benefit" # "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
+# typeOfOutcome <- "harm" #"benefit" "harm" "netHealth" # was Benefit==1 or 0 for benefit or harm
 # incidence = 8000 # was Incidence
 # timeInformation  = 15 # Time_info  = 15
 # discountRate = 3.5  #D_rate = 0.035 ***NB need to divide by 100
@@ -620,7 +722,7 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
 # utilisation_t2 = 0.5
 # utilisation_t3 = 0
 # utilisation_t4 = NA
-# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 2, P_t1 = rep(0.3, 10000),
+# NB_t <- simProbOfOutcomeMatrixBinary (numberOfTreatments = 2, P_t1 = rep(0.3, 100),
 #                           mu_t2 = 10, variance_t2 = 0.25, dist_t2 = "norm",  direction_t2 = "alwaysPositive",
 #                           mu_t3 = 0.2, variance_t3 = 0.1, dist_t3 = "halfNorm", direction_t3 = "alwaysPositive",
 #                           mu_t4 = NA, variance_t4 = NA, dist_t4 = "halfNorm", direction_t4 = NA
@@ -669,8 +771,15 @@ NBtoEVPIResults <- function(NB_t,
   tableEventsPerYearDF <- as.data.frame(cbind(Treatment_name, Expected_outcomes_per_year, Current_utilisation))
   tableEventsPerYearDF <- tableEventsPerYearDF[1:numberOfTreatments,]   # only output the number of rows = to the number of treatments considered
   
+  # MCD implemetation rule!
+  # MCDpass_t2 : 1 if it passes the MCD threshold, NA if it does not
+  # this is used to construct a NB_t matrix (NB_MCD_t) for use in EVPI calculation to adjust 
+  # for the fact that benefits are not realised if MCD threshold not met
+  MCDpass_t <- MCDpass(typeOfOutcome, NB_t, MCD_t2, MCD_t3, MCD_t4, typeOfEndpoint)
+  NB_MCD_t <- cbind(NB_t[,1], NB_t[,2:4]*MCDpass_t)
+  
   # Expected value of treating with perfect information
-  NB_VTPI  <- apply(NB_t , 1, max, na.rm = TRUE) #so I can check convergence - COULD ADD THIS CHECK
+  NB_VTPI  <- apply(NB_MCD_t , 1, max, na.rm = TRUE) #so I can check convergence - COULD ADD THIS CHECK
   NB_EVTPI  <- mean(NB_VTPI )
   NB_EVPI  <-  NB_EVTPI  - NB_EVTCI 
   
