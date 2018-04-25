@@ -13,6 +13,21 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", loc
 
 
 
+# proposal:  expected difference in MMSE (mean) compared to control is 0
+# but 0.5% chance that the treatment will work:
+# this imples 0.5% chance changes in MMSE scores above 1.4
+# find how many sigmas from the mean imply a 0.5% chance of success
+# find the sigma by setting this equal to the distance between the mean and success threshold (1.4)
+
+P_success <- 0.005
+T_success <- 1.4
+mu <- 0
+sigma <- abs(mu - T_success)/abs(qnorm(P_success))
+
+curve( dnorm(x,mu, sigma) , from=-(mu + sigma*6) , to= mu + sigma*6 )
+
+
+# old approach - not good wording
 # From this we can assign a distribution of continuous effect on the natural MMSE scale 
 # which reflects a 0.5% probability of treatment success i.e. 
 # there will be a 0.5% chance of a reduction in decline of 1.4 points or more. 
@@ -29,8 +44,8 @@ source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", loc
 
 # **NB just mean difference!
 # LCI and UCI 
-0 - 1.96*0.54
-0 + 1.96*0.54
+# 0 - 1.96*0.54
+# 0 + 1.96*0.54
 
 
 # natural outcome
@@ -77,9 +92,9 @@ master(
   continuousInput_t2="meanAndSE", # "range", # "meanAndSE",
   continuousInput_t3="meanAndSE" ,# "meanAndSE",
   continuousInput_t4="meanAndSE", # "meanAndSE",
-  continMean_t2=0,
-  continMean_t3=0,
-  continMean_t4=0,
+  continMean_t2= 0,
+  continMean_t3= 0,
+  continMean_t4= 0,
   continSE_t2= 0.54,
   continSE_t3= 0.54,
   continSE_t4= 0.54,

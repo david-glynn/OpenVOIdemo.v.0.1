@@ -899,7 +899,7 @@ shinyUI(fluidPage(
                                                                                          # for OR (norm) # CRASH default inputs
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
                                                                                                           sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.71, 1.18))),
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))),
                                                                                          # for RR (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
                                                                                                           sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
