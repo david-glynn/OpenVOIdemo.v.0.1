@@ -24,15 +24,15 @@ library(rmarkdown) # used in generating reports
 
 
 # WORK new absolute path source files
-# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
-# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
-# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
-# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
-# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
-# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
-# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
-# source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
-# 
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
+source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
+
 
 #source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/masterExtra.R", local = TRUE)
 
@@ -58,14 +58,14 @@ library(rmarkdown) # used in generating reports
 
 # new relative path source
 # relative paths for publishing in shinyapps.io
-source("SupplementaryFunctions.R", local = TRUE)
-source("SupplementaryFunctionsFeas.R", local = TRUE)
-source("master.R", local = TRUE)
-source("ReconFunctions.R", local = TRUE)
-source("EpiInputFunctions.R", local = TRUE)
-source("PlottingFunctions.R", local = TRUE)
-source("EpiCalcFunctions.R", local = TRUE)
-source("NBCalcFunctions.R", local = TRUE)
+# source("SupplementaryFunctions.R", local = TRUE)
+# source("SupplementaryFunctionsFeas.R", local = TRUE)
+# source("master.R", local = TRUE)
+# source("ReconFunctions.R", local = TRUE)
+# source("EpiInputFunctions.R", local = TRUE)
+# source("PlottingFunctions.R", local = TRUE)
+# source("EpiCalcFunctions.R", local = TRUE)
+# source("NBCalcFunctions.R", local = TRUE)
 
 
 

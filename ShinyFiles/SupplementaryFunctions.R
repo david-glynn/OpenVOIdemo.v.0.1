@@ -730,6 +730,7 @@ MCDpass <- function(typeOfOutcome, NB_t, MCD_t2, MCD_t3, MCD_t4, typeOfEndpoint)
 # costHealthSystem = 100000 # **note this!
 # k = 13000 # **note this
 # currencySymbol = "£"
+# typeOfEndpoint = "binary"
 
 # takes in a matrix of net benefits and outputs all relevant EVPI metrics
 # Requires: verybasicPop
@@ -741,9 +742,9 @@ NBtoEVPIResults <- function(NB_t,
                             discountRate ,durationOfResearch,costResearchFunder,
                             MCD_t2, MCD_t3, MCD_t4,
                             utilisation_t1, utilisation_t2,
-                            utilisation_t3, utilisation_t4,
+                            utilisation_t3, utilisation_t4,typeOfEndpoint,
                             costHealthSystem = NA, k = NA,
-                            currencySymbol="£"){
+                            currencySymbol="£" ){
   
   # define variables required
   MCsims <- nrow(NB_t) # impled number of simulations
@@ -1000,8 +1001,8 @@ NBtoEVPIResults <- function(NB_t,
 #                 MCD_t2 = 0, MCD_t3 = 0, MCD_t4 = 0,
 #                 utilisation_t1 = 50, utilisation_t2 = 50,
 #                 utilisation_t3 = 0, utilisation_t4 =0,
-#                 costHealthSystem = NA, k = NA, currencySymbol = "£")
-
+#                 costHealthSystem = NA, k = NA, currencySymbol = "£", typeOfEndpoint =  "binary")
+# 
 
 
 

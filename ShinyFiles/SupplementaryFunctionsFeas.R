@@ -100,7 +100,7 @@ NBtoEVPIResultsFeas <- function(NB_t,
                             utilisation_t3, utilisation_t4,
                             probabilityOfDefinitiveResearch,
                             costHealthSystemFeas = NA,costHealthSystemDefinitive =NA, k = NA,
-                            currencySymbol= "£"){
+                            currencySymbol= "£", typeOfEndpoint){
   
   # define variables required
   MCsims <- nrow(NB_t) # impled number of simulations
