@@ -628,9 +628,9 @@ MCDpass <- function(typeOfOutcome, NB_t, MCD_t2, MCD_t3, MCD_t4, typeOfEndpoint)
   ## QALY outcome
   if(typeOfOutcome == "netHealth"){
     # implement if % increase in QALYs from baseline greater than MCD
-    MCDpass_t2 <- ifelse( (NB_t[,2] - NB_t[,1])/NB_t[,1] > MCD_t2, 1, NA)
-    MCDpass_t3 <- ifelse( (NB_t[,3] - NB_t[,1])/NB_t[,1] > MCD_t3, 1, NA)
-    MCDpass_t4 <- ifelse( (NB_t[,4] - NB_t[,1])/NB_t[,1] > MCD_t4, 1, NA)
+    MCDpass_t2 <- ifelse( (NB_t[,2] - NB_t[,1])/abs(NB_t[,1]) > MCD_t2, 1, NA)
+    MCDpass_t3 <- ifelse( (NB_t[,3] - NB_t[,1])/abs(NB_t[,1]) > MCD_t3, 1, NA)
+    MCDpass_t4 <- ifelse( (NB_t[,4] - NB_t[,1])/abs(NB_t[,1]) > MCD_t4, 1, NA)
   }
   
   
@@ -836,6 +836,8 @@ NBtoEVPIResults <- function(NB_t,
     #               # NB per simulation with max(ENB_t ) - max NB per simulation
     #                 # best treament with current evidence - max NB per simulation
     # calculate loss from not having perfect information each year
+    #
+    
     NB_loss_maxt <- NB_t[,which(ENB_t  == max(ENB_t , na.rm = TRUE))] - NB_VTPI 
     
     # data from analysis
