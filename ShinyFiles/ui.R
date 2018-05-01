@@ -1712,11 +1712,12 @@ shinyUI(fluidPage(
              ),
              
              # unconditionally: show table of events per year
-             tags$ul(tags$li("The table below displays the expected health benefits of each treatment:")),
+             tags$ul(tags$li("The table below displays the expected outcomes for each treatment:")),
              tableOutput("tableEventsPerYear"),
              
+             # **hide this table as it does not work! - impossible condition.
              # conditional on cost and qaly analysis show table of costs
-             conditionalPanel(condition = "input.outcomeExpression != 'natural'",
+             conditionalPanel(condition = "input.outcomeExpression != 'natural' && input.outcomeExpression == 'natural'",
                               tags$ul(tags$li("The table below displays the expected treatment costs associated with each treatment option:")),
                               tableOutput("tableTreatmentCosts")
                               ),

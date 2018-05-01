@@ -819,8 +819,7 @@ master <- function(
                                   utilisation_t1, utilisation_t2,
                                   utilisation_t3, utilisation_t4,typeOfEndpoint,
                                   costHealthSystem, k)
-    VOIoutputs$tableTreatmentCostsDF <- NBOutput$tableTreatmentCostsDF # add the expected cost table to the input list
-    
+
   }
   
   # Feasibility research
@@ -838,13 +837,11 @@ master <- function(
                                       probabilityOfDefinitiveResearch,
                                       costHealthSystemFeas,costHealthSystemDefinitive, k,
                                       currencySymbol, typeOfEndpoint)
-    VOIoutputs$tableTreatmentCostsDF <- NBOutput$tableTreatmentCostsDF # add the expected cost table to the input list
-    
+
   }
   
   
-  
-
+  VOIoutputs$tableTreatmentCostsDF <- NBOutput$tableTreatmentCostsDF # add the expected cost table to the input list
   return(VOIoutputs)
 } # end master function
 

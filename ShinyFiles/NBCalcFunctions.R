@@ -12,31 +12,31 @@
 # source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
 # source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
 # source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
-
-
-# test data
+# 
+# 
+# # test data
 # outcome_t <-  matrix(rgamma(40, 12) + rep(c(0, 4, 2, 8), each = 10), ncol = 4)  #    # matrix(rnorm(40, 1, 1), ncol = 4)
 # MCsims = 10
-# typeOfEndpoint= "survival" # survival binary continuous
+# typeOfEndpoint= "binary" # survival binary continuous
 # typeOfOutcome= "netHealth"
 # tCostsDependOnEvent= "No"
 # MCD_t2 = 0.1
 # MCD_t3 = 0.2
 # MCD_t4 = 0.3
-# cost_t1 = 20
-# cost_t2= 30
+# cost_t1 = 100
+# cost_t2= 100
 # cost_t3 = 40
 # cost_t4 = 60
 # k = 15000
 # currencySymbol = "£"
-# incidence = 100
+# incidence = 8800
 # discountRate = 0.03
 # timeInformation = 15
 # nameOf_t1 = "1"
 # nameOf_t2 = "2"
 # nameOf_t3 = "3"
 # nameOf_t4 = "4"
-# numberOfTreatments = 4
+# numberOfTreatments = 2
 # costEvent_t1 = 10
 # costEvent_t2 = 20
 # costEvent_t3 = 30
