@@ -1842,6 +1842,14 @@ shinyUI(fluidPage(
              
              # must render these commands for them to work as in java script contional panel
              # find somewhere out of the way to put these
+             
+             tags$style(type='text/css', '#implementationValueExists {font-size:1% }'), 
+             tags$style(type='text/css', '#PositiveValueOfInformation {font-size:1% }'),
+             tags$style(type='text/css', '#specificResearchWorthwhile {font-size:1% }'),
+             tags$style(type='text/css', '#PositiveValueOfResearchDesignRCT {font-size:1% }'),
+             tags$style(type='text/css', '#PositiveValueOfFullTrialFeas {font-size:1% }'),
+             tags$style(type='text/css', '#PositiveValueOfFeas {font-size:1% }'),
+             
              textOutput("implementationValueExists"),
              textOutput("PositiveValueOfInformation"),
              textOutput("specificResearchWorthwhile"),

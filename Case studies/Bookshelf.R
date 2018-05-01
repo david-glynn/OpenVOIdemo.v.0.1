@@ -14,15 +14,15 @@ P4_cost <- 882177
 P5_cost <- 2854000
 P6_cost <- 855403
 
-widths = c(P5_cost,P2_cost , P4_cost,P1_cost,P6_cost, P3_cost)
+widths = c(P5_cost,P2_cost , P4_cost,P1_cost,P6_cost ,P3_cost )
 
 # QALYs from project
-P1_QALYs <- 11.1
-P2_QALYs <- 772
-P3_QALYs <- -3511
-P4_QALYs <- 52 
+P1_QALYs <- 38
+P2_QALYs <- 986
+P3_QALYs <- -4160
+P4_QALYs <- 60 
 P5_QALYs <- 50770
-P6_QALYs <- -660
+P6_QALYs <- -707
 #Pdud <- 0 # introduce to make space on the graph
 
 #heights = c(P5_QALYs,P2_QALYs , P4_QALYs,P1_QALYs,P6_QALYs, P3_QALYs)
@@ -45,7 +45,7 @@ P4_payoff
 P5_payoff
 P6_payoff 
 
-heights = c(P5_payoff,P2_payoff , P4_payoff,P1_payoff,P6_payoff, P3_payoff)
+heights = c(P5_payoff,P2_payoff , P4_payoff,P1_payoff,P6_payoff,P3_payoff)
 
 
 # Then we use the standard barplot command, but specify the space between blocks to be zero:
@@ -65,11 +65,11 @@ barplot(heights, widths, space=0,
 #Since we specified widths, we need to specify the axis labels:
 # axis labels
 # 
-axis(1, at=seq(from =0, to = 12000000, by = 1000000 ), labels=sprintf("?%sM", seq(from =0, to = 12, by = 1 )))
+axis(1, at=seq(from =0, to = 12000000, by = 1000000 ), labels=sprintf("£%sM", seq(from =0, to = 12, by = 1 )))
 axis(2, las = 1)
 
 title(main="")
-title(xlab="NETSCC expenditure (? million)", ylab="QALYs per ?15,000 NETSCC")
+title(xlab="NETSCC expenditure (£ million)", ylab="QALYs per £15,000 NETSCC")
 
 
 #To add grid lines, use the grid function:
@@ -79,12 +79,12 @@ title(xlab="NETSCC expenditure (? million)", ylab="QALYs per ?15,000 NETSCC")
 
 #and you can add arrows and text manually:
 
-text(1500000, 35, "P5 (?2.8M)", srt=45) 
-text(4500000, 35, "P2 (?3.3M)", srt=45) 
-text(7200000, 35, "P4 (?0.9M)", srt=45) 
-text(7850000, 35, "P1 (?0.6M)", srt=45) 
-text(8600000, 35, "P6 (?0.9M)", srt=45) 
-text(10000000, 35, "P3 (?2.5M)", srt=45) 
+text(1500000, 35, "P5 (£2.8M)", srt=60) 
+text(4500000, 35, "P2 (£3.3M)", srt=60) 
+text(7200000, 35, "P4 (£0.9M)", srt=60) 
+text(7850000, 35, "P1 (£0.6M)", srt=60) 
+text(8600000, 35, "P6 (£0.9M)", srt=60) 
+text(10000000, 35, "P3 (£2.5M)", srt=60) 
 
 # add budget line
 location <- P5_cost + 150000
