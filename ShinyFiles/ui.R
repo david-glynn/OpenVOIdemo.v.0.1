@@ -25,9 +25,9 @@ shinyUI(fluidPage(
     tabPanel("How to use this app",
              
              br(),
-             h4("A video on using this app"),
-             br(),
-             p("<INSERT SHORT YOUTUBE VIDEO ON HOW TO USE THIS APP>"),
+             #h4("A video on using this app"),
+             #br(),
+             #p("<INSERT SHORT YOUTUBE VIDEO ON HOW TO USE THIS APP>"),
              br(),
              h4("How to use this app"),
              p("This is an R Shiny App which facilitates calculations of the value of research proposals in a timely manner. 
@@ -41,7 +41,14 @@ shinyUI(fluidPage(
              p(strong("To carry out an analysis"), "click the 'Inputs' tab
                "),
              br(),
-             tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007")
+             br(),
+             br(),
+             br(),
+             
+             tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"),
+             
+             br(),
+             br()
              
              ),  # close How to use this app tab
     
@@ -53,23 +60,56 @@ shinyUI(fluidPage(
     tabPanel("How to estimate research value",
              
              br(),
-             h4("A video introducing value of information"),
-             HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/tbv9E9D2BRQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'),
+             #h4("A video introducing value of information"),
+             #HTML('<iframe width="560" height="315" src="https://www.youtube.com/embed/tbv9E9D2BRQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>'),
+             #br(),
+             
+             h4("Principles of research prioritisation"),
+             
+             p("The following section outlines the principles of the assessments required when considering the need for additional evidence and the priority of proposed research. 
+               These assessments help inform the two questions which must be answered when considering whether to prioritize and commission research:"),
+             tags$ul(
+               tags$li("Are the expected health benefits of additional evidence sufficient to regard the research proposal as potentially worthwhile?"), 
+               tags$li("Should the proposal be prioritized over other research topics that could have been commissioned with the same resources?")
+             ),
+             
              br(),
-             h4("How can health oucomes be improved?"),
-             p("Additional evidence is valuable because it can improve patient outcomes by resolving existing uncertainty about the effectiveness of the interventions available. This helps inform treatment decisions for subsequent patients. 
-               A judgement about the level of uncertainty in the existing evidence base can come from a number of sources including a systematic literature review and meta-analysis, expert elicitation, extrapolation, meta-epidemiological study, or a combination of these different sources. 
-               The expected health benefit provided by reducing uncertainty is called the information value for a research project."
-             ),
-             p("In addition to funding research, it is also possible to improve health outcomes by ensuring that the treatment option that is expected to be best based on the findings of existing evidence is implemented into clinical practice.  In fact, the improvements in health outcomes from implementing the findings of the current evidence base (implementation value) may be greater than the potential improvements in health outcomes through conducting further research."
-             ),
-             p("Drawing a distinction between the information value and the implementation value is important because conducting further evaluative research is not the only way to change clinical practice. The results of a new research study may influence clinical practice and may contribute to the implementation of research findings but this is not the only, or necessarily the most effective, way to do so. There are other mechanisms (e.g., more effective dissemination of existing evidence) and policies which are within the remit of other bodies (e.g., incentives and sanctions) to affect implementation. Therefore, conducting research to influence implementation rather than because there is real value in acquiring additional evidence itself would seem inappropriate. This is because limited research capacity could have been used elsewhere to conduct research in areas where it would have offered greater potential health benefits
+             h4("Are the expected health benefits of additional evidence sufficient to regard the research proposal as potentially worthwhile?"),
+             
+             
+             strong("How can health oucomes be improved?"),
+             p("Health outcomes can be improved by conducting research or implementing the findings of existing research. In order to understand the value of additional evidence it is necessary to distinguish between these two very different ways to improve health outcomes. It is also necessary to take account of the costs associated with research projects and the fact that minimum changes in outcomes may need to be observed before clinical practice will change. "),
+             
+             strong("How does conducting research improve health outcomes?"),
+             p("Additional evidence is valuable because it can improve patient outcomes by resolving existing uncertainty about the effectiveness of the interventions available. This helps inform treatment decisions for subsequent patients. For example, based on the balance of existing evidence a clinician might judge that a particular intervention is the most effective option, but there will be a chance that the other alternative interventions are in fact more effective. Therefore, when the existing evidence is uncertain there is a chance that one of the alternative interventions would have improved health outcomes to a greater extent. This means that there are adverse health consequences associated with uncertainty. A judgement about the level of uncertainty can come from a systematic review and meta-analysis, expert elicitation, extrapolation, meta-epidemiological study, or a combination of these sources. The level of uncertainty in the decision arises from the range of plausible values that the outcome can take.  This is represented by the confidence interval (CI) or standard error around the estimate. A wide CI implies a large amount of uncertainty.
                "),
-             h4("What change in the primary endpoint is required?"),
-             p("Uncertainty in a decision about alternative treatment options arises from the range of plausible values that the important endpoints can take.  When the range of plausible values for a particular parameter such as the relative treatment effect can support more than one intervention (e.g., the confidence interval for the estimate of relative effect crosses the line of no difference) this uncertainty has consequences for health outcomes.  This is because for any treatment choice there is a chance that an alternative intervention could have improved health outcomes to a greater extent.  The importance of this uncertainty is indicated by the scale of the health consequences of the uncertainty.   The chance that an intervention is not the most effective, how much less effective it is likely to be, and the size of the patient population facing the uncertain treatment choice all contribute to the health consequences of uncertainty.
+             p("As an example, consider the evidence on the use of corticosteroids following traumatic brain injury (TBI) before the large definitive trial of CRASH. Before CRASH, a meta-analysis of 19 randomised controlled trials indicated that the effects of corticosteroids on death and disability were unclear. Taking death as an endpoint, we can start to understand the consequences of the uncertainty on mortality. The odds ratio for death was 0.93 in favour of the use of corticosteroids but with 95% CI from 0.71 to 1.18. This uncertainty means that every decision about the use of corticosteroids following TBI may not have been the most effective choice. In this case, there was a 74% chance that corticosteroids were effective and improved survival. However, there was a 26% chance that corticosteroids resulted in excess deaths per annum. This uncertainty can be translated into the consequences for patient outcomes, i.e. number of expected deaths per annum due to uncertainty, by combining the uncertain relative effect with an estimate of the baseline risk (derived from the control arms of the trials or from an alternative source) and multiplying by the incidence of TBI per year.
                "),
-             p("The primary endpoint, which usually captures the most important aspects of health outcome, can be used as a starting point to understand the consequences of current uncertainty. However, in situations where there are a number of other important considerations that are not captured in the primary outcome, we can specify a minimum clinical difference (MCD) in the primary outcome that would need to be detected in future research.  This represents the change in the primary endpoint that would need to be detected for the results of any new research study to be considered clinically significant and have an impact on clinical practice. 
-               This MCD concept will be explained further in the next section: 'How to use this app'.")
+             p("These expected health consequences can be interpreted as an estimate of the health benefits that could be gained each year if the uncertainty surrounding treatment choice could be resolved, i.e., it provides an expected upper bound on the health benefits of further research which would confirm whether corticosteroids following TBI increase deaths or reduce them. In effect, this is the value of reducing the 95% confidence interval to a single point. These potential expected benefits increase with the size of the patient population whose treatment choice can be informed by additional evidence and the time over which evidence about the effectiveness of these interventions is expected to be useful. 
+               "),
+             
+             strong("How does implementing the findings of existing evidence improve health outcomes?"),
+             p("In addition to funding research, it is also possible to improve health outcomes by ensuring that the treatment option that is expected to be best based on the findings of existing evidence is implemented into clinical practice.  In fact, the improvements in health outcomes from implementing the findings of the current evidence base (implementation value) may be greater than the potential improvements in health outcomes through conducting further research."),
+             
+             strong("What change in the primary endpoint is required to change practice?"),
+             p("The health benefits of conducting further research will only improve patient outcomes if the findings of the research change clinical practice. Again, it is important to recognise that there are many ways to influence implementation other than by conducting more research. However, concerns about implementation might influence research priority and the design of research.   For example, if it is very unlikely that the findings of research will affect clinical practice and other mechanisms are unlikely to be effective at changing practice, then another area of research might be prioritised even though the expected benefits are smaller. Furthermore, if the research must demonstrate highly statistically significant results to be implemented this will influence design, cost and time taken for research to report.  In some cases, larger clinical differences in effectiveness may be required before research would have an impact on practice. This will tend to reduce the potential benefits of further research as larger differences are less likely to be observed than smaller ones. The change in the primary endpoint required is called the minimum clinical difference (MCD)"),
+             
+             strong("Research costs imposed on the health system"),
+             p("Carrying out research consumes resources in the general health system e.g. doctors, nurses, and pharmacists whose time commitments are moved away from general patient care and reallocated to research projects. The general health budget may also bear the costs of administrative staff and equipment that is needed to carry out the research. Another important type of cost that is often borne by the health budget is the acquisition costs of the health technologies under investigation (e.g. drug or device costs).  These costs must be taken into account to comprehensively understand the expected health benefits of research projects."),
+             
+             
+             br(),
+             h4("Should the research proposal be prioritized over other research topics that could have been commissioned with the same resources?"),
+             
+             p("Since research funding bodies have limited resources, not all research proposals can be funded and so the benefits of some research projects must be foregone in order to fund others. Quantitative estimates of the health benefits of research projects are required to compare the benefits of funded research to the foregone benefits of research not funded. These assessments can help to inform which research projects represent “best buys” for the research funder. They allow decision makers to compare value across proposals make explicit judgements about the trade-offs between different outcomes. If the potential health benefits of research are not in generic health outcomes (such as QALYs), implicit extrapolations are required to link changes in primary outcomes to compare health outcomes. "),
+             
+             
+             br(),
+             br(),
+             br(),
+             br(),
+             br(),
+             br()
              
              ), # end How to estimate research value tab
     
@@ -93,7 +133,8 @@ shinyUI(fluidPage(
                                   
                                   # step 1 input information
                                   wellPanel(
-                                    h4("Step 1 inputs"),
+                                    h4("Step 1: Primary outcome"),
+                                    
                                     strong("Type of primary endpoint"),
                                     p("The primary outcome measure or endpoint captures the most important aspects of health outcome in the research."), 
                                     
@@ -102,27 +143,56 @@ shinyUI(fluidPage(
                                       Using QALYs requires more inputs but enables a comparion of the health benefits of further research and implementation efforts across diverse clinical areas."),
                                     
                                     strong("Is the outcome a benefit (e.g. cures) or a harm (e.g. heart attack)?"),
-                                    p("For natural outcomes, the value of additional research is expressed in terms of ‘benefits gained’ or ‘harms avoided’ depending on whether this outcome is a benefit or harm."),
+                                    p("For natural outcomes: the value of additional research is expressed in terms of ‘benefits gained’ or ‘harms avoided’ depending on whether this outcome is a benefit or harm."),
                                     
                                     strong("Name of outcome e.g. heart attack"),
-                                    p("This will be used in reporting results."),
-                                    
-                                    strong("Type of research"),
-                                    p("The value of research can be calculated for either randomised controlled trials (RCTs) or feasibility studies.
-                                      The inputs required for the analysis will depend on the type of study chosen."),
-                                    tags$ul(
-                                      tags$li("RCT: In this type of study, individuals are randomised to different treatments and the outcomes are compared accross the groups."), 
-                                      tags$li("Feasibility study: If there are uncertainties about whether a large trial is possible, a short feasibility study can be carried out to assess the possibility of future research.
-                                              If the feasibility study is successful, researchers have the option to carry out the follow up trial.")
-                                      ),
-                                    
-                                    strong("How many treatment options are under consideration? (Maximum of 4)"),
-                                    p("There may be a number of relevant treatment options for a given indication. 
-                                      This app currently allows for up to 4 options to be considered."),
+                                    p("For natural outcomes: this will be used in reporting results."),
                                     
                                     strong("Do the treatment costs depend on the primary outcome?"),
-                                    p("In some cases treatment costs will depend importantly on whether the primary outcome occurs or not.
-                                      For example, if a treatment is used to prevent disease progression then it will cease to be used (and its cost will no longer be incurred) if the individual progresses.")
+                                    p("For binary outcomes: in some cases treatment costs will depend importantly on whether the primary outcome occurs or not.
+                                      For example, if a treatment is used to prevent disease progression then it will cease to be used (and its cost will no longer be incurred) if the individual progresses."),
+                                    
+                                    strong("Number of possible states if the primary outcome does / does not occur (4 maximum)"),
+                                    p("For binary outcomes: the primary endpoint may be a scale or a composite outcome which is composed of a number of health states.
+                                      If there are different levels of health and costs associated with these health states then these can be considered explicitly here.
+                                      For example, if primary outcome is a composite of heart attack and stroke then there are two possible states if the primary outcome occurs."),
+                                    
+                                    strong("Conditional on the primary outcome occurring, what is the probability of being in this state?"),
+                                    p("For binary outcomes: if the primary outcome is composed of distinct health states, different proportions of individuals may be expected to enter these health states.
+                                      For example, if primary outcome is a composite of heart attack and stroke then conditional on the primary outcome occurring 40% and 60% of these individuals may be expected to experience heart attack and stroke respectively."),
+                                    
+                                    strong("Time in this state (years)?"),
+                                    p("For binary outcomes: if differential survival is considered then represents the expected survival time associated with each state. 
+                                      Otherwise this represents the patient time horizon considered for the decision i.e. how far into the future individual patient outcomes are modelled."),
+                                    
+                                    strong("What is the health utility associated with this state?"),
+                                    p("For binary outcomes: this is a number which represents the health utility associated with a state."),
+                                    
+                                    strong("What are the disease related costs associated with this state?"),
+                                    p("For binary outcomes: these are the costs associated with a particular disease state, they do not inlclude the costs of the treatment under consideration."),
+                                    
+                                    strong("What is the health utility associated with the pre-transition health state?"),
+                                    p("For survival outcomes: to understand the magnitude of health consequences, the primary outcome must be linked to health utility.
+                                      A simple approach is taken in which the time spent in the state is multiplied by the utility score for that state to estimate the incremental QALYs."),
+                                    
+                                    strong("What are the expected monthly disease related costs associated with the pre-transition health state?"),
+                                    p("For survival outcomes: in the same manner as for health utility changes in the expected survival must be linked to changes in disease related costs.
+                                      These are the costs associated with a particular disease state, they do not inlclude the costs of the treatment under consideration."),
+                                    
+                                    strong("By how much is a one unit increase in the primary outcome expected to increase/decrease the health state utility?"),
+                                    p("For continuous outcomes: the effect of changes from baseline on changes in utility will depend on the severity of the disease and range of the outcome measure. 
+                                      “Mapping” studies which use statistical methods to estimate the effect of a unit change in a natural outcome on utility provide this link."),
+                                    
+                                    strong("By how much is a one unit increase in the primary outcome expected to increase/decrease monthly disease related costs?"),
+                                    p("For continuous outcomes: changes in the primary outcome may also be expected to result in changes in disease related costs. 
+                                      These are the costs associated with a particular disease state, they do not inlclude the costs of the treatment under consideration.
+                                      Estimates for this relatioship can come from regression studies."),
+                                    
+                                    strong("How long is the treatment effect expected to last? (months)"),
+                                    p("For continuous outcomes: the scale of the health gains and disease related costs associated with changes in the primary outcome will depend on the expected treatment effect duration. 
+                                      Estimates of treatment effect duration exist for few outcomes so in practice with will require expert opinion to inform this.")
+                                    
+                                    
                                     
                                     ), # end step 1 input information 
                                   br(),
@@ -130,88 +200,105 @@ shinyUI(fluidPage(
                                   
                                   # step 2 input information
                                   wellPanel(
-                                    h4("Step 2 inputs"),
-                                    strong("Incidence per annum"),
-                                    p("An estimate of the number of individuals facing the uncertain choice between alternative interventions is required in order to establish the size of the benefits to the target population. 
-                                      "),
-                                    strong("Length of time for which the new evidence would be valuable"),
-                                    p("The information generated by new research will not be valuable indefinitely because other changes occur over time. For example, over time new and more effective interventions become available which will eventually make those currently available obsolete. This means that new information about effectiveness is only relevant for a specific amount of time. A judgement about the length of time that the evidence from the proposed RCT might be valuable is required to estimate the expected benefits over an appropriate time horizon.  
-                                      "),
-                                    strong("Discount rate"),
-                                    p("When a time horizon greater than one year is considered in the analysis, discounting should be used to reflect the fact that resources committed today could be invested at a real rate of return to free up more resources in the future. 
-                                      "),
-                                    strong("Opportunity cost of health expenditure"),
-                                    p("
-                                      "),
-                                    strong("Net health effect of survival endpoint (in QALYs)"),
-                                    p("
-                                      "),
-                                    strong("Name of outcome"),
-                                    p("
-                                      "),
-                                    strong("Currency used"),
-                                    p("
-                                      ")
+                                    h4("Step 2: Interventions"),
+                                    
+                                    strong("How many treatment options are under consideration? (Maximum of 4)"),
+                                    p("There may be a number of relevant treatment options for a given indication. 
+                                      This app currently allows for up to 4 options to be considered."),
+                                    
+                                    strong("Current level of utilisation (%)"),
+                                    p("Some estimate of the current level of utilisation of the interventions in clinical practice is required to establish the value of changing practice if the results of new research suggest a change. 
+                                      It can also be used to establish whether there is greater value from encouraging the implementation of what existing evidence suggests is the most effective intervention rather than conducting new research.
+                                      The utilisation of all treatments must sum to 100%."),
+                                    
+                                    strong("Choose method of entering baseline probability of outcome"),
+                                    p("An estimate of event rate with the baseline treatment is required.
+                                       This is used to obtain an estimate of the absolute effect of the interventions on the primary outcome by applying the relative measure of effect to the baseline risk. 
+                                       There are two options for entering this data. 1) Upper and lower 95% range: this may come from discussion with an expert and/or from a confidence interval reported in the literature.
+                                       2) Number of events and number at risk: this may come from an observational study or control arm of an RCT"),
+                                    
+                                    strong("Scale for relative effect"),
+                                    p("An estimate of the relative effectiveness of the intervention is required for the primary outcome, along with an estimate of its uncertainty. 
+                                      This can be expressed with a 95% confidence interval in terms of an odds ratio (binary), relative risk (binary), risk difference (binary), hazard ratio (surviva) or mean difference (continuous)."),
+                                    
+                                    strong("Minimum clinical difference (MCD)"),
+                                    p("Specifying a MCD required to change clinical practice is one way to incorporate concerns about increased costs and/or potential adverse events.
+                                      A larger clinical difference in effectiveness may need to be demonstrated before the findings of the proposed research are implemented with greater improvements in the primary outcome required to justify any additional costs.
+                                      This must be specified as; percentage change in probability of outcome (binary), change in months before progression (survival) and units of change in continuous outcome (continuous)"),
+                                    
+                                    strong("Treatment costs over patient time horizon"),
+                                    p("Here Treatment costs are assumed to be the same for all individuals treated; regardless of health outcomes (see below).
+                                      If treatment costs accrue over multiple years they should be discounted to present value."),
+                                    
+                                    strong("Treatment costs over patient time horizon if the primary outcome occurs / does not occur "),
+                                    p("In some cases treatment costs will depend on the primary outcome, for example; intensive preventative treatment may be administered continuously until an event occurs (e.g. heart attack). Once the event has occurred the preventative treatment is halted and these treatment costs are no longer incurred."),
+                                    
+                                    # dont need to explain?
+                                    #strong("Treatment costs per month"),
+                                    #p("For continuous or survival"),
+                                    
+                                    strong("Are individuals always treated until progression under this treatment?"),
+                                    p("For survival outcomes individuals may be treated until progression or there may be a maximum duration of treatment.")
+                                    
+                                    
                                     ), # end step 2 input information 
                                   br(),
-                                  
-                                  
-                                  
-                                  
-                                  
-                                  strong("The value of reconsidering the evidence"),
-                                  p("
-                                    "),
-                                  br(),
-                                  
-                                  
+                               
                                   
                                   # step 3 input information
                                   wellPanel(
-                                    h4("Step 3 inputs"),
-                                    strong("Duration of the research"),
-                                    p("**discuss feasibility durations required here too** Some assessment of the duration of time for the proposed research to be conducted and for the  results of the research to report is required since the value of research declines the longer it takes to report. This might be informed by an assessment of sample size, recruitment rates, or historical experience from conducting similar types of studies. 
-                                      "),
-                                    strong("Costs of the research"),
-                                    p("**discuss all costs here** Some assessment of the likely costs of the proposed RCT is required to establish whether the expected benefits from the study are sufficient to justify the expected costs. 
-                                      "),
-                                    strong("Liklihood of feasibility research leading to follow-up study"),
-                                    p("
-                                      ")
-                                    ),
-                                  br(),
-                                  
-                                  wellPanel(
-                                    h4("Run analysis"),
-                                    strong("Run analysis button"),
-                                    p(""),
-                                    strong("Number of simulations"),
-                                    p("**talk about reconsider evidence here")
-                                  ),
-                                  
-                                  br(),
-                                  
-                                  wellPanel(
-                                    h4("Treatment inputs"),
-                                    strong("Baseline event rate"),
-                                    p(""),
-                                    strong("Current level of utilisation of the interventions"),
-                                    p("Health systems can improve health outcomes in two distinct ways: (i) generating additional evidence to reduce uncertainty about which treatment improves health (information value); and (ii) changing clinical practice such that the optimal treatment based on current evidence is implemented (implementation value).
-                                      Some estimate of the current level of utilisation of the interventions in clinical practice is required to establish the value of changing practice if the results of new research suggest a change. It can also be used to establish whether there is greater value from encouraging the implementation of what existing evidence suggests is the most effective intervention rather than conducting new research. 
-                                      "),
-                                    strong("Relative treatment effects"),
-                                    p("An estimate of the relative effectiveness of the intervention is required for the primary outcome, along with an estimate of its uncertainty. 
-                                      This information is required in the form of a mean and variance of the log odds ratio (for binary and continuous outcomes) or a mean and variance of the log hazard ratio (for survival outcomes). 
-                                      This estimate is usually obtained from a standard meta-analysis. However, if the estimate is unavailable or considered inadequate, alternative values can be used to represent different judgements about the uncertain relative treatment effect. 
-                                      "),
-                                    strong("Distribution of relative effects"),
-                                    p("")
+                                    h4("Step 3: Proposed research"),
                                     
-                                    )
+                                    strong("Type of research"),
+                                    p("The value of research can be calculated for either randomised controlled trials (RCTs) or feasibility studies.
+                                      The inputs required for the analysis will depend on the type of study chosen."),
+                                    tags$ul(
+                                      tags$li("RCT: In this type of study, individuals are randomised to different treatments and the outcomes are compared accross the groups."), 
+                                      tags$li("Feasibility study: If there are uncertainties about whether a full trial is possible, a short feasibility study can be carried out to assess the possibility of future research.
+                                              If the feasibility study is successful, researchers have the option to carry out the follow up trial.")
+                                      ),
+                                    
+                                    strong("Probability of feasibility research leading to follow-up study"),
+                                    p("For feasibiltiy studies: the motivation is that there is uncertainty about whether a full trial is possible. If the feasibility study shows that the full trial is not possible, the research budget spent on the feasibility study will have no impact on health outcomes. For this reason, the likelihood of a feasibility study leading to the full trial is an important determinant of its value."),
+                                    
+                                    strong("Expected duration of research"),
+                                    p("Some assessment of the duration of time for the proposed research to be conducted and for the  results of the research to report is required since the value of research declines the longer it takes to report. 
+                                       This might be informed by an assessment of sample size, recruitment rates, or historical experience from conducting similar types of studies.
+                                       For feasibility studies: estimates of duration for both the feasibiltiy study and the full trial are required."),
+                                    
+                                    strong("Costs of the research to funder"),
+                                    p("These costs are the costs of research which are directly borne by the research funder.
+                                       For feasibility studies: estimates of research funder costs for both the feasibiltiy study and the full trial are required."),
+                                    
+                                    strong("Costs of the research imposed on health system"),
+                                    p("These costs are the costs of research which fall on the general health system.
+                                       Carrying out research consumes valuable resources from the general health care budget e.g. doctors, nurses, and pharmacists whose time commitments are moved away from general patient care and reallocated to research projects. 
+                                       For feasibility studies: estimates of research health system costs for both the feasibiltiy study and the full trial are required.
+                                      "),
+                                    
+                                    strong("Length of time for which the new evidence would be valuable"),
+                                    p("The information generated by new research will not be valuable indefinitely because other changes occur over time. For example, over time new and more effective interventions become available which will eventually make those currently available obsolete. 
+                                       This means that new information about effectiveness is only relevant for a specific amount of time. A judgement about the length of time that the evidence from the proposed research might be valuable is required to estimate the expected benefits over an appropriate time horizon.  
+                                      "),
+                                    
+                                    strong("Discount rate"),
+                                    p("Discounting should be used to reflect the fact that resources committed today could be invested at a real rate of return to free up more resources in the future. 
+                                      "),
+                                    
+                                    strong("Incidence per annum"),
+                                    p("An estimate of the number of individuals facing the uncertain choice between alternative interventions is required in order to establish the size of the benefits to the target population. 
+                                      "),
+                                  
+                                    strong("Opportunity cost of health system expenditure"),
+                                    p("The health foregone due to costs imposed on the health system are the opportunity costs of general health care expenditure.")
+                                    
+                                    
+                                    ),
                                   
                                   
-                                  
-                                  
+                                  br(),
+                                  br(),
+                                  br()
                                     ), # end how to use this app tabPanel
                          
                          
@@ -316,7 +403,7 @@ shinyUI(fluidPage(
                                                               
                                                               strong("State 1.1"),
                                                               conditionalPanel(condition = "input.numberS1States >= 2 ",
-                                                                  numericInput("probability_s11", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                                  numericInput("probability_s11", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                                value = 1, min = 0, max = 1, step = 0.05)),
                                                               numericInput("lifeDuration_s11", "Time in this state (years)?",
                                                                            value = 16.73, min = 0, max = 100, step = 0.5),
@@ -362,7 +449,7 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               strong("State 1.2"),
-                                                              numericInput("probability_s12", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                              numericInput("probability_s12", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.24, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s12", "Time in this state (years)?",
                                                                            value = 16.73, min = 0, max = 100, step = 0.5),
@@ -409,7 +496,7 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               strong("State 1.3"),
-                                                              numericInput("probability_s13", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                              numericInput("probability_s13", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.2, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s13", "Time in this state (years)?",
                                                                            value = 19.23, min = 0, max = 100, step = 0.5),
@@ -439,7 +526,7 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               strong("State 1.4"),
-                                                              numericInput("probability_s14", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                              numericInput("probability_s14", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.14, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s14", "Time in this state (years)?",
                                                                            value = 19.23, min = 0, max = 100, step = 0.5),
@@ -470,7 +557,7 @@ shinyUI(fluidPage(
                                                               
                                                               strong("State 2.1"),
                                                               conditionalPanel(condition = "input.numberS0States >= 2 ",
-                                                                    numericInput("probability_s01", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                                    numericInput("probability_s01", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                                  value = 1, min = 0, max = 1, step = 0.05)),
                                                               numericInput("lifeDuration_s01", "Time in this state (years)?",
                                                                            value = 0, min = 0, max = 100, step = 0.5),
@@ -490,7 +577,7 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               strong("State 2.2"),
-                                                              numericInput("probability_s02", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                              numericInput("probability_s02", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.07, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s02", "Time in this state (years)?",
                                                                            value = 7.11, min = 0, max = 100, step = 0.5),
@@ -508,7 +595,7 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               strong("State 2.3"),
-                                                              numericInput("probability_s03", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                              numericInput("probability_s03", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.41, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s03", "Time in this state (years)?",
                                                                            value = 12.52, min = 0, max = 100, step = 0.5),
@@ -526,7 +613,7 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               strong("State 2.4"),
-                                                              numericInput("probability_s04", "Conditional on the primary outcome occuring, what is the probability of being in this state?",
+                                                              numericInput("probability_s04", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.23, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s04", "Time in this state (years)?",
                                                                            value = 12.52, min = 0, max = 100, step = 0.5),
@@ -1022,7 +1109,7 @@ shinyUI(fluidPage(
                                                        ), # end survival epi inputs intervention 1
                                                        
                                                        
-                                                                        numericInput("MCD_t2", "MCD",
+                                                                        numericInput("MCD_t2", "Minimum clinical difference (MCD)",
                                                                                      value = 0, min = 0, max = NA, step = 0.05)
                                                        
                                                        
@@ -1224,7 +1311,7 @@ shinyUI(fluidPage(
                                                        ), # end survival epi inputs intervention 2
                                                        
                                                        
-                                                       numericInput("MCD_t3", "MCD",
+                                                       numericInput("MCD_t3", "Minimum clinical difference (MCD)",
                                                                     value = 0, min = 0, max = NA, step = 0.05)
                                                        
                                                        
@@ -1428,7 +1515,7 @@ shinyUI(fluidPage(
                                                                         ), # end survival epi inputs intervention 3
                                                                         
                                                                         
-                                                                        numericInput("MCD_t4", "MCD",
+                                                                        numericInput("MCD_t4", "Minimum clinical difference (MCD)",
                                                                                      value = 0, min = 0, max = NA, step = 0.05)
                                                                         
                                                                         
