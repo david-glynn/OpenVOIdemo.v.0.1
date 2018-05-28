@@ -415,7 +415,8 @@ shinyServer(function(input, output,clientData, session) {
   FormatProbabilityOfDefinitiveResearch <- reactive(
     paste0(input$probabilityOfDefinitiveResearch*100, "%"))
   
-  
+  FormatProbabilityOfNoDefinitiveResearch <- reactive(
+    paste0(100 - input$probabilityOfDefinitiveResearch*100, "%"))
   
   
   # ICERs
@@ -542,7 +543,7 @@ shinyServer(function(input, output,clientData, session) {
              " meaning the maximum value of the proposed research is estimated to be (",
              FormatCostResearchFunder(), "/", FormatValueOfResearchWithPerfectImplementation(),
              " =) ", FormatICER_ResearchWithPerfectImplementation(), 
-             " per ", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", " gained.", "avoided."))
+             " per ", newNameOfOutcome(), ifelse(newTypeOfOutcome() != "harm", " gained.", " avoided."))
   })
   
   # headline: Feasibility and there is value in research
@@ -744,7 +745,7 @@ shinyServer(function(input, output,clientData, session) {
   # reduce max value by prob of feasibilty research
   output$fullTrialNotCertainFeas <- renderText({
     paste0("As there is a ", 
-           FormatProbabilityOfDefinitiveResearch(),
+           FormatProbabilityOfNoDefinitiveResearch(),
            " chance that the full trial is not possible, the upper bound on the value of this project falls to ",
            FormatMaxValueOfUncertainResearchWithPerfectImplementation(),
            " ", paste0(newNameOfOutcome(),"s"),ifelse(newTypeOfOutcome() != "harm", " gained", " avoided"),
@@ -759,7 +760,7 @@ shinyServer(function(input, output,clientData, session) {
            FormatCostResearchFunderDefinitive(),
            ". As the feasibility study costs will always be incurred and there is a ",
            FormatProbabilityOfDefinitiveResearch(),
-           " chance that the follow-up research will not occur, the total expected cost to the research funder is",
+           " chance that the follow-up research will occur, the total expected cost to the research funder is",
            FormatCostResearchFunderFeas(), " + ", FormatCostResearchFunderDefinitive(), " x ", 
            FormatProbabilityOfDefinitiveResearch(), " =) ", FormatExpectedCostResearchFunder(), ".")
   })

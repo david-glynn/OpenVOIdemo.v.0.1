@@ -22,7 +22,7 @@ shinyUI(fluidPage(
     # welcome tabs
     ##################
     
-    tabPanel("How to use this app",
+    tabPanel("Welcome",
              
              br(),
              #h4("A video on using this app"),
@@ -77,7 +77,7 @@ shinyUI(fluidPage(
              h4("Are the expected health benefits of additional evidence sufficient to regard the research proposal as potentially worthwhile?"),
              
              
-             strong("How can health oucomes be improved?"),
+             strong("How can health outcomes be improved?"),
              p("Health outcomes can be improved by conducting research or implementing the findings of existing research. In order to understand the value of additional evidence it is necessary to distinguish between these two very different ways to improve health outcomes. It is also necessary to take account of the costs associated with research projects and the fact that minimum changes in outcomes may need to be observed before clinical practice will change. "),
              
              strong("How does conducting research improve health outcomes?"),
@@ -140,53 +140,51 @@ shinyUI(fluidPage(
                                     
                                     strong("Express results in natural outcomes (e.g. heart attacks avoided) or in QALYs?"),
                                     p("The benefits of research can be expressed in either natural outcomes or in Quality Adjusted Life Years (QALYs).
-                                      Using QALYs requires more inputs but enables a comparion of the health benefits of further research and implementation efforts across diverse clinical areas."),
+                                      Using QALYs requires more inputs but enables a comparison of the health benefits of further research and implementation efforts across diverse clinical areas."),
                                     
-                                    strong("Is the outcome a benefit (e.g. cures) or a harm (e.g. heart attack)?"),
+                                    strong("Is the outcome a benefit (e.g. cure) or a harm (e.g. heart attack)?"),
                                     p("For natural outcomes: the value of additional research is expressed in terms of ‘benefits gained’ or ‘harms avoided’ depending on whether this outcome is a benefit or harm."),
                                     
                                     strong("Name of outcome e.g. heart attack"),
                                     p("For natural outcomes: this will be used in reporting results."),
                                     
                                     strong("Do the treatment costs depend on the primary outcome?"),
-                                    p("For binary outcomes: in some cases treatment costs will depend importantly on whether the primary outcome occurs or not.
+                                    p("For binary outcomes: in some cases treatment costs will depend on whether the primary outcome occurs or not.
                                       For example, if a treatment is used to prevent disease progression then it will cease to be used (and its cost will no longer be incurred) if the individual progresses."),
                                     
                                     strong("Number of possible states if the primary outcome does / does not occur (4 maximum)"),
                                     p("For binary outcomes: the primary endpoint may be a scale or a composite outcome which is composed of a number of health states.
                                       If there are different levels of health and costs associated with these health states then these can be considered explicitly here.
-                                      For example, if primary outcome is a composite of heart attack and stroke then there are two possible states if the primary outcome occurs."),
+                                      For example, if primary outcome is a composite of heart attack and stroke then there are two possible states if the primary outcome occurs and the costs and health consequences associated with these states must be explicitly considered."),
                                     
                                     strong("Conditional on the primary outcome occurring, what is the probability of being in this state?"),
                                     p("For binary outcomes: if the primary outcome is composed of distinct health states, different proportions of individuals may be expected to enter these health states.
                                       For example, if primary outcome is a composite of heart attack and stroke then conditional on the primary outcome occurring 40% and 60% of these individuals may be expected to experience heart attack and stroke respectively."),
                                     
-                                    strong("Time in this state (years)?"),
+                                    strong("Patient time horizon / time in this state (years)?"),
                                     p("For binary outcomes: if differential survival is considered then represents the expected survival time associated with each state. 
                                       Otherwise this represents the patient time horizon considered for the decision i.e. how far into the future individual patient outcomes are modelled."),
                                     
                                     strong("What is the health utility associated with this state?"),
-                                    p("For binary outcomes: this is a number which represents the health utility associated with a state."),
+                                    p("For binary outcomes: this is a number which represents the health related quality of life associated with a state."),
                                     
                                     strong("What are the disease related costs associated with this state?"),
-                                    p("For binary outcomes: these are the costs associated with a particular disease state, they do not inlclude the costs of the treatment under consideration."),
+                                    p("For binary outcomes: these are the costs associated with a particular disease state, they do not include the costs of the treatment under consideration."),
                                     
                                     strong("What is the health utility associated with the pre-transition health state?"),
-                                    p("For survival outcomes: to understand the magnitude of health consequences, the primary outcome must be linked to health utility.
-                                      A simple approach is taken in which the time spent in the state is multiplied by the utility score for that state to estimate the incremental QALYs."),
+                                    p("For survival outcomes: this is a number which represents the health related quality of life associated with the pre-transition state."),
                                     
                                     strong("What are the expected monthly disease related costs associated with the pre-transition health state?"),
                                     p("For survival outcomes: in the same manner as for health utility changes in the expected survival must be linked to changes in disease related costs.
-                                      These are the costs associated with a particular disease state, they do not inlclude the costs of the treatment under consideration."),
+                                      These are the costs associated with a particular disease state, they do not include the costs of the treatment under consideration."),
                                     
                                     strong("By how much is a one unit increase in the primary outcome expected to increase/decrease the health state utility?"),
-                                    p("For continuous outcomes: the effect of changes from baseline on changes in utility will depend on the severity of the disease and range of the outcome measure. 
+                                    p("For continuous outcomes: the effect of changes from baseline on changes in health related quality of life (utility) will depend on the severity of the disease and range of the outcome measure. 
                                       “Mapping” studies which use statistical methods to estimate the effect of a unit change in a natural outcome on utility provide this link."),
                                     
                                     strong("By how much is a one unit increase in the primary outcome expected to increase/decrease monthly disease related costs?"),
                                     p("For continuous outcomes: changes in the primary outcome may also be expected to result in changes in disease related costs. 
-                                      These are the costs associated with a particular disease state, they do not inlclude the costs of the treatment under consideration.
-                                      Estimates for this relatioship can come from regression studies."),
+                                      These are the costs associated with a particular disease state, they do not include the costs of the treatment under consideration."),
                                     
                                     strong("How long is the treatment effect expected to last? (months)"),
                                     p("For continuous outcomes: the scale of the health gains and disease related costs associated with changes in the primary outcome will depend on the expected treatment effect duration. 
@@ -219,7 +217,7 @@ shinyUI(fluidPage(
                                     
                                     strong("Scale for relative effect"),
                                     p("An estimate of the relative effectiveness of the intervention is required for the primary outcome, along with an estimate of its uncertainty. 
-                                      This can be expressed with a 95% confidence interval in terms of an odds ratio (binary), relative risk (binary), risk difference (binary), hazard ratio (surviva) or mean difference (continuous)."),
+                                      This can be expressed with a 95% confidence interval in terms of an odds ratio (binary), relative risk (binary), risk difference (binary), hazard ratio (survival) or mean difference (continuous)."),
                                     
                                     strong("Minimum clinical difference (MCD)"),
                                     p("Specifying a MCD required to change clinical practice is one way to incorporate concerns about increased costs and/or potential adverse events.
@@ -227,15 +225,15 @@ shinyUI(fluidPage(
                                       This must be specified as; percentage change in probability of outcome (binary), change in months before progression (survival) and units of change in continuous outcome (continuous)"),
                                     
                                     strong("Treatment costs over patient time horizon"),
-                                    p("Here Treatment costs are assumed to be the same for all individuals treated; regardless of health outcomes (see below).
+                                    p("For binary outcomes: here Treatment costs are assumed to be the same for all individuals treated; regardless of health outcomes (see below).
                                       If treatment costs accrue over multiple years they should be discounted to present value."),
                                     
                                     strong("Treatment costs over patient time horizon if the primary outcome occurs / does not occur "),
-                                    p("In some cases treatment costs will depend on the primary outcome, for example; intensive preventative treatment may be administered continuously until an event occurs (e.g. heart attack). Once the event has occurred the preventative treatment is halted and these treatment costs are no longer incurred."),
+                                    p("For binary outcomes: in some cases treatment costs will depend on the primary outcome, for example; intensive preventative treatment may be administered continuously until an event occurs (e.g. heart attack). Once the event has occurred the preventative treatment is halted and these treatment costs are no longer incurred."),
                                     
                                     # dont need to explain?
-                                    #strong("Treatment costs per month"),
-                                    #p("For continuous or survival"),
+                                    strong("Treatment costs per month"),
+                                    p("For continuous or survival outcomes: treatment costs incurred each month."),
                                     
                                     strong("Are individuals always treated until progression under this treatment?"),
                                     p("For survival outcomes individuals may be treated until progression or there may be a maximum duration of treatment.")
@@ -250,30 +248,30 @@ shinyUI(fluidPage(
                                     h4("Step 3: Proposed research"),
                                     
                                     strong("Type of research"),
-                                    p("The value of research can be calculated for either randomised controlled trials (RCTs) or feasibility studies.
+                                    p("The value of research can be calculated for either full research (e.g a randomised controlled trial (RCT)) or feasibility studies.
                                       The inputs required for the analysis will depend on the type of study chosen."),
                                     tags$ul(
-                                      tags$li("RCT: In this type of study, individuals are randomised to different treatments and the outcomes are compared accross the groups."), 
-                                      tags$li("Feasibility study: If there are uncertainties about whether a full trial is possible, a short feasibility study can be carried out to assess the possibility of future research.
+                                      tags$li("Full research: In contrast to feasibility studies which facilitate full research this type of research aims to address clinical questions directly. For example RCTs which aim to reduce uncertainty about relative effects."), 
+                                      tags$li("Feasibility study: If there are uncertainties about whether a full trial is possible, a short feasibility study can be carried out to assess the possibility of future full research.
                                               If the feasibility study is successful, researchers have the option to carry out the follow up trial.")
                                       ),
                                     
                                     strong("Probability of feasibility research leading to follow-up study"),
-                                    p("For feasibiltiy studies: the motivation is that there is uncertainty about whether a full trial is possible. If the feasibility study shows that the full trial is not possible, the research budget spent on the feasibility study will have no impact on health outcomes. For this reason, the likelihood of a feasibility study leading to the full trial is an important determinant of its value."),
+                                    p("For feasibility studies: the motivation is that there is uncertainty about whether a full trial is possible. If the feasibility study shows that the full trial is not possible, the research budget spent on the feasibility study will have no impact on health outcomes. For this reason, the likelihood of a feasibility study leading to the full trial is an important determinant of its value."),
                                     
                                     strong("Expected duration of research"),
                                     p("Some assessment of the duration of time for the proposed research to be conducted and for the  results of the research to report is required since the value of research declines the longer it takes to report. 
                                        This might be informed by an assessment of sample size, recruitment rates, or historical experience from conducting similar types of studies.
-                                       For feasibility studies: estimates of duration for both the feasibiltiy study and the full trial are required."),
+                                       For feasibility studies: estimates of duration for both the feasibility study and the full trial are required."),
                                     
                                     strong("Costs of the research to funder"),
                                     p("These costs are the costs of research which are directly borne by the research funder.
-                                       For feasibility studies: estimates of research funder costs for both the feasibiltiy study and the full trial are required."),
+                                       For feasibility studies: estimates of research funder costs for both the feasibility study and the full trial are required."),
                                     
                                     strong("Costs of the research imposed on health system"),
                                     p("These costs are the costs of research which fall on the general health system.
-                                       Carrying out research consumes valuable resources from the general health care budget e.g. doctors, nurses, and pharmacists whose time commitments are moved away from general patient care and reallocated to research projects. 
-                                       For feasibility studies: estimates of research health system costs for both the feasibiltiy study and the full trial are required.
+                                       Carrying out research consumes valuable resources from the general health care budget e.g. additional treatment costs and health professionals whose time commitments are moved away from general patient care and reallocated to research projects. 
+                                       For feasibility studies: estimates of research health system costs for both the feasibility study and the full trial are required.
                                       "),
                                     
                                     strong("Length of time for which the new evidence would be valuable"),
@@ -290,7 +288,8 @@ shinyUI(fluidPage(
                                       "),
                                   
                                     strong("Opportunity cost of health system expenditure"),
-                                    p("The health foregone due to costs imposed on the health system are the opportunity costs of general health care expenditure.")
+                                    p("Increasing treatment costs will be associated with health opportunity costs. 
+                                      These are the improvement in health that would have been possible if any additional resources required had, instead, been made available for other health care activities.")
                                     
                                     
                                     ),
@@ -405,7 +404,7 @@ shinyUI(fluidPage(
                                                               conditionalPanel(condition = "input.numberS1States >= 2 ",
                                                                   numericInput("probability_s11", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                                value = 1, min = 0, max = 1, step = 0.05)),
-                                                              numericInput("lifeDuration_s11", "Time in this state (years)?",
+                                                              numericInput("lifeDuration_s11", "Patient time horizon / time in this state (years)?",
                                                                            value = 16.73, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s11", "What is the health utility associated with this state?",
                                                                            value = 0.7, min = -2, max = 1, step = 0.05),
@@ -451,7 +450,7 @@ shinyUI(fluidPage(
                                                               strong("State 1.2"),
                                                               numericInput("probability_s12", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.24, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s12", "Time in this state (years)?",
+                                                              numericInput("lifeDuration_s12", "Patient time horizon / time in this state (years)?",
                                                                            value = 16.73, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s12", "What is the health utility associated with this state?",
                                                                            value = 0.81, min = -2, max = 1, step = 0.05),
@@ -498,7 +497,7 @@ shinyUI(fluidPage(
                                                               strong("State 1.3"),
                                                               numericInput("probability_s13", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.2, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s13", "Time in this state (years)?",
+                                                              numericInput("lifeDuration_s13", "Patient time horizon / time in this state (years)?",
                                                                            value = 19.23, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s13", "What is the health utility associated with this state?",
                                                                            value = 0.96, min = -2, max = 1, step = 0.05),
@@ -528,7 +527,7 @@ shinyUI(fluidPage(
                                                               strong("State 1.4"),
                                                               numericInput("probability_s14", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.14, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s14", "Time in this state (years)?",
+                                                              numericInput("lifeDuration_s14", "Patient time horizon / time in this state (years)?",
                                                                            value = 19.23, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s14", "What is the health utility associated with this state?",
                                                                            value = 1, min = -2, max = 1, step = 0.05),
@@ -559,7 +558,7 @@ shinyUI(fluidPage(
                                                               conditionalPanel(condition = "input.numberS0States >= 2 ",
                                                                     numericInput("probability_s01", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                                  value = 1, min = 0, max = 1, step = 0.05)),
-                                                              numericInput("lifeDuration_s01", "Time in this state (years)?",
+                                                              numericInput("lifeDuration_s01", "Patient time horizon / time in this state (years)?",
                                                                            value = 0, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s01", "What is the health utility associated with this state?",
                                                                            value = 0, min = -2, max = 1, step = 0.05),
@@ -579,7 +578,7 @@ shinyUI(fluidPage(
                                                               strong("State 2.2"),
                                                               numericInput("probability_s02", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.07, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s02", "Time in this state (years)?",
+                                                              numericInput("lifeDuration_s02", "Patient time horizon / time in this state (years)?",
                                                                            value = 7.11, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s02", "What is the health utility associated with this state?",
                                                                            value = 0.11, min = -2, max = 1, step = 0.05),
@@ -597,7 +596,7 @@ shinyUI(fluidPage(
                                                               strong("State 2.3"),
                                                               numericInput("probability_s03", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.41, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s03", "Time in this state (years)?",
+                                                              numericInput("lifeDuration_s03", "Patient time horizon / time in this state (years)?",
                                                                            value = 12.52, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s03", "What is the health utility associated with this state?",
                                                                            value = 0.41, min = -2, max = 1, step = 0.05),
@@ -615,7 +614,7 @@ shinyUI(fluidPage(
                                                               strong("State 2.4"),
                                                               numericInput("probability_s04", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                            value = 0.23, min = 0, max = 1, step = 0.05),
-                                                              numericInput("lifeDuration_s04", "Time in this state (years)?",
+                                                              numericInput("lifeDuration_s04", "Patient time horizon / time in this state (years)?",
                                                                            value = 12.52, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s04", "What is the health utility associated with this state?",
                                                                            value = 0.58, min = -2, max = 1, step = 0.05),
@@ -986,7 +985,7 @@ shinyUI(fluidPage(
                                                                                          # for OR (norm) # CRASH default inputs
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
                                                                                                           sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.19, 4.39))),
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))),
                                                                                          # for RR (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
                                                                                                           sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
@@ -1555,10 +1554,10 @@ shinyUI(fluidPage(
                                              
                                              wellPanel(
                                                
-                                               h4("Proposed research study"),
+                                               h4("Proposed research"),
                                                
                                                selectInput(inputId = "typeOfResearch", label = "Type of research", 
-                                                           choices = c("RCT" = "RCT", 
+                                                           choices = c("Full research (e.g. RCT)" = "RCT", 
                                                                        "Feasibility study" = "feasibility"),
                                                            selected = "RCT"),
                                                
@@ -1621,8 +1620,9 @@ shinyUI(fluidPage(
                                                
                                                h4("Other inputs"),
                                                
+                                               # discount function is not defined for discount rate of zero
                                                numericInput("discountRate", "Discount rate (%)",
-                                                            value = 3.5, min = 0, max = 100, step = 0.1),
+                                                            value = 3.5, min = 0.0001, max = 100, step = 0.1),
                                                
                                                numericInput("incidence", "Incidence per annum",
                                                             value = 8800, min = 0, max = NA, step = 20),
@@ -1652,9 +1652,9 @@ shinyUI(fluidPage(
                                                               
                                                               wellPanel( # START wellPanel
                                                                 
-                                                                h4("Comprehensive meausure of health outcome"),
+                                                                h4("Opportunity cost of health system expenditure"),
                                                                 
-                                                                numericInput("k", "Opportunity cost of health system expenditure",
+                                                                numericInput("k", " ",
                                                                              value = 15000, min = 0, max = NA, step = 500)
                                                                 
                                                                 # conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",

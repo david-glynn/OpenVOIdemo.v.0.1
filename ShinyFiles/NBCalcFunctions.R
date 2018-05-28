@@ -6,6 +6,30 @@
 
 # can be used in reconsideration of evidence function: the NB step!
 
+
+##########################################
+# given a rate of accumulation and the end period of this accumulation 
+# gives the total value after continous discounting
+# required to calculate and discount the NB calculation for contin and survival endpoints
+
+# rateOfAccumulation per year
+continPresentValue <- function(rateAccumulationYear, discountRate, endTime){
+  
+  discountRate <- discountRate/100 # convert from 3.5 to 0.035
+  
+  #                                        time end                time start  
+  presentValue <- (rateAccumulationYear/-discountRate) * (exp(-discountRate*endTime) - 1)
+  
+  return(presentValue)
+}
+
+
+
+
+
+
+
+
 # source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
 # source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
 # source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
@@ -290,17 +314,27 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     deltaUnitCostsMonthly <- deltaUnitCostsSize*ifelse(deltaUnitCostsDirection == "increase", 1, -1)
     deltaUnitUtility <- deltaUnitUtilitySize*ifelse(deltaUnitUtilityDirection == "increase", 1, -1)
 
-    INBContinEvent <- deltaUnitUtility*(treatmentDurationMonths/12) - (deltaUnitCostsMonthly*treatmentDurationMonths)/k
+    INBContinEvent <- 
+      continPresentValue(deltaUnitUtility, discountRate, treatmentDurationMonths/12) - 
+      continPresentValue(deltaUnitCostsMonthly*12/k, discountRate, treatmentDurationMonths/12)
+    
+    #INBContinEvent <- deltaUnitUtility*(treatmentDurationMonths/12) - (deltaUnitCostsMonthly*treatmentDurationMonths)/k
     
     NB_t  <- outcome_t*INBContinEvent # multiply every element by net benefit (1st step in converting to NB)
     #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
     #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     
     # costs depend on the duration of treatment effect - treat while it is effective
-    addCost_t <- c(-(treatmentCostsMonthly_t1*treatmentDurationMonths)/k ,
-                   -(treatmentCostsMonthly_t2*treatmentDurationMonths)/k ,
-                   -(treatmentCostsMonthly_t3*treatmentDurationMonths)/k ,
-                   -(treatmentCostsMonthly_t4*treatmentDurationMonths)/k ) # subtract the health effects of costs
+    # addCost_t <- c(-(treatmentCostsMonthly_t1*treatmentDurationMonths)/k ,
+    #                -(treatmentCostsMonthly_t2*treatmentDurationMonths)/k ,
+    #                -(treatmentCostsMonthly_t3*treatmentDurationMonths)/k ,
+    #                -(treatmentCostsMonthly_t4*treatmentDurationMonths)/k ) # subtract the health effects of costs
+    
+    addCost_t <- c(-(continPresentValue(treatmentCostsMonthly_t1*12, discountRate, treatmentDurationMonths/12))/k ,
+                   -(continPresentValue(treatmentCostsMonthly_t2*12,discountRate, treatmentDurationMonths/12))/k ,
+                   -(continPresentValue(treatmentCostsMonthly_t3*12,discountRate ,treatmentDurationMonths/12))/k ,
+                   -(continPresentValue(treatmentCostsMonthly_t4*12, discountRate, treatmentDurationMonths/12))/k ) #
+    
     NB_t  <- NB_t  + rep(addCost_t, each = MCsims)
     
     # each column now represents simulations of the NB of each treatment
@@ -353,9 +387,19 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     
     # calculate INBSurvivalEndpoint (qaly gain per month of extra survival)
     
-    INBSurvivalEndpoint <- utilityPreTransition/12 - monthlyCostPreTransition/k
+    outcome_t1 <- outcome_t[,1]
+    outcome_t2 <- outcome_t[,2]
+    outcome_t3 <- outcome_t[,3]
+    outcome_t4 <- outcome_t[,4]
     
-    NB_t  <- outcome_t*INBSurvivalEndpoint # multiply every element by INBSurvivalEndpoint (1st step in converting to NB)
+    NB_t1 <- continPresentValue(utilityPreTransition, discountRate, outcome_t1/12) - continPresentValue(monthlyCostPreTransition/k*12, discountRate, outcome_t1/12)
+    NB_t2 <- continPresentValue(utilityPreTransition, discountRate, outcome_t2/12)- continPresentValue(monthlyCostPreTransition/k*12, discountRate, outcome_t2/12)
+    NB_t3 <- continPresentValue(utilityPreTransition, discountRate, outcome_t3/12)- continPresentValue(monthlyCostPreTransition/k*12, discountRate, outcome_t3/12)
+    NB_t4 <- continPresentValue(utilityPreTransition, discountRate, outcome_t4/12)- continPresentValue(monthlyCostPreTransition/k*12, discountRate, outcome_t4/12)
+    NB_t  <- cbind(NB_t1, NB_t2, NB_t3, NB_t4)
+    
+    #INBSurvivalEndpoint <- utilityPreTransition/12 - monthlyCostPreTransition/k
+    #NB_t  <- outcome_t*INBSurvivalEndpoint # multiply every element by INBSurvivalEndpoint (1st step in converting to NB)
     #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
     #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     
@@ -383,10 +427,10 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     treatmentDurationMonths_t3 <- durationOfTreatmentCalc(treatUntilProgression_t3, outcome_t, 3, maxDurationOfTreatmentMonths_t3)
     treatmentDurationMonths_t4 <- durationOfTreatmentCalc(treatUntilProgression_t4, outcome_t, 4, maxDurationOfTreatmentMonths_t4)
     
-    addCost_t <- c(-(treatmentDurationMonths_t1*treatmentCostsMonthly_t1)/k ,
-                   -(treatmentDurationMonths_t2*treatmentCostsMonthly_t2)/k,
-                   -(treatmentDurationMonths_t3*treatmentCostsMonthly_t3)/k, 
-                   -(treatmentDurationMonths_t4*treatmentCostsMonthly_t4)/k) 
+    addCost_t <- c(-(   continPresentValue(treatmentCostsMonthly_t1*12, discountRate, treatmentDurationMonths_t1/12)   )/k ,
+                   -(   continPresentValue(treatmentCostsMonthly_t2*12, discountRate, treatmentDurationMonths_t2/12)   )/k,
+                   -(   continPresentValue(treatmentCostsMonthly_t3*12, discountRate, treatmentDurationMonths_t3/12)   )/k, 
+                   -(   continPresentValue(treatmentCostsMonthly_t4*12, discountRate, treatmentDurationMonths_t4/12)   )/k) 
     NB_t  <- NB_t  + addCost_t
     
     # generate and format costs table (treatment costs can depend on survival)

@@ -767,7 +767,7 @@ NBtoEVPIResults <- function(NB_t,
   
   # table of events per year - needs to be outputted as a data frame
   Treatment_name <- c(nameOf_t1,nameOf_t2, nameOf_t3, nameOf_t4)
-  Expected_outcomes_per_year <- formatC( abs(c(ENB_t[1], ENB_t[2], ENB_t[3], ENB_t[4]))*incidence, big.mark = ',', format = 'd')
+  Expected_outcomes_per_year <- formatC( c(ENB_t[1], ENB_t[2], ENB_t[3], ENB_t[4])*incidence, big.mark = ',', format = 'd')
   Current_utilisation <- paste0(round(Utilisation_t*100) , '%')
   tableEventsPerYearDF <- as.data.frame(cbind(Treatment_name, Expected_outcomes_per_year, Current_utilisation))
   tableEventsPerYearDF <- tableEventsPerYearDF[1:numberOfTreatments,]   # only output the number of rows = to the number of treatments considered
@@ -1005,7 +1005,6 @@ NBtoEVPIResults <- function(NB_t,
 #                 utilisation_t3 = 0, utilisation_t4 =0,
 #                 costHealthSystem = NA, k = NA, currencySymbol = "£", typeOfEndpoint =  "binary")
 # 
-
 
 
 
