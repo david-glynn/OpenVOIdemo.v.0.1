@@ -16,6 +16,8 @@ library(shiny)
 shinyUI(fluidPage(
   titlePanel("Rapid value of information (VOI) decision tool"),
   
+  h5("Release version 1.0 28th May 2018"),
+  
   tabsetPanel(
     
     ##################
@@ -24,31 +26,53 @@ shinyUI(fluidPage(
     
     tabPanel("Welcome",
              
-             br(),
-             #h4("A video on using this app"),
-             #br(),
-             #p("<INSERT SHORT YOUTUBE VIDEO ON HOW TO USE THIS APP>"),
-             br(),
-             h4("How to use this app"),
-             p("This is an R Shiny App which facilitates calculations of the value of research proposals in a timely manner. 
-               The inputs required in the app represent the minimum needed to understand the consequences of uncertainty and the need for further research.
-               Full details of the approach used and applied examples using these methods are forthcoming. In the meantime click",a("here", href = "https://www.york.ac.uk/che/research/teehta/research-prioritisation/") ,"for further details.
-               "),
-             p(strong("Users unfamiliar with value of informaiton methods"), "are encouraged to read the information in the 'How to estimate research value' tab. This section describes the value of information approach and how it applies to research funding in a resource constrainted health care system.
-               "),
-             p(strong("Those who have not used this app before"), "click the'Inputs and how to use this app' tab. This section describes the types of analysis which are possible with this app and the inputs that are required.
-               "),
-             p(strong("To carry out an analysis"), "click the 'Inputs' tab
-               "),
-             br(),
-             br(),
-             br(),
-             br(),
+             sidebarLayout(position = "right",
+                           
+                           sidebarPanel(
+                             # Inputs excluded for brevity
+                             
+                             
+                             h3("Notice board"),
+                             
+                             br(),
+                             h4("Updates and bugs"),
+                             strong("Launch v1.0"),
+                             p("This is the first official version of Rapid VOI. This is the version used in the analysis of Chapters 2-4.")
+                             
+                           ),
+                           mainPanel(
+                             
+                             
+                             #h4("A video on using this app"),
+                             #br(),
+                             #p("<INSERT SHORT YOUTUBE VIDEO ON HOW TO USE THIS APP>"),
+                             br(),
+                             h4("How to use this app"),
+                             p("This is an R Shiny App which facilitates calculations of the value of research proposals in a timely manner. 
+                               The inputs required in the app represent the minimum needed to understand the consequences of uncertainty and the need for further research.
+                               Full details of the approach used and applied examples using these methods are forthcoming. In the meantime click",a("here", href = "https://www.york.ac.uk/che/research/teehta/research-prioritisation/") ,"for further details.
+                               "),
+                             p(strong("Users unfamiliar with value of informaiton methods"), "are encouraged to read the information in the 'How to estimate research value' tab. This section describes the value of information approach and how it applies to research funding in a resource constrainted health care system.
+                               "),
+                             p(strong("Those who have not used this app before"), "click the'Inputs and how to use this app' tab. This section describes the types of analysis which are possible with this app and the inputs that are required.
+                               "),
+                             p(strong("To carry out an analysis"), "click the 'Inputs' tab
+                               "),
+                             br(),
+                             br(),
+                             br(),
+                             br(),
+                             
+                             tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"),
+                             
+                             br(),
+                             br()
+                             
+                             
+                           )
+             ) # end side bar panel layout
              
-             tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"),
              
-             br(),
-             br()
              
              ),  # close How to use this app tab
     
@@ -347,7 +371,7 @@ shinyUI(fluidPage(
                                              
                                              conditionalPanel(condition = "input.outcomeExpression == 'natural'",
                                                               textInput("nameOfOutcome", "Name of outcome", 
-                                                                        value = "Functional recovery"))
+                                                                        value = "outcome"))
                                              
                                              
                                              
@@ -374,9 +398,9 @@ shinyUI(fluidPage(
                                                      column(6,
                                                      wellPanel(
                                                        numericInput("numberS1States", "Number of possible states if the primary outcome occurs (4 maximum)",
-                                                                    value = 4, min = 1, max = 4),
+                                                                    value = 1, min = 1, max = 4),
                                                        numericInput("numberS0States", "Number of possible states if the primary outcome does not occur (4 maximum)",
-                                                                    value = 4, min = 1, max = 4)
+                                                                    value = 1, min = 1, max = 4)
                                                      )
                                                      )
                                                    )),
@@ -405,11 +429,11 @@ shinyUI(fluidPage(
                                                                   numericInput("probability_s11", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
                                                                                value = 1, min = 0, max = 1, step = 0.05)),
                                                               numericInput("lifeDuration_s11", "Patient time horizon / time in this state (years)?",
-                                                                           value = 16.73, min = 0, max = 100, step = 0.5),
+                                                                           value = 1, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s11", "What is the health utility associated with this state?",
-                                                                           value = 0.7, min = -2, max = 1, step = 0.05),
+                                                                           value = 0.5, min = -2, max = 1, step = 0.05),
                                                               numericInput("cost_s11", "What are the disease related costs associated with this state?",
-                                                                           value = 27047, min = 0, step = 100)
+                                                                           value = 0, min = 0, step = 100)
                                                               
                                                               
                                                             )),
@@ -432,7 +456,7 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               numericInput("utilityPreTransition", "What is the health utility associated with the pre-transition health state?",
-                                                                           value = 0.7, min = -2, max = 1, step = 0.05)
+                                                                           value = 0.5, min = -2, max = 1, step = 0.05)
                                                             
                                                             ))
                                            
@@ -449,13 +473,13 @@ shinyUI(fluidPage(
                                                               
                                                               strong("State 1.2"),
                                                               numericInput("probability_s12", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
-                                                                           value = 0.24, min = 0, max = 1, step = 0.05),
+                                                                           value = 0, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s12", "Patient time horizon / time in this state (years)?",
-                                                                           value = 16.73, min = 0, max = 100, step = 0.5),
+                                                                           value = 1, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s12", "What is the health utility associated with this state?",
-                                                                           value = 0.81, min = -2, max = 1, step = 0.05),
+                                                                           value = 0.5, min = -2, max = 1, step = 0.05),
                                                               numericInput("cost_s12", "What are the disease related costs associated with this state?",
-                                                                           value = 27047, min = 0, step = 100)
+                                                                           value = 0, min = 0, step = 100)
                                                               
                                                               
                                                             )),
@@ -469,7 +493,7 @@ shinyUI(fluidPage(
                                                                                       "Decrease" = "decrease"),
                                                                           selected = "increase"),
                                                               numericInput("deltaUnitCostsSize", "By how much is a one unit increase in the primary outcome expected to increase/decrease monthly disease related costs?",
-                                                                           value = 200, min = 0)
+                                                                           value = 0, min = 0)
                                                               
                                                             )),
                                            
@@ -477,7 +501,7 @@ shinyUI(fluidPage(
                                            conditionalPanel(condition = "input.typeOfEndpoint == 'survival' && input.outcomeExpression == 'netHealth'",
                                                             wellPanel(
                                                               numericInput("monthlyCostPreTransition", "What are the expected monthly disease related costs associated with the pre-transition health state?",
-                                                                           value = 2000, min = 0, step = 100)
+                                                                           value = 0, min = 0, step = 100)
                                                              
                                                             ))
                                            
@@ -496,13 +520,13 @@ shinyUI(fluidPage(
                                                               
                                                               strong("State 1.3"),
                                                               numericInput("probability_s13", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
-                                                                           value = 0.2, min = 0, max = 1, step = 0.05),
+                                                                           value = 0, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s13", "Patient time horizon / time in this state (years)?",
-                                                                           value = 19.23, min = 0, max = 100, step = 0.5),
+                                                                           value = 1, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s13", "What is the health utility associated with this state?",
-                                                                           value = 0.96, min = -2, max = 1, step = 0.05),
+                                                                           value = 0.5, min = -2, max = 1, step = 0.05),
                                                               numericInput("cost_s13", "What are the disease related costs associated with this state?",
-                                                                           value = 19575, min = 0, step = 100)
+                                                                           value = 0, min = 0, step = 100)
                                                             )),
                                            
                                            # continous: teat effect duration
@@ -510,7 +534,7 @@ shinyUI(fluidPage(
                                                             wellPanel(
                                                               
                                                               sliderInput("treatmentDurationMonths", "How long is the treatment effect expected to last? (months)",
-                                                                          value = 36, min = 0, 120)
+                                                                          value = 12, min = 0, 120)
                                                               
                                                               
                                                             ))
@@ -526,13 +550,13 @@ shinyUI(fluidPage(
                                                               
                                                               strong("State 1.4"),
                                                               numericInput("probability_s14", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
-                                                                           value = 0.14, min = 0, max = 1, step = 0.05),
+                                                                           value = 0, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s14", "Patient time horizon / time in this state (years)?",
-                                                                           value = 19.23, min = 0, max = 100, step = 0.5),
+                                                                           value = 1, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s14", "What is the health utility associated with this state?",
-                                                                           value = 1, min = -2, max = 1, step = 0.05),
+                                                                           value = 0.5, min = -2, max = 1, step = 0.05),
                                                               numericInput("cost_s14", "What are the disease related costs associated with this state?",
-                                                                           value = 19575, min = 0, step = 100)
+                                                                           value = 0, min = 0, step = 100)
                                                             ))
                                            
                                            )
@@ -557,11 +581,11 @@ shinyUI(fluidPage(
                                                               strong("State 2.1"),
                                                               conditionalPanel(condition = "input.numberS0States >= 2 ",
                                                                     numericInput("probability_s01", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
-                                                                                 value = 1, min = 0, max = 1, step = 0.05)),
+                                                                                 value = 0, min = 0, max = 1, step = 0.05)),
                                                               numericInput("lifeDuration_s01", "Patient time horizon / time in this state (years)?",
-                                                                           value = 0, min = 0, max = 100, step = 0.5),
+                                                                           value = 1, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s01", "What is the health utility associated with this state?",
-                                                                           value = 0, min = -2, max = 1, step = 0.05),
+                                                                           value = 0.5, min = -2, max = 1, step = 0.05),
                                                               numericInput("cost_s01", "What are the disease related costs associated with this state?",
                                                                            value = 0, min = 0, step = 100)
                                                             ))
@@ -577,13 +601,13 @@ shinyUI(fluidPage(
                                                               
                                                               strong("State 2.2"),
                                                               numericInput("probability_s02", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
-                                                                           value = 0.07, min = 0, max = 1, step = 0.05),
+                                                                           value = 0, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s02", "Patient time horizon / time in this state (years)?",
-                                                                           value = 7.11, min = 0, max = 100, step = 0.5),
+                                                                           value = 1, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s02", "What is the health utility associated with this state?",
-                                                                           value = 0.11, min = -2, max = 1, step = 0.05),
+                                                                           value = 0.5, min = -2, max = 1, step = 0.05),
                                                               numericInput("cost_s02", "What are the disease related costs associated with this state?",
-                                                                           value = 45450, min = 0, step = 100)
+                                                                           value = 0, min = 0, step = 100)
                                                             ))
                                            
                                     ),
@@ -595,13 +619,13 @@ shinyUI(fluidPage(
                                                               
                                                               strong("State 2.3"),
                                                               numericInput("probability_s03", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
-                                                                           value = 0.41, min = 0, max = 1, step = 0.05),
+                                                                           value = 0, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s03", "Patient time horizon / time in this state (years)?",
-                                                                           value = 12.52, min = 0, max = 100, step = 0.5),
+                                                                           value = 1, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s03", "What is the health utility associated with this state?",
-                                                                           value = 0.41, min = -2, max = 1, step = 0.05),
+                                                                           value = 0.5, min = -2, max = 1, step = 0.05),
                                                               numericInput("cost_s03", "What are the disease related costs associated with this state?",
-                                                                           value = 154324, min = 0, step = 100)
+                                                                           value = 0, min = 0, step = 100)
                                                             ))
                                            
                                     ),
@@ -613,13 +637,13 @@ shinyUI(fluidPage(
                                                               
                                                               strong("State 2.4"),
                                                               numericInput("probability_s04", "Conditional on the primary outcome occurring, what is the probability of being in this state?",
-                                                                           value = 0.23, min = 0, max = 1, step = 0.05),
+                                                                           value = 0, min = 0, max = 1, step = 0.05),
                                                               numericInput("lifeDuration_s04", "Patient time horizon / time in this state (years)?",
-                                                                           value = 12.52, min = 0, max = 100, step = 0.5),
+                                                                           value = 1, min = 0, max = 100, step = 0.5),
                                                               numericInput("utility_s04", "What is the health utility associated with this state?",
-                                                                           value = 0.58, min = -2, max = 1, step = 0.05),
+                                                                           value = 0.5, min = -2, max = 1, step = 0.05),
                                                               numericInput("cost_s04", "What are the disease related costs associated with this state?",
-                                                                           value = 154324, min = 0, step = 100)
+                                                                           value = 0, min = 0, step = 100)
                                                             ))     
                                     )
                                     
@@ -660,7 +684,7 @@ shinyUI(fluidPage(
                                                #p("If a no treatment or standard practice option is considered then it should be entered here"),
                                                
                                                textInput("nameOf_t1", "Name of baseline treatment", 
-                                                         value = "late PTP"),
+                                                         value = "baseline"),
                                                
                                                numericInput("utilisation_t1", "Current level of utilisation (%)",
                                                             value = 100, min = 0, max = 100, step = 0.1),
@@ -671,19 +695,19 @@ shinyUI(fluidPage(
                                                                 #binary costs (dont depend on outcome)
                                                                 conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.tCostsDependOnEvent == 'No'",
                                                                                  numericInput("cost_t1", "Treatment costs over patient time horizon",
-                                                                                              value = 100, min = NA, max = NA, step = 10) ),
+                                                                                              value = 0, min = NA, max = NA, step = 10) ),
                                                                 #binary costs (DO depend on outcome)
                                                                 conditionalPanel(condition = "input.typeOfEndpoint == 'binary' &&  input.tCostsDependOnEvent == 'Yes'",
                                                                                  numericInput("costEvent_t1", "Treatment costs over patient time horizon if the primary outcome occurs",
-                                                                                              value = 100, min = NA, max = NA, step = 10),
+                                                                                              value = 0, min = NA, max = NA, step = 10),
                                                                                  
                                                                                  numericInput("costNotEvent_t1", "Treatment costs over patient time horizon if the primary outcome does not occur",
-                                                                                              value = 100, min = NA, max = NA, step = 10) ),
+                                                                                              value = 0, min = NA, max = NA, step = 10) ),
                                                                 
                                                                 # continuous and survival
                                                                 conditionalPanel(condition = "input.typeOfEndpoint == 'continuous' || input.typeOfEndpoint == 'survival'  ",
                                                                                  numericInput("treatmentCostsMonthly_t1", "Treatment costs per month",
-                                                                                              value = 100, min = NA, max = NA, step = 10) ),
+                                                                                              value = 0, min = NA, max = NA, step = 10) ),
                                                                 # survival
                                                                 conditionalPanel(condition = "input.typeOfEndpoint == 'survival'  ",
                                                                                  
@@ -706,7 +730,7 @@ shinyUI(fluidPage(
                                                
                                                h4("Intervention 1"),
                                                textInput("nameOf_t2", "Name of intervention", 
-                                                         value = "early PTP"),
+                                                         value = "intervention 1"),
                                                
                                                numericInput("utilisation_t2", "Current level of utilisation (%)",
                                                             value = 0, min = 0, max = 100, step = 0.1),
@@ -718,19 +742,19 @@ shinyUI(fluidPage(
                                                                 #binary costs (dont depend on outcome)
                                                                 conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.tCostsDependOnEvent == 'No'",
                                                                                  numericInput("cost_t2", "Treatment costs over patient time horizon",
-                                                                                              value = 100, min = NA, max = NA, step = 10) ),
+                                                                                              value = 0, min = NA, max = NA, step = 10) ),
                                                                 #binary costs (DO depend on outcome)
                                                                 conditionalPanel(condition = "input.typeOfEndpoint == 'binary' &&  input.tCostsDependOnEvent == 'Yes'",
                                                                                  numericInput("costEvent_t2", "Treatment costs over patient time horizon if the primary outcome occurs",
-                                                                                              value = 100, min = NA, max = NA, step = 10),
+                                                                                              value = 0, min = NA, max = NA, step = 10),
                                                                                  
                                                                                  numericInput("costNotEvent_t2", "Treatment costs over patient time horizon if the primary outcome does not occur",
-                                                                                              value = 100, min = NA, max = NA, step = 10) ),
+                                                                                              value = 0, min = NA, max = NA, step = 10) ),
                                                                 
                                                                 # continuous and survival
                                                                 conditionalPanel(condition = "input.typeOfEndpoint == 'continuous' || input.typeOfEndpoint == 'survival'  ",
                                                                                  numericInput("treatmentCostsMonthly_t2", "Treatment costs per month",
-                                                                                              value = 100, min = NA, max = NA, step = 10) ),
+                                                                                              value = 0, min = NA, max = NA, step = 10) ),
                                                                 # survival
                                                                 conditionalPanel(condition = "input.typeOfEndpoint == 'survival'  ",
                                                                                  
@@ -769,19 +793,19 @@ shinyUI(fluidPage(
                                                                                  #binary costs (dont depend on outcome)
                                                                                  conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.tCostsDependOnEvent == 'No'",
                                                                                                   numericInput("cost_t3", "Treatment costs over patient time horizon",
-                                                                                                               value = 100, min = NA, max = NA, step = 10) ),
+                                                                                                               value = 0, min = NA, max = NA, step = 10) ),
                                                                                  #binary costs (DO depend on outcome)
                                                                                  conditionalPanel(condition = "input.typeOfEndpoint == 'binary' &&  input.tCostsDependOnEvent == 'Yes'",
                                                                                                   numericInput("costEvent_t3", "Treatment costs over patient time horizon if the primary outcome occurs",
-                                                                                                               value = 100, min = NA, max = NA, step = 10),
+                                                                                                               value = 0, min = NA, max = NA, step = 10),
                                                                                                   
                                                                                                   numericInput("costNotEvent_t3", "Treatment costs over patient time horizon if the primary outcome does not occur",
-                                                                                                               value = 100, min = NA, max = NA, step = 10) ),
+                                                                                                               value = 0, min = NA, max = NA, step = 10) ),
                                                                                  
                                                                                  # continuous and survival
                                                                                  conditionalPanel(condition = "input.typeOfEndpoint == 'continuous' || input.typeOfEndpoint == 'survival'  ",
                                                                                                   numericInput("treatmentCostsMonthly_t3", "Treatment costs per month",
-                                                                                                               value = 100, min = NA, max = NA, step = 10) ),
+                                                                                                               value = 0, min = NA, max = NA, step = 10) ),
                                                                                  # survival
                                                                                  conditionalPanel(condition = "input.typeOfEndpoint == 'survival'  ",
                                                                                                   
@@ -819,19 +843,19 @@ shinyUI(fluidPage(
                                                                                  #binary costs (dont depend on outcome)
                                                                                  conditionalPanel(condition = "input.typeOfEndpoint == 'binary' && input.tCostsDependOnEvent == 'No'",
                                                                                                   numericInput("cost_t4", "Treatment costs over patient time horizon",
-                                                                                                               value = 100, min = NA, max = NA, step = 10) ),
+                                                                                                               value = 0, min = NA, max = NA, step = 10) ),
                                                                                  #binary costs (DO depend on outcome)
                                                                                  conditionalPanel(condition = "input.typeOfEndpoint == 'binary' &&  input.tCostsDependOnEvent == 'Yes'",
                                                                                                   numericInput("costEvent_t4", "Treatment costs over patient time horizon if the primary outcome occurs",
-                                                                                                               value = 100, min = NA, max = NA, step = 10),
+                                                                                                               value = 0, min = NA, max = NA, step = 10),
                                                                                                   
                                                                                                   numericInput("costNotEvent_t4", "Treatment costs over patient time horizon if the primary outcome does not occur",
-                                                                                                               value = 100, min = NA, max = NA, step = 10) ),
+                                                                                                               value = 0, min = NA, max = NA, step = 10) ),
                                                                                  
                                                                                  # continuous and survival
                                                                                  conditionalPanel(condition = "input.typeOfEndpoint == 'continuous' || input.typeOfEndpoint == 'survival'  ",
                                                                                                   numericInput("treatmentCostsMonthly_t4", "Treatment costs per month",
-                                                                                                               value = 100, min = NA, max = NA, step = 10) ),
+                                                                                                               value = 0, min = NA, max = NA, step = 10) ),
                                                                                  # survival
                                                                                  conditionalPanel(condition = "input.typeOfEndpoint == 'survival'  ",
                                                                                                   
@@ -876,7 +900,7 @@ shinyUI(fluidPage(
                                                                         # if eventsNonEvents
                                                                         conditionalPanel(condition = "input.baselineInput == 'eventsNonEvents'",
                                                                                          numericInput("nEvents", "Number of events", 
-                                                                                                      value = 10, min = 1, max = NA),
+                                                                                                      value = 20, min = 1, max = NA),
                                                                                          numericInput("nAtRisk", "Number at risk", 
                                                                                                       value = 40, min = 1, max = NA)
                                                                         ), # end eventsNonEvents inputs
@@ -884,7 +908,7 @@ shinyUI(fluidPage(
                                                                         # if range
                                                                         conditionalPanel(condition = "input.baselineInput == 'range'",
                                                                                          sliderInput("baselineRange", "Select a plausible 95% range for the baseline probability of outcome",
-                                                                                                     step = 0.01, min = 0, max = 1, value = c(0.248, 0.469))
+                                                                                                     step = 0.01, min = 0, max = 1, value = c(0.4, 0.6))
                                                                         ) # end range inputs
                                                        ), # end new baseline binary inputs
                                                        
@@ -904,11 +928,11 @@ shinyUI(fluidPage(
                                                                                     selected = "exponential"),
                                                                         
                                                                         numericInput("lambda_t1", "Lambda (scale) parameter for baseline treatment (natural scale)",
-                                                                                     value = 5, min = 0, max = NA, step = 1),
+                                                                                     value = 0.5, min = 0, max = NA, step = 1),
                                                                         
                                                                         conditionalPanel(condition = "input.survivalType == 'weibull'",
                                                                                          numericInput("gamma_t1", "Gamma (shape) parameter for baseline treatment (natural scale)",
-                                                                                                      value = 1.1, min = 0, max = NA, step = 0.1))
+                                                                                                      value = 1, min = 0, max = NA, step = 0.1))
                                                        ) # end survival inputs for t1
                                                        
                                                      
@@ -982,14 +1006,14 @@ shinyUI(fluidPage(
                                                                         #
                                                                         conditionalPanel(condition = "input.binaryDist_t2 == 'norm'",
                                                                                          #
-                                                                                         # for OR (norm) # CRASH default inputs
+                                                                                         # for OR (norm) 
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'OR'",
                                                                                                           sliderInput("OR_t2", "Select a plausible 95% range for the odds ratio",
                                                                                                                       step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))),
                                                                                          # for RR (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RR'",
                                                                                                           sliderInput("RR_t2", "Select a plausible 95% range for the risk ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.9, 1.1))),
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))),
                                                                                          # for RD (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t2 == 'RD'",
                                                                                                           sliderInput("RD_t2", "Select a plausible 95% range for the risk difference",
@@ -1074,7 +1098,7 @@ shinyUI(fluidPage(
                                                                         conditionalPanel(condition = "input.survivalDist_t2 == 'norm'",
                                                                                          # for HR (norm) # 
                                                                                          sliderInput("HR_t2", "Select a plausible 95% range for the hazard ratio",
-                                                                                                     step = 0.01, min = 0.01, max = 7, value = c(1.05, 4))
+                                                                                                     step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))
                                                                         ), # end normal dist conditional panel
                                                                         
                                                                         
@@ -1109,7 +1133,7 @@ shinyUI(fluidPage(
                                                        
                                                        
                                                                         numericInput("MCD_t2", "Minimum clinical difference (MCD)",
-                                                                                     value = 0, min = 0, max = NA, step = 0.05)
+                                                                                     value = 0, min = NA, max = NA, step = 0.05)
                                                        
                                                        
                                              ) # end epi input intervention 1 wellPanel (t2)
@@ -1143,11 +1167,11 @@ shinyUI(fluidPage(
                                                                                          # for OR (norm) # CRASH default inputs
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t3 == 'OR'",
                                                                                                           sliderInput("OR_t3", "Select a plausible 95% range for the odds ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.19, 4.39))),
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))),
                                                                                          # for RR (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t3 == 'RR'",
                                                                                                           sliderInput("RR_t3", "Select a plausible 95% range for the risk ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.9, 1.1))),
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))),
                                                                                          # for RD (norm)
                                                                                          conditionalPanel(condition = "input.binaryRelativeScale_t3 == 'RD'",
                                                                                                           sliderInput("RD_t3", "Select a plausible 95% range for the risk difference",
@@ -1276,7 +1300,7 @@ shinyUI(fluidPage(
                                                                         conditionalPanel(condition = "input.survivalDist_t3 == 'norm'",
                                                                                          # for HR (norm) # 
                                                                                          sliderInput("HR_t3", "Select a plausible 95% range for the hazard ratio",
-                                                                                                     step = 0.01, min = 0.01, max = 7, value = c(1.1, 4.39))
+                                                                                                     step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))
                                                                         ), # end normal dist conditional panel
                                                                         
                                                                         
@@ -1311,7 +1335,7 @@ shinyUI(fluidPage(
                                                        
                                                        
                                                        numericInput("MCD_t3", "Minimum clinical difference (MCD)",
-                                                                    value = 0, min = 0, max = NA, step = 0.05)
+                                                                    value = 0, min = NA, max = NA, step = 0.05)
                                                        
                                                        
                                                        
@@ -1344,14 +1368,14 @@ shinyUI(fluidPage(
                                                                                          #
                                                                                          conditionalPanel(condition = "input.binaryDist_t4 == 'norm'",
                                                                                                           #
-                                                                                                          # for OR (norm) # CRASH default inputs
+                                                                                                          # for OR (norm) 
                                                                                                           conditionalPanel(condition = "input.binaryRelativeScale_t4 == 'OR'",
                                                                                                                            sliderInput("OR_t4", "Select a plausible 95% range for the odds ratio",
-                                                                                                                                       step = 0.01, min = 0.01, max = 7, value = c(0.71, 1.18))),
+                                                                                                                                       step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))),
                                                                                                           # for RR (norm)
                                                                                                           conditionalPanel(condition = "input.binaryRelativeScale_t4 == 'RR'",
                                                                                                                            sliderInput("RR_t4", "Select a plausible 95% range for the risk ratio",
-                                                                                                                                       step = 0.01, min = 0.01, max = 7, value = c(0.9, 1.1))),
+                                                                                                                                       step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))),
                                                                                                           # for RD (norm)
                                                                                                           conditionalPanel(condition = "input.binaryRelativeScale_t4 == 'RD'",
                                                                                                                            sliderInput("RD_t4", "Select a plausible 95% range for the risk difference",
@@ -1481,7 +1505,7 @@ shinyUI(fluidPage(
                                                                                          conditionalPanel(condition = "input.survivalDist_t4 == 'norm'",
                                                                                                           # for HR (norm) # 
                                                                                                           sliderInput("HR_t4", "Select a plausible 95% range for the hazard ratio",
-                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(1.05, 5.24))
+                                                                                                                      step = 0.01, min = 0.01, max = 7, value = c(0.23, 5.24))
                                                                                          ), # end normal dist conditional panel
                                                                                          
                                                                                          
@@ -1515,7 +1539,7 @@ shinyUI(fluidPage(
                                                                         
                                                                         
                                                                         numericInput("MCD_t4", "Minimum clinical difference (MCD)",
-                                                                                     value = 0, min = 0, max = NA, step = 0.05)
+                                                                                     value = 0, min = NA, max = NA, step = 0.05)
                                                                         
                                                                         
                                                                         
@@ -1568,7 +1592,7 @@ shinyUI(fluidPage(
                                                                             min = 0, max = 25, step = 0.25, value = 5),
                                                                 
                                                                 numericInput("costResearchFunder", "Cost of research to funder",
-                                                                             value = 2854000, min = 0, max = NA, step = 100),
+                                                                             value = 2000000, min = 0, max = NA, step = 100),
                                                                 
                                                                 conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                                                  numericInput("costHealthSystem", "Costs of research imposed on health system",
@@ -1590,14 +1614,14 @@ shinyUI(fluidPage(
                                                                             min = 0, max = 25, step = 0.25, value = 5),
                                                                 
                                                                 numericInput("costResearchFunderFeas", "Costs of feasibility research to funder",
-                                                                             value = 1000000, min = 0, max = NA, step = 100),
+                                                                             value = 500000, min = 0, max = NA, step = 100),
                                                                 
                                                                 numericInput("costResearchFunderDefinitive", "Costs of follow-up research to funder",
-                                                                             value = 1000000, min = 0, max = NA, step = 100),
+                                                                             value = 2000000, min = 0, max = NA, step = 100),
                                                                 
                                                                 conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
                                                                                  numericInput("costHealthSystemFeas", "Costs of feasibility research imposed on health system",
-                                                                                              value = 1000000, min = 0, max = NA, step = 100),
+                                                                                              value = 500000, min = 0, max = NA, step = 100),
                                                                                  
                                                                                  # display if: outcomeExpression == "netHealth"
                                                                                  numericInput("costHealthSystemDefinitive", "Costs of follow-up research imposed on health system",
@@ -1606,7 +1630,7 @@ shinyUI(fluidPage(
                                                
                                                
                                                sliderInput("timeInformation", "Time over which evidence would be valuable (years)",
-                                                           min = 0, max = 30, step = 0.25, value = 15)
+                                                           min = 0, max = 30, step = 0.25, value = 10)
                                                
                                              ) # end of wellPanel 
                                       ), # end of proposed research study column
@@ -1625,7 +1649,7 @@ shinyUI(fluidPage(
                                                             value = 3.5, min = 0.0001, max = 100, step = 0.1),
                                                
                                                numericInput("incidence", "Incidence per annum",
-                                                            value = 8800, min = 0, max = NA, step = 20),
+                                                            value = 1000, min = 0, max = NA, step = 20),
                                                
                                                textInput("currencySymbol", "Currency used in analysis", 
                                                          value = "£"),
@@ -1657,19 +1681,6 @@ shinyUI(fluidPage(
                                                                 numericInput("k", " ",
                                                                              value = 15000, min = 0, max = NA, step = 500)
                                                                 
-                                                                # conditionalPanel(condition = "input.typeOfEndpoint == 'binary'",
-                                                                #                  numericInput("INBBinaryEvent", "Net health effect of binary event occuring (in QALYs)",
-                                                                #                               value = 2, min = NA, max = NA, step = 0.05)),
-                                                                # 
-                                                                # conditionalPanel(condition = "input.typeOfEndpoint == 'continuous'",
-                                                                #                  numericInput("INBContinEvent", 
-                                                                #                               "Net health effect of unit increase in continuous outcome (in QALYs)",
-                                                                #                               value = 0.05, min = NA, max = NA, step = 0.05)),
-                                                                # 
-                                                                # # BUG!! If this has NA value then the app crashes
-                                                                # conditionalPanel(condition = "input.typeOfEndpoint == 'survival'",
-                                                                #                  numericInput("INBSurvivalEndpoint", "Net health effect of survival endpoint (in QALYs)",
-                                                                #                               value = 0.5, min = NA, max = NA, step = 0.05))
                                                                 
                                                               ) # end wellPanel
                                              ) # end conditional well panel
@@ -1698,23 +1709,6 @@ shinyUI(fluidPage(
                                                                 p("Click once, and go to the Results tab. The calculation to reconsider the evidence can take up to 10 minutes to report."))
                                                
                                                
-                                               # do not display MC simulations to user
-                                               # just inputted 50000 directly into master() input
-                                               # **check maximum number feasible
-                                               #conditionalPanel(condition = "input.reconsider != 'Yes'",
-                                               #                 numericInput("MCsims", "Number of simulations",
-                                               #                              value = 50000, min = 0, max = 10000000, step = 500)),
-                                               
-                                               # do not display MC simulations to user
-                                               # **check maximum number feasible
-                                               # conditionalPanel(condition = "input.reconsider == 'Yes'",
-                                               #                  
-                                               #                  p("Note that this analysis will take between ## and ## minutes to report. This is due to the large number of simulations required"),
-                                               #                  numericInput("MCsimsInner", "Number of simulations for inner loop",
-                                               #                               value = 50000, min = 0, max = 10000000, step = 500),
-                                               #                  
-                                               #                  numericInput("MCsimsOuter", "Number of simulations for outer loop",
-                                               #                               value = 50000, min = 0, max = 10000000, step = 500))
                                                
                                                
                                              ) # end well panel run button
@@ -1909,12 +1903,7 @@ shinyUI(fluidPage(
                               ) # end feasibility value of proposed research
                               
                               
-                              
-                              
-                              
-                              
-                              
-                              
+                
              ), # end of positive uncertainty conditional panel
              br(),
              br(),
@@ -1945,115 +1934,54 @@ shinyUI(fluidPage(
              textOutput("PositiveValueOfFullTrialFeas"),
              textOutput("PositiveValueOfFeas")
              
-             ##### old stuff
-             
-             #tableOutput("tableProbabilityMax"),
-             
-             
-             
-             
-             
-             
-             
-             
-             # zombie code 
-             #################### old results ###############################
-             #
-             
-             
-             # conditionalPanel(condition = "input.typeOfResearch != 'feasibility'",
-             #                  p("This proposal is for a randomised controlled trial (RCT).
-             #                    In this type of study, individuals are randomised to different treatments and the outcomes are compared accross the groups.")),
-             # # if it is a feasibility study:
-             # conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
-             #                  p("This proposal is for a feasibility study. 
-             #                    There are challenges and uncertainties associated with running a full trial. 
-             #                    Due to these uncertainties it is unclear whether the larger follow-up trial is possible.
-             #                    Research only impacts health in so far as it changes clinical practice. 
-             #                    This feasibility trial is unlikely to generate enough evidence to justifying changing practice on its own. 
-             #                    Therefore the impact of this feasibility trial on population health is through the potential future follow-up trial . 
-             #                    If the follow-up trial is not possible the cost of funding it will not result in health benefit. 
-             #                    Since the value of the feasibility trial depends on the follow-up trial, an evaluation of the future follow-up trial is required to value feasibility trial.")),
-             # br(),
-             
-             
-             # if cost + QALY study: (require this extra bit)
-             # conditionalPanel(condition = "input.outcomeExpression == 'netHealth'",
-             #                  h4("Summary of treatment costs"),
-             #                  tableOutput("tableTreatmentCosts"),
-             #                  textOutput("discussTableTreatmentCosts"),
-             #                  br()),
-             # 
-             
-             
-             # # heading 4
-             # h4("Value of implementing current evidence findings"),
-             # # table showing expected outcomes with each treatment
-             # #tableOutput("tableEventsPerYear"),
-             # # text for general discussion about current information (common accross all models and endpoints?)
-             # textOutput("resultsCurrenInformation"),
-             # br(),
-             # 
-             # 
-             # # heading 5
-             # h4("Value of the proposed research"),
-             # CONDITIONAL TEXT and HEADING: if feasibility study: (require this extra bit)
-             # conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
-             #                  p("Understanding the value of a feasibility trial requires two steps.
-             #                    First the value of the follow-up trial must be estimated. 
-             #                    Second, this value must be adjusted for the fact that the follow-up trial may not take place."),
-             #                  strong("Value of potential follow-up trial"),
-             #                  br()),
-             # tableOutput("tableProbabilityMax"),
-             # # text for discussion about value of research (common accross all models and endpoints?)
-             # textOutput("resultsValueOfResearch"),
-             # bug
-             # problem in ui.R conditional planel
-             # cannot make javaScript condition depend on results of VOI calcluation
-             # must display this even if there is value in the research
-             #plotOutput("histVOIYear"),
-             # **problem**
-             # the probabilies do not match between the histogram output and the analysis
-             # the histogram is probably wrong and needs to be changed.
-             # textOutput("discussHistVOIYear"),
-             # br(),
-             # textOutput("VOIresultsPart1"), # this section of the results is common to both RCT and Feas
-             # br(),
-             # # extra text for RCT results and interpretation
-             # conditionalPanel(condition = "input.typeOfResearch == 'RCT'",
-             #                  textOutput("RCTVOIresults")),
-             # 
-             # # extra text for Feasibility results and interpretation
-             # conditionalPanel(condition = "input.typeOfResearch == 'feasibility'",
-             #                  strong("Adjust value of potential follow up trial to value the feasibility study"),
-             #                  textOutput("FeasVOIresults")),
-             
-             
-             
-             
-             ) # end results tabPanel
     
-    ##################
-    # Write report page
-    ##################
-    # use textAreaInput to provide boxes so that analysts can justify their variable choices
-    # 
+             
+             ), # end results tabPanel
     
     
-    #tabPanel("Write and Download Report",
-    #         fluidPage(
-    #           fluidRow(
-    #             column(4, "col 1"),
-    #             column(4, 
-    #                    downloadButton("report", label = "Download report"), # , class = "butt2"),
-    #                    # change CSS sytle of download button!
-    #                    # see https://gist.github.com/aagarw30/9c60b87e839db05b8dcc
-    #                    #tags$head(tags$style(".butt2{background-color:black;} .butt2{color: white;} .butt2{font-style: italic;}")),
-    #                    p("Save file to your computer with a .doc extension")
-    #             )
-    #           ) # end 1st Write Report fluidRow 
-    #         ) # end Write Report fluidPage 
-    #) # end write report tabPanel
+             tabPanel("About",
+                     br(),
+                     h4("About this software"),
+                     p(""),
+                     p("This app was developed using", a("R Shiny", href = "https://shiny.rstudio.com/"), 
+                       "by", a("David Glynn", href = "https://www.york.ac.uk/che/staff/students/david-glynn/"),
+                       "as part of a PhD studentship supervised by",
+                       a("Claire Rothery", href = "https://www.york.ac.uk/che/staff/research/claire-rothery/"), "and",
+                       a("Karl Claxton.", href = "https://www.york.ac.uk/che/staff/research/karl-claxton/")),
+                     p("The source code is available on GitHub at", a("https://github.com/david-glynn.", href = "https://github.com/david-glynn")),
+                     
+                     br()
+                     
+                     
+             ) # end write report tabPanel
+    
+                      ##################
+                      # Write report page
+                      ##################
+                      # use textAreaInput to provide boxes so that analysts can justify their variable choices
+                      # 
+                    
+                    
+                      #tabPanel("Write and Download Report",
+                      #         fluidPage(
+                      #           fluidRow(
+                      #             column(4, "col 1"),
+                      #             column(4, 
+                      #                    downloadButton("report", label = "Download report"), # , class = "butt2"),
+                      #                    # change CSS sytle of download button!
+                      #                    # see https://gist.github.com/aagarw30/9c60b87e839db05b8dcc
+                      #                    #tags$head(tags$style(".butt2{background-color:black;} .butt2{color: white;} .butt2{font-style: italic;}")),
+                      #                    p("Save file to your computer with a .doc extension")
+                      #             )
+                      #           ) # end 1st Write Report fluidRow 
+                      #         ) # end Write Report fluidPage 
+                      #) # end write report tabPanel
+    
+    
+    
+    
+    
+    
     
     
                               ) # end App tabSetPanel
@@ -2092,104 +2020,6 @@ shinyUI(fluidPage(
 
 
 
-
-
-
-
-
-
-
-
-
-#######################################################################################
-# ZOMBIE CODE 
-#######################################################################################
-
-
-
-
-#textOutput("nameOf_t1"),
-
-#textOutput("nameOf_t2"), 
-
-#textOutput("nameOf_t3"), # conditional - is this a problem?
-
-#textOutput("nameOf_t4"),# conditional - is this a problem?
-
-#textOutput("nameOfOutcome"), # conditional - is this a problem?
-
-# outputs
-
-#textOutput("optimalTreatment" ) ,
-
-#textOutput("expectedOutcomesPerYearoptimalTreatment"),
-
-#textOutput("implementationValueExists"),        # new output
-
-#textOutput("uncertaintyInCurrentEvidenceExists"),
-
-#textOutput("probTreatment1isMax" ) ,
-
-#textOutput("probTreatment2isMax" ) ,
-
-#textOutput("probTreatment3isMax" ) ,
-
-#textOutput("probTreatment4isMax" ) ,
-
-#textOutput("popDuringResearch" ) ,
-
-#textOutput("popAfterResearch" ) ,
-
-#textOutput("popTotal" ) ,
-
-#textOutput("popDuringFeasResearch" ) ,
-
-#textOutput("popDuringDefinitiveResearch" ) ,
-
-#textOutput("popAfterDefinitiveResearch" ) ,
-#textOutput("valueOfResearchPerYear" ),
-
-#textOutput("valueOfImplementationPerYear" ) ,
-
-#textOutput("Cell_A" ) ,
-
-#textOutput("Cell_C" ) ,
-
-#textOutput("Cell_D" ) ,
-
-#textOutput("maxvalueOfImplementation" ) ,
-
-#textOutput("maxvalueOfResearch" ) ,
-
-#textOutput("healthOpportunityCostsOfResearch" ) ,
-
-#textOutput("expectedCostResearchFunder" ) ,                # unique Feas
-
-#textOutput("valueOfResearchWithCurrentImplementation" ) ,
-
-#textOutput("valueOfResearchWithPerfectImplementation" ) ,
-
-#textOutput("valueOfCertainResearchWithPerfectImplementation" ) ,  # unique feas
-
-#textOutput("ICER_ResearchWithCurrentImplementation" ) ,
-
-#textOutput("ICER_ResearchWithPerfectImplementation" ) ,
-
-#textOutput("valuePer15KResearchSpend"),
-
-#textOutput("absoluteExpectedHealthOutcomesFromResearchProject"),
-
-#textOutput("costResearchFunderFeas"),
-
-#textOutput("costResearchFunderDefinitive"),
-
-#textOutput("probabilityOfDefinitiveResearch")
-
-#textOutput("test1"),
-
-#textOutput("test2"),
-
-#textOutput("test3")
 
 
 
