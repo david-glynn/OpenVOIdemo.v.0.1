@@ -18,9 +18,9 @@ library(shiny)
 # load up required functions
 
 library(scales) # required to format tables in renderTable
-library(fdrtool) # required for halfnormal simulations
-library(MASS) # for use in EpiInputFunctions.R to fit beta distributions to unknown probabilities
-library(rmarkdown) # used in generating reports
+#library(fdrtool) # required for halfnormal simulations
+#library(MASS) # for use in EpiInputFunctions.R to fit beta distributions to unknown probabilities
+#library(rmarkdown) # used in generating reports
 
 
 # WORK new absolute path source files
