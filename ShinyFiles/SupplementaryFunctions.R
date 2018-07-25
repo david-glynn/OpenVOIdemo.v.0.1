@@ -604,6 +604,7 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
 }
 
 
+# REMOVED - zombie code!
 # MCD implemetation rule!
 # MCDpass_t2 : 1 if it passes the MCD threshold, NA if it does not
 # this is used in EVPI calculation to adjust for the fact that benefits are not realised if MCD threshold not met
@@ -622,82 +623,82 @@ verybasicPop <- function(incidence, discountRate, durationOfResearch, timeInform
 # head(MCD_TEST)
 # head(NB_t)
 
-
-MCDpass <- function(typeOfOutcome, NB_t, MCD_t2, MCD_t3, MCD_t4, typeOfEndpoint){
-  
-  ## QALY outcome
-  if(typeOfOutcome == "netHealth"){
-    # implement if % increase in QALYs from baseline greater than MCD
-    MCDpass_t2 <- ifelse( (NB_t[,2] - NB_t[,1])/abs(NB_t[,1]) > MCD_t2, 1, NA)
-    MCDpass_t3 <- ifelse( (NB_t[,3] - NB_t[,1])/abs(NB_t[,1]) > MCD_t3, 1, NA)
-    MCDpass_t4 <- ifelse( (NB_t[,4] - NB_t[,1])/abs(NB_t[,1]) > MCD_t4, 1, NA)
-  }
-  
-  
-  ## natural outcome
-  if(typeOfOutcome != "netHealth"){
-    
-    # binary outcome
-    if(typeOfEndpoint == "binary"){
-      
-      if(typeOfOutcome == "benefit"){
-        # implement if increase in probabiltiy of outcome with new treatment greater than MCD
-        MCDpass_t2 <- ifelse( NB_t[,2] - NB_t[,1] > MCD_t2, 1, NA)
-        MCDpass_t3 <- ifelse( NB_t[,3] - NB_t[,1] > MCD_t3, 1, NA)
-        MCDpass_t4 <- ifelse( NB_t[,4] - NB_t[,1] > MCD_t4, 1, NA)
-      }
-      if(typeOfOutcome == "harm"){
-        # return to outcome scale for interpretation (represents probabilty of bad outcome)
-        outcome2_t <- - NB_t
-        # implement if reduction in probability of bad outcomes (want negative change) more negative than MCD
-        MCDpass_t2 <- ifelse( outcome2_t[,2]- outcome2_t[,1] < -MCD_t2, 1, NA)
-        MCDpass_t3 <- ifelse( outcome2_t[,3]- outcome2_t[,1] < -MCD_t3, 1, NA)
-        MCDpass_t4 <- ifelse( outcome2_t[,4]- outcome2_t[,1] < -MCD_t4, 1, NA)
-      }
-    } # end binary 
-    
-    # continuous outcome
-    if(typeOfEndpoint == "continuous"){
-      
-      if(typeOfOutcome == "benefit"){
-        # implement if increase in outcome greater than MCD
-        MCDpass_t2 <- ifelse( NB_t[,2]  > MCD_t2, 1, NA)
-        MCDpass_t3 <- ifelse( NB_t[,3]  > MCD_t3, 1, NA)
-        MCDpass_t4 <- ifelse( NB_t[,4]  > MCD_t4, 1, NA)
-      }
-      if(typeOfOutcome == "harm"){
-        # implement if decrease in outcome more neagative than MCD
-        MCDpass_t2 <- ifelse( NB_t[,2]  > - MCD_t2, 1, NA)
-        MCDpass_t3 <- ifelse( NB_t[,3]  > - MCD_t3, 1, NA)
-        MCDpass_t4 <- ifelse( NB_t[,4]  > - MCD_t4, 1, NA)
-      }
-      
-    } # end continuous
-    
-    # survival outcome
-    if(typeOfEndpoint == "survival"){
-      
-      if(typeOfOutcome == "benefit"){
-        # implement if increase with new treatment greater than MCD
-        MCDpass_t2 <- ifelse( NB_t[,2] - NB_t[,1] > MCD_t2, 1, NA)
-        MCDpass_t3 <- ifelse( NB_t[,3] - NB_t[,1] > MCD_t3, 1, NA)
-        MCDpass_t4 <- ifelse( NB_t[,4] - NB_t[,1] > MCD_t4, 1, NA)
-      }
-      if(typeOfOutcome == "harm"){
-        # implement if decrease with new greater than MCD
-        MCDpass_t2 <- ifelse(NB_t[,1] - NB_t[,2]  >  MCD_t2, 1, NA)
-        MCDpass_t3 <- ifelse(NB_t[,1] - NB_t[,3]  >  MCD_t3, 1, NA)
-        MCDpass_t4 <- ifelse(NB_t[,1] - NB_t[,4]  >  MCD_t4, 1, NA)
-      }
-      
-    } # end continuous
-    
-  } # end natural outcomes
-
-  MCDpass_t <- cbind(MCDpass_t2, MCDpass_t3, MCDpass_t4)
-  
-  return(MCDpass_t)
-}
+# REMOVED - zombie code!
+# MCDpass <- function(typeOfOutcome, NB_t, MCD_t2, MCD_t3, MCD_t4, typeOfEndpoint){
+#   
+#   ## QALY outcome
+#   if(typeOfOutcome == "netHealth"){
+#     # implement if % increase in QALYs from baseline greater than MCD
+#     MCDpass_t2 <- ifelse( (NB_t[,2] - NB_t[,1])/abs(NB_t[,1]) > MCD_t2, 1, NA)
+#     MCDpass_t3 <- ifelse( (NB_t[,3] - NB_t[,1])/abs(NB_t[,1]) > MCD_t3, 1, NA)
+#     MCDpass_t4 <- ifelse( (NB_t[,4] - NB_t[,1])/abs(NB_t[,1]) > MCD_t4, 1, NA)
+#   }
+#   
+#   
+#   ## natural outcome
+#   if(typeOfOutcome != "netHealth"){
+#     
+#     # binary outcome
+#     if(typeOfEndpoint == "binary"){
+#       
+#       if(typeOfOutcome == "benefit"){
+#         # implement if increase in probabiltiy of outcome with new treatment greater than MCD
+#         MCDpass_t2 <- ifelse( NB_t[,2] - NB_t[,1] > MCD_t2, 1, NA)
+#         MCDpass_t3 <- ifelse( NB_t[,3] - NB_t[,1] > MCD_t3, 1, NA)
+#         MCDpass_t4 <- ifelse( NB_t[,4] - NB_t[,1] > MCD_t4, 1, NA)
+#       }
+#       if(typeOfOutcome == "harm"){
+#         # return to outcome scale for interpretation (represents probabilty of bad outcome)
+#         outcome2_t <- - NB_t
+#         # implement if reduction in probability of bad outcomes (want negative change) more negative than MCD
+#         MCDpass_t2 <- ifelse( outcome2_t[,2]- outcome2_t[,1] < -MCD_t2, 1, NA)
+#         MCDpass_t3 <- ifelse( outcome2_t[,3]- outcome2_t[,1] < -MCD_t3, 1, NA)
+#         MCDpass_t4 <- ifelse( outcome2_t[,4]- outcome2_t[,1] < -MCD_t4, 1, NA)
+#       }
+#     } # end binary 
+#     
+#     # continuous outcome
+#     if(typeOfEndpoint == "continuous"){
+#       
+#       if(typeOfOutcome == "benefit"){
+#         # implement if increase in outcome greater than MCD
+#         MCDpass_t2 <- ifelse( NB_t[,2]  > MCD_t2, 1, NA)
+#         MCDpass_t3 <- ifelse( NB_t[,3]  > MCD_t3, 1, NA)
+#         MCDpass_t4 <- ifelse( NB_t[,4]  > MCD_t4, 1, NA)
+#       }
+#       if(typeOfOutcome == "harm"){
+#         # implement if decrease in outcome more neagative than MCD
+#         MCDpass_t2 <- ifelse( NB_t[,2]  > - MCD_t2, 1, NA)
+#         MCDpass_t3 <- ifelse( NB_t[,3]  > - MCD_t3, 1, NA)
+#         MCDpass_t4 <- ifelse( NB_t[,4]  > - MCD_t4, 1, NA)
+#       }
+#       
+#     } # end continuous
+#     
+#     # survival outcome
+#     if(typeOfEndpoint == "survival"){
+#       
+#       if(typeOfOutcome == "benefit"){
+#         # implement if increase with new treatment greater than MCD
+#         MCDpass_t2 <- ifelse( NB_t[,2] - NB_t[,1] > MCD_t2, 1, NA)
+#         MCDpass_t3 <- ifelse( NB_t[,3] - NB_t[,1] > MCD_t3, 1, NA)
+#         MCDpass_t4 <- ifelse( NB_t[,4] - NB_t[,1] > MCD_t4, 1, NA)
+#       }
+#       if(typeOfOutcome == "harm"){
+#         # implement if decrease with new greater than MCD
+#         MCDpass_t2 <- ifelse(NB_t[,1] - NB_t[,2]  >  MCD_t2, 1, NA)
+#         MCDpass_t3 <- ifelse(NB_t[,1] - NB_t[,3]  >  MCD_t3, 1, NA)
+#         MCDpass_t4 <- ifelse(NB_t[,1] - NB_t[,4]  >  MCD_t4, 1, NA)
+#       }
+#       
+#     } # end continuous
+#     
+#   } # end natural outcomes
+# 
+#   MCDpass_t <- cbind(MCDpass_t2, MCDpass_t3, MCDpass_t4)
+#   
+#   return(MCDpass_t)
+# }
 
 
 
@@ -772,15 +773,16 @@ NBtoEVPIResults <- function(NB_t,
   tableEventsPerYearDF <- as.data.frame(cbind(Treatment_name, Expected_outcomes_per_year, Current_utilisation))
   tableEventsPerYearDF <- tableEventsPerYearDF[1:numberOfTreatments,]   # only output the number of rows = to the number of treatments considered
   
+  # REMOVED!!!
   # MCD implemetation rule!
   # MCDpass_t2 : 1 if it passes the MCD threshold, NA if it does not
   # this is used to construct a NB_t matrix (NB_MCD_t) for use in EVPI calculation to adjust 
   # for the fact that benefits are not realised if MCD threshold not met
-  MCDpass_t <- MCDpass(typeOfOutcome, NB_t, MCD_t2, MCD_t3, MCD_t4, typeOfEndpoint)
-  NB_MCD_t <- cbind(NB_t[,1], NB_t[,2:4]*MCDpass_t)
+  # MCDpass_t <- MCDpass(typeOfOutcome, NB_t, MCD_t2, MCD_t3, MCD_t4, typeOfEndpoint)
+  # NB_MCD_t <- cbind(NB_t[,1], NB_t[,2:4]*MCDpass_t)
   
   # Expected value of treating with perfect information
-  NB_VTPI  <- apply(NB_MCD_t , 1, max, na.rm = TRUE) #so I can check convergence - COULD ADD THIS CHECK
+  NB_VTPI  <- apply(NB_t , 1, max, na.rm = TRUE) #so I can check convergence - COULD ADD THIS CHECK
   NB_EVTPI  <- mean(NB_VTPI )
   NB_EVPI  <-  NB_EVTPI  - NB_EVTCI 
   

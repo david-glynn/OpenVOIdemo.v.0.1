@@ -14,9 +14,9 @@
 library(shiny)
 
 shinyUI(fluidPage(
-  titlePanel("Rapid value of information (VOI) decision tool"),
+  titlePanel("RANE - Rapid Assessment of Need for Evidence"),
   
-  h5("Release version 1.0 28th May 2018"),
+  h5("Release version 1.0 25th July 2018"),
   
   tabsetPanel(
     
@@ -204,7 +204,7 @@ shinyUI(fluidPage(
                                     
                                     strong("By how much is a one unit increase in the primary outcome expected to increase/decrease the health state utility?"),
                                     p("For continuous outcomes: the effect of changes from baseline on changes in health related quality of life (utility) will depend on the severity of the disease and range of the outcome measure. 
-                                      “Mapping” studies which use statistical methods to estimate the effect of a unit change in a natural outcome on utility provide this link."),
+                                      'Mapping' studies which use statistical methods to estimate the effect of a unit change in a natural outcome on utility provide this link."),
                                     
                                     strong("By how much is a one unit increase in the primary outcome expected to increase/decrease monthly disease related costs?"),
                                     p("For continuous outcomes: changes in the primary outcome may also be expected to result in changes in disease related costs. 
@@ -244,10 +244,18 @@ shinyUI(fluidPage(
                                       This can be expressed with a 95% confidence interval in terms of an odds ratio (binary), relative risk (binary), risk difference (binary), hazard ratio (survival) or mean difference (continuous)."),
                                     
                                     strong("Minimum clinical difference (MCD)"),
-                                    p("Specifying a MCD required to change clinical practice is one way to incorporate concerns about increased costs and/or potential adverse events.
-                                      A larger clinical difference in effectiveness may need to be demonstrated before the findings of the proposed research are implemented with greater improvements in the primary outcome required to justify any additional costs.
-                                      This must be specified as; percentage change in probability of outcome (binary), change in months before progression (survival) and units of change in continuous outcome (continuous)"),
-                                    
+                                    p("Specifying a MCD required to change clinical practice is one way to incorporate differences in costs, adverse events or other considerations which are not captured in the primary endpoint.
+                                      The MCD for a particular treatment is always defined relative to a current standard of care (baseline treatment). 
+                                      The MCD is defined as the 'the minimum improvement in the primary endpoint which is required for the new treatment to be considered worthwhile'.
+                                      For example, a larger MCD may be required if the new treatment is more expensive than the current standard of care.
+                                      How the MCD is expressed differs between binary, continuous and survival endpoints."),
+                                    tags$ul(
+                                      tags$li("Binary: Absolute change in probability of primary endpoint e.g. an MCD of 0.02 implies that the probability of death must decrease by at least 2% for the new treatment to be worthwhile relative to the current standard of care."), 
+                                      tags$li("Continuous: Natural units of primary endpoint e.g. an MCD of 2 implies that the Mini-Mental State Examination (MMSE) must be 2 points higher for patients given the new treatment for it to be considered worthwhile relative to the current standard of care."),
+                                      tags$li("Survival: Months of survival in the origin state e.g. an MCD of 1 implies that the new treatment must be associated with an expected increase in progression free survival relative to the current standard of care for it to be considered worthwhile.")
+                                      ),
+                                      
+
                                     strong("Treatment costs over patient time horizon"),
                                     p("For binary outcomes: here Treatment costs are assumed to be the same for all individuals treated; regardless of health outcomes (see below).
                                       If treatment costs accrue over multiple years they should be discounted to present value."),
@@ -1132,8 +1140,10 @@ shinyUI(fluidPage(
                                                        ), # end survival epi inputs intervention 1
                                                        
                                                        
+                                                       conditionalPanel(condition =  "input.outcomeExpression != 'netHealth'",
                                                                         numericInput("MCD_t2", "Minimum clinical difference (MCD)",
                                                                                      value = 0, min = NA, max = NA, step = 0.05)
+                                                       )
                                                        
                                                        
                                              ) # end epi input intervention 1 wellPanel (t2)
@@ -1333,9 +1343,10 @@ shinyUI(fluidPage(
                                                                         
                                                        ), # end survival epi inputs intervention 2
                                                        
-                                                       
-                                                       numericInput("MCD_t3", "Minimum clinical difference (MCD)",
-                                                                    value = 0, min = NA, max = NA, step = 0.05)
+                                                       conditionalPanel(condition =  "input.outcomeExpression != 'netHealth'",
+                                                                        numericInput("MCD_t3", "Minimum clinical difference (MCD)",
+                                                                                     value = 0, min = NA, max = NA, step = 0.05)
+                                                       )
                                                        
                                                        
                                                        
@@ -1537,9 +1548,10 @@ shinyUI(fluidPage(
                                                                                          
                                                                         ), # end survival epi inputs intervention 3
                                                                         
-                                                                        
-                                                                        numericInput("MCD_t4", "Minimum clinical difference (MCD)",
-                                                                                     value = 0, min = NA, max = NA, step = 0.05)
+                                                                        conditionalPanel(condition =  "input.outcomeExpression != 'netHealth'",
+                                                                                         numericInput("MCD_t4", "Minimum clinical difference (MCD)",
+                                                                                                      value = 0, min = NA, max = NA, step = 0.05)
+                                                                        )
                                                                         
                                                                         
                                                                         

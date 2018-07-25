@@ -42,7 +42,7 @@ continPresentValue <- function(rateAccumulationYear, discountRate, endTime){
 # outcome_t <-  matrix(rgamma(40, 12) + rep(c(0, 4, 2, 8), each = 10), ncol = 4)  #    # matrix(rnorm(40, 1, 1), ncol = 4)
 # MCsims = 10
 # typeOfEndpoint= "binary" # survival binary continuous
-# typeOfOutcome= "netHealth"
+# typeOfOutcome= "harm" # "benefit", "harm"  "netHealth"
 # tCostsDependOnEvent= "No"
 # MCD_t2 = 0.1
 # MCD_t3 = 0.2
@@ -166,8 +166,18 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     
     INB_Event <- ifelse(typeOfOutcome== "benefit", 1, -1)
     NB_t  <- outcome_t*INB_Event # multiply every element by INB_Event (1st step in converting to NB)
-    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    
+    # positive MCD means required improvement in primary endpoint.
+    # in the way the model works - higher NB is always better:
+      # if worse secondary outcomes (always subtract the MCD)
+      # if the primary outcome is a benefit this is equivalent to:
+      #         decreasing the probabilty of the beneficial outcome to adjust for these bad secondary outcomes
+      # if primary outcome is a harm this is equivalent to::
+      #         increaseing the probabilty of the harmful outcome to adjust for these bad secondary outcomes
+    
+    addMCD_t <- c(0 ,-MCD_t2, -MCD_t3, -MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    
     # each column now represents simulations of the NB of each treatment
     
     # return list
@@ -294,9 +304,17 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     INB_Event <- ifelse(typeOfOutcome== "benefit", 1, -1)
     NB_t  <- outcome_t*INB_Event # multiply every element by INB_Event (1st step in converting to NB)
     
-    # use MCD to choose which 
-    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    # positive MCD means required improvement in primary endpoint.
+    # in the way the model works - higher NB is always better:
+    # if worse secondary outcomes (always subtract the MCD)
+    # if the primary outcome is a benefit this is equivalent to:
+    #         decreasing the score of the beneficial outcome to adjust for these bad secondary outcomes
+    # if primary outcome is a harm this is equivalent to::
+    #         increaseing the score of the harmful outcome to adjust for these bad secondary outcomes
+    
+    addMCD_t <- c(0 ,-MCD_t2, -MCD_t3, -MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+
     
     # return list
     NBOutput <- list(NB_t = NB_t, tableTreatmentCostsDF = NA)
@@ -373,8 +391,17 @@ outcomeToNB2_t <- function(outcome_t, MCsims,
     
     INB_Event <- ifelse(typeOfOutcome== "benefit", 1, -1)
     NB_t  <- outcome_t*INB_Event # multiply every element by INB_Event (1st step in converting to NB)
-    #addMCD_t <- c(0 ,MCD_t2, MCD_t3, MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
-    #NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
+    
+    # positive MCD means required improvement in primary endpoint.
+    # in the way the model works - higher NB is always better:
+    # if worse secondary outcomes (always subtract the MCD)
+    # if the primary outcome is a benefit this is equivalent to:
+    #         decreasing the score of the beneficial outcome to adjust for these bad secondary outcomes
+    # if primary outcome is a harm this is equivalent to::
+    #         increaseing the score of the harmful outcome to adjust for these bad secondary outcomes
+    
+    addMCD_t <- c(0 ,-MCD_t2, -MCD_t3, -MCD_t4)   # add the MCD to each column in the vector to convert to net benefit
+    NB_t  <- NB_t  + rep(addMCD_t, each = MCsims)
     
     # return list
     NBOutput <- list(NB_t = NB_t, tableTreatmentCostsDF = NA)

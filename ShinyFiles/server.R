@@ -23,50 +23,22 @@ library(scales) # required to format tables in renderTable
 #library(MASS) # for use in EpiInputFunctions.R to fit beta distributions to unknown probabilities
 #library(rmarkdown) # used in generating reports
 
-
-# WORK new absolute path source files
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/master.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/ReconFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiInputFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/PlottingFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
-source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/NBCalcFunctions.R", local = TRUE)
+# check if the app is local or published (so can always use relative paths)
+is_local <- Sys.getenv('SHINY_PORT') == ""
+if (is_local) {
+  setwd('W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/')
+}
 
 
-#source("W:/teehta/David G/ShinyApps/RShinyVOI/ShinyFiles/masterExtra.R", local = TRUE)
-
-
-# HOME new absolute path source files
-# source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/SupplementaryFunctions.R", local = TRUE)
-# source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/SupplementaryFunctionsFeas.R", local = TRUE)
-# source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/master.R", local = TRUE)
-# source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/ReconFunctions.R", local = TRUE)
-# source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/EpiInputFunctions.R", local = TRUE)
-# source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/PlottingFunctions.R", local = TRUE)
-# source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/EpiCalcFunctions.R", local = TRUE)
-# source("C:/Users/David/Desktop/Work/R files/Shiny/Tool/ShinyFiles/NBCalcFunctions.R", local = TRUE)
-
-
-# zombie old relative path
-# source("BinaryOutcomeFunction.R", local = TRUE)
-# source("BinaryQALYFunction.R", local = TRUE)
-# source("ContinuousOutcomeFunction.R", local = TRUE)
-# source("ContinuousQALYFunction.R", local = TRUE)
-# source("SurvivalOutcomeFunction.R", local = TRUE)
-# source("SurvivalQALYFunction.R", local = TRUE)
-
-# new relative path source
-# relative paths for publishing in shinyapps.io
-# source("SupplementaryFunctions.R", local = TRUE)
-# source("SupplementaryFunctionsFeas.R", local = TRUE)
-# source("master.R", local = TRUE)
-# source("ReconFunctions.R", local = TRUE)
-# source("EpiInputFunctions.R", local = TRUE)
-# source("PlottingFunctions.R", local = TRUE)
-# source("EpiCalcFunctions.R", local = TRUE)
-# source("NBCalcFunctions.R", local = TRUE)
+# relative paths 
+source("SupplementaryFunctions.R", local = TRUE)
+source("SupplementaryFunctionsFeas.R", local = TRUE)
+source("master.R", local = TRUE)
+source("ReconFunctions.R", local = TRUE)
+source("EpiInputFunctions.R", local = TRUE)
+source("PlottingFunctions.R", local = TRUE)
+source("EpiCalcFunctions.R", local = TRUE)
+source("NBCalcFunctions.R", local = TRUE)
 
 
 
