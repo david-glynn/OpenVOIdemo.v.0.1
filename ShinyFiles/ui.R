@@ -37,7 +37,7 @@ shinyUI(fluidPage(
                              br(),
                              h4("Updates and bugs"),
                              strong("Launch v1.0"),
-                             p("This is the first official version of Rapid VOI. This is the version used in the analysis of Chapters 2-4.")
+                             p("This is the first official version of RANE.")
                              
                            ),
                            mainPanel(
@@ -1955,11 +1955,12 @@ shinyUI(fluidPage(
                      br(),
                      h4("About this software"),
                      p(""),
-                     p("This app was developed using", a("R Shiny", href = "https://shiny.rstudio.com/"), 
+                     p("This app was developed using", a("R Shiny", href = "https://shiny.rstudio.com/"),
                        "by", a("David Glynn", href = "https://www.york.ac.uk/che/staff/students/david-glynn/"),
-                       "as part of a PhD studentship supervised by",
+                       "supervised by",
                        a("Claire Rothery", href = "https://www.york.ac.uk/che/staff/research/claire-rothery/"), "and",
-                       a("Karl Claxton.", href = "https://www.york.ac.uk/che/staff/research/karl-claxton/")),
+                       a("Karl Claxton.", href = "https://www.york.ac.uk/che/staff/research/karl-claxton/"),
+                       "This research was funded by the UK National Institute for Health Research (NIHR) Health Technology Assessment (HTA) Programme as project number 16/29/01 and through a PhD studentship to David Glynn, funded by the Centre for Health Economics, University of York.  The views expressed in this application are those of the authors and not necessarily those of the NIHR HTA Programme.  Any errors are the responsibility of the authors."),
                      p("The source code is available on GitHub at", a("https://github.com/david-glynn.", href = "https://github.com/david-glynn")),
                      
                      br()
