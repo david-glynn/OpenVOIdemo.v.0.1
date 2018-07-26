@@ -54,8 +54,8 @@ shinyUI(fluidPage(
                                "),
                              p(strong("Users unfamiliar with value of informaiton methods"), "are encouraged to read the information in the 'How to estimate research value' tab. This section describes the value of information approach and how it applies to research funding in a resource constrainted health care system.
                                "),
-                             p(strong("Those who have not used this app before"), "click the'Inputs and how to use this app' tab. This section describes the types of analysis which are possible with this app and the inputs that are required.
-                               "),
+                             #p(strong("Those who have not used this app before"), "click the'Inputs and how to use this app' tab. This section describes the types of analysis which are possible with this app and the inputs that are required.
+                             #   "),
                              p(strong("To carry out an analysis"), "click the 'Inputs' tab
                                "),
                              br(),
