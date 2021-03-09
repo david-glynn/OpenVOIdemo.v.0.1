@@ -1956,7 +1956,7 @@ shinyUI(fluidPage(
                      h4("About this software"),
                      p(""),
                      p("This app was developed using", a("R Shiny", href = "https://shiny.rstudio.com/"),
-                       "by", a("David Glynn", href = "https://www.york.ac.uk/che/staff/students/david-glynn/"),
+                       "by", a("David Glynn", href = "https://www.york.ac.uk/che/staff/research/david-glynn/"),
                        "supervised by",
                        a("Claire Rothery", href = "https://www.york.ac.uk/che/staff/research/claire-rothery/"), "and",
                        a("Karl Claxton.", href = "https://www.york.ac.uk/che/staff/research/karl-claxton/"),
