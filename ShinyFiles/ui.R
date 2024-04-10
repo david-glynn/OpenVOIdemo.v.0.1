@@ -63,7 +63,7 @@ shinyUI(fluidPage(
                              br(),
                              br(),
                              
-                             tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007"),
+                             tags$em("This code has been produced under a GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007. This application comes with no warranty and should be utilised at the user's own risk."),
                              
                              br(),
                              br()
